@@ -12,21 +12,31 @@ interface FinancingFormProps {
   onReset: () => void;
 }
 
+// Formata números inteiros com separador de milhar pt-BR (ex: 500000 -> 500.000)
+function formatIntegerMask(val: number): string {
+  if (isNaN(val) || val === 0) return '0';
+  return new Intl.NumberFormat('pt-BR').format(val);
+}
+
 export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, onReset }) => {
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
 
-  // Estados locais de texto para edição fluida dos campos numéricos
-  const [rawPropertyValue, setRawPropertyValue] = useState<string>(inputs.propertyValue.toString());
-  const [rawDownPayment, setRawDownPayment] = useState<string>(inputs.downPayment.toString());
+  // Estados locais com máscara monetária (ex: "600.000")
+  const [maskedPropertyValue, setMaskedPropertyValue] = useState<string>(
+    formatIntegerMask(inputs.propertyValue)
+  );
+  const [maskedDownPayment, setMaskedDownPayment] = useState<string>(
+    formatIntegerMask(inputs.downPayment)
+  );
   const [rawInterestRate, setRawInterestRate] = useState<string>(inputs.interestRateYearly.toString());
 
-  // Sincroniza estados locais com as props quando mudam externamente (ex: sliders)
+  // Sincronização externa
   useEffect(() => {
-    setRawPropertyValue(inputs.propertyValue.toString());
+    setMaskedPropertyValue(formatIntegerMask(inputs.propertyValue));
   }, [inputs.propertyValue]);
 
   useEffect(() => {
-    setRawDownPayment(inputs.downPayment.toString());
+    setMaskedDownPayment(formatIntegerMask(inputs.downPayment));
   }, [inputs.downPayment]);
 
   useEffect(() => {
@@ -61,11 +71,12 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     onChange(defaults);
   };
 
-  // Handler de alteração no Valor do Bem
+  // Handler do Valor do Bem com máscara R$ em tempo real
   const handlePropertyValueInput = (valStr: string) => {
-    setRawPropertyValue(valStr);
-    const num = parseFloat(valStr.replace(/\D/g, '')) || 0;
-    const propertyValue = Math.max(0, num);
+    const numericOnly = parseInt(valStr.replace(/\D/g, ''), 10) || 0;
+    setMaskedPropertyValue(formatIntegerMask(numericOnly));
+
+    const propertyValue = Math.max(0, numericOnly);
     const downPayment = Math.min(propertyValue, (propertyValue * inputs.downPaymentPercent) / 100);
     onChange({
       ...inputs,
@@ -74,11 +85,12 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     });
   };
 
-  // Handler de alteração na Entrada em R$
+  // Handler da Entrada com máscara R$ em tempo real
   const handleDownPaymentInput = (valStr: string) => {
-    setRawDownPayment(valStr);
-    const num = parseFloat(valStr.replace(/\D/g, '')) || 0;
-    const downPayment = Math.min(inputs.propertyValue, Math.max(0, num));
+    const numericOnly = parseInt(valStr.replace(/\D/g, ''), 10) || 0;
+    const downPayment = Math.min(inputs.propertyValue, Math.max(0, numericOnly));
+    setMaskedDownPayment(formatIntegerMask(downPayment));
+
     const downPaymentPercent = inputs.propertyValue > 0 ? (downPayment / inputs.propertyValue) * 100 : 0;
     onChange({
       ...inputs,
@@ -87,10 +99,11 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     });
   };
 
-  // Handler de alteração na Entrada em %
+  // Handler da Entrada por Porcentagem
   const handleDownPaymentPercentChange = (pct: number) => {
     const downPaymentPercent = Math.min(95, Math.max(0, pct));
-    const downPayment = (inputs.propertyValue * downPaymentPercent) / 100;
+    const downPayment = Math.round((inputs.propertyValue * downPaymentPercent) / 100);
+    setMaskedDownPayment(formatIntegerMask(downPayment));
     onChange({
       ...inputs,
       downPayment,
@@ -101,26 +114,26 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   return (
-    <div className="glass-card rounded-2xl p-5 sm:p-6 gold-border-glow relative overflow-hidden">
+    <div className="glass-card rounded-2xl p-4 sm:p-6 gold-border-glow relative overflow-hidden">
       
       {/* Luz Dourada de Fundo */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header do Form */}
-      <div className="flex items-center justify-between pb-4 mb-5 border-b border-gold-500/15">
+      <div className="flex items-center justify-between pb-4 mb-4 border-b border-gold-500/15">
         <div className="flex items-center space-x-2.5">
           <div className="p-2 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-400">
             <Sliders className="w-4 h-4" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-white tracking-wide">Parâmetros do Financiamento</h2>
-            <p className="text-[11px] text-gray-400">Ajuste os valores para simulação instantânea</p>
+            <h2 className="text-base font-bold text-white tracking-wide">Configurar Simulação</h2>
+            <p className="text-[11px] text-gray-400">Preencha os valores para calcular instantaneamente</p>
           </div>
         </div>
 
         <button
           onClick={onReset}
-          className="flex items-center space-x-1 text-[11px] text-gold-400 hover:text-white px-2.5 py-1 rounded-lg border border-gold-500/20 hover:border-gold-400 transition-colors"
+          className="flex items-center space-x-1 text-[11px] text-gold-400 hover:text-white px-2.5 py-1 rounded-lg border border-gold-500/20 hover:border-gold-400 transition-colors shrink-0"
           title="Restaurar padrão"
         >
           <RefreshCw className="w-3 h-3" />
@@ -175,7 +188,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       </div>
 
-      {/* 2. Sistema de Amortização (SAC vs PRICE) */}
+      {/* 2. Sistema de Amortização */}
       <div className="mb-5">
         <label className="block text-[10px] font-bold uppercase tracking-wider text-gold-400 mb-1.5">
           Sistema de Amortização
@@ -207,20 +220,22 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       </div>
 
-      {/* 3. Valor do Bem */}
+      {/* 3. Valor do Bem (Com Máscara R$) */}
       <div className="mb-5">
         <div className="flex justify-between items-center mb-1.5 gap-2">
           <label className="text-[11px] font-semibold text-gray-300 truncate">
             Valor do Bem
           </label>
-          <div className="relative shrink-0">
-            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gold-400 text-[11px] font-bold">R$</span>
+
+          {/* Container Flex sem sobreposição */}
+          <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2.5 py-1 shrink-0 focus-within:border-gold-400">
+            <span className="text-gold-400 text-[11px] font-bold mr-1">R$</span>
             <input
               type="text"
               inputMode="numeric"
-              value={rawPropertyValue}
+              value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
-              className="w-32 sm:w-36 bg-obsidian-950 border border-gold-500/30 rounded-lg pl-8 pr-2 py-1 text-right font-mono font-bold text-white text-xs focus:border-gold-400 focus:outline-none"
+              className="w-28 sm:w-32 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -233,7 +248,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           value={inputs.propertyValue}
           onChange={(e) => {
             const val = Number(e.target.value);
-            setRawPropertyValue(val.toString());
+            setMaskedPropertyValue(formatIntegerMask(val));
             const downPayment = Math.min(val, (val * inputs.downPaymentPercent) / 100);
             onChange({ ...inputs, propertyValue: val, downPayment });
           }}
@@ -246,7 +261,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       </div>
 
-      {/* 4. Valor da Entrada */}
+      {/* 4. Valor da Entrada (Com Máscara R$) */}
       <div className="mb-5">
         <div className="flex justify-between items-center mb-1.5 gap-2">
           <div className="flex items-center space-x-1.5 shrink-0">
@@ -258,14 +273,15 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             </span>
           </div>
 
-          <div className="relative shrink-0">
-            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gold-400 text-[11px] font-bold">R$</span>
+          {/* Container Flex sem sobreposição */}
+          <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2.5 py-1 shrink-0 focus-within:border-gold-400">
+            <span className="text-gold-400 text-[11px] font-bold mr-1">R$</span>
             <input
               type="text"
               inputMode="numeric"
-              value={rawDownPayment}
+              value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
-              className="w-32 sm:w-36 bg-obsidian-950 border border-gold-500/30 rounded-lg pl-8 pr-2 py-1 text-right font-mono font-bold text-white text-xs focus:border-gold-400 focus:outline-none"
+              className="w-28 sm:w-32 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -286,16 +302,18 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       </div>
 
-      {/* 5. Taxa de Juros e Prazo */}
+      {/* 5. Taxa de Juros & Prazo (Flex Containers sem sobreposição no mobile) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         
         {/* Taxa de Juros */}
         <div>
-          <div className="flex justify-between items-center mb-1.5">
+          <div className="flex justify-between items-center mb-1.5 gap-2">
             <label className="text-[11px] font-semibold text-gray-300 truncate">
               Taxa de Juros
             </label>
-            <div className="relative shrink-0">
+
+            {/* Container Flex Limpo */}
+            <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2 py-1 shrink-0 focus-within:border-gold-400">
               <input
                 type="number"
                 step="0.1"
@@ -305,11 +323,12 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const num = parseFloat(e.target.value) || 0;
                   onChange({ ...inputs, interestRateYearly: Math.max(0.1, num) });
                 }}
-                className="w-20 bg-obsidian-950 border border-gold-500/30 rounded-lg pr-6 pl-2 py-1 text-right font-mono font-bold text-white text-xs focus:border-gold-400 focus:outline-none"
+                className="w-14 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
               />
-              <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-gold-400 text-[10px] font-bold">%a.a.</span>
+              <span className="text-gold-400 text-[10px] font-bold ml-1 whitespace-nowrap">% a.a.</span>
             </div>
           </div>
+
           <input
             type="range"
             min={4.0}
@@ -330,7 +349,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
 
         {/* Prazo */}
         <div>
-          <div className="flex justify-between items-center mb-1.5">
+          <div className="flex justify-between items-center mb-1.5 gap-2">
             <div className="flex items-center space-x-1 truncate">
               <label className="text-[11px] font-semibold text-gray-300">
                 Prazo
@@ -344,7 +363,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               </button>
             </div>
 
-            <div className="relative shrink-0">
+            {/* Container Flex Limpo */}
+            <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2 py-1 shrink-0 focus-within:border-gold-400">
               <input
                 type="number"
                 value={termUnit === 'years' ? termInYears : inputs.termMonths}
@@ -353,9 +373,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const termMonths = termUnit === 'years' ? Math.round(val * 12) : val;
                   onChange({ ...inputs, termMonths: Math.max(1, termMonths) });
                 }}
-                className="w-20 bg-obsidian-950 border border-gold-500/30 rounded-lg pr-7 pl-2 py-1 text-right font-mono font-bold text-white text-xs focus:border-gold-400 focus:outline-none"
+                className="w-14 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
               />
-              <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-gold-400 text-[9px] font-bold">
+              <span className="text-gold-400 text-[10px] font-bold ml-1 whitespace-nowrap">
                 {termUnit === 'years' ? 'anos' : 'meses'}
               </span>
             </div>

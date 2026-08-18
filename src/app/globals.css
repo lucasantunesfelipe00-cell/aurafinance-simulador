@@ -163,3 +163,19 @@ input[type="range"]::-moz-range-thumb:hover {
   box-shadow: 0 6px 30px rgba(212, 175, 55, 0.55);
   transform: translateY(-1px);
 }
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
