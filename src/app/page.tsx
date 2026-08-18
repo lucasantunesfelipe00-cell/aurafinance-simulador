@@ -94,7 +94,7 @@ export default function Home() {
           </p>
 
           {/* Botão de Ação Principal (CTA) */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-2 flex items-center justify-center">
             <button
               onClick={() => handleOpenSimulator()}
               className="btn-gold-metallic py-4 px-8 rounded-2xl text-sm sm:text-base font-black flex items-center space-x-3 w-full sm:w-auto justify-center shadow-gold-glow hover:scale-105 transition-transform"
@@ -102,55 +102,6 @@ export default function Home() {
               <Calculator className="w-5 h-5 text-obsidian-950" />
               <span>INICIAR SIMULAÇÃO AGORA</span>
               <ArrowDown className="w-4 h-4 text-obsidian-950 animate-bounce" />
-            </button>
-
-            <button
-              onClick={() => setIsSpecsOpen(true)}
-              className="px-6 py-4 rounded-2xl text-xs sm:text-sm font-bold text-gray-300 hover:text-white border border-gold-500/20 hover:border-gold-400/50 bg-obsidian-850/60 transition-all w-full sm:w-auto"
-            >
-              Ver Especificação Técnica
-            </button>
-          </div>
-
-          {/* 3 Presets Rápidos de Simulação */}
-          <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
-            <button
-              onClick={() => handleOpenSimulator('property')}
-              className="p-3.5 rounded-xl glass-card glass-card-hover border border-gold-500/20 text-left flex items-center space-x-3 group"
-            >
-              <div className="p-2 rounded-lg bg-gold-500/10 text-gold-400 group-hover:scale-110 transition-transform">
-                <HomeIcon className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-xs font-bold text-white block">Imóvel R$ 600 mil</span>
-                <span className="text-[10px] text-gray-400">30 anos • SAC</span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleOpenSimulator('vehicle')}
-              className="p-3.5 rounded-xl glass-card glass-card-hover border border-gold-500/20 text-left flex items-center space-x-3 group"
-            >
-              <div className="p-2 rounded-lg bg-gold-500/10 text-gold-400 group-hover:scale-110 transition-transform">
-                <Car className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-xs font-bold text-white block">Veículo R$ 120 mil</span>
-                <span className="text-[10px] text-gray-400">4 anos • PRICE</span>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleOpenSimulator('personal')}
-              className="p-3.5 rounded-xl glass-card glass-card-hover border border-gold-500/20 text-left flex items-center space-x-3 group"
-            >
-              <div className="p-2 rounded-lg bg-gold-500/10 text-gold-400 group-hover:scale-110 transition-transform">
-                <User className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-xs font-bold text-white block">Crédito R$ 40 mil</span>
-                <span className="text-[10px] text-gray-400">2 anos • Consignado</span>
-              </div>
             </button>
           </div>
 
