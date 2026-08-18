@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     siteName: "AuraFinance",
     images: [
       {
-        url: "/og-image.svg",
+        url: "https://aurafinance-simulador.vercel.app/og-image.svg",
         width: 1200,
         height: 630,
         alt: "AuraFinance — Simulador de Financiamento & Amortização",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AuraFinance — Simulador de Financiamento & Amortização",
     description: "Simulador de crédito imobiliário, veicular e pessoal com comparativo avançado de amortização SAC vs PRICE.",
-    images: ["/og-image.svg"],
+    images: ["https://aurafinance-simulador.vercel.app/og-image.svg"],
     creator: "@aurafinance",
   },
   robots: {
@@ -109,6 +109,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+
+        {/* Fallback de Meta Tags Explícitas em HTML para Web Scrapers do WhatsApp / Facebook */}
+        <meta property="og:title" content="AuraFinance — Simulador de Financiamento & Amortização SAC e PRICE" />
+        <meta property="og:description" content="Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE e economize juros." />
+        <meta property="og:image" content="https://aurafinance-simulador.vercel.app/og-image.svg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content="https://aurafinance-simulador.vercel.app" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="AuraFinance" />
       </head>
       <body className="bg-[#07080A] text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />
