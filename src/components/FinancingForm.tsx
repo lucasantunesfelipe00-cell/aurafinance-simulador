@@ -4,39 +4,43 @@ import React, { useState, useEffect } from 'react';
 import { FinancingInputs, CategoryType } from '@/types/financing';
 import { formatBRL, formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
-import { Home, Car, User, Sliders, RefreshCw, Sparkles } from 'lucide-react';
+import { Sliders, RefreshCw, Sparkles, Calculator } from 'lucide-react';
 
 interface FinancingFormProps {
   inputs: FinancingInputs;
   onChange: (newInputs: FinancingInputs) => void;
   onReset: () => void;
+  onSimulate?: () => void;
 }
 
-// Formata números inteiros com separador de milhar pt-BR (ex: 500000 -> 500.000)
-function formatIntegerMask(val: number): string {
-  if (isNaN(val) || val === 0) return '0';
-  return new Intl.NumberFormat('pt-BR').format(val);
+// Formata valores com centavos pt-BR (ex: 600000 -> 600.000,00)
+function formatCurrencyMask(val: number): string {
+  if (isNaN(val)) return '0,00';
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(val);
 }
 
-export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, onReset }) => {
+export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, onReset, onSimulate }) => {
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
 
-  // Estados locais com máscara monetária (ex: "600.000")
+  // Estados locais com máscara monetária com centavos (ex: "600.000,00")
   const [maskedPropertyValue, setMaskedPropertyValue] = useState<string>(
-    formatIntegerMask(inputs.propertyValue)
+    formatCurrencyMask(inputs.propertyValue)
   );
   const [maskedDownPayment, setMaskedDownPayment] = useState<string>(
-    formatIntegerMask(inputs.downPayment)
+    formatCurrencyMask(inputs.downPayment)
   );
   const [rawInterestRate, setRawInterestRate] = useState<string>(inputs.interestRateYearly.toString());
 
   // Sincronização externa
   useEffect(() => {
-    setMaskedPropertyValue(formatIntegerMask(inputs.propertyValue));
+    setMaskedPropertyValue(formatCurrencyMask(inputs.propertyValue));
   }, [inputs.propertyValue]);
 
   useEffect(() => {
-    setMaskedDownPayment(formatIntegerMask(inputs.downPayment));
+    setMaskedDownPayment(formatCurrencyMask(inputs.downPayment));
   }, [inputs.downPayment]);
 
   useEffect(() => {
@@ -71,13 +75,15 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     onChange(defaults);
   };
 
-  // Handler do Valor do Bem com máscara R$ em tempo real
+  // Handler do Valor do Bem com máscara de R$ e centavos em tempo real
   const handlePropertyValueInput = (valStr: string) => {
-    const numericOnly = parseInt(valStr.replace(/\D/g, ''), 10) || 0;
-    setMaskedPropertyValue(formatIntegerMask(numericOnly));
+    const digitsOnly = valStr.replace(/\D/g, '');
+    const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    setMaskedPropertyValue(formatCurrencyMask(numericVal));
 
-    const propertyValue = Math.max(0, numericOnly);
+    const propertyValue = Math.max(0, numericVal);
     const downPayment = Math.min(propertyValue, (propertyValue * inputs.downPaymentPercent) / 100);
+    setMaskedDownPayment(formatCurrencyMask(downPayment));
     onChange({
       ...inputs,
       propertyValue,
@@ -85,11 +91,12 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     });
   };
 
-  // Handler da Entrada com máscara R$ em tempo real
+  // Handler da Entrada com máscara de R$ e centavos em tempo real
   const handleDownPaymentInput = (valStr: string) => {
-    const numericOnly = parseInt(valStr.replace(/\D/g, ''), 10) || 0;
-    const downPayment = Math.min(inputs.propertyValue, Math.max(0, numericOnly));
-    setMaskedDownPayment(formatIntegerMask(downPayment));
+    const digitsOnly = valStr.replace(/\D/g, '');
+    const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    const downPayment = Math.min(inputs.propertyValue, Math.max(0, numericVal));
+    setMaskedDownPayment(formatCurrencyMask(downPayment));
 
     const downPaymentPercent = inputs.propertyValue > 0 ? (downPayment / inputs.propertyValue) * 100 : 0;
     onChange({
@@ -103,7 +110,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   const handleDownPaymentPercentChange = (pct: number) => {
     const downPaymentPercent = Math.min(95, Math.max(0, pct));
     const downPayment = Math.round((inputs.propertyValue * downPaymentPercent) / 100);
-    setMaskedDownPayment(formatIntegerMask(downPayment));
+    setMaskedDownPayment(formatCurrencyMask(downPayment));
     onChange({
       ...inputs,
       downPayment,
@@ -139,53 +146,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <RefreshCw className="w-3 h-3" />
           <span className="hidden sm:inline">Redefinir</span>
         </button>
-      </div>
-
-      {/* 1. Seletor de Categoria */}
-      <div className="mb-5">
-        <label className="block text-[10px] font-bold uppercase tracking-wider text-gold-400 mb-1.5">
-          Tipo de Financiamento
-        </label>
-        <div className="grid grid-cols-3 gap-2">
-          <button
-            type="button"
-            onClick={() => handleCategoryChange('property')}
-            className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border text-[11px] font-medium transition-all ${
-              inputs.category === 'property'
-                ? 'bg-gradient-to-b from-gold-500/20 to-gold-950/40 border-gold-400 text-white shadow-gold-glow-sm'
-                : 'bg-obsidian-850/60 border-obsidian-700 text-gray-400 hover:text-white hover:border-gold-500/30'
-            }`}
-          >
-            <Home className={`w-4 h-4 mb-1 ${inputs.category === 'property' ? 'text-gold-400' : ''}`} />
-            <span>Imóvel</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleCategoryChange('vehicle')}
-            className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border text-[11px] font-medium transition-all ${
-              inputs.category === 'vehicle'
-                ? 'bg-gradient-to-b from-gold-500/20 to-gold-950/40 border-gold-400 text-white shadow-gold-glow-sm'
-                : 'bg-obsidian-850/60 border-obsidian-700 text-gray-400 hover:text-white hover:border-gold-500/30'
-            }`}
-          >
-            <Car className={`w-4 h-4 mb-1 ${inputs.category === 'vehicle' ? 'text-gold-400' : ''}`} />
-            <span>Veículo</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleCategoryChange('personal')}
-            className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-xl border text-[11px] font-medium transition-all ${
-              inputs.category === 'personal'
-                ? 'bg-gradient-to-b from-gold-500/20 to-gold-950/40 border-gold-400 text-white shadow-gold-glow-sm'
-                : 'bg-obsidian-850/60 border-obsidian-700 text-gray-400 hover:text-white hover:border-gold-500/30'
-            }`}
-          >
-            <User className={`w-4 h-4 mb-1 ${inputs.category === 'personal' ? 'text-gold-400' : ''}`} />
-            <span>Pessoal</span>
-          </button>
-        </div>
       </div>
 
       {/* 2. Sistema de Amortização */}
@@ -235,7 +195,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
-              className="w-28 sm:w-32 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+              className="w-32 sm:w-36 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -248,8 +208,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           value={inputs.propertyValue}
           onChange={(e) => {
             const val = Number(e.target.value);
-            setMaskedPropertyValue(formatIntegerMask(val));
+            setMaskedPropertyValue(formatCurrencyMask(val));
             const downPayment = Math.min(val, (val * inputs.downPaymentPercent) / 100);
+            setMaskedDownPayment(formatCurrencyMask(downPayment));
             onChange({ ...inputs, propertyValue: val, downPayment });
           }}
           className="w-full"
@@ -281,7 +242,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
-              className="w-28 sm:w-32 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+              className="w-32 sm:w-36 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -417,6 +378,21 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <div className="w-9 h-5 bg-obsidian-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-gold-500 peer-checked:to-gold-700" />
         </label>
       </div>
+
+      {/* 7. Botão SIMULAR */}
+      {onSimulate && (
+        <div className="mt-6 pt-2">
+          <button
+            type="button"
+            onClick={onSimulate}
+            className="btn-gold-metallic w-full py-4 px-6 rounded-xl text-sm font-black flex items-center justify-center space-x-2.5 shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+          >
+            <Calculator className="w-5 h-5 text-obsidian-950" />
+            <span className="tracking-wider">SIMULAR</span>
+            <Sparkles className="w-4 h-4 text-obsidian-950" />
+          </button>
+        </div>
+      )}
 
     </div>
   );

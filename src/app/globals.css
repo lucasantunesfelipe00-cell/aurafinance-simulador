@@ -93,6 +93,7 @@ input[type="range"] {
   background: transparent;
   cursor: pointer;
   width: 100%;
+  touch-action: pan-y;
 }
 
 input[type="range"]:focus {

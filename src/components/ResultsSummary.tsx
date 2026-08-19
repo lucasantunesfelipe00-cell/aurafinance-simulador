@@ -4,7 +4,7 @@ import React from 'react';
 import { FinancingResult, ComparisonResult } from '@/types/financing';
 import { formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
-import { DollarSign, Percent, TrendingDown, Layers, ArrowRightLeft, Award } from 'lucide-react';
+import { DollarSign, Percent, TrendingDown, Layers, ArrowRightLeft } from 'lucide-react';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
@@ -38,7 +38,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="my-1">
             <FormattedBRL
               value={result.firstInstallment}
-              className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight"
+              className="text-base sm:text-lg font-bold text-white tracking-tight"
             />
           </div>
 
@@ -60,7 +60,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="my-1">
             <FormattedBRL
               value={result.lastInstallment}
-              className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight"
+              className="text-base sm:text-lg font-bold text-white tracking-tight"
             />
           </div>
 
@@ -87,7 +87,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="my-1">
             <FormattedBRL
               value={result.totalInterest}
-              className="text-lg sm:text-xl md:text-2xl font-black gold-text-gradient tracking-tight"
+              className="text-base sm:text-lg font-bold gold-text-gradient tracking-tight"
             />
           </div>
 
@@ -108,7 +108,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="my-1">
             <FormattedBRL
               value={result.totalPaid}
-              className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight"
+              className="text-base sm:text-lg font-bold text-white tracking-tight"
             />
           </div>
 
@@ -119,29 +119,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Banner de Inteligência SAC vs PRICE */}
-      <div className="p-4 rounded-2xl bg-gradient-to-r from-obsidian-850 via-obsidian-900 to-obsidian-850 border border-gold-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-gold-glow-sm">
-        <div className="flex items-center space-x-3 text-center sm:text-left">
-          <div className="p-2.5 rounded-xl bg-gold-500/20 border border-gold-400 text-gold-300 shrink-0 hidden sm:block">
-            <Award className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="text-xs font-bold text-white flex items-center justify-center sm:justify-start space-x-1.5">
-              <span>Inteligência de Amortização:</span>
-              <span className="text-gold-400 font-mono">SAC vs PRICE</span>
-            </h3>
-            <p className="text-[11px] text-gray-300 mt-0.5">
-              Optar pelo <strong className="text-white">SAC</strong> gera uma economia estimada em juros de{' '}
-              <FormattedBRL value={comparison.interestSavingsSAC} className="text-gold-300 font-bold" /> em relação ao PRICE.
-            </p>
-          </div>
-        </div>
-
+      {/* Botão Comparar Lado a Lado */}
+      <div className="flex justify-center pt-2">
         <button
           onClick={onOpenComparison}
-          className="btn-gold-metallic py-2 px-4 rounded-xl text-xs flex items-center space-x-1.5 shrink-0 w-full sm:w-auto justify-center"
+          className="btn-gold-metallic py-2.5 px-6 rounded-xl text-xs font-bold flex items-center space-x-2 shadow-gold-glow hover:scale-[1.02] transition-transform"
         >
-          <ArrowRightLeft className="w-3.5 h-3.5" />
+          <ArrowRightLeft className="w-4 h-4" />
           <span>Comparar Lado a Lado</span>
         </button>
       </div>
