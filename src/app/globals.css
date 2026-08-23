@@ -104,6 +104,22 @@
   transform: translateY(-1px);
 }
 
+/* Monopo Gold Filled Pill (Primary CTAs — Dark Gold Gradient) */
+.btn-gold-fill {
+  background: linear-gradient(135deg, #E6C265 0%, #D4AF37 35%, #B8860B 75%, #996515 100%);
+  color: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 75px;
+  padding: 12px 34px;
+  font-size: 15px;
+  font-weight: 400;
+  transition: filter 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-gold-fill:hover {
+  filter: brightness(1.12);
+}
+
 /* Sharp Editorial Card (0px Radius, Hairline Border) */
 .editorial-card {
   background: #000000;
@@ -285,6 +301,49 @@ input[type="range"]::-moz-range-thumb {
 .animate-chartFadeIn {
   opacity: 0;
   animation: chartFadeIn 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Gold Gradient Text (Wordmark Shimmer) */
+.gold-gradient-text {
+  background-image: linear-gradient(135deg, #FFF7D6 0%, #E6C265 40%, #B8860B 80%, #D4AF37 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Shine Sweep (Gold Variant): Lighter Pass for Dark-Gold Filled CTAs */
+.btn-shine-gold::before {
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+}
+
+/* Ambient Motion: Hero Backdrop Drift (Runs at Rest, No Interaction Needed) */
+@keyframes heroDrift {
+  0%, 100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 2%) scale(1.06);
+  }
+}
+
+.animate-heroDrift {
+  animation: heroDrift 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+/* Ambient Motion: Primary CTA Idle Gold Pulse */
+@keyframes ctaPulseGold {
+  0%, 100% {
+    box-shadow: 0 0 25px -8px rgba(212, 175, 55, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 40px -6px rgba(212, 175, 55, 0.6);
+  }
+}
+
+.animate-ctaPulseGold {
+  animation: ctaPulseGold 3.5s ease-in-out infinite;
 }
 
 /* Reduced Motion: Respect User Preference */

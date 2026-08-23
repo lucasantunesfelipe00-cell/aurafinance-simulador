@@ -45,8 +45,8 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
         </div>
 
         {/* Banner de Economia */}
-        <div className="mb-6 p-4 border border-white/20 bg-neutral-900 rounded-none flex items-center space-x-4">
-          <div className="p-2.5 bg-white text-black font-medium text-sm sm:text-base shrink-0 rounded-[75px] px-4 font-mono">
+        <div className="mb-6 p-4 border border-gold-500/30 bg-neutral-900 rounded-none flex items-center space-x-4">
+          <div className="p-2.5 bg-gold-gradient-btn text-black font-medium text-sm sm:text-base shrink-0 rounded-[75px] px-4 font-mono">
             {formatPercent(percentageSavings, 1)}
           </div>
           <div>
@@ -61,13 +61,13 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
           
           {/* Card SAC */}
-          <div className="p-5 border border-white/40 bg-black rounded-none flex flex-col justify-between shadow-winner-glow">
+          <div className="p-5 border border-gold-500/50 bg-black rounded-none flex flex-col justify-between shadow-winner-glow-gold">
             <div>
               <div className="flex justify-between items-center mb-4">
-                <span className="px-3 py-1 rounded-[75px] bg-white text-black text-[10px] uppercase font-medium tracking-wider">
+                <span className="px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] uppercase font-medium tracking-wider">
                   MAIOR ECONOMIA DE JUROS
                 </span>
-                <CheckCircle2 className="w-4 h-4 text-white" />
+                <CheckCircle2 className="w-4 h-4 text-gold-500" />
               </div>
 
               <h3 className="text-base font-normal text-white uppercase tracking-wider mb-4">SAC (Amortização Constante)</h3>

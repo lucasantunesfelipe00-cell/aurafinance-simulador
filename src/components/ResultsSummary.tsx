@@ -94,10 +94,10 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </div>
 
         {/* Card 4: Total Geral Pago */}
-        <div className="editorial-card card-lift p-5 border border-white/30 bg-neutral-900 rounded-none flex flex-col justify-between">
+        <div className="editorial-card card-lift p-5 border border-gold-500/50 bg-neutral-900 rounded-none flex flex-col justify-between shadow-gold-glow-sm">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-white">Total Geral Pago</span>
-            <Layers className="w-3.5 h-3.5 text-white" />
+            <Layers className="w-3.5 h-3.5 text-gold-500" />
           </div>
 
           <div className="my-1">
@@ -110,6 +110,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
           <div className="text-[10px] text-neutral-400 font-light mt-2 truncate">
             Entrada + {result.termMonths} parcelas
+
           </div>
         </div>
 

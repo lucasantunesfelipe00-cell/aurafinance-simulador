@@ -72,7 +72,7 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-black border border-white/20 rounded-[75px] pl-9 pr-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:border-white focus:outline-none focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)] transition-all duration-300 w-full sm:w-40 font-mono"
+              className="bg-black border border-white/20 rounded-[75px] pl-9 pr-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:border-gold-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(212,175,55,0.15)] transition-all duration-300 w-full sm:w-40 font-mono"
             />
           </div>
 

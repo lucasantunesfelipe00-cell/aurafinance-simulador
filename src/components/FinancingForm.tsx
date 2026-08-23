@@ -117,7 +117,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </label>
         <div className="relative grid grid-cols-2 gap-0 p-1 bg-black border border-white/15 rounded-none">
           <div
-            className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] bg-white transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+            className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] bg-gold-gradient-btn shadow-gold-glow-sm transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
             style={{ transform: inputs.amortizationMethod === 'PRICE' ? 'translateX(100%)' : 'translateX(0%)' }}
           />
 
@@ -341,7 +341,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             onChange={(e) => onChange({ ...inputs, includeInsurances: e.target.checked })}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-400 after:border after:h-4 after:w-4 after:rounded-full after:transition-all after:duration-300 peer-checked:bg-white peer-checked:after:bg-black peer-checked:after:border-black" />
+          <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-gold-700 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-400 after:border after:h-4 after:w-4 after:rounded-full after:transition-all after:duration-300 peer-checked:bg-gold-gradient-btn peer-checked:shadow-gold-glow-sm peer-checked:after:bg-white peer-checked:after:border-white" />
         </label>
       </div>
 
@@ -351,9 +351,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <button
             type="button"
             onClick={onSimulate}
-            className="btn-pill-filled btn-lift btn-shine w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
+            className="btn-gold-fill btn-lift btn-shine btn-shine-gold w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
           >
-            <Calculator className="w-4 h-4 text-black" />
+            <Calculator className="w-4 h-4 text-white" />
             <span>SIMULAR</span>
           </button>
         </div>

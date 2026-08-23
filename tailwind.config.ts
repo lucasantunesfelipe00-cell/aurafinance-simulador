@@ -34,6 +34,7 @@ const config: Config = {
       backgroundImage: {
         "gold-gradient": "linear-gradient(135deg, #FFF7D6 0%, #E6C265 40%, #B8860B 80%, #D4AF37 100%)",
         "gold-gradient-dark": "linear-gradient(135deg, #D4AF37 0%, #996515 50%, #2C220E 100%)",
+        "gold-gradient-btn": "linear-gradient(135deg, #E6C265 0%, #D4AF37 35%, #B8860B 75%, #996515 100%)",
         "obsidian-radial": "radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, rgba(9, 10, 15, 0.95) 70%)",
         "glass-radial": "radial-gradient(ellipse at top, rgba(212, 175, 55, 0.12), transparent 60%)",
       },
@@ -45,6 +46,7 @@ const config: Config = {
         "lift": "0 10px 30px -12px rgba(255, 255, 255, 0.18)",
         "lift-lg": "0 20px 40px -20px rgba(255, 255, 255, 0.14)",
         "winner-glow": "0 0 0 1px rgba(255, 255, 255, 0.4), 0 20px 45px -15px rgba(255, 255, 255, 0.25)",
+        "winner-glow-gold": "0 0 0 1px rgba(212, 175, 55, 0.5), 0 20px 45px -15px rgba(212, 175, 55, 0.35)",
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",

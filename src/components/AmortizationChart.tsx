@@ -68,8 +68,8 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
         {/* Legendas */}
         <div className="flex items-center space-x-4 text-[11px] uppercase tracking-wider">
           <div className="flex items-center space-x-1.5">
-            <span className="w-2 h-2 rounded-full bg-white"></span>
-            <span className="text-white font-normal">Saldo Devedor</span>
+            <span className="w-2 h-2 rounded-full bg-gold-500"></span>
+            <span className="text-gold-500 font-normal">Saldo Devedor</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-2 h-2 rounded-full bg-neutral-500"></span>
@@ -88,8 +88,12 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
         >
           <defs>
             <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="balanceLineGradient" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#F5D03A" />
+              <stop offset="100%" stopColor="#B8860B" />
             </linearGradient>
 
             <linearGradient id="interestGradient" x1="0" y1="0" x2="0" y2="1">
@@ -128,7 +132,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
 
           <polyline
             fill="none"
-            stroke="#ffffff"
+            stroke="url(#balanceLineGradient)"
             strokeWidth="2.5"
             points={balancePoints}
             pathLength={100}
@@ -175,12 +179,12 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
             cx={activeX}
             cy={hoverBalanceY}
             r={hoverIndex !== null ? 4.5 : 0}
-            fill="#ffffff"
+            fill="#D4AF37"
             style={{ transition: 'r 0.2s ease, opacity 0.2s ease', opacity: hoverIndex !== null ? 1 : 0 }}
           />
 
           {/* Ponto Pulsante no Fim da Linha de Saldo Devedor */}
-          <circle cx={endX} cy={endBalanceY} r="3.5" fill="#ffffff" className="animate-pulse-slow" />
+          <circle cx={endX} cy={endBalanceY} r="3.5" fill="#D4AF37" className="animate-pulse-slow" />
         </svg>
       </div>
 

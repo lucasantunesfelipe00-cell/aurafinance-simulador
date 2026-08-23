@@ -78,7 +78,7 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
 
       {/* Atmospheric Iridescent Backdrop Wash (Sage Green -> Amber -> Oxblood) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] iridescent-hero-bg pointer-events-none -z-10 opacity-60" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] iridescent-hero-bg animate-heroDrift pointer-events-none -z-10 opacity-60" />
 
       {/* Header Superior (66px Height, 1078px max-width) */}
       <Header />
@@ -114,7 +114,7 @@ export default function Home() {
                 }}
                 className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'property'
-                    ? 'border-white bg-black'
+                    ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
@@ -127,7 +127,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 
                   {inputs.category === 'property' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-white text-black text-[10px] font-normal uppercase tracking-widest shadow-none">
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
                       SELECIONADO
                     </div>
                   )}
@@ -148,7 +148,7 @@ export default function Home() {
                 }}
                 className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'vehicle'
-                    ? 'border-white bg-black'
+                    ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
@@ -161,7 +161,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 
                   {inputs.category === 'vehicle' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-white text-black text-[10px] font-normal uppercase tracking-widest shadow-none">
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
                       SELECIONADO
                     </div>
                   )}
@@ -182,7 +182,7 @@ export default function Home() {
                 }}
                 className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'personal'
-                    ? 'border-white bg-black'
+                    ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
@@ -195,7 +195,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 
                   {inputs.category === 'personal' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-white text-black text-[10px] font-normal uppercase tracking-widest shadow-none">
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
                       SELECIONADO
                     </div>
                   )}
@@ -216,7 +216,7 @@ export default function Home() {
           <div className="pt-4 flex items-center justify-center">
             <button
               onClick={() => handleOpenSimulator()}
-              className="btn-ghost-pill-dark btn-lift btn-shine py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
+              className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
             >
               <Calculator className="w-4 h-4" />
               <span>INICIAR SIMULAÇÃO AGORA</span>
@@ -248,7 +248,7 @@ export default function Home() {
                   {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
                   <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
                     <div
-                      className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-white rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                      className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
                       style={{
                         transform: `translateX(${
                           activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200

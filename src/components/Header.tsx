@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
         {/* Brand Identity */}
         <div className="flex items-center space-x-3 group cursor-pointer">
           <div className="text-sm sm:text-base font-normal tracking-widest text-white uppercase">
-            AURA <span className="text-neutral-400 font-light">FINANCE</span>
+            AURA <span className="gold-gradient-text animate-gold-shine font-light">FINANCE</span>
           </div>
         </div>
 
