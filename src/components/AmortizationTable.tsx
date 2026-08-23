@@ -72,14 +72,14 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-black border border-white/20 rounded-[75px] pl-9 pr-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:border-white focus:outline-none w-full sm:w-40 font-mono"
+              className="bg-black border border-white/20 rounded-[75px] pl-9 pr-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:border-white focus:outline-none focus:shadow-[0_0_0_3px_rgba(255,255,255,0.08)] transition-all duration-300 w-full sm:w-40 font-mono"
             />
           </div>
 
           {/* Exportar CSV (Full Pill 75px Button) */}
           <button
             onClick={handleExportCSV}
-            className="flex items-center space-x-1.5 text-xs font-normal text-white hover:text-black px-4 py-1.5 rounded-[75px] border border-white/30 hover:bg-white transition-all uppercase tracking-wider shrink-0"
+            className="btn-lift flex items-center space-x-1.5 text-xs font-normal text-white hover:text-black px-4 py-1.5 rounded-[75px] border border-white/30 hover:bg-white transition-all uppercase tracking-wider shrink-0"
           >
             <Download className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Exportar CSV</span>
@@ -100,12 +100,12 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
               <th className="py-3 px-3 text-right">Saldo Devedor</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10 font-mono">
+          <tbody key={currentPage} className="divide-y divide-white/10 font-mono animate-fadeIn">
             {currentInstallments.map((inst) => {
               const yearNum = Math.ceil(inst.number / 12);
               return (
-                <tr key={inst.number} className="hover:bg-white/5 transition-colors">
-                  <td className="py-3 px-3 font-normal text-white text-xs">
+                <tr key={inst.number} className="group hover:bg-white/5 transition-colors">
+                  <td className="py-3 px-3 font-normal text-white text-xs border-l-2 border-transparent group-hover:border-white transition-colors">
                     Mês {inst.number} <span className="text-[10px] text-neutral-500 font-normal">({yearNum}º ano)</span>
                   </td>
                   <td className="py-3 px-3 text-right font-normal text-white">
@@ -140,7 +140,7 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="p-1.5 rounded-[75px] border border-white/20 disabled:opacity-20 text-white hover:border-white transition-all"
+            className="btn-lift p-1.5 rounded-[75px] border border-white/20 disabled:opacity-20 disabled:pointer-events-none text-white hover:border-white transition-all"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -150,7 +150,7 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="p-1.5 rounded-[75px] border border-white/20 disabled:opacity-20 text-white hover:border-white transition-all"
+            className="btn-lift p-1.5 rounded-[75px] border border-white/20 disabled:opacity-20 disabled:pointer-events-none text-white hover:border-white transition-all"
           >
             <ChevronRight className="w-4 h-4" />
           </button>

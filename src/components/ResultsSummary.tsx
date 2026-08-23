@@ -22,21 +22,22 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
   return (
     <div className="space-y-6">
-      
+
       {/* Grade 4 KPI Cards (Editorial Sharp 0px Corners) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
+
         {/* Card 1: Primeira Parcela */}
-        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">1ª Parcela (Inicial)</span>
             <DollarSign className="w-3.5 h-3.5 text-white" />
           </div>
-          
+
           <div className="my-1">
             <FormattedBRL
               value={result.firstInstallment}
               className="text-lg sm:text-xl font-normal text-white tracking-tight"
+              animate
             />
           </div>
 
@@ -47,7 +48,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </div>
 
         {/* Card 2: Última Parcela */}
-        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Última Parcela ({result.termMonths}º Mês)</span>
             <TrendingDown className="w-3.5 h-3.5 text-white" />
@@ -57,13 +58,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             <FormattedBRL
               value={result.lastInstallment}
               className="text-lg sm:text-xl font-normal text-white tracking-tight"
+              animate
             />
           </div>
 
           <div className="text-[10px] text-neutral-400 font-light flex items-center space-x-1 mt-2">
             {isSAC ? (
               <span className="text-white font-normal flex items-center">
-                ↓ Redução de <FormattedBRL value={result.firstInstallment - result.lastInstallment} className="ml-1 text-[10px]" />
+                ↓ Redução de <FormattedBRL value={result.firstInstallment - result.lastInstallment} className="ml-1 text-[10px]" animate />
               </span>
             ) : (
               <span className="text-neutral-400">Fixa durante o contrato</span>
@@ -72,7 +74,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </div>
 
         {/* Card 3: Total de Juros */}
-        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Total de Juros</span>
             <Percent className="w-3.5 h-3.5 text-white" />
@@ -82,6 +84,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             <FormattedBRL
               value={result.totalInterest}
               className="text-lg sm:text-xl font-normal text-white tracking-tight"
+              animate
             />
           </div>
 
@@ -91,7 +94,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </div>
 
         {/* Card 4: Total Geral Pago */}
-        <div className="editorial-card p-5 border border-white/30 bg-neutral-900 rounded-none flex flex-col justify-between">
+        <div className="editorial-card card-lift p-5 border border-white/30 bg-neutral-900 rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-white">Total Geral Pago</span>
             <Layers className="w-3.5 h-3.5 text-white" />
@@ -101,6 +104,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             <FormattedBRL
               value={result.totalPaid}
               className="text-lg sm:text-xl font-normal text-white tracking-tight"
+              animate
             />
           </div>
 
@@ -115,7 +119,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       <div className="flex justify-center pt-3">
         <button
           onClick={onOpenComparison}
-          className="btn-ghost-pill-dark flex items-center space-x-2.5 uppercase tracking-widest text-xs font-normal"
+          className="btn-ghost-pill-dark btn-lift flex items-center space-x-2.5 uppercase tracking-widest text-xs font-normal"
         >
           <ArrowRightLeft className="w-4 h-4" />
           <span>Comparar Lado a Lado</span>

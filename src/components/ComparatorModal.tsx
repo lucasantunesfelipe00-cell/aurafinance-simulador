@@ -25,12 +25,12 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
       
       {/* Modal Container (Editorial Sharp 0px Corners) */}
-      <div className="editorial-card w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-none border border-white/20 bg-black p-6 sm:p-8 relative">
-        
+      <div className="editorial-card animate-scaleIn w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-none border border-white/20 bg-black p-6 sm:p-8 relative">
+
         {/* Botão Fechar (Full Pill 75px) */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-[75px] text-neutral-400 hover:text-white border border-white/20 hover:border-white transition-all z-10"
+          className="btn-lift absolute top-5 right-5 p-2 rounded-[75px] text-neutral-400 hover:text-white border border-white/20 hover:border-white transition-all z-10"
         >
           <X className="w-4 h-4" />
         </button>
@@ -52,7 +52,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
           <div>
             <h4 className="text-xs sm:text-sm font-normal text-white uppercase tracking-wider">Economia com Sistema SAC</h4>
             <p className="text-[11px] text-neutral-400 font-light mt-0.5">
-              Economia estimada de <FormattedBRL value={interestSavingsSAC} className="text-white font-normal text-xs sm:text-sm" /> ao longo do contrato.
+              Economia estimada de <FormattedBRL value={interestSavingsSAC} className="text-white font-normal text-xs sm:text-sm" animate /> ao longo do contrato.
             </p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
           
           {/* Card SAC */}
-          <div className="p-5 border border-white/40 bg-black rounded-none flex flex-col justify-between">
+          <div className="p-5 border border-white/40 bg-black rounded-none flex flex-col justify-between shadow-winner-glow">
             <div>
               <div className="flex justify-between items-center mb-4">
                 <span className="px-3 py-1 rounded-[75px] bg-white text-black text-[10px] uppercase font-medium tracking-wider">
@@ -87,7 +87,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
                 </div>
                 <div className="flex justify-between items-center border-t border-white/15 pt-3 font-normal">
                   <span className="text-white text-[11px] uppercase tracking-wider">Total Geral Pago:</span>
-                  <FormattedBRL value={sac.totalPaid} className="text-white text-sm" />
+                  <FormattedBRL value={sac.totalPaid} className="text-white text-sm" animate />
                 </div>
               </div>
             </div>
@@ -119,7 +119,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
                 </div>
                 <div className="flex justify-between items-center border-t border-white/15 pt-3 font-normal">
                   <span className="text-white text-[11px] uppercase tracking-wider">Total Geral Pago:</span>
-                  <FormattedBRL value={price.totalPaid} className="text-white text-sm" />
+                  <FormattedBRL value={price.totalPaid} className="text-white text-sm" animate />
                 </div>
               </div>
             </div>
@@ -131,7 +131,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
         <div className="flex justify-end">
           <button
             onClick={onClose}
-            className="btn-ghost-pill-dark text-xs uppercase tracking-widest"
+            className="btn-ghost-pill-dark btn-lift text-xs uppercase tracking-widest"
           >
             Fechar Comparativo
           </button>

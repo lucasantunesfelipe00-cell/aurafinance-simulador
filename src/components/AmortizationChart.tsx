@@ -28,17 +28,11 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
   const step = Math.max(1, Math.floor(installments.length / 80));
   const sampled = installments.filter((_, idx) => idx % step === 0 || idx === installments.length - 1);
 
-  const balancePoints = sampled.map((inst, idx) => {
-    const x = paddingX + (idx / (sampled.length - 1)) * chartWidth;
-    const y = paddingY + chartHeight - (inst.outstandingBalance / (maxVal || 1)) * chartHeight;
-    return `${x},${y}`;
-  }).join(' ');
+  const yFor = (val: number) => paddingY + chartHeight - (val / (maxVal || 1)) * chartHeight;
+  const xFor = (idx: number) => paddingX + (idx / (sampled.length - 1)) * chartWidth;
 
-  const interestPoints = sampled.map((inst, idx) => {
-    const x = paddingX + (idx / (sampled.length - 1)) * chartWidth;
-    const y = paddingY + chartHeight - (inst.accumulatedInterest / (maxVal || 1)) * chartHeight;
-    return `${x},${y}`;
-  }).join(' ');
+  const balancePoints = sampled.map((inst, idx) => `${xFor(idx)},${yFor(inst.outstandingBalance)}`).join(' ');
+  const interestPoints = sampled.map((inst, idx) => `${xFor(idx)},${yFor(inst.accumulatedInterest)}`).join(' ');
 
   const firstX = paddingX;
   const lastX = paddingX + chartWidth;
@@ -47,11 +41,20 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
   const interestArea = `${firstX},${bottomY} ${interestPoints} ${lastX},${bottomY}`;
 
   const activePoint = hoverIndex !== null ? sampled[hoverIndex] : sampled[sampled.length - 1];
-  const activeX = hoverIndex !== null ? paddingX + (hoverIndex / (sampled.length - 1)) * chartWidth : 0;
+  const activeX = hoverIndex !== null ? xFor(hoverIndex) : 0;
+  const hoverBalanceY = hoverIndex !== null ? yFor(sampled[hoverIndex].outstandingBalance) : 0;
+  const hoverInterestY = hoverIndex !== null ? yFor(sampled[hoverIndex].accumulatedInterest) : 0;
+
+  const lastIdx = sampled.length - 1;
+  const endX = xFor(lastIdx);
+  const endBalanceY = yFor(sampled[lastIdx].outstandingBalance);
+
+  // Chave que muda a cada novo cálculo (troca SAC/PRICE ou nova simulação) — remonta o SVG e reinicia a animação de desenho da linha
+  const resultKey = `${result.method}-${result.loanAmount}-${result.totalInterest}-${result.termMonths}`;
 
   return (
     <div className="editorial-card p-6 border border-white/20 bg-black rounded-none">
-      
+
       {/* Header do Gráfico */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
         <div className="flex items-center space-x-2.5">
@@ -78,6 +81,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
       {/* SVG Canvas Gráfico */}
       <div className="relative w-full overflow-x-auto">
         <svg
+          key={resultKey}
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           className="w-full h-auto min-w-[550px] overflow-visible"
           onMouseLeave={() => setHoverIndex(null)}
@@ -109,14 +113,17 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
             );
           })}
 
-          <polygon points={interestArea} fill="url(#interestGradient)" />
-          <polygon points={balanceArea} fill="url(#balanceGradient)" />
+          <polygon points={interestArea} fill="url(#interestGradient)" className="animate-chartFadeIn" style={{ animationDelay: '0.3s' }} />
+          <polygon points={balanceArea} fill="url(#balanceGradient)" className="animate-chartFadeIn" style={{ animationDelay: '0.15s' }} />
 
           <polyline
             fill="none"
             stroke="#666666"
             strokeWidth="2"
             points={interestPoints}
+            pathLength={100}
+            className="animate-drawLine"
+            style={{ animationDelay: '0.15s' }}
           />
 
           <polyline
@@ -124,10 +131,12 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
             stroke="#ffffff"
             strokeWidth="2.5"
             points={balancePoints}
+            pathLength={100}
+            className="animate-drawLine"
           />
 
           {sampled.map((inst, idx) => {
-            const x = paddingX + (idx / (sampled.length - 1)) * chartWidth;
+            const x = xFor(idx);
             return (
               <rect
                 key={idx}
@@ -153,6 +162,25 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
               strokeDasharray="2 2"
             />
           )}
+
+          {/* Marcadores de Hover (crescem suavemente ao passar o mouse) */}
+          <circle
+            cx={activeX}
+            cy={hoverInterestY}
+            r={hoverIndex !== null ? 4 : 0}
+            fill="#666666"
+            style={{ transition: 'r 0.2s ease, opacity 0.2s ease', opacity: hoverIndex !== null ? 1 : 0 }}
+          />
+          <circle
+            cx={activeX}
+            cy={hoverBalanceY}
+            r={hoverIndex !== null ? 4.5 : 0}
+            fill="#ffffff"
+            style={{ transition: 'r 0.2s ease, opacity 0.2s ease', opacity: hoverIndex !== null ? 1 : 0 }}
+          />
+
+          {/* Ponto Pulsante no Fim da Linha de Saldo Devedor */}
+          <circle cx={endX} cy={endBalanceY} r="3.5" fill="#ffffff" className="animate-pulse-slow" />
         </svg>
       </div>
 

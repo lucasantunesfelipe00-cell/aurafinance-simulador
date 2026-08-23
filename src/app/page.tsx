@@ -216,7 +216,7 @@ export default function Home() {
           <div className="pt-4 flex items-center justify-center">
             <button
               onClick={() => handleOpenSimulator()}
-              className="btn-ghost-pill-dark py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
+              className="btn-ghost-pill-dark btn-lift btn-shine py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
             >
               <Calculator className="w-4 h-4" />
               <span>INICIAR SIMULAÇÃO AGORA</span>
@@ -245,13 +245,22 @@ export default function Home() {
               {hasCalculated && (
                 <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn">
 
-                  {/* Seletor de Abas da Análise (Full Pill 75px Buttons) */}
-                  <div className="flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
+                  {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
+                  <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
+                    <div
+                      className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-white rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                      style={{
+                        transform: `translateX(${
+                          activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
+                        }%)`,
+                      }}
+                    />
+
                     <button
                       onClick={() => setActiveTab('summary')}
-                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
+                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                         activeTab === 'summary'
-                          ? 'bg-white text-black font-medium'
+                          ? 'text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >
@@ -264,9 +273,9 @@ export default function Home() {
 
                     <button
                       onClick={() => setActiveTab('chart')}
-                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
+                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                         activeTab === 'chart'
-                          ? 'bg-white text-black font-medium'
+                          ? 'text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >
@@ -276,9 +285,9 @@ export default function Home() {
 
                     <button
                       onClick={() => setActiveTab('table')}
-                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
+                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                         activeTab === 'table'
-                          ? 'bg-white text-black font-medium'
+                          ? 'text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >

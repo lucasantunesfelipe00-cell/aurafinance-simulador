@@ -102,7 +102,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
 
         <button
           onClick={onReset}
-          className="flex items-center space-x-1.5 text-[11px] text-neutral-400 hover:text-white px-3 py-1 rounded-[75px] border border-white/20 hover:border-white transition-all uppercase tracking-wider shrink-0"
+          className="btn-lift flex items-center space-x-1.5 text-[11px] text-neutral-400 hover:text-white px-3 py-1 rounded-[75px] border border-white/20 hover:border-white transition-all uppercase tracking-wider shrink-0"
           title="Restaurar padrão"
         >
           <RefreshCw className="w-3 h-3" />
@@ -110,18 +110,23 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </button>
       </div>
 
-      {/* 1. Sistema de Amortização */}
+      {/* 1. Sistema de Amortização (Controle Segmentado com Indicador Deslizante) */}
       <div className="mb-6">
         <label className="block text-[10px] font-normal uppercase tracking-widest text-neutral-400 mb-2">
           Sistema de Amortização
         </label>
-        <div className="grid grid-cols-2 gap-2 p-1 bg-black border border-white/15 rounded-none">
+        <div className="relative grid grid-cols-2 gap-0 p-1 bg-black border border-white/15 rounded-none">
+          <div
+            className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] bg-white transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+            style={{ transform: inputs.amortizationMethod === 'PRICE' ? 'translateX(100%)' : 'translateX(0%)' }}
+          />
+
           <button
             type="button"
             onClick={() => onChange({ ...inputs, amortizationMethod: 'SAC' })}
-            className={`py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-all ${
+            className={`relative z-10 py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-colors duration-300 ${
               inputs.amortizationMethod === 'SAC'
-                ? 'bg-white text-black font-medium'
+                ? 'text-black font-medium'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -131,9 +136,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <button
             type="button"
             onClick={() => onChange({ ...inputs, amortizationMethod: 'PRICE' })}
-            className={`py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-all ${
+            className={`relative z-10 py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-colors duration-300 ${
               inputs.amortizationMethod === 'PRICE'
-                ? 'bg-white text-black font-medium'
+                ? 'text-black font-medium'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -317,7 +322,13 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
       </div>
 
       {/* 5. Seguros & Encargos Toggle */}
-      <div className="p-3.5 bg-black border border-white/15 rounded-none flex items-center justify-between gap-2">
+      <div
+        className={`p-3.5 border rounded-none flex items-center justify-between gap-2 transition-all duration-300 ${
+          inputs.includeInsurances
+            ? 'bg-white/[0.03] border-white/30'
+            : 'bg-black border-white/15 hover:border-white/30'
+        }`}
+      >
         <div>
           <h4 className="text-xs font-normal uppercase tracking-wider text-white">Seguros &amp; Taxas Administrativas</h4>
           <p className="text-[10px] text-neutral-400 font-light">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
@@ -330,7 +341,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             onChange={(e) => onChange({ ...inputs, includeInsurances: e.target.checked })}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-none peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-400 after:border after:h-4 after:w-4 after:transition-all peer-checked:bg-white peer-checked:after:bg-black peer-checked:after:border-black" />
+          <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-400 after:border after:h-4 after:w-4 after:rounded-full after:transition-all after:duration-300 peer-checked:bg-white peer-checked:after:bg-black peer-checked:after:border-black" />
         </label>
       </div>
 
@@ -340,7 +351,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <button
             type="button"
             onClick={onSimulate}
-            className="btn-pill-filled w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
+            className="btn-pill-filled btn-lift btn-shine w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
           >
             <Calculator className="w-4 h-4 text-black" />
             <span>SIMULAR</span>

@@ -42,6 +42,9 @@ const config: Config = {
         "gold-glow-lg": "0 0 50px -10px rgba(212, 175, 55, 0.4)",
         "gold-glow-sm": "0 0 12px 0 rgba(212, 175, 55, 0.25)",
         "obsidian-card": "0 20px 40px -15px rgba(0, 0, 0, 0.8)",
+        "lift": "0 10px 30px -12px rgba(255, 255, 255, 0.18)",
+        "lift-lg": "0 20px 40px -20px rgba(255, 255, 255, 0.14)",
+        "winner-glow": "0 0 0 1px rgba(255, 255, 255, 0.4), 0 20px 45px -15px rgba(255, 255, 255, 0.25)",
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
