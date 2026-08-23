@@ -136,6 +136,18 @@
   box-shadow: none;
 }
 
+/* Hide Native Number Input Spinner (Custom Compact Boxes) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* Custom Range Input (Monochrome Slider) */
 input[type="range"] {
   -webkit-appearance: none;

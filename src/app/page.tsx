@@ -92,9 +92,6 @@ export default function Home() {
 
           {/* Monumental Editorial Headline (Weight 300/400, Tight Leading) */}
           <div className="space-y-2">
-            <span className="text-[11px] font-normal uppercase tracking-[0.3em] text-neutral-400 block">
-              EDITORIAL CREDIT GALLERY
-            </span>
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-light tracking-tighter text-white leading-[0.88]">
               AURA <span className="font-extralight text-neutral-300">FINANCE</span>
             </h1>

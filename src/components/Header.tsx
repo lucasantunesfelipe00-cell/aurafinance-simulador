@@ -20,12 +20,12 @@ export const Header: React.FC = () => {
           <span>·</span>
           <span className="hover:text-white transition-colors cursor-pointer">AMORTIZAÇÃO</span>
           <span>·</span>
-          <span className="text-white">SAIGON EDITORIAL</span>
+          <span className="text-white">Financiamentos</span>
         </div>
 
         {/* Versão mobile: apenas o selo editorial */}
         <div className="sm:hidden text-[10px] font-normal tracking-widest text-white uppercase">
-          SAIGON EDITORIAL
+          Financiamentos
         </div>
 
       </div>

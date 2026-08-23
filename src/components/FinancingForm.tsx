@@ -156,7 +156,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             Valor do Bem
           </label>
 
-          <div className="flex items-center bg-black border border-white/20 rounded-none px-3 py-1.5 shrink-0 focus-within:border-white">
+          <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
             <span className="text-white text-xs font-medium mr-1.5">R$</span>
             <input
               type="text"
@@ -165,7 +165,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               onChange={(e) => handlePropertyValueInput(e.target.value)}
               onMouseEnter={() => setCursorVariant('input')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+              className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -173,7 +173,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         <input
           type="range"
           min={10000}
-          max={inputs.category === 'property' ? 3000000 : inputs.category === 'vehicle' ? 500000 : 150000}
+          max={inputs.category === 'property' ? 10000000 : inputs.category === 'vehicle' ? 500000 : 150000}
           step={5000}
           value={inputs.propertyValue}
           onChange={(e) => {
@@ -190,7 +190,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
           <span>R$ 10 mil</span>
           <span className="text-white font-medium">{formatBRL(inputs.propertyValue)}</span>
-          <span>R$ {inputs.category === 'property' ? '3 mi' : '500 mil'}</span>
+          <span>R$ {inputs.category === 'property' ? '10 mi' : '500 mil'}</span>
         </div>
       </div>
 
@@ -206,7 +206,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             </span>
           </div>
 
-          <div className="flex items-center bg-black border border-white/20 rounded-none px-3 py-1.5 shrink-0 focus-within:border-white">
+          <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
             <span className="text-white text-xs font-medium mr-1.5">R$</span>
             <input
               type="text"
@@ -215,7 +215,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               onChange={(e) => handleDownPaymentInput(e.target.value)}
               onMouseEnter={() => setCursorVariant('input')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+              className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -248,7 +248,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               Taxa de Juros
             </label>
 
-            <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+            <div className="flex items-center bg-black border border-white/20 rounded-none px-2 py-0.5 shrink-0 focus-within:border-white">
               <input
                 type="number"
                 step="0.1"
@@ -260,7 +260,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                 }}
                 onMouseEnter={() => setCursorVariant('input')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+                className="w-12 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
               <span className="text-neutral-400 text-[10px] ml-1">% a.a.</span>
             </div>
@@ -300,7 +300,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               </button>
             </div>
 
-            <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+            <div className="flex items-center bg-black border border-white/20 rounded-none px-2 py-0.5 shrink-0 focus-within:border-white">
               <input
                 type="number"
                 value={termUnit === 'years' ? termInYears : inputs.termMonths}
@@ -311,7 +311,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                 }}
                 onMouseEnter={() => setCursorVariant('input')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+                className="w-12 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
               <span className="text-neutral-400 text-[10px] ml-1">
                 {termUnit === 'years' ? 'anos' : 'meses'}
