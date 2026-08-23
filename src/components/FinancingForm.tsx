@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { FinancingInputs } from '@/types/financing';
 import { formatBRL, formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
+import { MouseGlow } from '@/components/MouseGlow';
 import { Sliders, RefreshCw, Calculator } from 'lucide-react';
 
 interface FinancingFormProps {
@@ -88,7 +89,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   return (
-    <div className="editorial-card p-6 border border-white/20 bg-black rounded-none">
+    <MouseGlow size={420} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
       
       {/* Header do Form */}
       <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
@@ -359,6 +360,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       )}
 
-    </div>
+    </MouseGlow>
   );
 };

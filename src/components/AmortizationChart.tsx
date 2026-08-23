@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FinancingResult } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
+import { MouseGlow } from '@/components/MouseGlow';
 import { LineChart } from 'lucide-react';
 
 interface AmortizationChartProps {
@@ -53,7 +54,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
   const resultKey = `${result.method}-${result.loanAmount}-${result.totalInterest}-${result.termMonths}`;
 
   return (
-    <div className="editorial-card p-6 border border-white/20 bg-black rounded-none">
+    <MouseGlow size={420} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
 
       {/* Header do Gráfico */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
@@ -210,6 +211,6 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
         </div>
       )}
 
-    </div>
+    </MouseGlow>
   );
 };

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FinancingResult } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
+import { MouseGlow } from '@/components/MouseGlow';
 import { Table, Download, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface AmortizationTableProps {
@@ -48,7 +49,7 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
   };
 
   return (
-    <div className="editorial-card p-6 border border-white/20 bg-black rounded-none">
+    <MouseGlow size={420} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
       
       {/* Bar Superior da Tabela */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
@@ -157,6 +158,6 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
         </div>
       </div>
 
-    </div>
+    </MouseGlow>
   );
 };

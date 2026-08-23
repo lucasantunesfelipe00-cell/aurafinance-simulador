@@ -14,6 +14,7 @@ import { AmortizationChart } from '@/components/AmortizationChart';
 import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
+import { MouseGlow } from '@/components/MouseGlow';
 import {
   Calculator,
   Home as HomeIcon,
@@ -108,11 +109,11 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
 
               {/* Card 1: Imóvel */}
-              <div
+              <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
                 }}
-                className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'property'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
@@ -139,14 +140,14 @@ export default function Home() {
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
                   </div>
                 </div>
-              </div>
+              </MouseGlow>
 
               {/* Card 2: Veículo */}
-              <div
+              <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
                 }}
-                className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'vehicle'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
@@ -173,14 +174,14 @@ export default function Home() {
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
                   </div>
                 </div>
-              </div>
+              </MouseGlow>
 
               {/* Card 3: Pessoal */}
-              <div
+              <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
                 }}
-                className={`group relative rounded-none overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'personal'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
@@ -207,7 +208,7 @@ export default function Home() {
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Crédito Pessoal</h3>
                   </div>
                 </div>
-              </div>
+              </MouseGlow>
 
             </div>
           </div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { FinancingResult, ComparisonResult } from '@/types/financing';
 import { formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
+import { MouseGlow } from '@/components/MouseGlow';
 import { DollarSign, Percent, TrendingDown, Layers, ArrowRightLeft } from 'lucide-react';
 
 interface ResultsSummaryProps {
@@ -27,7 +28,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         {/* Card 1: Primeira Parcela */}
-        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">1ª Parcela (Inicial)</span>
             <DollarSign className="w-3.5 h-3.5 text-white" />
@@ -45,10 +46,10 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             <span className="font-normal text-white uppercase tracking-wider">{result.method}</span>
             <span>• Com amortização</span>
           </div>
-        </div>
+        </MouseGlow>
 
         {/* Card 2: Última Parcela */}
-        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Última Parcela ({result.termMonths}º Mês)</span>
             <TrendingDown className="w-3.5 h-3.5 text-white" />
@@ -71,10 +72,10 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
               <span className="text-neutral-400">Fixa durante o contrato</span>
             )}
           </div>
-        </div>
+        </MouseGlow>
 
         {/* Card 3: Total de Juros */}
-        <div className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Total de Juros</span>
             <Percent className="w-3.5 h-3.5 text-white" />
@@ -91,10 +92,10 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="text-[10px] text-neutral-300 font-light mt-2">
             {formatPercent(interestVsLoanPercent, 1)} do valor financiado
           </div>
-        </div>
+        </MouseGlow>
 
         {/* Card 4: Total Geral Pago */}
-        <div className="editorial-card card-lift p-5 border border-gold-500/50 bg-neutral-900 rounded-none flex flex-col justify-between shadow-gold-glow-sm">
+        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-gold-500/50 bg-neutral-900 rounded-none flex flex-col justify-between shadow-gold-glow-sm">
           <div className="flex justify-between items-start mb-3">
             <span className="text-[10px] font-normal uppercase tracking-widest text-white">Total Geral Pago</span>
             <Layers className="w-3.5 h-3.5 text-gold-500" />
@@ -110,9 +111,8 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
           <div className="text-[10px] text-neutral-400 font-light mt-2 truncate">
             Entrada + {result.termMonths} parcelas
-
           </div>
-        </div>
+        </MouseGlow>
 
       </div>
 
