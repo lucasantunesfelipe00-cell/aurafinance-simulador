@@ -5,6 +5,7 @@ import { FinancingInputs } from '@/types/financing';
 import { formatBRL, formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
+import { setCursorVariant } from '@/lib/cursor-store';
 import { Sliders, RefreshCw, Calculator } from 'lucide-react';
 
 interface FinancingFormProps {
@@ -162,6 +163,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
+              onMouseEnter={() => setCursorVariant('input')}
+              onMouseLeave={() => setCursorVariant('default')}
               className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
@@ -180,6 +183,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             setMaskedDownPayment(formatCurrencyMask(downPayment));
             onChange({ ...inputs, propertyValue: val, downPayment });
           }}
+          onMouseEnter={() => setCursorVariant('native')}
+          onMouseLeave={() => setCursorVariant('default')}
           className="w-full"
         />
         <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
@@ -208,6 +213,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
+              onMouseEnter={() => setCursorVariant('input')}
+              onMouseLeave={() => setCursorVariant('default')}
               className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
@@ -220,6 +227,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           step={1}
           value={inputs.downPaymentPercent}
           onChange={(e) => handleDownPaymentPercentChange(Number(e.target.value))}
+          onMouseEnter={() => setCursorVariant('native')}
+          onMouseLeave={() => setCursorVariant('default')}
           className="w-full"
         />
         <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
