@@ -5,8 +5,9 @@
  * - 'default': bolinha amarela normal
  * - 'input': bolinha branca, metade do tamanho (sobre as caixas de R$)
  * - 'native': esconde a bolinha e devolve o cursor nativo do elemento (sobre sliders)
+ * - 'button': bolinha preta (sobre os CTAs "Iniciar Simulação Agora" e "Simular")
  */
-export type CursorVariant = 'default' | 'input' | 'native';
+export type CursorVariant = 'default' | 'input' | 'native' | 'button';
 
 type Listener = (variant: CursorVariant) => void;
 

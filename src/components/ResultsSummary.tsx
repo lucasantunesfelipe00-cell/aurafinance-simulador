@@ -28,9 +28,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         {/* Card 1: Primeira Parcela */}
-        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={110} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">1ª Parcela (Inicial)</span>
+            <span className="text-[10px] font-normal uppercase tracking-widest text-gold-400">1ª Parcela (Inicial)</span>
             <DollarSign className="w-3.5 h-3.5 text-white" />
           </div>
 
@@ -49,9 +49,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MouseGlow>
 
         {/* Card 2: Última Parcela */}
-        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={110} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Última Parcela ({result.termMonths}º Mês)</span>
+            <span className="text-[10px] font-normal uppercase tracking-widest text-gold-400">Última Parcela ({result.termMonths}º Mês)</span>
             <TrendingDown className="w-3.5 h-3.5 text-white" />
           </div>
 
@@ -75,9 +75,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MouseGlow>
 
         {/* Card 3: Total de Juros */}
-        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+        <MouseGlow size={110} className="editorial-card card-lift p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Total de Juros</span>
+            <span className="text-[10px] font-normal uppercase tracking-widest text-gold-400">Total de Juros</span>
             <Percent className="w-3.5 h-3.5 text-white" />
           </div>
 
@@ -95,9 +95,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MouseGlow>
 
         {/* Card 4: Total Geral Pago */}
-        <MouseGlow size={220} className="editorial-card card-lift p-5 border border-gold-500/50 bg-neutral-900 rounded-none flex flex-col justify-between shadow-gold-glow-sm">
+        <MouseGlow size={110} className="editorial-card card-lift p-5 border border-gold-500/50 bg-neutral-900 rounded-none flex flex-col justify-between shadow-gold-glow-sm">
           <div className="flex justify-between items-start mb-3">
-            <span className="text-[10px] font-normal uppercase tracking-widest text-white">Total Geral Pago</span>
+            <span className="text-[10px] font-normal uppercase tracking-widest text-gold-400">Total Geral Pago</span>
             <Layers className="w-3.5 h-3.5 text-gold-500" />
           </div>
 

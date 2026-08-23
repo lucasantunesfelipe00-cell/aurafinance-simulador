@@ -90,7 +90,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   return (
-    <MouseGlow size={420} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
+    <MouseGlow size={210} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
       
       {/* Header do Form */}
       <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
@@ -201,9 +201,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
               Valor da Entrada
             </label>
-            <span className="text-[10px] px-2 py-0.5 rounded-[75px] bg-white/10 border border-white/20 text-white font-mono">
-              {formatPercent(inputs.downPaymentPercent, 1)}
-            </span>
           </div>
 
           <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
@@ -233,7 +230,10 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         />
         <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
           <span>0%</span>
-          <span>Financiado: <FormattedBRL value={inputs.propertyValue - inputs.downPayment} className="text-white" /></span>
+          <span>
+            Financiado: <FormattedBRL value={inputs.propertyValue - inputs.downPayment} className="text-white" />
+            <span className="text-[9px] text-neutral-500 ml-1">({formatPercent(inputs.downPaymentPercent, 1)})</span>
+          </span>
           <span>80%</span>
         </div>
       </div>
@@ -277,6 +277,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               setRawInterestRate(val.toString());
               onChange({ ...inputs, interestRateYearly: val });
             }}
+            onMouseEnter={() => setCursorVariant('native')}
+            onMouseLeave={() => setCursorVariant('default')}
             className="w-full"
           />
           <div className="text-[10px] text-neutral-500 mt-1 font-mono text-right">
@@ -326,6 +328,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             step={6}
             value={inputs.termMonths}
             onChange={(e) => onChange({ ...inputs, termMonths: Number(e.target.value) })}
+            onMouseEnter={() => setCursorVariant('native')}
+            onMouseLeave={() => setCursorVariant('default')}
             className="w-full"
           />
           <div className="text-[10px] text-neutral-500 mt-1 font-mono text-right">
@@ -369,6 +373,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <button
             type="button"
             onClick={onSimulate}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
             className="btn-gold-fill btn-lift btn-shine btn-shine-gold w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
           >
             <Calculator className="w-4 h-4 text-white" />

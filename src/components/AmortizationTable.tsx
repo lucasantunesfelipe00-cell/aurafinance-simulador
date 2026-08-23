@@ -49,14 +49,14 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
   };
 
   return (
-    <MouseGlow size={420} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
+    <MouseGlow size={210} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
       
       {/* Bar Superior da Tabela */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
         <div className="flex items-center space-x-2.5">
           <Table className="w-4 h-4 text-white" />
           <div>
-            <h3 className="text-xs font-normal uppercase tracking-widest text-white">Cronograma Mês a Mês</h3>
+            <h3 className="text-xs font-normal uppercase tracking-widest text-gold-400">Cronograma Mês a Mês</h3>
             <p className="text-[11px] text-neutral-400 font-light">Detalhamento completo das parcelas</p>
           </div>
         </div>

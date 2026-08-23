@@ -15,6 +15,7 @@ import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { MouseGlow } from '@/components/MouseGlow';
+import { setCursorVariant } from '@/lib/cursor-store';
 import {
   Calculator,
   Home as HomeIcon,
@@ -214,6 +215,8 @@ export default function Home() {
           <div className="pt-4 flex items-center justify-center">
             <button
               onClick={() => handleOpenSimulator()}
+              onMouseEnter={() => setCursorVariant('button')}
+              onMouseLeave={() => setCursorVariant('default')}
               className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
             >
               <Calculator className="w-4 h-4" />
@@ -352,8 +355,6 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-4 text-neutral-500 uppercase tracking-widest text-[10px]">
-            <span>Saigon Edition</span>
-            <span>·</span>
             <span>2026 © All rights reserved</span>
           </div>
         </div>

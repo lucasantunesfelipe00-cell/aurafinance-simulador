@@ -27,7 +27,7 @@ interface MouseGlowProps {
 export const MouseGlow: React.FC<MouseGlowProps> = ({
   children,
   className = '',
-  size = 260,
+  size = 130,
   color = 'rgba(212, 175, 55, 0.45)',
   onClick,
 }) => {

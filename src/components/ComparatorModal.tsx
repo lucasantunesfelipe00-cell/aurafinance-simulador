@@ -62,7 +62,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
           
           {/* Card SAC */}
-          <MouseGlow size={280} className="p-5 border border-gold-500/50 bg-black rounded-none flex flex-col justify-between shadow-winner-glow-gold">
+          <MouseGlow size={140} className="p-5 border border-gold-500/50 bg-black rounded-none flex flex-col justify-between shadow-winner-glow-gold">
             <div>
               <div className="flex justify-between items-center mb-4">
                 <span className="px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] uppercase font-medium tracking-wider">
@@ -95,7 +95,7 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
           </MouseGlow>
 
           {/* Card PRICE */}
-          <MouseGlow size={280} className="p-5 border border-white/15 bg-black rounded-none flex flex-col justify-between">
+          <MouseGlow size={140} className="p-5 border border-white/15 bg-black rounded-none flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center mb-4">
                 <span className="px-3 py-1 rounded-[75px] bg-neutral-800 text-neutral-300 text-[10px] uppercase font-normal tracking-wider border border-white/10">
