@@ -258,6 +258,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const num = parseFloat(e.target.value) || 0;
                   onChange({ ...inputs, interestRateYearly: Math.max(0.1, num) });
                 }}
+                onMouseEnter={() => setCursorVariant('input')}
+                onMouseLeave={() => setCursorVariant('default')}
                 className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
               <span className="text-neutral-400 text-[10px] ml-1">% a.a.</span>
@@ -307,6 +309,8 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const termMonths = termUnit === 'years' ? Math.round(val * 12) : val;
                   onChange({ ...inputs, termMonths: Math.max(1, termMonths) });
                 }}
+                onMouseEnter={() => setCursorVariant('input')}
+                onMouseLeave={() => setCursorVariant('default')}
                 className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
               <span className="text-neutral-400 text-[10px] ml-1">
@@ -344,7 +348,11 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <p className="text-[10px] text-neutral-400 font-light">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
         </div>
 
-        <label className="relative inline-flex items-center cursor-pointer shrink-0">
+        <label
+          className="relative inline-flex items-center cursor-pointer shrink-0"
+          onMouseEnter={() => setCursorVariant('native')}
+          onMouseLeave={() => setCursorVariant('default')}
+        >
           <input
             type="checkbox"
             checked={inputs.includeInsurances}
