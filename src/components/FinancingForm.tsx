@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FinancingInputs, CategoryType } from '@/types/financing';
+import { FinancingInputs } from '@/types/financing';
 import { formatBRL, formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
-import { Sliders, RefreshCw, Sparkles, Calculator } from 'lucide-react';
+import { Sliders, RefreshCw, Calculator } from 'lucide-react';
 
 interface FinancingFormProps {
   inputs: FinancingInputs;
@@ -25,7 +25,6 @@ function formatCurrencyMask(val: number): string {
 export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, onReset, onSimulate }) => {
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
 
-  // Estados locais com máscara monetária com centavos (ex: "600.000,00")
   const [maskedPropertyValue, setMaskedPropertyValue] = useState<string>(
     formatCurrencyMask(inputs.propertyValue)
   );
@@ -34,7 +33,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   );
   const [rawInterestRate, setRawInterestRate] = useState<string>(inputs.interestRateYearly.toString());
 
-  // Sincronização externa
   useEffect(() => {
     setMaskedPropertyValue(formatCurrencyMask(inputs.propertyValue));
   }, [inputs.propertyValue]);
@@ -47,35 +45,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     setRawInterestRate(inputs.interestRateYearly.toString());
   }, [inputs.interestRateYearly]);
 
-  // Alterar categoria
-  const handleCategoryChange = (category: CategoryType) => {
-    let defaults = { ...inputs, category };
-    if (category === 'property') {
-      defaults.propertyValue = 600000;
-      defaults.downPayment = 120000;
-      defaults.downPaymentPercent = 20;
-      defaults.interestRateYearly = 10.5;
-      defaults.termMonths = 360;
-      defaults.includeInsurances = true;
-    } else if (category === 'vehicle') {
-      defaults.propertyValue = 120000;
-      defaults.downPayment = 36000;
-      defaults.downPaymentPercent = 30;
-      defaults.interestRateYearly = 16.8;
-      defaults.termMonths = 48;
-      defaults.includeInsurances = false;
-    } else {
-      defaults.propertyValue = 40000;
-      defaults.downPayment = 0;
-      defaults.downPaymentPercent = 0;
-      defaults.interestRateYearly = 24.5;
-      defaults.termMonths = 24;
-      defaults.includeInsurances = false;
-    }
-    onChange(defaults);
-  };
-
-  // Handler do Valor do Bem com máscara de R$ e centavos em tempo real
   const handlePropertyValueInput = (valStr: string) => {
     const digitsOnly = valStr.replace(/\D/g, '');
     const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
@@ -91,7 +60,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     });
   };
 
-  // Handler da Entrada com máscara de R$ e centavos em tempo real
   const handleDownPaymentInput = (valStr: string) => {
     const digitsOnly = valStr.replace(/\D/g, '');
     const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
@@ -106,7 +74,6 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
     });
   };
 
-  // Handler da Entrada por Porcentagem
   const handleDownPaymentPercentChange = (pct: number) => {
     const downPaymentPercent = Math.min(95, Math.max(0, pct));
     const downPayment = Math.round((inputs.propertyValue * downPaymentPercent) / 100);
@@ -121,46 +88,41 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   return (
-    <div className="glass-card rounded-2xl p-4 sm:p-6 gold-border-glow relative overflow-hidden">
+    <div className="editorial-card p-6 border border-white/20 bg-black rounded-none">
       
-      {/* Luz Dourada de Fundo */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
-
       {/* Header do Form */}
-      <div className="flex items-center justify-between pb-4 mb-4 border-b border-gold-500/15">
+      <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
         <div className="flex items-center space-x-2.5">
-          <div className="p-2 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-400">
-            <Sliders className="w-4 h-4" />
-          </div>
+          <Sliders className="w-4 h-4 text-white" />
           <div>
-            <h2 className="text-base font-bold text-white tracking-wide">Configurar Simulação</h2>
-            <p className="text-[11px] text-gray-400">Preencha os valores para calcular instantaneamente</p>
+            <h2 className="text-xs font-normal uppercase tracking-widest text-white">Configurar Simulação</h2>
+            <p className="text-[11px] text-neutral-400 font-light">Parâmetros do financiamento</p>
           </div>
         </div>
 
         <button
           onClick={onReset}
-          className="flex items-center space-x-1 text-[11px] text-gold-400 hover:text-white px-2.5 py-1 rounded-lg border border-gold-500/20 hover:border-gold-400 transition-colors shrink-0"
+          className="flex items-center space-x-1.5 text-[11px] text-neutral-400 hover:text-white px-3 py-1 rounded-[75px] border border-white/20 hover:border-white transition-all uppercase tracking-wider shrink-0"
           title="Restaurar padrão"
         >
           <RefreshCw className="w-3 h-3" />
-          <span className="hidden sm:inline">Redefinir</span>
+          <span>Redefinir</span>
         </button>
       </div>
 
-      {/* 2. Sistema de Amortização */}
-      <div className="mb-5">
-        <label className="block text-[10px] font-bold uppercase tracking-wider text-gold-400 mb-1.5">
+      {/* 1. Sistema de Amortização */}
+      <div className="mb-6">
+        <label className="block text-[10px] font-normal uppercase tracking-widest text-neutral-400 mb-2">
           Sistema de Amortização
         </label>
-        <div className="grid grid-cols-2 gap-2 p-1 bg-obsidian-950 border border-gold-500/20 rounded-xl">
+        <div className="grid grid-cols-2 gap-2 p-1 bg-black border border-white/15 rounded-none">
           <button
             type="button"
             onClick={() => onChange({ ...inputs, amortizationMethod: 'SAC' })}
-            className={`py-2 px-3 rounded-lg text-[11px] font-bold transition-all ${
+            className={`py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-all ${
               inputs.amortizationMethod === 'SAC'
-                ? 'btn-gold-metallic'
-                : 'text-gray-400 hover:text-white'
+                ? 'bg-white text-black font-medium'
+                : 'text-neutral-400 hover:text-white'
             }`}
           >
             SAC (Decrescente)
@@ -169,10 +131,10 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           <button
             type="button"
             onClick={() => onChange({ ...inputs, amortizationMethod: 'PRICE' })}
-            className={`py-2 px-3 rounded-lg text-[11px] font-bold transition-all ${
+            className={`py-2 px-3 rounded-none text-xs tracking-wider font-normal transition-all ${
               inputs.amortizationMethod === 'PRICE'
-                ? 'btn-gold-metallic'
-                : 'text-gray-400 hover:text-white'
+                ? 'bg-white text-black font-medium'
+                : 'text-neutral-400 hover:text-white'
             }`}
           >
             PRICE (Prestação Fixa)
@@ -180,22 +142,21 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
         </div>
       </div>
 
-      {/* 3. Valor do Bem (Com Máscara R$) */}
-      <div className="mb-5">
-        <div className="flex justify-between items-center mb-1.5 gap-2">
-          <label className="text-[11px] font-semibold text-gray-300 truncate">
+      {/* 2. Valor do Bem (Com Máscara R$) */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2 gap-2">
+          <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
             Valor do Bem
           </label>
 
-          {/* Container Flex sem sobreposição */}
-          <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2.5 py-1 shrink-0 focus-within:border-gold-400">
-            <span className="text-gold-400 text-[11px] font-bold mr-1">R$</span>
+          <div className="flex items-center bg-black border border-white/20 rounded-none px-3 py-1.5 shrink-0 focus-within:border-white">
+            <span className="text-white text-xs font-medium mr-1.5">R$</span>
             <input
               type="text"
               inputMode="numeric"
               value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
-              className="w-32 sm:w-36 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+              className="w-32 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -215,34 +176,33 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           }}
           className="w-full"
         />
-        <div className="flex justify-between text-[10px] text-gray-500 mt-1 font-mono">
+        <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
           <span>R$ 10 mil</span>
-          <span className="text-gold-300 font-semibold">{formatBRL(inputs.propertyValue)}</span>
+          <span className="text-white font-medium">{formatBRL(inputs.propertyValue)}</span>
           <span>R$ {inputs.category === 'property' ? '3 mi' : '500 mil'}</span>
         </div>
       </div>
 
-      {/* 4. Valor da Entrada (Com Máscara R$) */}
-      <div className="mb-5">
-        <div className="flex justify-between items-center mb-1.5 gap-2">
-          <div className="flex items-center space-x-1.5 shrink-0">
-            <label className="text-[11px] font-semibold text-gray-300">
+      {/* 3. Valor da Entrada (Com Máscara R$) */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2 gap-2">
+          <div className="flex items-center space-x-2 shrink-0">
+            <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
               Valor da Entrada
             </label>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-gold-500/20 border border-gold-500/40 text-gold-300 font-bold">
+            <span className="text-[10px] px-2 py-0.5 rounded-[75px] bg-white/10 border border-white/20 text-white font-mono">
               {formatPercent(inputs.downPaymentPercent, 1)}
             </span>
           </div>
 
-          {/* Container Flex sem sobreposição */}
-          <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2.5 py-1 shrink-0 focus-within:border-gold-400">
-            <span className="text-gold-400 text-[11px] font-bold mr-1">R$</span>
+          <div className="flex items-center bg-black border border-white/20 rounded-none px-3 py-1.5 shrink-0 focus-within:border-white">
+            <span className="text-white text-xs font-medium mr-1.5">R$</span>
             <input
               type="text"
               inputMode="numeric"
               value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
-              className="w-32 sm:w-36 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+              className="w-32 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -256,25 +216,24 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           onChange={(e) => handleDownPaymentPercentChange(Number(e.target.value))}
           className="w-full"
         />
-        <div className="flex justify-between text-[10px] text-gray-500 mt-1 font-mono">
+        <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
           <span>0%</span>
-          <span>Financiado: <FormattedBRL value={inputs.propertyValue - inputs.downPayment} className="text-gold-300" /></span>
+          <span>Financiado: <FormattedBRL value={inputs.propertyValue - inputs.downPayment} className="text-white" /></span>
           <span>80%</span>
         </div>
       </div>
 
-      {/* 5. Taxa de Juros & Prazo (Flex Containers sem sobreposição no mobile) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+      {/* 4. Taxa de Juros & Prazo */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
         
         {/* Taxa de Juros */}
         <div>
-          <div className="flex justify-between items-center mb-1.5 gap-2">
-            <label className="text-[11px] font-semibold text-gray-300 truncate">
+          <div className="flex justify-between items-center mb-2 gap-2">
+            <label className="text-xs font-normal uppercase tracking-wider text-neutral-300 truncate">
               Taxa de Juros
             </label>
 
-            {/* Container Flex Limpo */}
-            <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2 py-1 shrink-0 focus-within:border-gold-400">
+            <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
               <input
                 type="number"
                 step="0.1"
@@ -284,9 +243,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const num = parseFloat(e.target.value) || 0;
                   onChange({ ...inputs, interestRateYearly: Math.max(0.1, num) });
                 }}
-                className="w-14 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+                className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
-              <span className="text-gold-400 text-[10px] font-bold ml-1 whitespace-nowrap">% a.a.</span>
+              <span className="text-neutral-400 text-[10px] ml-1">% a.a.</span>
             </div>
           </div>
 
@@ -303,29 +262,28 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             }}
             className="w-full"
           />
-          <div className="text-[10px] text-gray-500 mt-0.5 font-mono text-right">
+          <div className="text-[10px] text-neutral-500 mt-1 font-mono text-right">
             ~{formatPercent(inputs.interestRateYearly / 12, 2)} / mês
           </div>
         </div>
 
         {/* Prazo */}
         <div>
-          <div className="flex justify-between items-center mb-1.5 gap-2">
+          <div className="flex justify-between items-center mb-2 gap-2">
             <div className="flex items-center space-x-1 truncate">
-              <label className="text-[11px] font-semibold text-gray-300">
+              <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
                 Prazo
               </label>
               <button
                 type="button"
                 onClick={() => setTermUnit(termUnit === 'years' ? 'months' : 'years')}
-                className="text-[9px] text-gold-400 hover:underline"
+                className="text-[10px] text-neutral-400 hover:text-white underline ml-1"
               >
                 ({termUnit === 'years' ? 'Anos' : 'Meses'})
               </button>
             </div>
 
-            {/* Container Flex Limpo */}
-            <div className="flex items-center bg-obsidian-950 border border-gold-500/30 rounded-lg px-2 py-1 shrink-0 focus-within:border-gold-400">
+            <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
               <input
                 type="number"
                 value={termUnit === 'years' ? termInYears : inputs.termMonths}
@@ -334,9 +292,9 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const termMonths = termUnit === 'years' ? Math.round(val * 12) : val;
                   onChange({ ...inputs, termMonths: Math.max(1, termMonths) });
                 }}
-                className="w-14 bg-transparent text-right font-mono font-bold text-white text-xs focus:outline-none"
+                className="w-14 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
               />
-              <span className="text-gold-400 text-[10px] font-bold ml-1 whitespace-nowrap">
+              <span className="text-neutral-400 text-[10px] ml-1">
                 {termUnit === 'years' ? 'anos' : 'meses'}
               </span>
             </div>
@@ -351,21 +309,18 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             onChange={(e) => onChange({ ...inputs, termMonths: Number(e.target.value) })}
             className="w-full"
           />
-          <div className="text-[10px] text-gray-500 mt-0.5 font-mono text-right">
+          <div className="text-[10px] text-neutral-500 mt-1 font-mono text-right">
             {inputs.termMonths} meses ({termInYears} anos)
           </div>
         </div>
 
       </div>
 
-      {/* 6. Seguros & Encargos Toggle */}
-      <div className="p-3 rounded-xl bg-obsidian-950/70 border border-gold-500/20 flex items-center justify-between gap-2">
-        <div className="flex items-center space-x-2">
-          <Sparkles className="w-4 h-4 text-gold-400 shrink-0" />
-          <div>
-            <h4 className="text-[11px] font-bold text-white">Seguros &amp; Taxas Administrativas</h4>
-            <p className="text-[9px] text-gray-400">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
-          </div>
+      {/* 5. Seguros & Encargos Toggle */}
+      <div className="p-3.5 bg-black border border-white/15 rounded-none flex items-center justify-between gap-2">
+        <div>
+          <h4 className="text-xs font-normal uppercase tracking-wider text-white">Seguros &amp; Taxas Administrativas</h4>
+          <p className="text-[10px] text-neutral-400 font-light">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
         </div>
 
         <label className="relative inline-flex items-center cursor-pointer shrink-0">
@@ -375,21 +330,20 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             onChange={(e) => onChange({ ...inputs, includeInsurances: e.target.checked })}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-obsidian-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-gold-500 peer-checked:to-gold-700" />
+          <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-none peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-400 after:border after:h-4 after:w-4 after:transition-all peer-checked:bg-white peer-checked:after:bg-black peer-checked:after:border-black" />
         </label>
       </div>
 
-      {/* 7. Botão SIMULAR */}
+      {/* 6. Botão SIMULAR (Pill 75px full radius) */}
       {onSimulate && (
-        <div className="mt-6 pt-2">
+        <div className="mt-8 pt-2">
           <button
             type="button"
             onClick={onSimulate}
-            className="btn-gold-metallic w-full py-4 px-6 rounded-xl text-sm font-black flex items-center justify-center space-x-2.5 shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            className="btn-pill-filled w-full flex items-center justify-center space-x-3 text-sm font-normal uppercase tracking-widest shadow-none cursor-pointer"
           >
-            <Calculator className="w-5 h-5 text-obsidian-950" />
-            <span className="tracking-wider">SIMULAR</span>
-            <Sparkles className="w-4 h-4 text-obsidian-950" />
+            <Calculator className="w-4 h-4 text-black" />
+            <span>SIMULAR</span>
           </button>
         </div>
       )}

@@ -21,109 +21,101 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   const interestVsLoanPercent = (result.totalInterest / (result.loanAmount || 1)) * 100;
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6">
       
-      {/* Grade 4 KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* Grade 4 KPI Cards (Editorial Sharp 0px Corners) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Card 1: Primeira Parcela */}
-        <div className="glass-card glass-card-hover rounded-2xl p-4 border border-gold-500/20 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">1ª Parcela (Inicial)</span>
-            <div className="p-1.5 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-400">
-              <DollarSign className="w-3.5 h-3.5" />
-            </div>
+        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-3">
+            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">1ª Parcela (Inicial)</span>
+            <DollarSign className="w-3.5 h-3.5 text-white" />
           </div>
           
           <div className="my-1">
             <FormattedBRL
               value={result.firstInstallment}
-              className="text-base sm:text-lg font-bold text-white tracking-tight"
+              className="text-lg sm:text-xl font-normal text-white tracking-tight"
             />
           </div>
 
-          <div className="text-[10px] text-gray-400 flex items-center space-x-1 mt-1">
-            <span className="font-semibold text-gold-300">{result.method}</span>
+          <div className="text-[10px] text-neutral-400 font-light flex items-center space-x-1 mt-2">
+            <span className="font-normal text-white uppercase tracking-wider">{result.method}</span>
             <span>• Com amortização</span>
           </div>
         </div>
 
         {/* Card 2: Última Parcela */}
-        <div className="glass-card glass-card-hover rounded-2xl p-4 border border-gold-500/20 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Última Parcela ({result.termMonths}º Mês)</span>
-            <div className="p-1.5 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-400">
-              <TrendingDown className="w-3.5 h-3.5" />
-            </div>
+        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-3">
+            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Última Parcela ({result.termMonths}º Mês)</span>
+            <TrendingDown className="w-3.5 h-3.5 text-white" />
           </div>
 
           <div className="my-1">
             <FormattedBRL
               value={result.lastInstallment}
-              className="text-base sm:text-lg font-bold text-white tracking-tight"
+              className="text-lg sm:text-xl font-normal text-white tracking-tight"
             />
           </div>
 
-          <div className="text-[10px] text-gray-400 flex items-center space-x-1 mt-1">
+          <div className="text-[10px] text-neutral-400 font-light flex items-center space-x-1 mt-2">
             {isSAC ? (
-              <span className="text-emerald-400 font-semibold flex items-center">
+              <span className="text-white font-normal flex items-center">
                 ↓ Redução de <FormattedBRL value={result.firstInstallment - result.lastInstallment} className="ml-1 text-[10px]" />
               </span>
             ) : (
-              <span className="text-gray-400">Fixa durante o contrato</span>
+              <span className="text-neutral-400">Fixa durante o contrato</span>
             )}
           </div>
         </div>
 
         {/* Card 3: Total de Juros */}
-        <div className="glass-card glass-card-hover rounded-2xl p-4 border border-gold-500/20 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Total de Juros</span>
-            <div className="p-1.5 rounded-lg bg-gold-500/10 border border-gold-500/30 text-gold-400">
-              <Percent className="w-3.5 h-3.5" />
-            </div>
+        <div className="editorial-card p-5 border border-white/20 bg-black rounded-none flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-3">
+            <span className="text-[10px] font-normal uppercase tracking-widest text-neutral-400">Total de Juros</span>
+            <Percent className="w-3.5 h-3.5 text-white" />
           </div>
 
           <div className="my-1">
             <FormattedBRL
               value={result.totalInterest}
-              className="text-base sm:text-lg font-bold gold-text-gradient tracking-tight"
+              className="text-lg sm:text-xl font-normal text-white tracking-tight"
             />
           </div>
 
-          <div className="text-[10px] text-gold-300 font-semibold mt-1">
-            {formatPercent(interestVsLoanPercent, 1)} do financiado
+          <div className="text-[10px] text-neutral-300 font-light mt-2">
+            {formatPercent(interestVsLoanPercent, 1)} do valor financiado
           </div>
         </div>
 
         {/* Card 4: Total Geral Pago */}
-        <div className="glass-card glass-card-hover rounded-2xl p-4 border border-gold-500/30 bg-gradient-to-br from-gold-500/10 to-obsidian-950 relative overflow-hidden flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-200">Total Geral Pago</span>
-            <div className="p-1.5 rounded-lg bg-gold-500/20 text-gold-300">
-              <Layers className="w-3.5 h-3.5" />
-            </div>
+        <div className="editorial-card p-5 border border-white/30 bg-neutral-900 rounded-none flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-3">
+            <span className="text-[10px] font-normal uppercase tracking-widest text-white">Total Geral Pago</span>
+            <Layers className="w-3.5 h-3.5 text-white" />
           </div>
 
           <div className="my-1">
             <FormattedBRL
               value={result.totalPaid}
-              className="text-base sm:text-lg font-bold text-white tracking-tight"
+              className="text-lg sm:text-xl font-normal text-white tracking-tight"
             />
           </div>
 
-          <div className="text-[10px] text-gray-300 mt-1 truncate">
+          <div className="text-[10px] text-neutral-400 font-light mt-2 truncate">
             Entrada + {result.termMonths} parcelas
           </div>
         </div>
 
       </div>
 
-      {/* Botão Comparar Lado a Lado */}
-      <div className="flex justify-center pt-2">
+      {/* Botão Comparar Lado a Lado (Ghost Pill 75px Full Radius) */}
+      <div className="flex justify-center pt-3">
         <button
           onClick={onOpenComparison}
-          className="btn-gold-metallic py-2.5 px-6 rounded-xl text-xs font-bold flex items-center space-x-2 shadow-gold-glow hover:scale-[1.02] transition-transform"
+          className="btn-ghost-pill-dark flex items-center space-x-2.5 uppercase tracking-widest text-xs font-normal"
         >
           <ArrowRightLeft className="w-4 h-4" />
           <span>Comparar Lado a Lado</span>
