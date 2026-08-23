@@ -15,6 +15,7 @@ import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { MouseGlow } from '@/components/MouseGlow';
+import { HeroTitle } from '@/components/HeroTitle';
 import { setCursorVariant } from '@/lib/cursor-store';
 import {
   Calculator,
@@ -91,11 +92,9 @@ export default function Home() {
         {/* HERO SECTION — Monopo Saigon Editorial Atmosphere */}
         <div className="text-center max-w-3xl mx-auto space-y-8">
 
-          {/* Monumental Editorial Headline (Weight 300/400, Tight Leading) */}
-          <div className="space-y-2">
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-light tracking-tighter text-white leading-[0.88]">
-              AURA <span className="font-extralight text-neutral-300">FINANCE</span>
-            </h1>
+          {/* Masthead Editorial — Ouro Líquido Gravado (Fraunces + Interação de Cursor) */}
+          <div className="space-y-2 flex justify-center">
+            <HeroTitle />
           </div>
 
           {/* Seleção de Categoria com Imagens Realistas (0px Sharp Radius Cards) */}
