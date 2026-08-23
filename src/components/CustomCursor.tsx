@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
-import { subscribeCursorHidden } from '@/lib/cursor-store';
 
 const SPRING = {
   mass: 0.15,
@@ -13,17 +12,15 @@ const SPRING = {
 const SIZE = 20;
 
 /**
- * Cursor customizado global: um círculo amarelo que segue o mouse via spring.
- * Some (e devolve o cursor nativo) sobre qualquer área envolvida por
- * MouseGlow — ali o usuário precisa do cursor de verdade para clicar em
- * botões, arrastar sliders e digitar. Desativado em telas sem mouse fino
- * (touch), onde o conceito de cursor não existe.
+ * Cursor customizado global: um círculo amarelo que segue o mouse via spring
+ * em todo o site, inclusive por cima dos cards/botões (o cursor nativo fica
+ * oculto via a classe .cursor-hidden em globals.css). Desativado em telas
+ * sem mouse fino (touch), onde o conceito de cursor não existe.
  */
 export const CustomCursor: React.FC = () => {
   const x = useSpring(0, SPRING);
   const y = useSpring(0, SPRING);
   const [visible, setVisible] = useState(false);
-  const [hiddenByArea, setHiddenByArea] = useState(false);
 
   useEffect(() => {
     if (!window.matchMedia('(pointer: fine)').matches) return;
@@ -37,15 +34,13 @@ export const CustomCursor: React.FC = () => {
 
     window.addEventListener('pointermove', handleMove);
     document.documentElement.addEventListener('mouseleave', handleLeave);
-    const unsubscribe = subscribeCursorHidden(setHiddenByArea);
 
-    document.body.style.cursor = 'none';
+    document.documentElement.classList.add('cursor-hidden');
 
     return () => {
       window.removeEventListener('pointermove', handleMove);
       document.documentElement.removeEventListener('mouseleave', handleLeave);
-      unsubscribe();
-      document.body.style.cursor = '';
+      document.documentElement.classList.remove('cursor-hidden');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -56,7 +51,7 @@ export const CustomCursor: React.FC = () => {
       style={{
         x,
         y,
-        opacity: visible && !hiddenByArea ? 1 : 0,
+        opacity: visible ? 1 : 0,
         width: SIZE,
         height: SIZE,
       }}

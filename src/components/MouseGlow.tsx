@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { motion, useSpring } from 'framer-motion';
-import { setCursorHiddenByArea } from '@/lib/cursor-store';
 
 const SPRING = {
   mass: 0.1,
@@ -44,16 +43,10 @@ export const MouseGlow: React.FC<MouseGlowProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden cursor-auto ${className}`}
+      className={`relative overflow-hidden ${className}`}
       onPointerMove={handlePointerMove}
-      onPointerEnter={() => {
-        opacity.set(1);
-        setCursorHiddenByArea(true);
-      }}
-      onPointerLeave={() => {
-        opacity.set(0);
-        setCursorHiddenByArea(false);
-      }}
+      onPointerEnter={() => opacity.set(1)}
+      onPointerLeave={() => opacity.set(0)}
       onClick={onClick}
     >
       <div className="relative z-0">{children}</div>

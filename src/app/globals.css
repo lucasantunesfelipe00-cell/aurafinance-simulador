@@ -346,6 +346,12 @@ input[type="range"]::-moz-range-thumb {
   animation: ctaPulseGold 3.5s ease-in-out infinite;
 }
 
+/* Custom Cursor: Hide Native Pointer Everywhere (Including Buttons/Sliders/Inputs) */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}
+
 /* Reduced Motion: Respect User Preference */
 @media (prefers-reduced-motion: reduce) {
   *,
