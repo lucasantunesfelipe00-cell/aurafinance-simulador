@@ -103,108 +103,63 @@ export default function Home() {
               ESCOLHA A MODALIDADE DE SIMULAÇÃO
             </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
+            <div className="grid grid-cols-3 gap-3 sm:gap-5">
 
-              {/* Card 1: Imóvel */}
+              {/* Opção 1: Imóvel */}
               <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
                 }}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group flex flex-col items-center justify-center gap-3 rounded-none border py-7 sm:py-10 px-2 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'property'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/property.jpg"
-                    alt="Financiamento Imobiliário"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'property' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <HomeIcon className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
-                  </div>
-                </div>
+                <HomeIcon
+                  className={`w-7 h-7 sm:w-9 sm:h-9 transition-colors duration-300 ${
+                    inputs.category === 'property' ? 'text-gold-500' : 'text-white'
+                  }`}
+                />
+                <h3 className="text-[11px] sm:text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
               </MouseGlow>
 
-              {/* Card 2: Veículo */}
+              {/* Opção 2: Veículo */}
               <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
                 }}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group flex flex-col items-center justify-center gap-3 rounded-none border py-7 sm:py-10 px-2 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'vehicle'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/vehicle.jpg"
-                    alt="Financiamento Veicular"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'vehicle' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <Car className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
-                  </div>
-                </div>
+                <Car
+                  className={`w-7 h-7 sm:w-9 sm:h-9 transition-colors duration-300 ${
+                    inputs.category === 'vehicle' ? 'text-gold-500' : 'text-white'
+                  }`}
+                />
+                <h3 className="text-[11px] sm:text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
               </MouseGlow>
 
-              {/* Card 3: Pessoal */}
+              {/* Opção 3: Crédito Pessoal */}
               <MouseGlow
                 onClick={() => {
                   setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
                 }}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
+                className={`group flex flex-col items-center justify-center gap-3 rounded-none border py-7 sm:py-10 px-2 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'personal'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
                     : 'border-white/20 hover:border-white/60 bg-black/60'
                 }`}
               >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/personal.jpg"
-                    alt="Crédito Pessoal"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'personal' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <User className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Crédito Pessoal</h3>
-                  </div>
-                </div>
+                <User
+                  className={`w-7 h-7 sm:w-9 sm:h-9 transition-colors duration-300 ${
+                    inputs.category === 'personal' ? 'text-gold-500' : 'text-white'
+                  }`}
+                />
+                <h3 className="text-[11px] sm:text-xs font-normal uppercase tracking-wider text-white text-center">Crédito Pessoal</h3>
               </MouseGlow>
 
             </div>
