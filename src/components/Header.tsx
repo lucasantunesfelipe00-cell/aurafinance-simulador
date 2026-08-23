@@ -14,13 +14,18 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Micro Navigation */}
-        <div className="flex items-center space-x-6 text-[11px] font-normal tracking-widest text-neutral-400 uppercase">
+        {/* Micro Navigation (oculta em telas pequenas para evitar quebra do header) */}
+        <div className="hidden sm:flex items-center space-x-6 text-[11px] font-normal tracking-widest text-neutral-400 uppercase">
           <span className="hover:text-white transition-colors cursor-pointer">CRÉDITO</span>
           <span>·</span>
           <span className="hover:text-white transition-colors cursor-pointer">AMORTIZAÇÃO</span>
           <span>·</span>
           <span className="text-white">SAIGON EDITORIAL</span>
+        </div>
+
+        {/* Versão mobile: apenas o selo editorial */}
+        <div className="sm:hidden text-[10px] font-normal tracking-widest text-white uppercase">
+          SAIGON EDITORIAL
         </div>
 
       </div>

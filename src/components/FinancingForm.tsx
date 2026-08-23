@@ -144,7 +144,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
 
       {/* 2. Valor do Bem (Com Máscara R$) */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-2 gap-2">
+        <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
           <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
             Valor do Bem
           </label>
@@ -156,7 +156,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
-              className="w-32 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+              className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
 
       {/* 3. Valor da Entrada (Com Máscara R$) */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-2 gap-2">
+        <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
           <div className="flex items-center space-x-2 shrink-0">
             <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
               Valor da Entrada
@@ -202,7 +202,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
-              className="w-32 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
+              className="w-28 sm:w-36 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
             />
           </div>
         </div>

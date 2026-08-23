@@ -138,7 +138,6 @@ export default function Home() {
                     <HomeIcon className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
                   </div>
-                  <p className="text-[11px] text-neutral-400 font-light mt-1">Casa, apartamento ou terreno</p>
                 </div>
               </div>
 
@@ -173,7 +172,6 @@ export default function Home() {
                     <Car className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
                   </div>
-                  <p className="text-[11px] text-neutral-400 font-light mt-1">Carro, moto ou utilitário</p>
                 </div>
               </div>
 
@@ -208,7 +206,6 @@ export default function Home() {
                     <User className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Crédito Pessoal</h3>
                   </div>
-                  <p className="text-[11px] text-neutral-400 font-light mt-1">Aperto de mão &amp; acordo</p>
                 </div>
               </div>
 
@@ -252,38 +249,44 @@ export default function Home() {
                   <div className="flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
                     <button
                       onClick={() => setActiveTab('summary')}
-                      className={`flex-1 py-2.5 px-4 rounded-[75px] text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-2 transition-all duration-300 ${
+                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
                         activeTab === 'summary'
                           ? 'bg-white text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >
-                      <Layers className="w-3.5 h-3.5" />
-                      <span>Resumo &amp; KPIs</span>
+                      <Layers className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">
+                        <span className="sm:hidden">Resumo</span>
+                        <span className="hidden sm:inline">Resumo &amp; KPIs</span>
+                      </span>
                     </button>
 
                     <button
                       onClick={() => setActiveTab('chart')}
-                      className={`flex-1 py-2.5 px-4 rounded-[75px] text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-2 transition-all duration-300 ${
+                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
                         activeTab === 'chart'
                           ? 'bg-white text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >
-                      <LineChart className="w-3.5 h-3.5" />
+                      <LineChart className="w-3.5 h-3.5 shrink-0" />
                       <span>Gráfico</span>
                     </button>
 
                     <button
                       onClick={() => setActiveTab('table')}
-                      className={`flex-1 py-2.5 px-4 rounded-[75px] text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-2 transition-all duration-300 ${
+                      className={`flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-all duration-300 ${
                         activeTab === 'table'
                           ? 'bg-white text-black font-medium'
                           : 'text-neutral-400 hover:text-white'
                       }`}
                     >
-                      <Table className="w-3.5 h-3.5" />
-                      <span>Tabela Mês a Mês</span>
+                      <Table className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">
+                        <span className="sm:hidden">Tabela</span>
+                        <span className="hidden sm:inline">Tabela Mês a Mês</span>
+                      </span>
                     </button>
                   </div>
 
