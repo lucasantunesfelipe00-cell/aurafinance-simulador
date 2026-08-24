@@ -6,6 +6,8 @@ import { formatBRL, formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { setCursorVariant } from '@/lib/cursor-store';
+import { playTypeSound } from '@/lib/sound';
+import { vibrateShort } from '@/lib/haptics';
 import { Sliders, RefreshCw, Calculator } from 'lucide-react';
 
 interface FinancingFormProps {
@@ -163,6 +165,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedPropertyValue}
               onChange={(e) => handlePropertyValueInput(e.target.value)}
+              onKeyDown={() => playTypeSound()}
               onMouseEnter={() => setCursorVariant('input')}
               onMouseLeave={() => setCursorVariant('default')}
               className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
@@ -183,6 +186,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             setMaskedDownPayment(formatCurrencyMask(downPayment));
             onChange({ ...inputs, propertyValue: val, downPayment });
           }}
+          onInput={() => vibrateShort()}
           onMouseEnter={() => setCursorVariant('native')}
           onMouseLeave={() => setCursorVariant('default')}
           className="w-full"
@@ -210,6 +214,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               inputMode="numeric"
               value={maskedDownPayment}
               onChange={(e) => handleDownPaymentInput(e.target.value)}
+              onKeyDown={() => playTypeSound()}
               onMouseEnter={() => setCursorVariant('input')}
               onMouseLeave={() => setCursorVariant('default')}
               className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
@@ -224,6 +229,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
           step={1}
           value={inputs.downPaymentPercent}
           onChange={(e) => handleDownPaymentPercentChange(Number(e.target.value))}
+          onInput={() => vibrateShort()}
           onMouseEnter={() => setCursorVariant('native')}
           onMouseLeave={() => setCursorVariant('default')}
           className="w-full"
@@ -258,6 +264,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const num = parseFloat(e.target.value) || 0;
                   onChange({ ...inputs, interestRateYearly: Math.max(0.1, num) });
                 }}
+                onKeyDown={() => playTypeSound()}
                 onMouseEnter={() => setCursorVariant('input')}
                 onMouseLeave={() => setCursorVariant('default')}
                 className="w-12 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
@@ -277,6 +284,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
               setRawInterestRate(val.toString());
               onChange({ ...inputs, interestRateYearly: val });
             }}
+            onInput={() => vibrateShort()}
             onMouseEnter={() => setCursorVariant('native')}
             onMouseLeave={() => setCursorVariant('default')}
             className="w-full"
@@ -311,6 +319,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
                   const termMonths = termUnit === 'years' ? Math.round(val * 12) : val;
                   onChange({ ...inputs, termMonths: Math.max(1, termMonths) });
                 }}
+                onKeyDown={() => playTypeSound()}
                 onMouseEnter={() => setCursorVariant('input')}
                 onMouseLeave={() => setCursorVariant('default')}
                 className="w-12 bg-transparent text-right font-mono text-white text-xs focus:outline-none"
@@ -328,6 +337,7 @@ export const FinancingForm: React.FC<FinancingFormProps> = ({ inputs, onChange, 
             step={6}
             value={inputs.termMonths}
             onChange={(e) => onChange({ ...inputs, termMonths: Number(e.target.value) })}
+            onInput={() => vibrateShort()}
             onMouseEnter={() => setCursorVariant('native')}
             onMouseLeave={() => setCursorVariant('default')}
             className="w-full"

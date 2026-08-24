@@ -43,6 +43,8 @@ export const MouseGlow: React.FC<MouseGlowProps> = ({
 
   return (
     <div
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       className={`relative overflow-hidden ${className}`}
       onPointerMove={handlePointerMove}
       onPointerEnter={() => opacity.set(1)}
