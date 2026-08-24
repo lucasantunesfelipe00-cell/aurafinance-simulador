@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aurafinance-pwa-v1';
+const CACHE_NAME = 'brasilfinance-pwa-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',

@@ -1,8 +1,8 @@
-# Product Requirement Document (PRD) — AuraFinance Simulador de Financiamentos
+# Product Requirement Document (PRD) — BrasilFinance Simulador de Financiamentos
 
 ## 1. Visão Geral do Produto
 
-**Nome do Produto:** AuraFinance — Simulador de Financiamentos Elite  
+**Nome do Produto:** BrasilFinance — Simulador de Financiamentos Elite  
 **Posicionamento:** Uma plataforma web de inteligência financeira e simulação avançada de crédito imobiliário, automotivo e pessoal. O produto alia matemática financeira precisa (Tabelas SAC e PRICE) a uma interface de alto luxo visual inspirada no conceito **"Obsidian & Gold Glassmorphism"**.
 
 ---

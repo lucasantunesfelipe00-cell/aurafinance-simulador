@@ -28,10 +28,10 @@ export const HeroTitle: React.FC = () => {
     >
       <h1 className="relative text-5xl sm:text-7xl lg:text-8xl font-light tracking-tighter text-white leading-[0.88]">
         <span>
-          AURA <span className="font-extralight text-neutral-300">FINANCE</span>
+          BRASIL <span className="font-extralight text-neutral-300">FINANCE</span>
         </span>
         <span aria-hidden className="wordmark-gold-reveal absolute inset-0">
-          AURA <span className="font-extralight">FINANCE</span>
+          BRASIL <span className="font-extralight">FINANCE</span>
         </span>
       </h1>
 

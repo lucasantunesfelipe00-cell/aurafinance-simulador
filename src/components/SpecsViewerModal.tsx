@@ -70,7 +70,7 @@ export const SpecsViewerModal: React.FC<SpecsViewerModalProps> = ({ isOpen, onCl
             }`}
           >
             <Palette className="w-4 h-4" />
-            <span>Design System (Aura Gold)</span>
+            <span>Design System (Brasil Gold)</span>
           </button>
         </div>
 
@@ -105,7 +105,7 @@ export const SpecsViewerModal: React.FC<SpecsViewerModalProps> = ({ isOpen, onCl
 
           {activeTab === 'design' && (
             <div>
-              <h3 className="text-sm font-bold text-gold-400 mb-2">Design System — Aura Gold & Obsidian</h3>
+              <h3 className="text-sm font-bold text-gold-400 mb-2">Design System — Brasil Gold & Obsidian</h3>
               <p className="text-gray-400 mb-2">Arquivo original: <code className="text-amber-200">design.md</code></p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-3 font-sans">
                 <div className="p-3 rounded-lg bg-[#D4AF37] text-obsidian-950 font-bold text-[10px]">

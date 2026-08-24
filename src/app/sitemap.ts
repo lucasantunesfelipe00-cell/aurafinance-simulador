@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://aurafinance-simulador.vercel.app',
+      url: 'https://brasilfinance-simulador.vercel.app',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,

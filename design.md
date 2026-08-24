@@ -1,8 +1,8 @@
-# Design System — Aura Gold & Obsidian Glassmorphism
+# Design System — Brasil Gold & Obsidian Glassmorphism
 
 ## 1. Filosofia de Design e Identidade Visual
 
-A identidade visual do **AuraFinance** foi criada sob a síntese do **Luxo Minimalista Moderno**, unindo a solidez do tom **Preto Obsidiana (#090A0F)**, o brilho nobre do **Ouro Escuro e Ouro Metálico (#D4AF37 / #996515)** e a clareza do **Branco Cristal (#FFFFFF)**. 
+A identidade visual do **BrasilFinance** foi criada sob a síntese do **Luxo Minimalista Moderno**, unindo a solidez do tom **Preto Obsidiana (#090A0F)**, o brilho nobre do **Ouro Escuro e Ouro Metálico (#D4AF37 / #996515)** e a clareza do **Branco Cristal (#FFFFFF)**. 
 
 A interface utiliza **Glassmorphism de alta densidade**, sombras difusas néon em tons dourados, bordas de gradiente metálico e micro-interações fluidas ao mover sliders e alternar entre modalidades financeiras.
 

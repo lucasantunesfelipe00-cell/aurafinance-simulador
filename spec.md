@@ -1,4 +1,4 @@
-# Technical Specification (SPEC) — AuraFinance Simulador de Financiamentos
+# Technical Specification (SPEC) — BrasilFinance Simulador de Financiamentos
 
 ## 1. Arquitetura do Sistema
 

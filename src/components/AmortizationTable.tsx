@@ -43,7 +43,7 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `aurafinance_amortizacao_${result.method.toLowerCase()}.csv`);
+    link.setAttribute('download', `brasilfinance_amortizacao_${result.method.toLowerCase()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

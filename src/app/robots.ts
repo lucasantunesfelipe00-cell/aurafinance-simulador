@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://aurafinance-simulador.vercel.app/sitemap.xml',
+    sitemap: 'https://brasilfinance-simulador.vercel.app/sitemap.xml',
   };
 }

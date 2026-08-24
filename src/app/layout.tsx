@@ -16,14 +16,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  applicationName: "AuraFinance",
+  applicationName: "BrasilFinance",
   title: {
-    default: "AuraFinance — Simulador de Financiamento & Amortização SAC e PRICE",
-    template: "%s | AuraFinance",
+    default: "BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE",
+    template: "%s | BrasilFinance",
   },
   description: "Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE, analise gráficos de evolução de juros e exporte cronogramas completos.",
   keywords: [
-    "AuraFinance",
+    "BrasilFinance",
     "Simulador de Financiamento",
     "Financiamento Imobiliário",
     "Financiamento de Veículos",
@@ -36,11 +36,11 @@ export const metadata: Metadata = {
     "Selic",
     "Simulador de Crédito",
   ],
-  authors: [{ name: "AuraFinance Engineering Team" }],
-  creator: "AuraFinance",
-  publisher: "AuraFinance",
+  authors: [{ name: "BrasilFinance Engineering Team" }],
+  creator: "BrasilFinance",
+  publisher: "BrasilFinance",
   manifest: "/manifest.json",
-  metadataBase: new URL("https://aurafinance-simulador.vercel.app"),
+  metadataBase: new URL("https://brasilfinance-simulador.vercel.app"),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -54,22 +54,22 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "AuraFinance",
+    title: "BrasilFinance",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: "AuraFinance — Simulador de Financiamento & Amortização SAC e PRICE",
+    title: "BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE",
     description: "Simulador avançado de crédito imobiliário, veicular e pessoal. Compare os sistemas SAC e PRICE e veja a economia em juros em tempo real.",
-    url: "https://aurafinance-simulador.vercel.app",
-    siteName: "AuraFinance",
+    url: "https://brasilfinance-simulador.vercel.app",
+    siteName: "BrasilFinance",
     images: [
       {
-        url: "https://aurafinance-simulador.vercel.app/og-image.svg",
+        url: "https://brasilfinance-simulador.vercel.app/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "AuraFinance — Simulador de Financiamento & Amortização",
+        alt: "BrasilFinance — Simulador de Financiamento & Amortização",
         type: "image/svg+xml",
       },
     ],
@@ -78,10 +78,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AuraFinance — Simulador de Financiamento & Amortização",
+    title: "BrasilFinance — Simulador de Financiamento & Amortização",
     description: "Simulador de crédito imobiliário, veicular e pessoal com comparativo avançado de amortização SAC vs PRICE.",
-    images: ["https://aurafinance-simulador.vercel.app/og-image.svg"],
-    creator: "@aurafinance",
+    images: ["https://brasilfinance-simulador.vercel.app/og-image.svg"],
+    creator: "@brasilfinance",
   },
   robots: {
     index: true,
@@ -113,14 +113,14 @@ export default function RootLayout({
         />
 
         {/* Fallback de Meta Tags Explícitas em HTML para Web Scrapers do WhatsApp / Facebook */}
-        <meta property="og:title" content="AuraFinance — Simulador de Financiamento & Amortização SAC e PRICE" />
+        <meta property="og:title" content="BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE" />
         <meta property="og:description" content="Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE e economize juros." />
-        <meta property="og:image" content="https://aurafinance-simulador.vercel.app/og-image.svg" />
+        <meta property="og:image" content="https://brasilfinance-simulador.vercel.app/og-image.svg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:url" content="https://aurafinance-simulador.vercel.app" />
+        <meta property="og:url" content="https://brasilfinance-simulador.vercel.app" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="AuraFinance" />
+        <meta property="og:site_name" content="BrasilFinance" />
       </head>
       <body className="bg-[#07080A] text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />

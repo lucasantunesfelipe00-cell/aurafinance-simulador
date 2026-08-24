@@ -1,6 +1,6 @@
 {
-  "name": "AuraFinance — Simulador de Financiamentos & Amortização",
-  "short_name": "AuraFinance",
+  "name": "BrasilFinance — Simulador de Financiamentos & Amortização",
+  "short_name": "BrasilFinance",
   "description": "Simule financiamentos imobiliários, veiculares e pessoais. Compare tabelas SAC e PRICE com gráficos e tabelas detalhadas.",
   "start_url": "/",
   "display": "standalone",

@@ -348,7 +348,7 @@ export default function Home() {
       <footer className="w-full border-t border-white/10 bg-black py-10 text-xs text-neutral-400 mt-20">
         <div className="max-w-[1078px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-light text-[11px]">
           <div className="flex items-center space-x-2">
-            <span className="font-normal text-white uppercase tracking-wider">Aura Finance</span>
+            <span className="font-normal text-white uppercase tracking-wider">Brasil Finance</span>
             <span>—</span>
             <span className="text-neutral-500">Liquid iridescence behind editorial silence</span>
           </div>
