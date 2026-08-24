@@ -37,7 +37,7 @@ function playTone(freqStart: number, freqEnd: number, duration: number, volume: 
 
 /** Tique curto e suave — para cada tecla digitada nos campos. */
 export function playTypeSound() {
-  playTone(1100, 900, 0.03, 0.05, 'triangle');
+  playTone(420, 320, 0.035, 0.05, 'triangle');
 }
 
 /** Clique curto e mais grave — para botões e controles clicáveis. */
