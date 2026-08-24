@@ -315,21 +315,39 @@ input[type="range"]::-moz-range-thumb {
   animation: chartFadeIn 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
-/* Hero Wordmark — Spotlight Dourado Preciso (sóbrio, sem gradiente/itálico) */
-.wordmark-gold-reveal {
-  color: #D4AF37;
-  -webkit-mask-image: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 30%, transparent 70%);
-  mask-image: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), black 0%, black 30%, transparent 70%);
+/* Hero Wordmark — Letras Independentes (levantam no hover) + Spotlight Dourado que Segue o Cursor */
+.hero-letter {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.hero-letter:hover {
+  transform: translateY(-0.14em);
+}
+
+.hero-spotlight {
+  left: var(--mx, 50%);
+  top: var(--my, 50%);
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.9) 0%, rgba(212, 175, 55, 0) 70%);
+  filter: blur(8px);
+  mix-blend-mode: screen;
   opacity: 0;
   transition: opacity 0.35s ease;
 }
 
-.group:hover .wordmark-gold-reveal {
+.group:hover .hero-spotlight {
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wordmark-gold-reveal {
+  .hero-letter:hover {
+    transform: none;
+  }
+  .hero-spotlight {
     display: none;
   }
 }
