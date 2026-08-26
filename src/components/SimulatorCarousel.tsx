@@ -422,7 +422,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <input
                 type="range"
                 min={10000}
-                max={inputs.category === 'property' ? 10000000 : inputs.category === 'vehicle' ? 500000 : 150000}
+                max={50000000}
                 step={5000}
                 value={inputs.propertyValue}
                 onChange={(e) => {
@@ -440,7 +440,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <div className="flex justify-between text-[10px] text-neutral-500 mt-1.5 font-mono">
                 <span>R$ 10 mil</span>
                 <span className="text-white font-medium">{formatBRL(inputs.propertyValue)}</span>
-                <span>R$ {inputs.category === 'property' ? '10 mi' : '500 mil'}</span>
+                <span>R$ 50 mi</span>
               </div>
 
               {renderNav(false)}
@@ -586,7 +586,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <input
                 type="range"
                 min={6}
-                max={inputs.category === 'property' ? 420 : 72}
+                max={600}
                 step={6}
                 value={inputs.termMonths}
                 onChange={(e) => onChange({ ...inputs, termMonths: Number(e.target.value) })}

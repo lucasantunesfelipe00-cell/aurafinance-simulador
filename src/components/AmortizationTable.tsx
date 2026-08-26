@@ -101,32 +101,32 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
           <thead>
             <tr className="border-b border-white/20 text-neutral-400 font-normal uppercase tracking-widest text-[9px]">
               <th className="py-2.5 px-2">Mês</th>
-              <th className="py-2.5 px-2 text-right">Parcela Total</th>
-              <th className="py-2.5 px-2 text-right">Amortização</th>
-              <th className="py-2.5 px-2 text-right">Juros</th>
-              <th className="py-2.5 px-2 text-right">Encargos</th>
-              <th className="py-2.5 px-2 text-right">Saldo Devedor</th>
+              <th className="py-2.5 px-2 text-center">Parcela Total</th>
+              <th className="py-2.5 px-2 text-center">Amortização</th>
+              <th className="py-2.5 px-2 text-center">Juros</th>
+              <th className="py-2.5 px-2 text-center">Encargos</th>
+              <th className="py-2.5 px-2 text-center">Saldo Devedor</th>
             </tr>
           </thead>
           <tbody key={currentPage} className="divide-y divide-white/10 font-mono animate-fadeIn">
             {currentInstallments.map((inst) => (
               <tr key={inst.number} className="group hover:bg-white/5 transition-colors">
-                <td className="py-2.5 px-2 font-normal text-white text-[11px] whitespace-nowrap border-l-2 border-transparent group-hover:border-white transition-colors">
+                <td className="py-2.5 px-2 font-normal text-gold-400 text-[11px] whitespace-nowrap border-l-2 border-transparent group-hover:border-white transition-colors">
                   Mês {inst.number}
                 </td>
-                <td className="py-2.5 px-2 text-right font-normal text-white">
+                <td className="py-2.5 px-2 text-center font-normal text-white">
                   <FormattedBRL value={inst.installmentTotal} />
                 </td>
-                <td className="py-2.5 px-2 text-right text-white">
+                <td className="py-2.5 px-2 text-center text-white">
                   <FormattedBRL value={inst.principalAmortization} />
                 </td>
-                <td className="py-2.5 px-2 text-right text-neutral-300">
+                <td className="py-2.5 px-2 text-center text-neutral-300">
                   <FormattedBRL value={inst.interestPaid} />
                 </td>
-                <td className="py-2.5 px-2 text-right text-neutral-400">
+                <td className="py-2.5 px-2 text-center text-neutral-400">
                   <FormattedBRL value={inst.insuranceAndFees} />
                 </td>
-                <td className="py-2.5 px-2 text-right text-white font-normal">
+                <td className="py-2.5 px-2 text-center text-white font-normal">
                   <FormattedBRL value={inst.outstandingBalance} />
                 </td>
               </tr>
