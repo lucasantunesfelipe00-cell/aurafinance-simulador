@@ -1,27 +1,21 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
-import { FinancingInputs, CategoryType } from '@/types/financing';
+import { FinancingInputs } from '@/types/financing';
 import {
   calculateFinancing,
   compareFinancing,
   DEFAULT_FINANCING_INPUTS,
 } from '@/lib/financing-calculator';
 import { Header } from '@/components/Header';
-import { FinancingForm } from '@/components/FinancingForm';
+import { SimulatorCarousel } from '@/components/SimulatorCarousel';
 import { ResultsSummary } from '@/components/ResultsSummary';
 import { AmortizationChart } from '@/components/AmortizationChart';
 import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
-import { MouseGlow } from '@/components/MouseGlow';
 import { HeroTitle } from '@/components/HeroTitle';
-import { setCursorVariant } from '@/lib/cursor-store';
 import {
-  Calculator,
-  Home as HomeIcon,
-  Car,
-  User,
   LineChart,
   Table,
   Layers,
@@ -30,52 +24,16 @@ import {
 export default function Home() {
   const [inputs, setInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
   const [calculatedInputs, setCalculatedInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
-  const [isSimulatorActive, setIsSimulatorActive] = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
 
-  const simulatorRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const ctaButtonRef = useRef<HTMLButtonElement>(null);
-
-  // Seleciona a modalidade e leva o usuário até o botão que aparece embaixo do card escolhido
-  const handleSelectCategory = (category: CategoryType) => {
-    if (category === 'property') {
-      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
-    } else if (category === 'vehicle') {
-      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
-    } else if (category === 'personal') {
-      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
-    }
-    setTimeout(() => {
-      ctaButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
-  };
 
   // Recálculo realizado apenas ao confirmar a simulação
   const result = useMemo(() => calculateFinancing(calculatedInputs), [calculatedInputs]);
   const comparison = useMemo(() => compareFinancing(calculatedInputs), [calculatedInputs]);
-
-  // Função para abrir o formulário do simulador
-  const handleOpenSimulator = (presetCategory?: CategoryType) => {
-    setIsSimulatorActive(true);
-    setHasCalculated(false);
-    if (presetCategory) {
-      if (presetCategory === 'property') {
-        setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
-      } else if (presetCategory === 'vehicle') {
-        setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
-      } else if (presetCategory === 'personal') {
-        setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
-      }
-    }
-
-    setTimeout(() => {
-      simulatorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  };
 
   // Função disparada ao clicar em SIMULAR
   const handleSimulate = () => {
@@ -111,266 +69,101 @@ export default function Home() {
             <HeroTitle />
           </div>
 
-          {/* Seleção de Categoria com Imagens Realistas (0px Sharp Radius Cards) */}
+          {/* Carrossel de Categoria + Configuração da Simulação */}
           <div className="pt-6 pb-2">
-            <label className="block text-[11px] font-normal uppercase tracking-widest text-neutral-400 mb-4 text-center">
-              ESCOLHA A MODALIDADE DE SIMULAÇÃO
-            </label>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-start text-left">
-
-              {/* Card 1: Imóvel */}
-              <MouseGlow
-                onClick={() => handleSelectCategory('property')}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
-                  inputs.category === 'property'
-                    ? 'border-gold-500 bg-black shadow-gold-glow'
-                    : 'border-white/20 hover:border-white/60 bg-black/60'
-                }`}
-              >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/property.jpg"
-                    alt="Financiamento Imobiliário"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'property' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <HomeIcon className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
-                  </div>
-
-                  {inputs.category === 'property' && (
-                    <button
-                      ref={ctaButtonRef}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenSimulator();
-                      }}
-                      onMouseEnter={() => setCursorVariant('button')}
-                      onMouseLeave={() => setCursorVariant('default')}
-                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
-                    >
-                      <Calculator className="w-3 h-3 shrink-0" />
-                      <span>Simular Agora</span>
-                    </button>
-                  )}
-                </div>
-              </MouseGlow>
-
-              {/* Card 2: Veículo */}
-              <MouseGlow
-                onClick={() => handleSelectCategory('vehicle')}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
-                  inputs.category === 'vehicle'
-                    ? 'border-gold-500 bg-black shadow-gold-glow'
-                    : 'border-white/20 hover:border-white/60 bg-black/60'
-                }`}
-              >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/vehicle.jpg"
-                    alt="Financiamento Veicular"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'vehicle' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <Car className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
-                  </div>
-
-                  {inputs.category === 'vehicle' && (
-                    <button
-                      ref={ctaButtonRef}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenSimulator();
-                      }}
-                      onMouseEnter={() => setCursorVariant('button')}
-                      onMouseLeave={() => setCursorVariant('default')}
-                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
-                    >
-                      <Calculator className="w-3 h-3 shrink-0" />
-                      <span>Simular Agora</span>
-                    </button>
-                  )}
-                </div>
-              </MouseGlow>
-
-              {/* Card 3: Pessoal */}
-              <MouseGlow
-                onClick={() => handleSelectCategory('personal')}
-                className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
-                  inputs.category === 'personal'
-                    ? 'border-gold-500 bg-black shadow-gold-glow'
-                    : 'border-white/20 hover:border-white/60 bg-black/60'
-                }`}
-              >
-                <div className="h-40 w-full relative overflow-hidden bg-black">
-                  <img
-                    src="/images/personal.jpg"
-                    alt="Crédito Pessoal"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                  {inputs.category === 'personal' && (
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-[75px] bg-gold-gradient-btn text-black text-[10px] font-medium uppercase tracking-widest shadow-none">
-                      SELECIONADO
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/10 bg-black">
-                  <div className="flex items-center space-x-2">
-                    <User className="w-4 h-4 text-white" />
-                    <h3 className="text-xs font-normal uppercase tracking-wider text-white">Crédito Pessoal</h3>
-                  </div>
-
-                  {inputs.category === 'personal' && (
-                    <button
-                      ref={ctaButtonRef}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenSimulator();
-                      }}
-                      onMouseEnter={() => setCursorVariant('button')}
-                      onMouseLeave={() => setCursorVariant('default')}
-                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
-                    >
-                      <Calculator className="w-3 h-3 shrink-0" />
-                      <span>Simular Agora</span>
-                    </button>
-                  )}
-                </div>
-              </MouseGlow>
-
-            </div>
+            <SimulatorCarousel
+              inputs={inputs}
+              onChange={setInputs}
+              onReset={handleReset}
+              onSimulate={handleSimulate}
+            />
           </div>
 
         </div>
 
-        {/* SEÇÃO DO SIMULADOR */}
-        <div ref={simulatorRef} className="pt-4 scroll-mt-24">
+        {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
+        {hasCalculated && (
+          <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
-          {/* Painel do Simulador (Exibido quando ativo) */}
-          {isSimulatorActive && (
-            <div className="space-y-10 animate-fadeIn max-w-3xl mx-auto">
-
-              {/* Formulário Fixo Centralizado no Meio da Tela */}
-              <FinancingForm
-                inputs={inputs}
-                onChange={setInputs}
-                onReset={handleReset}
-                onSimulate={handleSimulate}
+            {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
+            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
+              <div
+                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style={{
+                  transform: `translateX(${
+                    activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
+                  }%)`,
+                }}
               />
 
-              {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
-              {hasCalculated && (
-                <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn">
+              <button
+                onClick={() => setActiveTab('summary')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'summary'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Resumo</span>
+                  <span className="hidden sm:inline">Resumo &amp; KPIs</span>
+                </span>
+              </button>
 
-                  {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
-                  <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
-                    <div
-                      className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                      style={{
-                        transform: `translateX(${
-                          activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
-                        }%)`,
-                      }}
-                    />
+              <button
+                onClick={() => setActiveTab('chart')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'chart'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <LineChart className="w-3.5 h-3.5 shrink-0" />
+                <span>Gráfico</span>
+              </button>
 
-                    <button
-                      onClick={() => setActiveTab('summary')}
-                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                        activeTab === 'summary'
-                          ? 'text-black font-medium'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      <Layers className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">
-                        <span className="sm:hidden">Resumo</span>
-                        <span className="hidden sm:inline">Resumo &amp; KPIs</span>
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => setActiveTab('chart')}
-                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                        activeTab === 'chart'
-                          ? 'text-black font-medium'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      <LineChart className="w-3.5 h-3.5 shrink-0" />
-                      <span>Gráfico</span>
-                    </button>
-
-                    <button
-                      onClick={() => setActiveTab('table')}
-                      className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                        activeTab === 'table'
-                          ? 'text-black font-medium'
-                          : 'text-neutral-400 hover:text-white'
-                      }`}
-                    >
-                      <Table className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">
-                        <span className="sm:hidden">Tabela</span>
-                        <span className="hidden sm:inline">Tabela Mês a Mês</span>
-                      </span>
-                    </button>
-                  </div>
-
-                  {/* Conteúdo Exclusivo da Aba Selecionada */}
-                  {activeTab === 'summary' && (
-                    <div className="animate-fadeIn">
-                      <ResultsSummary
-                        result={result}
-                        comparison={comparison}
-                        onOpenComparison={() => setIsComparatorOpen(true)}
-                      />
-                    </div>
-                  )}
-
-                  {activeTab === 'chart' && (
-                    <div className="animate-fadeIn">
-                      <AmortizationChart result={result} />
-                    </div>
-                  )}
-
-                  {activeTab === 'table' && (
-                    <div className="animate-fadeIn">
-                      <AmortizationTable result={result} />
-                    </div>
-                  )}
-
-                </div>
-              )}
-
+              <button
+                onClick={() => setActiveTab('table')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'table'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Table className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Tabela</span>
+                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
+                </span>
+              </button>
             </div>
-          )}
 
-        </div>
+            {/* Conteúdo Exclusivo da Aba Selecionada */}
+            {activeTab === 'summary' && (
+              <div className="animate-fadeIn">
+                <ResultsSummary
+                  result={result}
+                  comparison={comparison}
+                  onOpenComparison={() => setIsComparatorOpen(true)}
+                />
+              </div>
+            )}
+
+            {activeTab === 'chart' && (
+              <div className="animate-fadeIn">
+                <AmortizationChart result={result} />
+              </div>
+            )}
+
+            {activeTab === 'table' && (
+              <div className="animate-fadeIn">
+                <AmortizationTable result={result} />
+              </div>
+            )}
+
+          </div>
+        )}
 
       </main>
 
