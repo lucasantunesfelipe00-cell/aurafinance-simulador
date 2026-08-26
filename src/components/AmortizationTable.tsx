@@ -27,6 +27,11 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
 
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
   const currentInstallments = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  // Cada página cobre 12 meses (um ano); deriva o ano exibido da própria linha visível,
+  // pra continuar correto mesmo quando a busca filtra os resultados.
+  const displayedYear = currentInstallments[0]
+    ? Math.ceil(currentInstallments[0].number / 12)
+    : currentPage;
 
   const handleExportCSV = () => {
     const headers = ['Mes', 'Parcela_Total', 'Amortizacao', 'Juros', 'Seguros_Taxas', 'Saldo_Devedor'];
@@ -92,51 +97,48 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
 
       {/* Tabela de Parcelas */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs min-w-[550px]">
+        <table className="w-full text-left text-[11px] min-w-[480px]">
           <thead>
-            <tr className="border-b border-white/20 text-neutral-400 font-normal uppercase tracking-widest text-[10px]">
-              <th className="py-3 px-3">Mês / Ano</th>
-              <th className="py-3 px-3 text-right">Parcela Total</th>
-              <th className="py-3 px-3 text-right">Amortização</th>
-              <th className="py-3 px-3 text-right">Juros</th>
-              <th className="py-3 px-3 text-right">Encargos</th>
-              <th className="py-3 px-3 text-right">Saldo Devedor</th>
+            <tr className="border-b border-white/20 text-neutral-400 font-normal uppercase tracking-widest text-[9px]">
+              <th className="py-2.5 px-2">Mês</th>
+              <th className="py-2.5 px-2 text-right">Parcela Total</th>
+              <th className="py-2.5 px-2 text-right">Amortização</th>
+              <th className="py-2.5 px-2 text-right">Juros</th>
+              <th className="py-2.5 px-2 text-right">Encargos</th>
+              <th className="py-2.5 px-2 text-right">Saldo Devedor</th>
             </tr>
           </thead>
           <tbody key={currentPage} className="divide-y divide-white/10 font-mono animate-fadeIn">
-            {currentInstallments.map((inst) => {
-              const yearNum = Math.ceil(inst.number / 12);
-              return (
-                <tr key={inst.number} className="group hover:bg-white/5 transition-colors">
-                  <td className="py-3 px-3 font-normal text-white text-xs border-l-2 border-transparent group-hover:border-white transition-colors">
-                    Mês {inst.number} <span className="text-[10px] text-neutral-500 font-normal">({yearNum}º ano)</span>
-                  </td>
-                  <td className="py-3 px-3 text-right font-normal text-white">
-                    <FormattedBRL value={inst.installmentTotal} />
-                  </td>
-                  <td className="py-3 px-3 text-right text-white">
-                    <FormattedBRL value={inst.principalAmortization} />
-                  </td>
-                  <td className="py-3 px-3 text-right text-neutral-300">
-                    <FormattedBRL value={inst.interestPaid} />
-                  </td>
-                  <td className="py-3 px-3 text-right text-neutral-400">
-                    <FormattedBRL value={inst.insuranceAndFees} />
-                  </td>
-                  <td className="py-3 px-3 text-right text-white font-normal">
-                    <FormattedBRL value={inst.outstandingBalance} />
-                  </td>
-                </tr>
-              );
-            })}
+            {currentInstallments.map((inst) => (
+              <tr key={inst.number} className="group hover:bg-white/5 transition-colors">
+                <td className="py-2.5 px-2 font-normal text-white text-[11px] whitespace-nowrap border-l-2 border-transparent group-hover:border-white transition-colors">
+                  Mês {inst.number}
+                </td>
+                <td className="py-2.5 px-2 text-right font-normal text-white">
+                  <FormattedBRL value={inst.installmentTotal} />
+                </td>
+                <td className="py-2.5 px-2 text-right text-white">
+                  <FormattedBRL value={inst.principalAmortization} />
+                </td>
+                <td className="py-2.5 px-2 text-right text-neutral-300">
+                  <FormattedBRL value={inst.interestPaid} />
+                </td>
+                <td className="py-2.5 px-2 text-right text-neutral-400">
+                  <FormattedBRL value={inst.insuranceAndFees} />
+                </td>
+                <td className="py-2.5 px-2 text-right text-white font-normal">
+                  <FormattedBRL value={inst.outstandingBalance} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Paginação */}
+      {/* Paginação — cada página cobre 12 meses, então a página vira o ano */}
       <div className="flex items-center justify-between pt-4 mt-3 border-t border-white/10 text-xs">
         <span className="text-neutral-400 text-[11px] font-light">
-          Página {currentPage} de {totalPages} ({filtered.length} parcelas)
+          {displayedYear}º ano de {totalPages} ({filtered.length} parcelas)
         </span>
 
         <div className="flex items-center space-x-2">
@@ -147,8 +149,8 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-white font-mono text-xs px-2">
-            {currentPage}
+          <span className="text-white font-mono text-xs px-2 whitespace-nowrap">
+            {displayedYear}º ano
           </span>
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
