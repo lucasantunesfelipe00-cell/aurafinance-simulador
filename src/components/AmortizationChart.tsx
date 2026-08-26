@@ -4,53 +4,51 @@ import React, { useState } from 'react';
 import { FinancingResult } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
-import { LineChart } from 'lucide-react';
+import { BarChart3 } from 'lucide-react';
 
 interface AmortizationChartProps {
   result: FinancingResult;
 }
 
 export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) => {
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [hoverYear, setHoverYear] = useState<number | null>(null);
 
   const installments = result.installments;
   if (!installments || installments.length === 0) return null;
 
   const svgWidth = 800;
-  const svgHeight = 260;
+  const svgHeight = 300;
   const paddingX = 40;
-  const paddingY = 30;
+  const paddingTop = 20;
+  const paddingBottom = 34;
 
   const chartWidth = svgWidth - paddingX * 2;
-  const chartHeight = svgHeight - paddingY * 2;
+  const chartHeight = svgHeight - paddingTop - paddingBottom;
+  const bottomY = paddingTop + chartHeight;
 
   const maxVal = Math.max(result.loanAmount, result.totalPaid);
 
-  const step = Math.max(1, Math.floor(installments.length / 80));
-  const sampled = installments.filter((_, idx) => idx % step === 0 || idx === installments.length - 1);
+  // Um valor por ano — pega a última parcela de cada ano (saldo/juros acumulados até ali)
+  const numYears = Math.ceil(result.termMonths / 12);
+  const yearly = Array.from({ length: numYears }, (_, i) => {
+    const monthIndex = Math.min((i + 1) * 12, installments.length) - 1;
+    return installments[monthIndex];
+  });
 
-  const yFor = (val: number) => paddingY + chartHeight - (val / (maxVal || 1)) * chartHeight;
-  const xFor = (idx: number) => paddingX + (idx / (sampled.length - 1)) * chartWidth;
+  const groupWidth = chartWidth / numYears;
+  const groupPadding = Math.min(groupWidth * 0.22, 10);
+  const innerGap = 2;
+  const barWidth = Math.max(1.5, (groupWidth - groupPadding * 2 - innerGap) / 2);
 
-  const balancePoints = sampled.map((inst, idx) => `${xFor(idx)},${yFor(inst.outstandingBalance)}`).join(' ');
-  const interestPoints = sampled.map((inst, idx) => `${xFor(idx)},${yFor(inst.accumulatedInterest)}`).join(' ');
+  const heightFor = (val: number) => (val / (maxVal || 1)) * chartHeight;
 
-  const firstX = paddingX;
-  const lastX = paddingX + chartWidth;
-  const bottomY = paddingY + chartHeight;
-  const balanceArea = `${firstX},${bottomY} ${balancePoints} ${lastX},${bottomY}`;
-  const interestArea = `${firstX},${bottomY} ${interestPoints} ${lastX},${bottomY}`;
+  // Só rotula todo ano quando couber; senão, engrossa o intervalo pra não amontoar texto
+  const labelStep = numYears > 20 ? 5 : numYears > 10 ? 2 : 1;
 
-  const activePoint = hoverIndex !== null ? sampled[hoverIndex] : sampled[sampled.length - 1];
-  const activeX = hoverIndex !== null ? xFor(hoverIndex) : 0;
-  const hoverBalanceY = hoverIndex !== null ? yFor(sampled[hoverIndex].outstandingBalance) : 0;
-  const hoverInterestY = hoverIndex !== null ? yFor(sampled[hoverIndex].accumulatedInterest) : 0;
+  const activeYear = hoverYear ?? numYears;
+  const activeData = yearly[activeYear - 1];
 
-  const lastIdx = sampled.length - 1;
-  const endX = xFor(lastIdx);
-  const endBalanceY = yFor(sampled[lastIdx].outstandingBalance);
-
-  // Chave que muda a cada novo cálculo (troca SAC/PRICE ou nova simulação) — remonta o SVG e reinicia a animação de desenho da linha
+  // Chave que muda a cada novo cálculo (troca SAC/PRICE ou nova simulação) — remonta o SVG e reinicia a animação das barras
   const resultKey = `${result.method}-${result.loanAmount}-${result.totalInterest}-${result.termMonths}`;
 
   return (
@@ -59,10 +57,10 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
       {/* Header do Gráfico */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
         <div className="flex items-center space-x-2.5">
-          <LineChart className="w-4 h-4 text-white" />
+          <BarChart3 className="w-4 h-4 text-white" />
           <div>
             <h3 className="text-xs font-normal uppercase tracking-widest text-gold-400">Evolução do Saldo Devedor x Juros</h3>
-            <p className="text-[11px] text-neutral-400 font-light">Trajetória temporal de amortização</p>
+            <p className="text-[11px] text-neutral-400 font-light">Saldo devedor e juros acumulados por ano</p>
           </div>
         </div>
 
@@ -85,26 +83,17 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
           key={resultKey}
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           className="w-full h-auto min-w-[550px] overflow-visible"
-          onMouseLeave={() => setHoverIndex(null)}
+          onMouseLeave={() => setHoverYear(null)}
         >
           <defs>
-            <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.0" />
-            </linearGradient>
-            <linearGradient id="balanceLineGradient" x1="0" y1="0" x2="1" y2="0">
+            <linearGradient id="balanceBarGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#F5D03A" />
-              <stop offset="100%" stopColor="#B8860B" />
-            </linearGradient>
-
-            <linearGradient id="interestGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#666666" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#666666" stopOpacity="0.0" />
+              <stop offset="100%" stopColor="#996515" />
             </linearGradient>
           </defs>
 
           {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
-            const y = paddingY + chartHeight * (1 - pct);
+            const y = paddingTop + chartHeight * (1 - pct);
             return (
               <line
                 key={i}
@@ -118,95 +107,107 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
             );
           })}
 
-          <polygon points={interestArea} fill="url(#interestGradient)" className="animate-chartFadeIn" style={{ animationDelay: '0.3s' }} />
-          <polygon points={balanceArea} fill="url(#balanceGradient)" className="animate-chartFadeIn" style={{ animationDelay: '0.15s' }} />
+          {/* Linha de base */}
+          <line x1={paddingX} y1={bottomY} x2={paddingX + chartWidth} y2={bottomY} stroke="rgba(255,255,255,0.2)" />
 
-          <polyline
-            fill="none"
-            stroke="#666666"
-            strokeWidth="2"
-            points={interestPoints}
-            pathLength={100}
-            className="animate-drawLine"
-            style={{ animationDelay: '0.15s' }}
-          />
+          {yearly.map((inst, i) => {
+            const yearNum = i + 1;
+            const groupX = paddingX + i * groupWidth;
+            const bar1X = groupX + groupPadding;
+            const bar2X = bar1X + barWidth + innerGap;
 
-          <polyline
-            fill="none"
-            stroke="url(#balanceLineGradient)"
-            strokeWidth="2.5"
-            points={balancePoints}
-            pathLength={100}
-            className="animate-drawLine"
-          />
+            const balanceH = heightFor(inst.outstandingBalance);
+            const interestH = heightFor(inst.accumulatedInterest);
+            const isActive = activeYear === yearNum;
+            const showLabel = yearNum === 1 || yearNum === numYears || yearNum % labelStep === 0;
 
-          {sampled.map((inst, idx) => {
-            const x = xFor(idx);
             return (
-              <rect
-                key={idx}
-                x={x - (chartWidth / sampled.length) / 2}
-                y={paddingY}
-                width={chartWidth / sampled.length}
-                height={chartHeight}
-                fill="transparent"
-                onMouseEnter={() => setHoverIndex(idx)}
-                className="cursor-pointer"
-              />
+              <g key={yearNum}>
+                {/* Área de interação (cobre o grupo inteiro, inclusive o espaço entre as barras) */}
+                <rect
+                  x={groupX}
+                  y={paddingTop}
+                  width={groupWidth}
+                  height={chartHeight}
+                  fill="transparent"
+                  onMouseEnter={() => setHoverYear(yearNum)}
+                  onClick={() => setHoverYear(yearNum)}
+                  className="cursor-pointer"
+                />
+
+                {/* Barra: Saldo Devedor */}
+                <rect
+                  x={bar1X}
+                  y={bottomY - balanceH}
+                  width={barWidth}
+                  height={balanceH}
+                  fill="url(#balanceBarGradient)"
+                  opacity={isActive ? 1 : 0.85}
+                  className="animate-barGrow pointer-events-none transition-opacity duration-200"
+                  style={{ transformOrigin: `${bar1X + barWidth / 2}px ${bottomY}px`, animationDelay: `${i * 0.02}s` }}
+                />
+
+                {/* Barra: Juros Acumulados */}
+                <rect
+                  x={bar2X}
+                  y={bottomY - interestH}
+                  width={barWidth}
+                  height={interestH}
+                  fill="#666666"
+                  opacity={isActive ? 1 : 0.85}
+                  className="animate-barGrow pointer-events-none transition-opacity duration-200"
+                  style={{ transformOrigin: `${bar2X + barWidth / 2}px ${bottomY}px`, animationDelay: `${i * 0.02 + 0.03}s` }}
+                />
+
+                {/* Rótulo do Ano */}
+                {showLabel && (
+                  <text
+                    x={groupX + groupWidth / 2}
+                    y={bottomY + 18}
+                    textAnchor="middle"
+                    fontSize="10"
+                    fontFamily="monospace"
+                    fill={isActive ? '#ffffff' : 'rgba(255,255,255,0.45)'}
+                  >
+                    {yearNum}
+                  </text>
+                )}
+
+                {/* Marcador do grupo ativo */}
+                {isActive && (
+                  <line
+                    x1={groupX + groupWidth / 2}
+                    y1={bottomY + 6}
+                    x2={groupX + groupWidth / 2}
+                    y2={bottomY + 10}
+                    stroke="#D4AF37"
+                    strokeWidth="1.5"
+                  />
+                )}
+              </g>
             );
           })}
-
-          {hoverIndex !== null && (
-            <line
-              x1={activeX}
-              y1={paddingY}
-              x2={activeX}
-              y2={paddingY + chartHeight}
-              stroke="#ffffff"
-              strokeWidth="1.5"
-              strokeDasharray="2 2"
-            />
-          )}
-
-          {/* Marcadores de Hover (crescem suavemente ao passar o mouse) */}
-          <circle
-            cx={activeX}
-            cy={hoverInterestY}
-            r={hoverIndex !== null ? 4 : 0}
-            fill="#666666"
-            style={{ transition: 'r 0.2s ease, opacity 0.2s ease', opacity: hoverIndex !== null ? 1 : 0 }}
-          />
-          <circle
-            cx={activeX}
-            cy={hoverBalanceY}
-            r={hoverIndex !== null ? 4.5 : 0}
-            fill="#D4AF37"
-            style={{ transition: 'r 0.2s ease, opacity 0.2s ease', opacity: hoverIndex !== null ? 1 : 0 }}
-          />
-
-          {/* Ponto Pulsante no Fim da Linha de Saldo Devedor */}
-          <circle cx={endX} cy={endBalanceY} r="3.5" fill="#D4AF37" className="animate-pulse-slow" />
         </svg>
       </div>
 
       {/* Tooltip de Inspeção */}
-      {activePoint && (
+      {activeData && (
         <div className="mt-4 p-3 border border-white/15 bg-black rounded-none grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
           <div>
-            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Mês Selecionado</span>
-            <span className="font-normal text-white text-xs">{activePoint.number}º mês ({Math.ceil(activePoint.number / 12)}º ano)</span>
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Ano Selecionado</span>
+            <span className="font-normal text-white text-xs">{activeYear}º ano</span>
           </div>
           <div>
             <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Saldo Devedor</span>
-            <FormattedBRL value={activePoint.outstandingBalance} className="text-white font-normal" />
+            <FormattedBRL value={activeData.outstandingBalance} className="text-white font-normal" />
           </div>
           <div>
             <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Juros Acumulados</span>
-            <FormattedBRL value={activePoint.accumulatedInterest} className="text-neutral-300 font-normal" />
+            <FormattedBRL value={activeData.accumulatedInterest} className="text-neutral-300 font-normal" />
           </div>
           <div>
-            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Total Pago até Mês</span>
-            <FormattedBRL value={activePoint.accumulatedPaid} className="text-white font-normal" />
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Total Pago até o Ano</span>
+            <FormattedBRL value={activeData.accumulatedPaid} className="text-white font-normal" />
           </div>
         </div>
       )}
