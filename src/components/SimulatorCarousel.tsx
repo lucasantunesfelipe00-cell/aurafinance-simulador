@@ -69,7 +69,11 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
     setRawInterestRate(inputs.interestRateYearly.toString());
   }, [inputs.interestRateYearly]);
 
-  const ctaButtonRef = useRef<HTMLButtonElement>(null);
+  const cardWrapperRefs = useRef<Record<CategoryType, HTMLDivElement | null>>({
+    property: null,
+    vehicle: null,
+    personal: null,
+  });
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [trackHeight, setTrackHeight] = useState<number>();
 
@@ -97,7 +101,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
     }
     setHasSelectedCategory(true);
     setTimeout(() => {
-      ctaButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cardWrapperRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
   };
 
@@ -211,7 +215,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-start text-left">
 
               {/* Card 1: Imóvel */}
-              <div className="flex flex-col">
+              <div ref={(el) => { cardWrapperRefs.current.property = el; }} className="flex flex-col scroll-mt-24">
                 <MouseGlow
                   onClick={() => handleSelectCategory('property')}
                   className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
@@ -245,7 +249,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
                 {hasSelectedCategory && inputs.category === 'property' && (
                   <button
-                    ref={ctaButtonRef}
                     onClick={goNext}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
@@ -258,7 +261,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               </div>
 
               {/* Card 2: Veículo */}
-              <div className="flex flex-col">
+              <div ref={(el) => { cardWrapperRefs.current.vehicle = el; }} className="flex flex-col scroll-mt-24">
                 <MouseGlow
                   onClick={() => handleSelectCategory('vehicle')}
                   className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
@@ -292,7 +295,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
                 {hasSelectedCategory && inputs.category === 'vehicle' && (
                   <button
-                    ref={ctaButtonRef}
                     onClick={goNext}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
@@ -305,7 +307,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               </div>
 
               {/* Card 3: Pessoal */}
-              <div className="flex flex-col">
+              <div ref={(el) => { cardWrapperRefs.current.personal = el; }} className="flex flex-col scroll-mt-24">
                 <MouseGlow
                   onClick={() => handleSelectCategory('personal')}
                   className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
@@ -339,7 +341,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
                 {hasSelectedCategory && inputs.category === 'personal' && (
                   <button
-                    ref={ctaButtonRef}
                     onClick={goNext}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
