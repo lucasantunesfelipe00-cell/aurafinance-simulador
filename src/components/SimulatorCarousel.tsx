@@ -173,24 +173,21 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   return (
     <div className="max-w-3xl mx-auto">
 
-      {/* Cabeçalho persistente (a partir do passo 1) */}
+      {/* Cabeçalho persistente (a partir do passo 1) — centralizado acima da caixa de configuração */}
       {step >= 1 && (
-        <div className="flex items-center justify-between mb-4 px-1">
-          <div className="flex items-center space-x-2.5">
-            <Sliders className="w-4 h-4 text-white" />
-            <div>
-              <h2 className="text-xs font-normal uppercase tracking-widest text-white">Configurar Simulação</h2>
-              <p className="text-[11px] text-neutral-400 font-light">Passo {step} de {TOTAL_CONFIG_STEPS}</p>
-            </div>
+        <div className="relative flex flex-col items-center mb-4 px-1 text-center">
+          <div className="flex items-center justify-center space-x-2">
+            <Sliders className="w-4 h-4 text-gold-400" />
+            <h2 className="text-xs font-normal uppercase tracking-widest text-gold-400">Configurar Simulação</h2>
           </div>
+          <p className="text-[11px] text-neutral-400 font-light mt-0.5">Passo {step} de {TOTAL_CONFIG_STEPS}</p>
 
           <button
             onClick={onReset}
-            className="btn-lift flex items-center space-x-1.5 text-[11px] text-neutral-400 hover:text-white px-3 py-1 rounded-[75px] border border-white/20 hover:border-white transition-all uppercase tracking-wider shrink-0"
+            className="btn-lift absolute right-1 top-0 flex items-center justify-center text-neutral-400 hover:text-white p-2 rounded-[75px] border border-white/20 hover:border-white transition-all shrink-0"
             title="Restaurar padrão"
           >
-            <RefreshCw className="w-3 h-3" />
-            <span>Redefinir</span>
+            <RefreshCw className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
