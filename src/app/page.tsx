@@ -25,7 +25,6 @@ import {
   LineChart,
   Table,
   Layers,
-  ArrowDown,
 } from 'lucide-react';
 
 export default function Home() {
@@ -39,6 +38,21 @@ export default function Home() {
 
   const simulatorRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const ctaButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Seleciona a modalidade e leva o usuário até o botão que aparece embaixo do card escolhido
+  const handleSelectCategory = (category: CategoryType) => {
+    if (category === 'property') {
+      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
+    } else if (category === 'vehicle') {
+      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
+    } else if (category === 'personal') {
+      setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
+    }
+    setTimeout(() => {
+      ctaButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
 
   // Recálculo realizado apenas ao confirmar a simulação
   const result = useMemo(() => calculateFinancing(calculatedInputs), [calculatedInputs]);
@@ -103,13 +117,11 @@ export default function Home() {
               ESCOLHA A MODALIDADE DE SIMULAÇÃO
             </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-start text-left">
 
               {/* Card 1: Imóvel */}
               <MouseGlow
-                onClick={() => {
-                  setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'property', propertyValue: 600000, downPayment: 120000, downPaymentPercent: 20, interestRateYearly: 10.5, termMonths: 360 });
-                }}
+                onClick={() => handleSelectCategory('property')}
                 className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'property'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
@@ -136,14 +148,28 @@ export default function Home() {
                     <HomeIcon className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Imóvel</h3>
                   </div>
+
+                  {inputs.category === 'property' && (
+                    <button
+                      ref={ctaButtonRef}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenSimulator();
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                    >
+                      <Calculator className="w-3 h-3 shrink-0" />
+                      <span>Simular Agora</span>
+                    </button>
+                  )}
                 </div>
               </MouseGlow>
 
               {/* Card 2: Veículo */}
               <MouseGlow
-                onClick={() => {
-                  setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'vehicle', propertyValue: 120000, downPayment: 36000, downPaymentPercent: 30, interestRateYearly: 16.8, termMonths: 48, includeInsurances: false });
-                }}
+                onClick={() => handleSelectCategory('vehicle')}
                 className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'vehicle'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
@@ -170,14 +196,28 @@ export default function Home() {
                     <Car className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Veículo</h3>
                   </div>
+
+                  {inputs.category === 'vehicle' && (
+                    <button
+                      ref={ctaButtonRef}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenSimulator();
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                    >
+                      <Calculator className="w-3 h-3 shrink-0" />
+                      <span>Simular Agora</span>
+                    </button>
+                  )}
                 </div>
               </MouseGlow>
 
               {/* Card 3: Pessoal */}
               <MouseGlow
-                onClick={() => {
-                  setInputs({ ...DEFAULT_FINANCING_INPUTS, category: 'personal', propertyValue: 40000, downPayment: 0, downPaymentPercent: 0, interestRateYearly: 24.5, termMonths: 24, includeInsurances: false });
-                }}
+                onClick={() => handleSelectCategory('personal')}
                 className={`group rounded-none border transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] cursor-pointer ${
                   inputs.category === 'personal'
                     ? 'border-gold-500 bg-black shadow-gold-glow'
@@ -204,24 +244,26 @@ export default function Home() {
                     <User className="w-4 h-4 text-white" />
                     <h3 className="text-xs font-normal uppercase tracking-wider text-white">Crédito Pessoal</h3>
                   </div>
+
+                  {inputs.category === 'personal' && (
+                    <button
+                      ref={ctaButtonRef}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenSimulator();
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold animate-fadeIn w-full mt-4 py-2.5 px-2 rounded-[75px] text-[9px] font-normal uppercase flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                    >
+                      <Calculator className="w-3 h-3 shrink-0" />
+                      <span>Simular Agora</span>
+                    </button>
+                  )}
                 </div>
               </MouseGlow>
 
             </div>
-          </div>
-
-          {/* Botão de Ação Principal (CTA - Ghost Pill 75px Radius) */}
-          <div className="pt-4 flex items-center justify-center">
-            <button
-              onClick={() => handleOpenSimulator()}
-              onMouseEnter={() => setCursorVariant('button')}
-              onMouseLeave={() => setCursorVariant('default')}
-              className="btn-gold-fill btn-lift btn-shine btn-shine-gold animate-ctaPulseGold py-4 px-10 rounded-[75px] text-xs font-normal uppercase tracking-widest flex items-center space-x-3 w-full sm:w-auto justify-center cursor-pointer"
-            >
-              <Calculator className="w-4 h-4" />
-              <span>INICIAR SIMULAÇÃO AGORA</span>
-              <ArrowDown className="w-3.5 h-3.5" />
-            </button>
           </div>
 
         </div>
