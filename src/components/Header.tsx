@@ -9,29 +9,21 @@ export const Header: React.FC = () => {
         
         {/* Brand Identity */}
         <div className="flex items-center space-x-3 group cursor-pointer">
-          <div className="text-sm sm:text-base font-normal tracking-widest text-white uppercase">
-            BRASIL <span className="gold-gradient-text animate-gold-shine font-light">FINANCE</span>
-          </div>
+          <img src="/brand/logo-source.png" alt="Brasil Finance" className="h-8 sm:h-9 w-auto" />
         </div>
 
         {/* Micro Navigation (oculta em telas pequenas para evitar quebra do header) */}
-        <div className="hidden sm:flex items-center space-x-6">
-          <div className="flex items-center space-x-6 text-[11px] font-normal tracking-widest text-neutral-400 uppercase">
-            <span className="hover:text-white transition-colors cursor-pointer">CRÉDITO</span>
-            <span>·</span>
-            <span className="hover:text-white transition-colors cursor-pointer">AMORTIZAÇÃO</span>
-            <span>·</span>
-            <span className="text-white">Financiamentos</span>
-          </div>
-          <img src="/brand/logo-square-master.png" alt="Brasil Finance" className="h-8 w-auto rounded-md" />
+        <div className="hidden sm:flex items-center space-x-6 text-[11px] font-normal tracking-widest text-neutral-400 uppercase">
+          <span className="hover:text-white transition-colors cursor-pointer">CRÉDITO</span>
+          <span>·</span>
+          <span className="hover:text-white transition-colors cursor-pointer">AMORTIZAÇÃO</span>
+          <span>·</span>
+          <span className="text-white">Financiamentos</span>
         </div>
 
-        {/* Versão mobile: selo editorial + logo */}
-        <div className="sm:hidden flex items-center space-x-2">
-          <span className="text-[10px] font-normal tracking-widest text-white uppercase">
-            Financiamentos
-          </span>
-          <img src="/brand/logo-square-master.png" alt="Brasil Finance" className="h-7 w-auto rounded-md" />
+        {/* Versão mobile: apenas o selo editorial */}
+        <div className="sm:hidden text-[10px] font-normal tracking-widest text-white uppercase">
+          Financiamentos
         </div>
 
       </div>
