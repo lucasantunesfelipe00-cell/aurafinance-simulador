@@ -43,12 +43,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://brasilfinance-simulador.vercel.app"),
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
-    shortcut: ["/favicon.svg"],
+    shortcut: ["/favicon.png"],
     apple: [
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/apple-icon.png", type: "image/png", sizes: "180x180" },
     ],
   },
   appleWebApp: {
@@ -66,11 +67,11 @@ export const metadata: Metadata = {
     siteName: "BrasilFinance",
     images: [
       {
-        url: "https://brasilfinance-simulador.vercel.app/og-image.svg",
+        url: "https://brasilfinance-simulador.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "BrasilFinance — Simulador de Financiamento & Amortização",
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
     locale: "pt_BR",
@@ -80,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BrasilFinance — Simulador de Financiamento & Amortização",
     description: "Simulador de crédito imobiliário, veicular e pessoal com comparativo avançado de amortização SAC vs PRICE.",
-    images: ["https://brasilfinance-simulador.vercel.app/og-image.svg"],
+    images: ["https://brasilfinance-simulador.vercel.app/og-image.png"],
     creator: "@brasilfinance",
   },
   robots: {
@@ -115,7 +116,7 @@ export default function RootLayout({
         {/* Fallback de Meta Tags Explícitas em HTML para Web Scrapers do WhatsApp / Facebook */}
         <meta property="og:title" content="BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE" />
         <meta property="og:description" content="Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE e economize juros." />
-        <meta property="og:image" content="https://brasilfinance-simulador.vercel.app/og-image.svg" />
+        <meta property="og:image" content="https://brasilfinance-simulador.vercel.app/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:url" content="https://brasilfinance-simulador.vercel.app" />

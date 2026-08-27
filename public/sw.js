@@ -1,10 +1,12 @@
-const CACHE_NAME = 'brasilfinance-pwa-v1';
+const CACHE_NAME = 'brasilfinance-pwa-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
-  '/favicon.svg',
-  '/icon.svg',
-  '/og-image.svg',
+  '/favicon.png',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/apple-icon.png',
+  '/og-image.png',
 ];
 
 // Instalação do Service Worker
