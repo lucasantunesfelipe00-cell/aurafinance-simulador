@@ -69,13 +69,23 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
   let accumulatedPaid = 0;
   let totalInsurancesAndFees = 0;
 
+  const extraMonthly = inputs.extraMonthlyAmortization || 0;
+  const extraAnnual = inputs.extraAnnualAmortization || 0;
+
   if (amortizationMethod === 'SAC') {
     // Amortização constante
     const fixedAmortization = loanAmount / termMonths;
 
     for (let m = 1; m <= termMonths; m++) {
       const interestPaid = currentBalance * monthlyRate;
-      const principalAmortization = fixedAmortization;
+      
+      // Amortização normal + extra
+      const annualExtraPaid = (m % 12 === 0) ? extraAnnual : 0;
+      let principalAmortization = fixedAmortization + extraMonthly + annualExtraPaid;
+
+      if (principalAmortization > currentBalance) {
+        principalAmortization = currentBalance;
+      }
 
       // Seguros e encargos
       const mipInsurance = currentBalance * mipMonthlyRate;
@@ -99,6 +109,10 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
         accumulatedInterest,
         accumulatedPaid,
       });
+
+      if (currentBalance <= 0) {
+        break;
+      }
     }
   } else {
     // Tabela PRICE (Prestação constante da dívida pura)
@@ -112,14 +126,22 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
 
     for (let m = 1; m <= termMonths; m++) {
       const interestPaid = currentBalance * monthlyRate;
-      const principalAmortization = pmtPure - interestPaid;
+      
+      // Amortização normal + extra
+      const normalAmortization = pmtPure - interestPaid;
+      const annualExtraPaid = (m % 12 === 0) ? extraAnnual : 0;
+      let principalAmortization = normalAmortization + extraMonthly + annualExtraPaid;
+
+      if (principalAmortization > currentBalance) {
+        principalAmortization = currentBalance;
+      }
 
       // Seguros e encargos
       const mipInsurance = currentBalance * mipMonthlyRate;
       const dfiInsurance = propertyValue * dfiMonthlyRate;
       const insuranceAndFees = mipInsurance + dfiInsurance + adminFee;
 
-      const installmentTotal = pmtPure + insuranceAndFees;
+      const installmentTotal = principalAmortization + interestPaid + insuranceAndFees;
 
       currentBalance = Math.max(0, currentBalance - principalAmortization);
       accumulatedInterest += interestPaid;
@@ -136,6 +158,10 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
         accumulatedInterest,
         accumulatedPaid,
       });
+
+      if (currentBalance <= 0) {
+        break;
+      }
     }
   }
 
@@ -200,4 +226,6 @@ export const DEFAULT_FINANCING_INPUTS: FinancingInputs = {
   monthlyAdminFee: 25,
   mipRateYearly: 0.28,
   dfiRateYearly: 0.15,
+  extraMonthlyAmortization: 0,
+  extraAnnualAmortization: 0,
 };

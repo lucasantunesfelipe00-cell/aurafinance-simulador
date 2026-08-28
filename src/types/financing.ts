@@ -13,6 +13,8 @@ export interface FinancingInputs {
   monthlyAdminFee: number;        // Taxa fixa mensal de administração (R$)
   mipRateYearly: number;          // Taxa MIP (Morte/Invalidez) % a.a.
   dfiRateYearly: number;          // Taxa DFI (Danos ao imóvel) % a.a.
+  extraMonthlyAmortization?: number; // Aporte mensal extra (R$)
+  extraAnnualAmortization?: number;  // Aporte anual extra (R$)
 }
 
 export interface Installment {

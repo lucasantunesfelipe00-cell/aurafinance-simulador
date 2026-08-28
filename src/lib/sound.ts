@@ -16,7 +16,19 @@ function getAudioContext(): AudioContext | null {
   return audioContext;
 }
 
+export function isSoundEnabled(): boolean {
+  if (typeof window === 'undefined') return false;
+  const val = localStorage.getItem('bf_sound_enabled');
+  return val !== 'false'; // padrão é true
+}
+
+export function setSoundEnabled(enabled: boolean) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('bf_sound_enabled', enabled ? 'true' : 'false');
+}
+
 function playTone(freqStart: number, freqEnd: number, duration: number, volume: number, type: OscillatorType) {
+  if (!isSoundEnabled()) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 

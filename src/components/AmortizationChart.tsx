@@ -29,7 +29,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
   const maxVal = Math.max(result.loanAmount, result.totalPaid);
 
   // Um valor por ano — pega a última parcela de cada ano (saldo/juros acumulados até ali)
-  const numYears = Math.ceil(result.termMonths / 12);
+  const numYears = Math.ceil(installments.length / 12);
   const yearly = Array.from({ length: numYears }, (_, i) => {
     const monthIndex = Math.min((i + 1) * 12, installments.length) - 1;
     return installments[monthIndex];
