@@ -289,7 +289,7 @@ export default function Home() {
                     <div className="space-y-2">
                       <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
                         <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
-                          Aporte Anual Extra (ex: FGTS/13º)
+                          Aporte Anual Extra
                         </label>
                         <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
                           <span className="text-white text-xs font-medium mr-1.5">R$</span>
