@@ -42,10 +42,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             />
           </div>
 
-          <div className="text-[10px] text-neutral-400 font-light flex items-center space-x-1 mt-2">
-            <span className="font-normal text-white uppercase tracking-wider">{result.method}</span>
-            <span>• Com amortização</span>
-          </div>
+
         </MouseGlow>
 
         {/* Card 2: Última Parcela */}
@@ -63,15 +60,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             />
           </div>
 
-          <div className="text-[10px] text-neutral-400 font-light flex items-center space-x-1 mt-2">
-            {isSAC ? (
-              <span className="text-white font-normal flex items-center">
-                ↓ Redução de <FormattedBRL value={result.firstInstallment - result.lastInstallment} className="ml-1 text-[10px]" animate />
-              </span>
-            ) : (
-              <span className="text-neutral-400">Fixa durante o contrato</span>
-            )}
-          </div>
+
         </MouseGlow>
 
         {/* Card 3: Total de Juros */}
@@ -89,9 +78,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             />
           </div>
 
-          <div className="text-[10px] text-neutral-300 font-light mt-2">
-            {formatPercent(interestVsLoanPercent, 1)} do valor financiado
-          </div>
+
         </MouseGlow>
 
         {/* Card 4: Total Geral Pago */}
@@ -109,9 +96,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             />
           </div>
 
-          <div className="text-[10px] text-neutral-400 font-light mt-2 truncate">
-            Entrada + {result.termMonths} parcelas
-          </div>
+
         </MouseGlow>
 
       </div>
