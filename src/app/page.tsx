@@ -150,9 +150,6 @@ export default function Home() {
 
               {isExtraAmortizationOpen && (
                 <div className="p-6 border-t border-white/10 space-y-5 animate-fadeIn">
-                  <p className="text-[11px] text-neutral-400 font-light mt-0">
-                    Acelere a quitação do saldo devedor amortizando valores adicionais de forma recorrente (mensal) ou em parcelas sazonais (anual, ex: 13º salário ou FGTS).
-                  </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-left">
                     {/* Aporte Mensal Extra */}
