@@ -169,7 +169,7 @@ export default function Home() {
                               const digitsOnly = valStr.replace(/\D/g, '');
                               const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
                               setMaskedMonthly(formatCurrencyMask(numericVal));
-                              
+
                               const val = Math.max(0, numericVal);
                               const updated = { ...inputs, extraMonthlyAmortization: val };
                               setInputs(updated);
@@ -222,7 +222,7 @@ export default function Home() {
                               const digitsOnly = valStr.replace(/\D/g, '');
                               const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
                               setMaskedAnnual(formatCurrencyMask(numericVal));
-                              
+
                               const val = Math.max(0, numericVal);
                               const updated = { ...inputs, extraAnnualAmortization: val };
                               setInputs(updated);
@@ -281,19 +281,17 @@ export default function Home() {
               <div
                 className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
                 style={{
-                  transform: `translateX(${
-                    activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
-                  }%)`,
+                  transform: `translateX(${activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
+                    }%)`,
                 }}
               />
 
               <button
                 onClick={() => setActiveTab('summary')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'summary'
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'summary'
                     ? 'text-black font-medium'
                     : 'text-neutral-400 hover:text-white'
-                }`}
+                  }`}
               >
                 <Layers className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">
@@ -304,11 +302,10 @@ export default function Home() {
 
               <button
                 onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'chart'
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'chart'
                     ? 'text-black font-medium'
                     : 'text-neutral-400 hover:text-white'
-                }`}
+                  }`}
               >
                 <LineChart className="w-3.5 h-3.5 shrink-0" />
                 <span>Gráfico</span>
@@ -316,11 +313,10 @@ export default function Home() {
 
               <button
                 onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'table'
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'table'
                     ? 'text-black font-medium'
                     : 'text-neutral-400 hover:text-white'
-                }`}
+                  }`}
               >
                 <Table className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">
