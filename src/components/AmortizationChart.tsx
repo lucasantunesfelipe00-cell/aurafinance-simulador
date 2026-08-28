@@ -52,27 +52,27 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
   const resultKey = `${result.method}-${result.loanAmount}-${result.totalInterest}-${result.termMonths}`;
 
   return (
-    <MouseGlow className="editorial-card-light p-6">
+    <MouseGlow size={210} className="editorial-card p-6 border border-white/20 bg-black rounded-none">
 
       {/* Header do Gráfico */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b-2 border-ink-950/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-white/10">
         <div className="flex items-center space-x-2.5">
-          <BarChart3 className="w-4 h-4 text-ink-950" />
+          <BarChart3 className="w-4 h-4 text-white" />
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-accent">Evolução do Saldo Devedor x Juros</h3>
-            <p className="text-[11px] text-ink-600">Saldo devedor e juros acumulados por ano</p>
+            <h3 className="text-xs font-normal uppercase tracking-widest text-gold-400">Evolução do Saldo Devedor x Juros</h3>
+            <p className="text-[11px] text-neutral-400 font-light">Saldo devedor e juros acumulados por ano</p>
           </div>
         </div>
 
         {/* Legendas */}
         <div className="flex items-center space-x-4 text-[11px] uppercase tracking-wider">
           <div className="flex items-center space-x-1.5">
-            <span className="w-2 h-2 bg-ink-950"></span>
-            <span className="text-ink-950 font-semibold">Saldo Devedor</span>
+            <span className="w-2 h-2 rounded-full bg-gold-500"></span>
+            <span className="text-gold-500 font-normal">Saldo Devedor</span>
           </div>
           <div className="flex items-center space-x-1.5">
-            <span className="w-2 h-2 bg-accent"></span>
-            <span className="text-accent font-semibold">Juros Acumulados</span>
+            <span className="w-2 h-2 rounded-full bg-neutral-500"></span>
+            <span className="text-neutral-400 font-normal">Juros Acumulados</span>
           </div>
         </div>
       </div>
@@ -85,6 +85,13 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
           className="w-full h-auto min-w-[550px] overflow-visible"
           onMouseLeave={() => setHoverYear(null)}
         >
+          <defs>
+            <linearGradient id="balanceBarGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#F5D03A" />
+              <stop offset="100%" stopColor="#996515" />
+            </linearGradient>
+          </defs>
+
           {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
             const y = paddingTop + chartHeight * (1 - pct);
             return (
@@ -94,14 +101,14 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                 y1={y}
                 x2={paddingX + chartWidth}
                 y2={y}
-                stroke="rgba(32, 30, 29, 0.12)"
+                stroke="rgba(255, 255, 255, 0.08)"
                 strokeDasharray="2 2"
               />
             );
           })}
 
           {/* Linha de base */}
-          <line x1={paddingX} y1={bottomY} x2={paddingX + chartWidth} y2={bottomY} stroke="rgba(32, 30, 29, 0.3)" />
+          <line x1={paddingX} y1={bottomY} x2={paddingX + chartWidth} y2={bottomY} stroke="rgba(255,255,255,0.2)" />
 
           {yearly.map((inst, i) => {
             const yearNum = i + 1;
@@ -134,7 +141,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                   y={bottomY - balanceH}
                   width={barWidth}
                   height={balanceH}
-                  fill="#201e1d"
+                  fill="url(#balanceBarGradient)"
                   opacity={isActive ? 1 : 0.85}
                   className="animate-barGrow pointer-events-none transition-opacity duration-200"
                   style={{ transformOrigin: `${bar1X + barWidth / 2}px ${bottomY}px`, animationDelay: `${i * 0.02}s` }}
@@ -146,7 +153,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                   y={bottomY - interestH}
                   width={barWidth}
                   height={interestH}
-                  fill="#ec3013"
+                  fill="#666666"
                   opacity={isActive ? 1 : 0.85}
                   className="animate-barGrow pointer-events-none transition-opacity duration-200"
                   style={{ transformOrigin: `${bar2X + barWidth / 2}px ${bottomY}px`, animationDelay: `${i * 0.02 + 0.03}s` }}
@@ -160,7 +167,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                     textAnchor="middle"
                     fontSize="10"
                     fontFamily="monospace"
-                    fill={isActive ? '#201e1d' : 'rgba(32,30,29,0.5)'}
+                    fill={isActive ? '#ffffff' : 'rgba(255,255,255,0.45)'}
                   >
                     {yearNum}
                   </text>
@@ -173,7 +180,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                     y1={bottomY + 6}
                     x2={groupX + groupWidth / 2}
                     y2={bottomY + 10}
-                    stroke="#ec3013"
+                    stroke="#D4AF37"
                     strokeWidth="1.5"
                   />
                 )}
@@ -185,22 +192,22 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
 
       {/* Tooltip de Inspeção */}
       {activeData && (
-        <div className="mt-4 p-3 border border-ink-950/15 bg-surface rounded-none grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+        <div className="mt-4 p-3 border border-white/15 bg-black rounded-none grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
           <div>
-            <span className="text-ink-600 text-[10px] uppercase block tracking-wider font-sans">Ano Selecionado</span>
-            <span className="font-semibold text-ink-950 text-xs">{activeYear}º ano</span>
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Ano Selecionado</span>
+            <span className="font-normal text-white text-xs">{activeYear}º ano</span>
           </div>
           <div>
-            <span className="text-ink-600 text-[10px] uppercase block tracking-wider font-sans">Saldo Devedor</span>
-            <FormattedBRL value={activeData.outstandingBalance} className="text-ink-950 font-semibold" />
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Saldo Devedor</span>
+            <FormattedBRL value={activeData.outstandingBalance} className="text-white font-normal" />
           </div>
           <div>
-            <span className="text-ink-600 text-[10px] uppercase block tracking-wider font-sans">Juros Acumulados</span>
-            <FormattedBRL value={activeData.accumulatedInterest} className="text-accent font-semibold" />
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Juros Acumulados</span>
+            <FormattedBRL value={activeData.accumulatedInterest} className="text-neutral-300 font-normal" />
           </div>
           <div>
-            <span className="text-ink-600 text-[10px] uppercase block tracking-wider font-sans">Total Pago até o Ano</span>
-            <FormattedBRL value={activeData.accumulatedPaid} className="text-ink-950 font-semibold" />
+            <span className="text-neutral-400 text-[10px] uppercase block tracking-wider font-sans">Total Pago até o Ano</span>
+            <FormattedBRL value={activeData.accumulatedPaid} className="text-white font-normal" />
           </div>
         </div>
       )}

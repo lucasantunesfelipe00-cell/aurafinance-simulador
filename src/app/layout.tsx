@@ -5,7 +5,10 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { SoundEffects } from "@/components/SoundEffects";
 
 export const viewport: Viewport = {
-  themeColor: "#f3f2f2",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#07080A" },
+    { media: "(prefers-color-scheme: light)", color: "#D4AF37" },
+  ],
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -40,7 +43,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://brasilfinance-simulador.vercel.app"),
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
       { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
       { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
@@ -107,7 +109,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
 
@@ -121,7 +123,7 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BrasilFinance" />
       </head>
-      <body className="bg-[#f3f2f2] text-ink-950 antialiased font-sans selection:bg-accent-200 selection:text-accent-900">
+      <body className="bg-[#07080A] text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />
         <CustomCursor />
         <SoundEffects />

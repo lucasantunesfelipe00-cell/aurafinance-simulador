@@ -13,6 +13,7 @@ import { ResultsSummary } from '@/components/ResultsSummary';
 import { AmortizationChart } from '@/components/AmortizationChart';
 import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
+import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { HeroTitle } from '@/components/HeroTitle';
 import {
   LineChart,
@@ -26,6 +27,7 @@ export default function Home() {
   const [hasCalculated, setHasCalculated] = useState(false);
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
+  const [isSpecsOpen, setIsSpecsOpen] = useState(false);
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +50,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink-950 selection:bg-accent-200 selection:text-accent-900 flex flex-col">
+    <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
+
+      {/* Atmospheric Iridescent Backdrop Wash (Sage Green -> Amber -> Oxblood) */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] iridescent-hero-bg animate-heroDrift pointer-events-none -z-10 opacity-60" />
 
       {/* Header Superior (66px Height, 1078px max-width) */}
       <Header />
@@ -78,12 +83,12 @@ export default function Home() {
 
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
         {hasCalculated && (
-          <div ref={resultsRef} className="space-y-8 pt-8 border-t-2 border-ink-950 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
+          <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
             {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
-            <div className="relative flex items-center justify-between p-1 bg-paper border-2 border-ink-950">
+            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
               <div
-                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-accent transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
                 style={{
                   transform: `translateX(${
                     activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
@@ -93,10 +98,10 @@ export default function Home() {
 
               <button
                 onClick={() => setActiveTab('summary')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 text-[11px] sm:text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                   activeTab === 'summary'
-                    ? 'text-paper'
-                    : 'text-ink-600 hover:text-ink-950'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5 shrink-0" />
@@ -108,10 +113,10 @@ export default function Home() {
 
               <button
                 onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 text-[11px] sm:text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                   activeTab === 'chart'
-                    ? 'text-paper'
-                    : 'text-ink-600 hover:text-ink-950'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
               >
                 <LineChart className="w-3.5 h-3.5 shrink-0" />
@@ -120,10 +125,10 @@ export default function Home() {
 
               <button
                 onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 text-[11px] sm:text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
                   activeTab === 'table'
-                    ? 'text-paper'
-                    : 'text-ink-600 hover:text-ink-950'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
               >
                 <Table className="w-3.5 h-3.5 shrink-0" />
@@ -169,16 +174,21 @@ export default function Home() {
         comparison={comparison}
       />
 
+      <SpecsViewerModal
+        isOpen={isSpecsOpen}
+        onClose={() => setIsSpecsOpen(false)}
+      />
+
       {/* Rodapé Editorial Monopo Saigon (11px Felt Gray Copy, Contained 1078px) */}
-      <footer className="w-full border-t-2 border-ink-950 bg-paper py-10 text-xs text-ink-600 mt-20">
-        <div className="max-w-[1078px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+      <footer className="w-full border-t border-white/10 bg-black py-10 text-xs text-neutral-400 mt-20">
+        <div className="max-w-[1078px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-light text-[11px]">
           <div className="flex items-center space-x-2">
-            <span className="font-semibold text-ink-950 uppercase tracking-wider">Brasil Finance</span>
+            <span className="font-normal text-white uppercase tracking-wider">Brasil Finance</span>
             <span>—</span>
-            <span className="text-ink-600">O juro não se esconde. Ele se mede, linha por linha.</span>
+            <span className="text-neutral-500">Liquid iridescence behind editorial silence</span>
           </div>
 
-          <div className="flex items-center space-x-4 text-ink-600 uppercase tracking-widest text-[10px]">
+          <div className="flex items-center space-x-4 text-neutral-500 uppercase tracking-widest text-[10px]">
             <span>2026 © All rights reserved</span>
           </div>
         </div>

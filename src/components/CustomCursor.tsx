@@ -14,12 +14,11 @@ const SIZE_DEFAULT = 20;
 const SIZE_INPUT = 10;
 
 /**
- * Cursor customizado global: um quadrado vermelho que segue o mouse via spring
- * em todo o site (zero raio, como o resto da marca). Reage a variantes
- * sinalizadas por outros componentes via cursor-store:
- * - 'input' (caixas de R$): quadrado escuro, metade do tamanho
- * - 'button': quadrado claro (contraste sobre botões sólidos)
- * - 'native' (sliders/réguas): esconde o quadrado e devolve o cursor nativo
+ * Cursor customizado global: uma bolinha amarela que segue o mouse via spring
+ * em todo o site. Reage a variantes sinalizadas por outros componentes via
+ * cursor-store:
+ * - 'input' (caixas de R$): bolinha branca, metade do tamanho
+ * - 'native' (sliders/réguas): esconde a bolinha e devolve o cursor nativo
  * Desativado em telas sem mouse fino (touch), onde não existe cursor.
  */
 export const CustomCursor: React.FC = () => {
@@ -80,8 +79,8 @@ export const CustomCursor: React.FC = () => {
         height: size,
         opacity: visible && !isNative ? 1 : 0,
       }}
-      className={`pointer-events-none fixed left-0 top-0 z-[9999] transition-colors duration-150 ${
-        variant === 'input' ? 'bg-ink-950' : variant === 'button' ? 'bg-paper' : 'bg-accent'
+      className={`pointer-events-none fixed left-0 top-0 z-[9999] rounded-full transition-colors duration-150 ${
+        variant === 'input' ? 'bg-white' : variant === 'button' ? 'bg-black' : 'bg-gold-400'
       }`}
     />
   );
