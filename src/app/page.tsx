@@ -18,11 +18,23 @@ import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { HeroTitle } from '@/components/HeroTitle';
 import { SettingsPopover } from '@/components/SettingsPopover';
 import { vibrateShort } from '@/lib/haptics';
+import { setCursorVariant } from '@/lib/cursor-store';
+import { playTypeSound } from '@/lib/sound';
 import {
   LineChart,
   Table,
   Layers,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
+
+function formatCurrencyMask(val: number): string {
+  if (isNaN(val)) return '0,00';
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(val);
+}
 
 export default function Home() {
   const [inputs, setInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
@@ -33,6 +45,19 @@ export default function Home() {
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
 
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  const [isExtraAmortizationOpen, setIsExtraAmortizationOpen] = useState(false);
+  const [maskedMonthly, setMaskedMonthly] = useState(formatCurrencyMask(inputs.extraMonthlyAmortization || 0));
+  const [maskedAnnual, setMaskedAnnual] = useState(formatCurrencyMask(inputs.extraAnnualAmortization || 0));
+
+  // Sync masks when inputs change externally (e.g. on Reset)
+  React.useEffect(() => {
+    setMaskedMonthly(formatCurrencyMask(inputs.extraMonthlyAmortization || 0));
+  }, [inputs.extraMonthlyAmortization]);
+
+  React.useEffect(() => {
+    setMaskedAnnual(formatCurrencyMask(inputs.extraAnnualAmortization || 0));
+  }, [inputs.extraAnnualAmortization]);
 
   // Recálculo realizado apenas ao confirmar a simulação
   const result = useMemo(() => calculateFinancing(calculatedInputs), [calculatedInputs]);
@@ -96,87 +121,6 @@ export default function Home() {
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
         {hasCalculated && (
           <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
-
-            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) */}
-            <div className="editorial-card p-6 border border-white/20 bg-black rounded-none space-y-4">
-              <div className="flex items-center space-x-2.5">
-                <Layers className="w-4 h-4 text-gold-400" />
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gold-400">Simulador de Amortização Acelerada</h3>
-              </div>
-              <p className="text-[11px] text-neutral-400 font-light">
-                Acelere a quitação do saldo devedor amortizando valores adicionais de forma recorrente (mensal) ou em parcelas sazonais (anual, ex: 13º salário ou FGTS).
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-left">
-                {/* Aporte Mensal Extra */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-neutral-300">Aporte Mensal Extra</span>
-                    <span className="font-mono text-white font-semibold">{formatBRL(inputs.extraMonthlyAmortization || 0)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="10000"
-                    step="100"
-                    value={inputs.extraMonthlyAmortization || 0}
-                    onChange={(e) => {
-                      const val = parseFloat(e.target.value);
-                      const updated = { ...inputs, extraMonthlyAmortization: val };
-                      setInputs(updated);
-                      setCalculatedInputs(updated);
-                      vibrateShort();
-                    }}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
-                    <span>R$ 0</span>
-                    <span>R$ 10.000 / mês</span>
-                  </div>
-                </div>
-
-                {/* Aporte Anual Extra */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-neutral-300">Aporte Anual Extra (ex: FGTS/13º)</span>
-                    <span className="font-mono text-white font-semibold">{formatBRL(inputs.extraAnnualAmortization || 0)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="50000"
-                    step="500"
-                    value={inputs.extraAnnualAmortization || 0}
-                    onChange={(e) => {
-                      const val = parseFloat(e.target.value);
-                      const updated = { ...inputs, extraAnnualAmortization: val };
-                      setInputs(updated);
-                      setCalculatedInputs(updated);
-                      vibrateShort();
-                    }}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
-                    <span>R$ 0</span>
-                    <span>R$ 50.000 / ano</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Banner de Economia e Impacto */}
-              {((inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0) && (
-                <div className="mt-3 p-3.5 border border-gold-500/30 bg-neutral-900/40 text-xs text-neutral-300 animate-fadeIn space-y-1">
-                  <div className="flex items-center space-x-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
-                    <span>Tempo de quitação reduzido de <strong>{Math.ceil(baselineResult.installments.length / 12)} anos</strong> para <strong>{Math.ceil(result.installments.length / 12)} anos</strong> ({baselineResult.installments.length - result.installments.length} meses economizados).</span>
-                  </div>
-                  <div className="flex items-center space-x-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
-                    <span>Economia estimada em juros pagos de <strong className="text-gold-400">{formatBRL(baselineResult.totalInterest - result.totalInterest)}</strong> ao longo do contrato!</span>
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
             <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
@@ -254,6 +198,163 @@ export default function Home() {
                 <AmortizationTable result={result} />
               </div>
             )}
+
+            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no final */}
+            <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden transition-all duration-300 mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsExtraAmortizationOpen(!isExtraAmortizationOpen);
+                  playTypeSound();
+                }}
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+                className="w-full p-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors"
+              >
+                <div className="flex items-center space-x-3">
+                  <Layers className="w-4 h-4 text-gold-400" />
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-gold-400">Simulador de Amortização Acelerada</h3>
+                    <p className="text-[10px] text-neutral-400 font-light mt-0.5">Acelere a quitação amortizando valores adicionais</p>
+                  </div>
+                </div>
+                {isExtraAmortizationOpen ? (
+                  <ChevronUp className="w-4.5 h-4.5 text-neutral-400" />
+                ) : (
+                  <ChevronDown className="w-4.5 h-4.5 text-neutral-400" />
+                )}
+              </button>
+
+              {isExtraAmortizationOpen && (
+                <div className="p-6 border-t border-white/10 space-y-5 animate-fadeIn">
+                  <p className="text-[11px] text-neutral-400 font-light mt-0">
+                    Acelere a quitação do saldo devedor amortizando valores adicionais de forma recorrente (mensal) ou em parcelas sazonais (anual, ex: 13º salário ou FGTS).
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-left">
+                    {/* Aporte Mensal Extra */}
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
+                        <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
+                          Aporte Mensal Extra
+                        </label>
+                        <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+                          <span className="text-white text-xs font-medium mr-1.5">R$</span>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={maskedMonthly}
+                            onChange={(e) => {
+                              const valStr = e.target.value;
+                              const digitsOnly = valStr.replace(/\D/g, '');
+                              const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+                              setMaskedMonthly(formatCurrencyMask(numericVal));
+                              
+                              const val = Math.max(0, numericVal);
+                              const updated = { ...inputs, extraMonthlyAmortization: val };
+                              setInputs(updated);
+                              setCalculatedInputs(updated);
+                            }}
+                            onKeyDown={() => playTypeSound()}
+                            onMouseEnter={() => setCursorVariant('input')}
+                            onMouseLeave={() => setCursorVariant('default')}
+                            className="w-24 bg-transparent text-right font-mono text-white text-sm focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="10000"
+                        step="100"
+                        value={inputs.extraMonthlyAmortization || 0}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          const updated = { ...inputs, extraMonthlyAmortization: val };
+                          setInputs(updated);
+                          setCalculatedInputs(updated);
+                          vibrateShort();
+                        }}
+                        onMouseEnter={() => setCursorVariant('native')}
+                        onMouseLeave={() => setCursorVariant('default')}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
+                        <span>R$ 0</span>
+                        <span>R$ 10.000 / mês</span>
+                      </div>
+                    </div>
+
+                    {/* Aporte Anual Extra */}
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
+                        <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
+                          Aporte Anual Extra (ex: FGTS/13º)
+                        </label>
+                        <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+                          <span className="text-white text-xs font-medium mr-1.5">R$</span>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={maskedAnnual}
+                            onChange={(e) => {
+                              const valStr = e.target.value;
+                              const digitsOnly = valStr.replace(/\D/g, '');
+                              const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+                              setMaskedAnnual(formatCurrencyMask(numericVal));
+                              
+                              const val = Math.max(0, numericVal);
+                              const updated = { ...inputs, extraAnnualAmortization: val };
+                              setInputs(updated);
+                              setCalculatedInputs(updated);
+                            }}
+                            onKeyDown={() => playTypeSound()}
+                            onMouseEnter={() => setCursorVariant('input')}
+                            onMouseLeave={() => setCursorVariant('default')}
+                            className="w-24 bg-transparent text-right font-mono text-white text-sm focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="50000"
+                        step="500"
+                        value={inputs.extraAnnualAmortization || 0}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          const updated = { ...inputs, extraAnnualAmortization: val };
+                          setInputs(updated);
+                          setCalculatedInputs(updated);
+                          vibrateShort();
+                        }}
+                        onMouseEnter={() => setCursorVariant('native')}
+                        onMouseLeave={() => setCursorVariant('default')}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
+                        <span>R$ 0</span>
+                        <span>R$ 50.000 / ano</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Banner de Economia e Impacto */}
+                  {((inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0) && (
+                    <div className="mt-3 p-3.5 border border-gold-500/30 bg-neutral-900/40 text-xs text-neutral-300 animate-fadeIn space-y-1">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                        <span>Tempo de quitação reduzido de <strong>{Math.ceil(baselineResult.installments.length / 12)} anos</strong> para <strong>{Math.ceil(result.installments.length / 12)} anos</strong> ({baselineResult.installments.length - result.installments.length} meses economizados).</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                        <span>Economia estimada em juros pagos de <strong className="text-gold-400">{formatBRL(baselineResult.totalInterest - result.totalInterest)}</strong> ao longo do contrato!</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
           </div>
         )}
