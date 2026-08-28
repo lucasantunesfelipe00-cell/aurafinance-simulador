@@ -63,7 +63,6 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
           <Table className="w-4 h-4 text-white" />
           <div>
             <h3 className="text-xs font-normal uppercase tracking-widest text-gold-400">Cronograma Mês a Mês</h3>
-            <p className="text-[11px] text-neutral-400 font-light">Detalhamento completo das parcelas</p>
           </div>
         </div>
 

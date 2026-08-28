@@ -60,7 +60,6 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
           <BarChart3 className="w-4 h-4 text-white" />
           <div>
             <h3 className="text-xs font-normal uppercase tracking-widest text-gold-400">Evolução do Saldo Devedor x Juros</h3>
-            <p className="text-[11px] text-neutral-400 font-light">Saldo devedor e juros acumulados por ano</p>
           </div>
         </div>
 
