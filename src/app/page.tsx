@@ -122,85 +122,8 @@ export default function Home() {
         {hasCalculated && (
           <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
-            {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
-            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
-              <div
-                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style={{
-                  transform: `translateX(${
-                    activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
-                  }%)`,
-                }}
-              />
-
-              <button
-                onClick={() => setActiveTab('summary')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'summary'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                <Layers className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">
-                  <span className="sm:hidden">Resumo</span>
-                  <span className="hidden sm:inline">Resumo &amp; KPIs</span>
-                </span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'chart'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                <LineChart className="w-3.5 h-3.5 shrink-0" />
-                <span>Gráfico</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
-                  activeTab === 'table'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                <Table className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">
-                  <span className="sm:hidden">Tabela</span>
-                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
-                </span>
-              </button>
-            </div>
-
-            {/* Conteúdo Exclusivo da Aba Selecionada */}
-            {activeTab === 'summary' && (
-              <div className="animate-fadeIn">
-                <ResultsSummary
-                  result={result}
-                  comparison={comparison}
-                  onOpenComparison={() => setIsComparatorOpen(true)}
-                />
-              </div>
-            )}
-
-            {activeTab === 'chart' && (
-              <div className="animate-fadeIn">
-                <AmortizationChart result={result} />
-              </div>
-            )}
-
-            {activeTab === 'table' && (
-              <div className="animate-fadeIn">
-                <AmortizationTable result={result} />
-              </div>
-            )}
-
-            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no final */}
-            <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden transition-all duration-300 mt-4">
+            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
+            <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden transition-all duration-300">
               <button
                 type="button"
                 onClick={() => {
@@ -355,6 +278,83 @@ export default function Home() {
                 </div>
               )}
             </div>
+
+            {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
+            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
+              <div
+                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style={{
+                  transform: `translateX(${
+                    activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
+                  }%)`,
+                }}
+              />
+
+              <button
+                onClick={() => setActiveTab('summary')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'summary'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Resumo</span>
+                  <span className="hidden sm:inline">Resumo &amp; KPIs</span>
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('chart')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'chart'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <LineChart className="w-3.5 h-3.5 shrink-0" />
+                <span>Gráfico</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('table')}
+                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${
+                  activeTab === 'table'
+                    ? 'text-black font-medium'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Table className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Tabela</span>
+                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
+                </span>
+              </button>
+            </div>
+
+            {/* Conteúdo Exclusivo da Aba Selecionada */}
+            {activeTab === 'summary' && (
+              <div className="animate-fadeIn">
+                <ResultsSummary
+                  result={result}
+                  comparison={comparison}
+                  onOpenComparison={() => setIsComparatorOpen(true)}
+                />
+              </div>
+            )}
+
+            {activeTab === 'chart' && (
+              <div className="animate-fadeIn">
+                <AmortizationChart result={result} />
+              </div>
+            )}
+
+            {activeTab === 'table' && (
+              <div className="animate-fadeIn">
+                <AmortizationTable result={result} />
+              </div>
+            )}
 
           </div>
         )}
