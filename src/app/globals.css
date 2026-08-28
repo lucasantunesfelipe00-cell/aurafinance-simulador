@@ -1,23 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --color-obsidian: #000000;
-    --color-paper: #ffffff;
-    --color-inkstone: #181818;
-    --color-felt: #6d6d6d;
-    --color-slate-pill: #636363;
-    --color-ash: #9a9a9a;
+    --color-bg: #f3f2f2;
+    --color-surface: #eae9e9;
+    --color-text: #201e1d;
+    --color-accent: #ec3013;
+    --color-divider: rgba(32, 30, 29, 0.4);
   }
 
   body {
-    background-color: #000000;
-    color: #ffffff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f3f2f2;
+    color: #201e1d;
+    font-family: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
-    letter-spacing: -0.01em;
   }
 }
 
@@ -28,101 +28,96 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #eae9e9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #201e1d;
   border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #666666;
+  background: #ec3013;
 }
 
-/* Iridescent Hero Backdrop Wash */
-.iridescent-hero-bg {
-  background: linear-gradient(135deg, rgba(160, 224, 171, 0.45) 0%, rgba(255, 172, 46, 0.4) 45%, rgba(165, 45, 37, 0.45) 100%);
-  filter: blur(80px);
-  -webkit-filter: blur(80px);
-}
-
-/* Monopo Ghost Pill Button (Dark Surface) */
+/* Ghost Pill Button (Dark Surface) — mantido o nome por compatibilidade, raio zerado */
 .btn-ghost-pill-dark {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   color: #ffffff;
-  border-radius: 75px;
+  border-radius: 0px;
   padding: 12px 34px;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-ghost-pill-dark:hover {
   background: #ffffff;
-  color: #000000;
+  color: #201e1d;
   border-color: #ffffff;
-  transform: translateY(-1px);
 }
 
-/* Monopo Ghost Pill Button (Light Surface) */
+/* Ghost Pill Button (Light Surface) */
 .btn-ghost-pill-light {
   background: transparent;
-  border: 1px solid #000000;
-  color: #000000;
-  border-radius: 75px;
+  border: 1px solid #201e1d;
+  color: #201e1d;
+  border-radius: 0px;
   padding: 12px 34px;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-ghost-pill-light:hover {
-  background: #000000;
-  color: #ffffff;
-  transform: translateY(-1px);
+  background: #201e1d;
+  color: #f3f2f2;
 }
 
-/* Monopo Filled Neutral Pill */
+/* Filled Neutral Pill */
 .btn-pill-filled {
-  background: #ffffff;
-  color: #000000;
-  border: 1px solid #ffffff;
-  border-radius: 75px;
+  background: #201e1d;
+  color: #f3f2f2;
+  border: 1px solid #201e1d;
+  border-radius: 0px;
   padding: 12px 34px;
   font-size: 15px;
-  font-weight: 400;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  font-weight: 600;
+  transition: background-color 0.2s ease;
 }
 
 .btn-pill-filled:hover {
-  background: #e6e6e6;
-  border-color: #e6e6e6;
-  transform: translateY(-1px);
+  background: #444141;
+  border-color: #444141;
 }
 
-/* Monopo Gold Filled Pill (Primary CTAs — Dark Gold Gradient) */
+/* Primary CTA — acento sólido, sem gradiente/glow */
 .btn-gold-fill {
-  background: linear-gradient(135deg, #E6C265 0%, #D4AF37 35%, #B8860B 75%, #996515 100%);
+  background: #ec3013;
   color: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 75px;
+  border: 1px solid #ec3013;
+  border-radius: 0px;
   padding: 12px 34px;
   font-size: 15px;
-  font-weight: 400;
-  transition: filter 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  font-weight: 600;
+  transition: background-color 0.2s ease;
 }
 
 .btn-gold-fill:hover {
-  filter: brightness(1.12);
+  background: #dd2b0f;
 }
 
-/* Sharp Editorial Card (0px Radius, Hairline Border) */
+.btn-gold-fill:active {
+  background: #ae1800;
+}
+
+/* Sharp Editorial Card (0px Radius) */
 .editorial-card {
-  background: #000000;
+  background: #201e1d;
+  color: #f3f2f2;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0px;
   box-shadow: none;
@@ -130,13 +125,13 @@
 
 .editorial-card-light {
   background: #ffffff;
-  color: #000000;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #201e1d;
+  border: 1px solid rgba(32, 30, 29, 0.15);
   border-radius: 0px;
   box-shadow: none;
 }
 
-/* Hide Native Number Input Spinner (Custom Compact Boxes) */
+/* Hide Native Number Input Spinner */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -148,7 +143,7 @@ input[type="number"] {
   appearance: textfield;
 }
 
-/* Custom Range Input (Monochrome Slider) */
+/* Custom Range Input — trilho neutro, thumb quadrado vermelho */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -163,14 +158,14 @@ input[type="range"]:focus {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  background: rgba(255, 255, 255, 0.15);
+  background: #eae9e9;
   border-radius: 0px;
   height: 4px;
   border: none;
 }
 
 input[type="range"]::-moz-range-track {
-  background: rgba(255, 255, 255, 0.15);
+  background: #eae9e9;
   border-radius: 0px;
   height: 4px;
   border: none;
@@ -180,26 +175,26 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   margin-top: -6px;
-  background: #ffffff;
+  background: #ec3013;
   height: 16px;
   width: 16px;
-  border-radius: 75px;
-  border: 2px solid #000000;
-  transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  border-radius: 0px;
+  border: 2px solid #201e1d;
+  transition: transform 0.15s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
 
 input[type="range"]::-moz-range-thumb {
   appearance: none;
-  background: #ffffff;
+  background: #ec3013;
   height: 16px;
   width: 16px;
-  border-radius: 75px;
-  border: 2px solid #000000;
-  transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  border-radius: 0px;
+  border: 2px solid #201e1d;
+  transition: transform 0.15s ease;
 }
 
 /* Smooth Fade-In Animation */
@@ -215,7 +210,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .animate-fadeIn {
-  animation: fadeInGliding 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation: fadeInGliding 0.4s ease forwards;
 }
 
 /* Scale-In (Modal / Card Entrance) */
@@ -231,58 +226,32 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .animate-scaleIn {
-  animation: scaleInGliding 0.35s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation: scaleInGliding 0.25s ease forwards;
 }
 
-/* Tactile Lift: Hover Elevation + Press Feedback (Buttons & Pills) */
+/* Tactile press feedback — sem glow, só leve deslocamento */
 .btn-lift {
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.4s cubic-bezier(0.19, 1, 0.22, 1), background-color 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  will-change: transform;
-}
-
-.btn-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px -12px rgba(255, 255, 255, 0.18);
+  transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-lift:active {
-  transform: translateY(0) scale(0.96);
-  box-shadow: none;
-  transition-duration: 0.15s;
+  transform: scale(0.97);
+  transition-duration: 0.1s;
 }
 
-/* Shine Sweep: Diagonal Light Pass on Hover (Primary Filled CTAs Only) */
-.btn-shine {
-  position: relative;
-  overflow: hidden;
+/* Compat: efeito de "shine" removido (sistema não usa gradiente/brilho) */
+.btn-shine::before,
+.btn-shine-gold::before {
+  content: none;
 }
 
-.btn-shine::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(115deg, transparent 0%, rgba(0, 0, 0, 0.16) 50%, transparent 100%);
-  transform: skewX(-20deg);
-  transition: left 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-  pointer-events: none;
-}
-
-.btn-shine:hover::before {
-  left: 130%;
-}
-
-/* Card Lift: Subtle Elevation for Informational / KPI Cards */
+/* Card informativo — sem elevação flutuante, só realce da borda no hover */
 .card-lift {
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: border-color 0.2s ease;
 }
 
 .card-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px -20px rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: #201e1d;
 }
 
 /* Chart Bar Grow-In (SVG rect crescendo a partir da base) */
@@ -297,53 +266,15 @@ input[type="range"]::-moz-range-thumb {
 
 .animate-barGrow {
   transform-box: fill-box;
-  animation: barGrow 0.6s cubic-bezier(0.19, 1, 0.22, 1) backwards;
+  animation: barGrow 0.5s ease backwards;
 }
 
-/* Gold Gradient Text (Wordmark Shimmer) */
+/* Compat: wordmark shimmer removido — texto sólido, sem gradiente */
 .gold-gradient-text {
-  background-image: linear-gradient(135deg, #FFF7D6 0%, #E6C265 40%, #B8860B 80%, #D4AF37 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: #ec3013;
 }
 
-/* Shine Sweep (Gold Variant): Lighter Pass for Dark-Gold Filled CTAs */
-.btn-shine-gold::before {
-  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
-}
-
-/* Ambient Motion: Hero Backdrop Drift (Runs at Rest, No Interaction Needed) */
-@keyframes heroDrift {
-  0%, 100% {
-    transform: translate(-50%, 0) scale(1);
-  }
-  50% {
-    transform: translate(-50%, 2%) scale(1.06);
-  }
-}
-
-.animate-heroDrift {
-  animation: heroDrift 14s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-}
-
-/* Ambient Motion: Primary CTA Idle Gold Pulse */
-@keyframes ctaPulseGold {
-  0%, 100% {
-    box-shadow: 0 0 25px -8px rgba(212, 175, 55, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 40px -6px rgba(212, 175, 55, 0.6);
-  }
-}
-
-.animate-ctaPulseGold {
-  animation: ctaPulseGold 3.5s ease-in-out infinite;
-}
-
-/* Custom Cursor: Hide Native Pointer Everywhere (Including Buttons/Sliders/Inputs) */
+/* Custom Cursor: Hide Native Pointer Everywhere */
 .cursor-hidden,
 .cursor-hidden * {
   cursor: none !important;
