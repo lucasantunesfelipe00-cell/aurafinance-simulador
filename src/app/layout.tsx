@@ -126,6 +126,27 @@ export default function RootLayout({
         <meta property="og:url" content="https://brasil-finance-lucas-antunes.vercel.app" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Brasil Finance" />
+
+        {/* Schema.org Structured Data (JSON-LD) para Rich Snippets no Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FinancialProduct',
+              name: 'Brasil Finance — Simulador Imobiliário & Amortização Acelerada',
+              description:
+                'Ferramenta de inteligência financeira para simulação e amortização de crédito imobiliário nas modalidades SAC e PRICE.',
+              provider: {
+                '@type': 'Organization',
+                name: 'Brasil Finance',
+                url: 'https://brasil-finance-lucas-antunes.vercel.app',
+              },
+              feesAndCommissionsSpecification: 'Gratuito',
+              category: 'Crédito Imobiliário',
+            }),
+          }}
+        />
       </head>
       <body className="bg-black text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />

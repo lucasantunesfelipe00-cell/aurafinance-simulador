@@ -5,6 +5,8 @@ import { Menu, RefreshCw } from 'lucide-react';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { vibrateShort } from '@/lib/haptics';
 import { HelpModal } from '@/components/HelpModal';
+import { FaqModal } from '@/components/FaqModal';
+import { TermsModal } from '@/components/TermsModal';
 import { SideDrawer } from '@/components/SideDrawer';
 
 interface HeaderProps {
@@ -14,9 +16,11 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onReset }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   return (
-    <header className="w-full border-b border-white/10 bg-black/90 backdrop-blur-md sticky top-0 z-50 h-[66px] relative">
+    <header className="w-full border-b border-white/10 bg-black/90 backdrop-blur-md sticky top-0 z-50 h-[66px] relative font-sans">
       <div className="max-w-[1078px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
         
         {/* Canto Superior Esquerdo: Botão de 3 Linhas (Menu Hamburger) */}
@@ -71,10 +75,14 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         onOpenHelp={() => setIsHelpOpen(true)}
+        onOpenFaq={() => setIsFaqOpen(true)}
+        onOpenTerms={() => setIsTermsOpen(true)}
       />
 
-      {/* Modal do Manual & Glossário */}
+      {/* Modais de Ajuda, FAQ e Termos */}
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      <FaqModal isOpen={isFaqOpen} onClose={() => setIsFaqOpen(false)} />
+      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
 
       {/* Linha de brilho sutil com gradiente da paleta dourada */}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#c2a25b]/45 to-transparent pointer-events-none">
