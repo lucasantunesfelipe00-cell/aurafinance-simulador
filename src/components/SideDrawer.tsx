@@ -118,14 +118,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             {/* Conteúdo Principal do Menu */}
             <div className="flex-1 overflow-y-auto p-4 space-y-6 relative z-10 custom-scrollbar">
               
-              {/* Seção 1: Recursos & Guias */}
+              {/* Seção 1: Central de Ajuda & Suporte */}
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#c2a25b] px-2">
-                  Central de Conhecimento
+                  Navegação & Ajuda
                 </span>
                 
-                <div className="mt-2 space-y-1.5">
-                  {/* Item: Manual do Aplicativo & Glossário */}
+                <div className="mt-2 space-y-2">
+                  {/* Item Principal: Botão de Interrogação - Manual & Ajuda (?) */}
                   <button
                     onClick={() => {
                       vibrateShort();
@@ -134,20 +134,25 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     }}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
-                    className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                    className="w-full flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r from-[#c2a25b]/15 via-white/5 to-white/5 hover:from-[#c2a25b]/25 hover:to-[#c2a25b]/10 border border-[#c2a25b]/40 hover:border-[#c2a25b] text-left transition-all group cursor-pointer shadow-lg shadow-[#c2a25b]/5"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-[#c2a25b]/15 text-[#c2a25b] group-hover:bg-[#c2a25b] group-hover:text-black transition-colors">
-                        <BookOpen className="w-4 h-4" />
+                      <div className="p-2.5 rounded-xl bg-[#c2a25b] text-black font-extrabold shadow-md group-hover:scale-105 transition-transform shrink-0">
+                        <HelpCircle className="w-5 h-5 stroke-[2.5]" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
-                          Manual do Aplicativo
-                        </h4>
-                        <p className="text-[10px] text-neutral-400">Guia de uso e glossário financeiro</p>
+                        <div className="flex items-center space-x-1.5">
+                          <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
+                            Central de Ajuda
+                          </h4>
+                          <span className="bg-[#c2a25b]/20 text-[#c2a25b] text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#c2a25b]/30">
+                            ?
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-neutral-300 mt-0.5">Manual, conceitos e glossário</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-neutral-500 group-hover:text-[#c2a25b] group-hover:translate-x-0.5 transition-all" />
+                    <ChevronRight className="w-4 h-4 text-[#c2a25b] group-hover:translate-x-1 transition-transform shrink-0" />
                   </button>
 
                   {/* Item: FAQ (Perguntas Frequentes) */}
@@ -163,8 +168,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-[#c2a25b]/15 text-[#c2a25b] group-hover:bg-[#c2a25b] group-hover:text-black transition-colors">
-                        <HelpCircle className="w-4 h-4" />
+                      <div className="p-2 rounded-lg bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors">
+                        <BookOpen className="w-4 h-4" />
                       </div>
                       <div>
                         <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
@@ -188,7 +193,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-[#c2a25b]/15 text-[#c2a25b] group-hover:bg-[#c2a25b] group-hover:text-black transition-colors">
+                      <div className="p-2 rounded-lg bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors">
                         <ShieldCheck className="w-4 h-4" />
                       </div>
                       <div>
