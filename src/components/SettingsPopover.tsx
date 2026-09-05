@@ -38,15 +38,15 @@ export const SettingsPopover: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-[999] font-sans">
+    <div className="relative font-sans">
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute bottom-16 right-0 w-64 p-5 border border-white/15 bg-black/95 backdrop-blur-md rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-4 text-left"
+            className="absolute top-14 right-0 w-64 p-5 border border-white/15 bg-black/95 backdrop-blur-md rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] space-y-4 text-left z-50"
           >
             <div>
               <h4 className="text-xs font-bold uppercase tracking-widest text-gold-400">Ajustes Sensoriais</h4>
@@ -96,19 +96,21 @@ export const SettingsPopover: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Floating Gear Button */}
+      {/* Top Right Gear Button */}
       <button
         onClick={() => {
           setIsOpen(!isOpen);
           playClickSound();
         }}
-        className={`btn-lift p-3.5 rounded-full border bg-black/80 backdrop-blur-md shadow-lg flex items-center justify-center transition-all ${
+        className={`btn-lift p-2 sm:p-2.5 rounded-full border bg-black/80 backdrop-blur-md shadow-lg flex items-center justify-center transition-all ${
           isOpen
             ? 'border-gold-400 text-white rotate-45'
             : 'border-white/15 text-gold-400 hover:text-white hover:border-white/30'
         }`}
+        aria-label="Configurações"
+        title="Ajustes Sensoriais"
       >
-        <Settings className="w-4.5 h-4.5" />
+        <Settings className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
       </button>
     </div>
   );

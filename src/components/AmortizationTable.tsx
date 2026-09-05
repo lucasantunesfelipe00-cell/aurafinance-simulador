@@ -108,28 +108,45 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
             </tr>
           </thead>
           <tbody key={currentPage} className="divide-y divide-white/10 font-mono animate-fadeIn">
-            {currentInstallments.map((inst) => (
-              <tr key={inst.number} className="group hover:bg-white/5 transition-colors">
-                <td className="py-2.5 px-2 font-normal text-gold-400 text-[11px] whitespace-nowrap border-l-2 border-transparent group-hover:border-white transition-colors">
-                  Mês {inst.number}
-                </td>
-                <td className="py-2.5 px-2 text-center font-normal text-white">
-                  <FormattedBRL value={inst.installmentTotal} />
-                </td>
-                <td className="py-2.5 px-2 text-center text-white">
-                  <FormattedBRL value={inst.principalAmortization} />
-                </td>
-                <td className="py-2.5 px-2 text-center text-neutral-300">
-                  <FormattedBRL value={inst.interestPaid} />
-                </td>
-                <td className="py-2.5 px-2 text-center text-neutral-400">
-                  <FormattedBRL value={inst.insuranceAndFees} />
-                </td>
-                <td className="py-2.5 px-2 text-center text-white font-normal">
-                  <FormattedBRL value={inst.outstandingBalance} />
-                </td>
-              </tr>
-            ))}
+            {currentInstallments.map((inst) => {
+              const isFinalPayoff = inst.number === installments.length && installments.length < result.termMonths;
+              return (
+                <tr
+                  key={inst.number}
+                  className={`group transition-colors ${
+                    isFinalPayoff
+                      ? 'bg-emerald-950/40 border-l-2 border-emerald-400'
+                      : 'hover:bg-white/5'
+                  }`}
+                >
+                  <td className="py-2.5 px-2 font-normal text-gold-400 text-[11px] whitespace-nowrap border-l-2 border-transparent group-hover:border-white transition-colors">
+                    <div className="flex items-center space-x-1.5">
+                      <span>Mês {inst.number}</span>
+                      {isFinalPayoff && (
+                        <span className="px-1 py-0.5 rounded-full bg-emerald-500 text-black text-[7px] font-bold uppercase tracking-wider leading-none shrink-0">
+                          Dívida Quitada!
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-2.5 px-2 text-center font-normal text-white">
+                    <FormattedBRL value={inst.installmentTotal} />
+                  </td>
+                  <td className="py-2.5 px-2 text-center text-white">
+                    <FormattedBRL value={inst.principalAmortization} />
+                  </td>
+                  <td className="py-2.5 px-2 text-center text-neutral-300">
+                    <FormattedBRL value={inst.interestPaid} />
+                  </td>
+                  <td className="py-2.5 px-2 text-center text-neutral-400">
+                    <FormattedBRL value={inst.insuranceAndFees} />
+                  </td>
+                  <td className="py-2.5 px-2 text-center text-white font-normal">
+                    <FormattedBRL value={inst.outstandingBalance} />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

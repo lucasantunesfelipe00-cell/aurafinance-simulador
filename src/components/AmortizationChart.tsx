@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FinancingResult } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Sparkles } from 'lucide-react';
 
 interface AmortizationChartProps {
   result: FinancingResult;
@@ -15,6 +15,9 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
 
   const installments = result.installments;
   if (!installments || installments.length === 0) return null;
+
+  // Ponto de virada: primeiro mês em que a amortização é maior que os juros da parcela
+  const crossoverInstallment = installments.find((inst) => inst.principalAmortization > inst.interestPaid);
 
   const svgWidth = 800;
   const svgHeight = 300;
@@ -86,8 +89,8 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
         >
           <defs>
             <linearGradient id="balanceBarGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F5D03A" />
-              <stop offset="100%" stopColor="#996515" />
+              <stop offset="0%" stopColor="#c2a25b" />
+              <stop offset="100%" stopColor="#a47e35" />
             </linearGradient>
           </defs>
 
@@ -179,7 +182,7 @@ export const AmortizationChart: React.FC<AmortizationChartProps> = ({ result }) 
                     y1={bottomY + 6}
                     x2={groupX + groupWidth / 2}
                     y2={bottomY + 10}
-                    stroke="#D4AF37"
+                    stroke="#a47e35"
                     strokeWidth="1.5"
                   />
                 )}

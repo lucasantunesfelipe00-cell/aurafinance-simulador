@@ -108,11 +108,11 @@ export const SpecsViewerModal: React.FC<SpecsViewerModalProps> = ({ isOpen, onCl
               <h3 className="text-sm font-bold text-gold-400 mb-2">Design System — Brasil Gold & Obsidian</h3>
               <p className="text-gray-400 mb-2">Arquivo original: <code className="text-amber-200">design.md</code></p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-3 font-sans">
-                <div className="p-3 rounded-lg bg-[#D4AF37] text-obsidian-950 font-bold text-[10px]">
-                  #D4AF37 (Gold Primary)
+                <div className="p-3 rounded-lg bg-[#a47e35] text-obsidian-950 font-bold text-[10px]">
+                  #a47e35 (Gold Primary)
                 </div>
-                <div className="p-3 rounded-lg bg-[#996515] text-white font-bold text-[10px]">
-                  #996515 (Gold Metallic)
+                <div className="p-3 rounded-lg bg-[#c2a25b] text-white font-bold text-[10px]">
+                  #c2a25b (Gold Metallic)
                 </div>
                 <div className="p-3 rounded-lg bg-[#090A0F] text-gold-300 font-bold text-[10px] border border-gold-500/30">
                   #090A0F (Obsidian Dark)

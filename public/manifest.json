@@ -1,14 +1,20 @@
 {
-  "name": "BrasilFinance — Simulador de Financiamentos & Amortização",
-  "short_name": "BrasilFinance",
-  "description": "Simule financiamentos imobiliários, veiculares e pessoais. Compare tabelas SAC e PRICE com gráficos e tabelas detalhadas.",
+  "name": "Brasil Finance — Inteligência Financeira Imobiliária",
+  "short_name": "Brasil Finance",
+  "description": "Inteligência financeira para seus imóveis. Simulações avançadas de amortização SAC e PRICE.",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#07080A",
-  "theme_color": "#07080A",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "categories": ["finance", "utilities", "productivity"],
   "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/icon-192.png",
       "sizes": "192x192",

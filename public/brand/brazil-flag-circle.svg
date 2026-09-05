@@ -1,0 +1,26 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#circleClip)">
+    <!-- Fundo Verde (Green background) -->
+    <rect width="100" height="100" fill="#009b3a" />
+    <!-- Losango Amarelo (Yellow rhombus) -->
+    <polygon points="50,12 88,50 50,88 12,50" fill="#fedf00" />
+    <!-- Círculo Azul (Blue circle) -->
+    <circle cx="50" cy="50" r="22" fill="#002776" />
+    <!-- Faixa Branca (White band) -->
+    <path d="M 28,52 Q 50,42 72,50 Q 72,54 72,54 Q 50,46 28,56 Z" fill="#ffffff" />
+    <!-- Estrelas (White stars) -->
+    <circle cx="44" cy="55" r="1.1" fill="#ffffff" />
+    <circle cx="50" cy="58" r="1.1" fill="#ffffff" />
+    <circle cx="56" cy="56" r="1.1" fill="#ffffff" />
+    <circle cx="48" cy="62" r="0.9" fill="#ffffff" />
+    <circle cx="54" cy="61" r="0.9" fill="#ffffff" />
+    <circle cx="42" cy="60" r="0.8" fill="#ffffff" />
+  </g>
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="50" />
+    </clipPath>
+  </defs>
+  <!-- Contorno sutil (Subtle border overlay) -->
+  <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
+</svg>

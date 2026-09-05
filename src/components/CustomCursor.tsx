@@ -80,7 +80,11 @@ export const CustomCursor: React.FC = () => {
         opacity: visible && !isNative ? 1 : 0,
       }}
       className={`pointer-events-none fixed left-0 top-0 z-[9999] rounded-full transition-colors duration-150 ${
-        variant === 'input' ? 'bg-white' : variant === 'button' ? 'bg-black' : 'bg-gold-400'
+        variant === 'input'
+          ? 'bg-white'
+          : variant === 'button'
+          ? 'bg-black border border-gold-400/60 shadow-sm'
+          : 'bg-gold-400'
       }`}
     />
   );

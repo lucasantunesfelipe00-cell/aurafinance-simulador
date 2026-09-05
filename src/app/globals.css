@@ -12,6 +12,13 @@
     --color-ash: #9a9a9a;
   }
 
+  html, body, input, button, select, textarea, h1, h2, h3, h4, span, p {
+    -webkit-text-size-adjust: 100% !important;
+    -moz-text-size-adjust: 100% !important;
+    -ms-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+  }
+
   body {
     background-color: #000000;
     color: #ffffff;
@@ -19,6 +26,19 @@
     overflow-x: hidden;
     letter-spacing: -0.01em;
   }
+}
+
+/* Proteção para iOS Dynamic Type (Acessibilidade) */
+* {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Custom Scrollbar */
@@ -40,11 +60,11 @@
   background: #666666;
 }
 
-/* Iridescent Hero Backdrop Wash */
+/* Iridescent Hero Backdrop Wash (Softened to prevent yellow flashes) */
 .iridescent-hero-bg {
-  background: linear-gradient(135deg, rgba(160, 224, 171, 0.45) 0%, rgba(255, 172, 46, 0.4) 45%, rgba(165, 45, 37, 0.45) 100%);
-  filter: blur(80px);
-  -webkit-filter: blur(80px);
+  background: linear-gradient(135deg, rgba(160, 224, 171, 0.1) 0%, rgba(194, 162, 91, 0.12) 45%, rgba(165, 45, 37, 0.1) 100%);
+  filter: blur(90px);
+  -webkit-filter: blur(90px);
 }
 
 /* Monopo Ghost Pill Button (Dark Surface) */
@@ -106,9 +126,9 @@
 
 /* Monopo Gold Filled Pill (Primary CTAs — Dark Gold Gradient) */
 .btn-gold-fill {
-  background: linear-gradient(135deg, #E6C265 0%, #D4AF37 35%, #B8860B 75%, #996515 100%);
+  background: linear-gradient(135deg, #a47e35 0%, #c2a25b 50%, #a47e35 100%);
   color: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.5);
+  border: 1px solid rgba(164, 126, 53, 0.5);
   border-radius: 75px;
   padding: 12px 34px;
   font-size: 15px;
@@ -155,6 +175,10 @@ input[type="range"] {
   background: transparent;
   cursor: pointer;
   width: 100%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  margin-top: -14px;
+  margin-bottom: -14px;
   touch-action: pan-y;
 }
 
@@ -282,7 +306,6 @@ input[type="range"]::-moz-range-thumb {
 .card-lift:hover {
   transform: translateY(-3px);
   box-shadow: 0 20px 40px -20px rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.35);
 }
 
 /* Chart Bar Grow-In (SVG rect crescendo a partir da base) */
@@ -302,7 +325,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Gold Gradient Text (Wordmark Shimmer) */
 .gold-gradient-text {
-  background-image: linear-gradient(135deg, #FFF7D6 0%, #E6C265 40%, #B8860B 80%, #D4AF37 100%);
+  background-image: linear-gradient(135deg, #a47e35 0%, #c2a25b 50%, #a47e35 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -332,15 +355,38 @@ input[type="range"]::-moz-range-thumb {
 /* Ambient Motion: Primary CTA Idle Gold Pulse */
 @keyframes ctaPulseGold {
   0%, 100% {
-    box-shadow: 0 0 25px -8px rgba(212, 175, 55, 0.35);
+    box-shadow: 0 0 25px -8px rgba(164, 126, 53, 0.35);
   }
   50% {
-    box-shadow: 0 0 40px -6px rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 40px -6px rgba(194, 162, 91, 0.6);
   }
 }
 
 .animate-ctaPulseGold {
   animation: ctaPulseGold 3.5s ease-in-out infinite;
+}
+
+/* Liquid Metallic Sweep for Primary CTAs */
+@keyframes liquidSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.btn-liquid-sweep {
+  background-size: 200% auto;
+  background-image: linear-gradient(
+    115deg,
+    #a47e35 0%,
+    #c2a25b 25%,
+    #ffeaa7 50%,
+    #c2a25b 75%,
+    #a47e35 100%
+  );
+  animation: liquidSweep 6s ease-in-out infinite;
 }
 
 /* Custom Cursor: Hide Native Pointer Everywhere (Including Buttons/Sliders/Inputs) */

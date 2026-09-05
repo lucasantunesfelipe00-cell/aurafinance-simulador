@@ -28,7 +28,7 @@ export const MouseGlow: React.FC<MouseGlowProps> = ({
   children,
   className = '',
   size = 130,
-  color = 'rgba(212, 175, 55, 0.45)',
+  color = 'rgba(212, 175, 55, 0.31)',
   onClick,
 }) => {
   const x = useSpring(0, SPRING);

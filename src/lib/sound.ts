@@ -56,3 +56,39 @@ export function playTypeSound() {
 export function playClickSound() {
   playTone(320, 150, 0.09, 0.12, 'sine');
 }
+
+/** Som de brilho cristalino ascendente e luxuoso perfeitamente alinhado com a animação de 5.0s do feixe de luz */
+export function playGoldBeamSweepSound() {
+  if (!isSoundEnabled()) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  // Acorde maior ascendente (otimista, nobre e brilhante) acompanhando a varredura do feixe da direita para a esquerda
+
+  const chimeEvents = [
+    { delay: 0.20, freq: 1318.5, vol: 0.015 }, // Início brilhante e suave ao surgir o feixe (E6)
+    { delay: 1.00, freq: 1661.2, vol: 0.020 }, // Elevação harmônica elegante (G#6)
+    { delay: 1.80, freq: 1975.5, vol: 0.024 }, // Tom alto e reluzente (B6)
+    { delay: 2.60, freq: 2637.0, vol: 0.028 }, // PONTO MAIS AGUDO e radiante no ápice do feixe (E7)
+  ];
+
+  chimeEvents.forEach((item) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    const start = now + item.delay;
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(item.freq, start);
+    osc.frequency.exponentialRampToValueAtTime(item.freq * 1.025, start + 1.4);
+
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.linearRampToValueAtTime(item.vol, start + 0.3);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.4);
+
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(start);
+    osc.stop(start + 1.45);
+  });
+}

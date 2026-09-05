@@ -11,12 +11,12 @@ interface FormattedBRLProps {
   animate?: boolean;
 }
 
-function easeOutCubic(t: number): number {
-  return 1 - Math.pow(1 - t, 3);
+function easeOutExpo(t: number): number {
+  return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
 }
 
-/** Interpola de um valor numérico até outro via requestAnimationFrame. */
-function useAnimatedNumber(target: number, enabled: boolean, duration = 600): number {
+/** Interpola de um valor numérico até outro com desaceleração exponencial de terminal financeiro. */
+function useAnimatedNumber(target: number, enabled: boolean, duration = 500): number {
   const [displayed, setDisplayed] = useState(target);
   const fromRef = useRef(target);
   const rafRef = useRef<number>();
@@ -34,7 +34,7 @@ function useAnimatedNumber(target: number, enabled: boolean, duration = 600): nu
     const start = performance.now();
     const tick = (now: number) => {
       const progress = Math.min(1, (now - start) / duration);
-      const eased = easeOutCubic(progress);
+      const eased = easeOutExpo(progress);
       setDisplayed(from + (target - from) * eased);
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick);

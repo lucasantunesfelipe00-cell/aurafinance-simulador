@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FinancingInputs } from '@/types/financing';
 import {
   calculateFinancing,
@@ -16,7 +17,8 @@ import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { HeroTitle } from '@/components/HeroTitle';
-import { SettingsPopover } from '@/components/SettingsPopover';
+import { BankSplashFlow } from '@/components/BankSplashFlow';
+import { BackgroundLightTrail } from '@/components/BackgroundLightTrail';
 import { vibrateShort } from '@/lib/haptics';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { playTypeSound } from '@/lib/sound';
@@ -37,12 +39,15 @@ function formatCurrencyMask(val: number): string {
 }
 
 export default function Home() {
+  const [viewMode, setViewMode] = useState<'onboarding' | 'simulator'>('onboarding');
   const [inputs, setInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
   const [calculatedInputs, setCalculatedInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
   const [hasCalculated, setHasCalculated] = useState(false);
+  const [isConfigVisible, setIsConfigVisible] = useState(true);
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -76,51 +81,135 @@ export default function Home() {
   const handleSimulate = () => {
     setCalculatedInputs(inputs);
     setHasCalculated(true);
+    setIsConfigVisible(false);
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    }, 150);
   };
 
   const handleReset = () => {
     setInputs(DEFAULT_FINANCING_INPUTS);
     setCalculatedInputs(DEFAULT_FINANCING_INPUTS);
+    setCurrentStep(1);
+    setHasCalculated(false);
+    setIsConfigVisible(true);
   };
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
+      {/* Background ambiente 100% estático sem efeitos de surgir/movimento */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] iridescent-hero-bg pointer-events-none -z-10 opacity-30" />
 
-      {/* Atmospheric Iridescent Backdrop Wash (Sage Green -> Amber -> Oxblood) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] iridescent-hero-bg animate-heroDrift pointer-events-none -z-10 opacity-60" />
+      <AnimatePresence mode="wait">
+        {viewMode === 'onboarding' ? (
+          <motion.div
+            key="onboarding-view"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.3, ease: 'easeInOut' } }}
+            className="w-full h-full min-h-screen bg-black"
+          >
+            <BankSplashFlow onStartSimulator={() => setViewMode('simulator')} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="simulator-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="flex-1 flex flex-col w-full min-h-screen relative"
+          >
+            {/* Imagem de Fundo das Ondas Douradas (Escurecida 15%) */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
+              {/* Versão Mobile (Vertical) — Escurecida 15% */}
+              <img
+                src="/images/bank-welcome-bg.jpg"
+                alt="Fundo Institucional Mobile"
+                className="sm:hidden w-full h-full object-cover object-center opacity-45 pointer-events-none"
+              />
 
-      {/* Header Superior (66px Height, 1078px max-width) */}
-      <Header />
+              {/* Versão Desktop (Horizontal) — Escurecida 15% */}
+              <img
+                src="/images/bank-welcome-bg-horizontal.jpg"
+                alt="Fundo Institucional Desktop"
+                className="hidden sm:block w-full h-full object-cover object-center sm:object-[center_35%] opacity-30 pointer-events-none"
+              />
+
+              {/* Camada de Escurecimento Geral 15% */}
+              <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+
+              {/* Brilho de Luz Ambiente Suave */}
+              <div
+                style={{
+                  background:
+                    'radial-gradient(ellipse at 50% 30%, rgba(194, 162, 91, 0.22) 0%, rgba(164, 126, 53, 0.08) 50%, transparent 80%)',
+                  mixBlendMode: 'color-dodge',
+                }}
+                className="absolute inset-0 pointer-events-none"
+              />
+
+              {/* Feixe de Luz Dourado: Suave e Bem Mais Devagar (22s) */}
+              <motion.div
+                initial={{ x: '100%', opacity: 0 }}
+                animate={{
+                  x: ['100%', '-100%'],
+                  opacity: [0, 0.45, 0.45, 0],
+                }}
+                transition={{
+                  duration: 22.0,
+                  repeat: Infinity,
+                  repeatDelay: 0,
+                  ease: 'linear',
+                }}
+                style={{
+                  background:
+                    'linear-gradient(115deg, transparent 15%, rgba(164, 126, 53, 0.22) 38%, rgba(194, 162, 91, 0.48) 48%, rgba(223, 192, 123, 0.6) 50%, rgba(194, 162, 91, 0.48) 52%, rgba(164, 126, 53, 0.22) 62%, transparent 85%)',
+                  mixBlendMode: 'color-dodge',
+                }}
+                className="absolute inset-[-50%] pointer-events-none z-10"
+              />
+
+              {/* Feixe de Luz Dourado Interativo que Segue o Rastro do Mouse */}
+              <BackgroundLightTrail />
+
+              {/* Sombreamento de vinheta equilibrado */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70 pointer-events-none" />
+            </div>
+
+            {/* Conteúdo da Aplicação em Camada Superior z-10 */}
+            <div className="relative z-10 flex-1 flex flex-col w-full min-h-screen">
+              {/* Header Superior (66px Height, 1078px max-width) */}
+              <Header onReset={handleReset} />
 
       {/* Conteúdo Principal (Max-width 1078px contained per design.md) */}
-      <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-12 sm:py-20 space-y-16">
+      <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
 
-        {/* HERO SECTION — Monopo Saigon Editorial Atmosphere */}
-        <div className="text-center max-w-3xl mx-auto space-y-8">
-
-          {/* Masthead Editorial — Ouro Líquido Gravado (Fraunces + Interação de Cursor) */}
-          <div className="space-y-2 flex justify-center">
-            <HeroTitle />
-          </div>
-
-          {/* Carrossel de Categoria + Configuração da Simulação */}
-          <div className="pt-6 pb-2">
-            <SimulatorCarousel
-              inputs={inputs}
-              onChange={setInputs}
-              onReset={handleReset}
-              onSimulate={handleSimulate}
-            />
-          </div>
-
+        {/* HERO SECTION — Carrossel de Configuração da Simulação */}
+        <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
+          <AnimatePresence initial={false}>
+            {isConfigVisible && (
+              <motion.div
+                key="simulator-carousel-wrapper"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.35, ease: [0.19, 1, 0.22, 1] }}
+                className="w-full overflow-hidden"
+              >
+                <SimulatorCarousel
+                  inputs={inputs}
+                  onChange={setInputs}
+                  onReset={handleReset}
+                  onSimulate={handleSimulate}
+                  onStepChange={setCurrentStep}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
         {hasCalculated && (
-          <div ref={resultsRef} className="space-y-8 pt-8 border-t border-white/15 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
+          <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
             <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden transition-all duration-300">
@@ -130,21 +219,23 @@ export default function Home() {
                   setIsExtraAmortizationOpen(!isExtraAmortizationOpen);
                   playTypeSound();
                 }}
-                onMouseEnter={() => setCursorVariant('button')}
-                onMouseLeave={() => setCursorVariant('default')}
-                className="w-full p-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors"
+                className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors gap-3"
               >
-                <div className="flex items-center space-x-3">
-                  <Layers className="w-4 h-4 text-gold-400" />
-                  <div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-gold-400">Simulador de Amortização Acelerada</h3>
-                    <p className="text-[10px] text-neutral-400 font-light mt-0.5">Acelere a quitação amortizando valores adicionais</p>
+                <div className="flex items-center space-x-2.5 sm:space-x-3.5 min-w-0 flex-1">
+                  <Layers className="w-4.5 h-4.5 sm:w-6 sm:h-6 text-gold-400 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap truncate">
+                      Simulador de Amortização Acelerada
+                    </h3>
+                    <p className="text-[10px] sm:text-xs lg:text-sm text-neutral-400 font-light mt-0.5 truncate">
+                      Acelere a quitação amortizando valores adicionais
+                    </p>
                   </div>
                 </div>
                 {isExtraAmortizationOpen ? (
-                  <ChevronUp className="w-4.5 h-4.5 text-neutral-400" />
+                  <ChevronUp className="w-5 h-5 text-neutral-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4.5 h-4.5 text-neutral-400" />
+                  <ChevronDown className="w-5 h-5 text-neutral-400 shrink-0" />
                 )}
               </button>
 
@@ -155,11 +246,11 @@ export default function Home() {
                     {/* Aporte Mensal Extra */}
                     <div className="space-y-2">
                       <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                        <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
+                        <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
                           Aporte Mensal Extra
                         </label>
                         <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
-                          <span className="text-white text-xs font-medium mr-1.5">R$</span>
+                          <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
                             inputMode="numeric"
@@ -178,28 +269,33 @@ export default function Home() {
                             onKeyDown={() => playTypeSound()}
                             onMouseEnter={() => setCursorVariant('input')}
                             onMouseLeave={() => setCursorVariant('default')}
-                            className="w-24 bg-transparent text-right font-mono text-white text-sm focus:outline-none"
+                            className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-sm sm:text-base focus:outline-none"
                           />
                         </div>
                       </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="10000"
-                        step="100"
-                        value={inputs.extraMonthlyAmortization || 0}
-                        onChange={(e) => {
-                          const val = parseFloat(e.target.value);
-                          const updated = { ...inputs, extraMonthlyAmortization: val };
-                          setInputs(updated);
-                          setCalculatedInputs(updated);
-                          vibrateShort();
-                        }}
+
+                      <div
+                        className="relative py-5 -my-2 cursor-pointer group"
                         onMouseEnter={() => setCursorVariant('native')}
                         onMouseLeave={() => setCursorVariant('default')}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
+                      >
+                        <input
+                          type="range"
+                          min="0"
+                          max="10000"
+                          step="100"
+                          value={inputs.extraMonthlyAmortization || 0}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            const updated = { ...inputs, extraMonthlyAmortization: val };
+                            setInputs(updated);
+                            setCalculatedInputs(updated);
+                            vibrateShort();
+                          }}
+                          className="w-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs sm:text-sm lg:text-base text-neutral-300 font-mono font-medium mt-1">
                         <span>R$ 0</span>
                         <span>R$ 10.000 / mês</span>
                       </div>
@@ -208,11 +304,11 @@ export default function Home() {
                     {/* Aporte Anual Extra */}
                     <div className="space-y-2">
                       <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                        <label className="text-xs font-normal uppercase tracking-wider text-neutral-300">
+                        <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
                           Aporte Anual Extra
                         </label>
                         <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
-                          <span className="text-white text-xs font-medium mr-1.5">R$</span>
+                          <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
                             inputMode="numeric"
@@ -231,28 +327,33 @@ export default function Home() {
                             onKeyDown={() => playTypeSound()}
                             onMouseEnter={() => setCursorVariant('input')}
                             onMouseLeave={() => setCursorVariant('default')}
-                            className="w-24 bg-transparent text-right font-mono text-white text-sm focus:outline-none"
+                            className="w-24 sm:w-28 bg-transparent text-right font-mono text-white text-sm sm:text-base focus:outline-none"
                           />
                         </div>
                       </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="50000"
-                        step="500"
-                        value={inputs.extraAnnualAmortization || 0}
-                        onChange={(e) => {
-                          const val = parseFloat(e.target.value);
-                          const updated = { ...inputs, extraAnnualAmortization: val };
-                          setInputs(updated);
-                          setCalculatedInputs(updated);
-                          vibrateShort();
-                        }}
+
+                      <div
+                        className="relative py-5 -my-2 cursor-pointer group"
                         onMouseEnter={() => setCursorVariant('native')}
                         onMouseLeave={() => setCursorVariant('default')}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-[9px] text-neutral-500 font-mono">
+                      >
+                        <input
+                          type="range"
+                          min="0"
+                          max="50000"
+                          step="500"
+                          value={inputs.extraAnnualAmortization || 0}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            const updated = { ...inputs, extraAnnualAmortization: val };
+                            setInputs(updated);
+                            setCalculatedInputs(updated);
+                            vibrateShort();
+                          }}
+                          className="w-full cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs sm:text-sm lg:text-base text-neutral-300 font-mono font-medium mt-1">
                         <span>R$ 0</span>
                         <span>R$ 50.000 / ano</span>
                       </div>
@@ -261,14 +362,14 @@ export default function Home() {
 
                   {/* Banner de Economia e Impacto */}
                   {((inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0) && (
-                    <div className="mt-3 p-3.5 border border-gold-500/30 bg-neutral-900/40 text-xs text-neutral-300 animate-fadeIn space-y-1">
-                      <div className="flex items-center space-x-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
-                        <span>Tempo de quitação reduzido de <strong>{Math.ceil(baselineResult.installments.length / 12)} anos</strong> para <strong>{Math.ceil(result.installments.length / 12)} anos</strong> ({baselineResult.installments.length - result.installments.length} meses economizados).</span>
+                    <div className="mt-4 p-4 sm:p-5 border border-gold-500/35 bg-neutral-900/50 text-sm sm:text-base text-neutral-200 animate-fadeIn space-y-2 leading-relaxed">
+                      <div className="flex items-start sm:items-center space-x-2.5">
+                        <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-1 sm:mt-0"></span>
+                        <span>Tempo de quitação reduzido de <strong className="text-white font-semibold">{Math.ceil(baselineResult.installments.length / 12)} anos</strong> para <strong className="text-white font-semibold">{Math.ceil(result.installments.length / 12)} anos</strong> ({baselineResult.installments.length - result.installments.length} meses economizados).</span>
                       </div>
-                      <div className="flex items-center space-x-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
-                        <span>Economia estimada em juros pagos de <strong className="text-gold-400">{formatBRL(baselineResult.totalInterest - result.totalInterest)}</strong> ao longo do contrato!</span>
+                      <div className="flex items-start sm:items-center space-x-2.5">
+                        <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-1 sm:mt-0"></span>
+                        <span>Economia estimada em juros pagos de <strong className="text-gold-400 font-bold">{formatBRL(baselineResult.totalInterest - result.totalInterest)}</strong> ao longo do contrato!</span>
                       </div>
                     </div>
                   )}
@@ -276,24 +377,23 @@ export default function Home() {
               )}
             </div>
 
-            {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante) */}
+            {/* Seletor de Abas da Análise (Controle Segmentado com Indicador Deslizante Líquido) */}
             <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
-              <div
-                className="absolute top-1 bottom-1 left-1 w-[calc((100%-0.5rem)/3)] bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style={{
-                  transform: `translateX(${activeTab === 'summary' ? 0 : activeTab === 'chart' ? 100 : 200
-                    }%)`,
-                }}
-              />
-
               <button
+                type="button"
                 onClick={() => setActiveTab('summary')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'summary'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                  }`}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'summary' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
               >
-                <Layers className="w-3.5 h-3.5 shrink-0" />
+                {activeTab === 'summary' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 <span className="truncate">
                   <span className="sm:hidden">Resumo</span>
                   <span className="hidden sm:inline">Resumo &amp; KPIs</span>
@@ -301,24 +401,38 @@ export default function Home() {
               </button>
 
               <button
+                type="button"
                 onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'chart'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                  }`}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'chart' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
               >
-                <LineChart className="w-3.5 h-3.5 shrink-0" />
+                {activeTab === 'chart' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <LineChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 <span>Gráfico</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 px-2 sm:px-4 rounded-[75px] text-[11px] sm:text-xs font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 ${activeTab === 'table'
-                    ? 'text-black font-medium'
-                    : 'text-neutral-400 hover:text-white'
-                  }`}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'table' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
               >
-                <Table className="w-3.5 h-3.5 shrink-0" />
+                {activeTab === 'table' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <Table className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 <span className="truncate">
                   <span className="sm:hidden">Tabela</span>
                   <span className="hidden sm:inline">Tabela Mês a Mês</span>
@@ -326,33 +440,57 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Conteúdo Exclusivo da Aba Selecionada */}
-            {activeTab === 'summary' && (
-              <div className="animate-fadeIn">
-                <ResultsSummary
-                  result={result}
-                  comparison={comparison}
-                  onOpenComparison={() => setIsComparatorOpen(true)}
-                />
-              </div>
-            )}
+            {/* Conteúdo Exclusivo da Aba Selecionada (Fade & Micro-Elevação) */}
+            <AnimatePresence mode="wait">
+              {activeTab === 'summary' && (
+                <motion.div
+                  key="tab-summary"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <ResultsSummary
+                    result={result}
+                    comparison={comparison}
+                    onOpenComparison={() => setIsComparatorOpen(true)}
+                  />
+                </motion.div>
+              )}
 
-            {activeTab === 'chart' && (
-              <div className="animate-fadeIn">
-                <AmortizationChart result={result} />
-              </div>
-            )}
+              {activeTab === 'chart' && (
+                <motion.div
+                  key="tab-chart"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <AmortizationChart result={result} />
+                </motion.div>
+              )}
 
-            {activeTab === 'table' && (
-              <div className="animate-fadeIn">
-                <AmortizationTable result={result} />
-              </div>
-            )}
+              {activeTab === 'table' && (
+                <motion.div
+                  key="tab-table"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <AmortizationTable result={result} />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
           </div>
         )}
 
       </main>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Modais Integrados */}
       <ComparatorModal
@@ -365,24 +503,6 @@ export default function Home() {
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
       />
-
-      {/* Rodapé Editorial Monopo Saigon (11px Felt Gray Copy, Contained 1078px) */}
-      <footer className="w-full border-t border-white/10 bg-black py-10 text-xs text-neutral-400 mt-20">
-        <div className="max-w-[1078px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-light text-[11px]">
-          <div className="flex items-center space-x-2">
-            <span className="font-normal text-white uppercase tracking-wider">Brasil Finance</span>
-            <span>—</span>
-            <span className="text-neutral-500">Liquid iridescence behind editorial silence</span>
-          </div>
-
-          <div className="flex items-center space-x-4 text-neutral-500 uppercase tracking-widest text-[10px]">
-            <span>2026 © All rights reserved</span>
-          </div>
-        </div>
-      </footer>
-
-      {/* Floating Sensor Controls Popover */}
-      <SettingsPopover />
 
     </div>
   );

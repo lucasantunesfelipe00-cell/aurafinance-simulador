@@ -5,10 +5,7 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { SoundEffects } from "@/components/SoundEffects";
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#07080A" },
-    { media: "(prefers-color-scheme: light)", color: "#D4AF37" },
-  ],
+  themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -16,31 +13,29 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  applicationName: "BrasilFinance",
+  applicationName: "Brasil Finance",
   title: {
-    default: "BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE",
-    template: "%s | BrasilFinance",
+    default: "Brasil Finance — Inteligência Financeira Imobiliária",
+    template: "%s | Brasil Finance",
   },
-  description: "Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE, analise gráficos de evolução de juros e exporte cronogramas completos.",
+  description: "Inteligência financeira para seus imóveis. Simulações avançadas de amortização SAC e PRICE, comparativos de taxas e gestão de crédito imobiliário.",
   keywords: [
-    "BrasilFinance",
+    "Brasil Finance",
     "Simulador de Financiamento",
     "Financiamento Imobiliário",
-    "Financiamento de Veículos",
+    "Inteligência Financeira",
     "Tabela SAC",
     "Tabela PRICE",
     "Amortização Constante",
-    "Calculadora de Juros",
-    "Custo Efetivo Total",
-    "CET",
-    "Selic",
-    "Simulador de Crédito",
+    "Calculadora de Juros Imobiliários",
+    "Crédito Imobiliário",
+    "Portabilidade de Financiamento",
   ],
-  authors: [{ name: "BrasilFinance Engineering Team" }],
-  creator: "BrasilFinance",
-  publisher: "BrasilFinance",
+  authors: [{ name: "Brasil Finance" }],
+  creator: "Brasil Finance",
+  publisher: "Brasil Finance",
   manifest: "/manifest.json",
-  metadataBase: new URL("https://brasilfinance-simulador.vercel.app"),
+  metadataBase: new URL("https://brasil-finance-lucas-antunes.vercel.app"),
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
@@ -49,28 +44,29 @@ export const metadata: Metadata = {
     ],
     shortcut: ["/favicon.png"],
     apple: [
-      { url: "/apple-icon.png", type: "image/png", sizes: "180x180" },
+      { url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" },
+      { url: "/apple-touch-icon-precomposed.png", type: "image/png", sizes: "180x180" },
     ],
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "BrasilFinance",
+    title: "Brasil Finance",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: "BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE",
-    description: "Simulador avançado de crédito imobiliário, veicular e pessoal. Compare os sistemas SAC e PRICE e veja a economia em juros em tempo real.",
-    url: "https://brasilfinance-simulador.vercel.app",
-    siteName: "BrasilFinance",
+    title: "Brasil Finance — Inteligência Financeira Imobiliária",
+    description: "Inteligência financeira para seus imóveis. Compare sistemas SAC e PRICE e simule economias de amortização.",
+    url: "https://brasil-finance-lucas-antunes.vercel.app",
+    siteName: "Brasil Finance",
     images: [
       {
-        url: "https://brasilfinance-simulador.vercel.app/og-image.png",
+        url: "https://brasil-finance-lucas-antunes.vercel.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BrasilFinance — Simulador de Financiamento & Amortização",
+        alt: "Brasil Finance — Inteligência Financeira Imobiliária",
         type: "image/png",
       },
     ],
@@ -79,9 +75,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BrasilFinance — Simulador de Financiamento & Amortização",
-    description: "Simulador de crédito imobiliário, veicular e pessoal com comparativo avançado de amortização SAC vs PRICE.",
-    images: ["https://brasilfinance-simulador.vercel.app/og-image.png"],
+    title: "Brasil Finance — Inteligência Financeira Imobiliária",
+    description: "Inteligência financeira para seus imóveis com comparativo avançado de amortização.",
+    images: ["https://brasil-finance-lucas-antunes.vercel.app/og-image.png"],
     creator: "@brasilfinance",
   },
   robots: {
@@ -113,17 +109,25 @@ export default function RootLayout({
           rel="stylesheet"
         />
 
-        {/* Fallback de Meta Tags Explícitas em HTML para Web Scrapers do WhatsApp / Facebook */}
-        <meta property="og:title" content="BrasilFinance — Simulador de Financiamento & Amortização SAC e PRICE" />
-        <meta property="og:description" content="Simule financiamentos imobiliários, automotivos e pessoais com máxima precisão. Compare tabelas SAC e PRICE e economize juros." />
-        <meta property="og:image" content="https://brasilfinance-simulador.vercel.app/og-image.png" />
+        {/* Tags explícitas de Ícones e Web App para iOS (iPhone Atalho) */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Brasil Finance" />
+
+        {/* Fallback de Meta Tags Explícitas em HTML para Web Scrapers do WhatsApp / Facebook / LinkedIn */}
+        <meta property="og:title" content="Brasil Finance — Inteligência Financeira Imobiliária" />
+        <meta property="og:description" content="Inteligência financeira para seus imóveis. Simulações avançadas de amortização SAC e PRICE." />
+        <meta property="og:image" content="https://brasil-finance-lucas-antunes.vercel.app/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:url" content="https://brasilfinance-simulador.vercel.app" />
+        <meta property="og:url" content="https://brasil-finance-lucas-antunes.vercel.app" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="BrasilFinance" />
+        <meta property="og:site_name" content="Brasil Finance" />
       </head>
-      <body className="bg-[#07080A] text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
+      <body className="bg-black text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />
         <CustomCursor />
         <SoundEffects />
