@@ -240,8 +240,8 @@ export default function Home() {
             <div
               className={`group editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
                 isAmortizationActive
-                  ? 'border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
-                  : 'border-white/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] focus-within:border-amber-400'
+                  ? '!border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
+                  : 'border-white/20 hover:!border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] focus-within:!border-amber-400'
               }`}
             >
               <button
@@ -256,16 +256,16 @@ export default function Home() {
                   <Zap
                     className={`w-4.5 h-4.5 sm:w-6 sm:h-6 shrink-0 transition-colors ${
                       isAmortizationActive
-                        ? 'text-amber-400'
-                        : 'text-gold-400 group-hover:text-amber-400'
+                        ? '!text-amber-400'
+                        : 'text-gold-400 group-hover:!text-amber-400'
                     }`}
                   />
                   <div className="min-w-0 flex-1">
                     <h3
                       className={`text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider whitespace-nowrap truncate transition-colors ${
                         isAmortizationActive
-                          ? 'text-amber-400'
-                          : 'text-gold-400 group-hover:text-amber-400'
+                          ? '!text-amber-400'
+                          : 'text-gold-400 group-hover:!text-amber-400'
                       }`}
                     >
                       Simulador de Amortização Acelerada
@@ -276,14 +276,14 @@ export default function Home() {
                   </div>
                 </div>
                 {isExtraAmortizationOpen ? (
-                  <ChevronUp className="w-5 h-5 text-amber-400 shrink-0" />
+                  <ChevronUp className="w-5 h-5 !text-amber-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-5 h-5 text-neutral-400 group-hover:text-amber-400 shrink-0 transition-colors" />
+                  <ChevronDown className="w-5 h-5 text-neutral-400 group-hover:!text-amber-400 shrink-0 transition-colors" />
                 )}
               </button>
 
               {isExtraAmortizationOpen && (
-                <div className="p-6 border-t border-amber-400/40 space-y-5 animate-fadeIn">
+                <div className="p-6 border-t !border-amber-400/40 space-y-5 animate-fadeIn">
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-left">
                     {/* Aporte Mensal Extra */}

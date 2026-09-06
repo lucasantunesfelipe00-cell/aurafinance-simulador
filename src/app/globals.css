@@ -143,7 +143,9 @@
 /* Sharp Editorial Card (0px Radius, Hairline Border) */
 .editorial-card {
   background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.15);
   border-radius: 0px;
   box-shadow: none;
 }
