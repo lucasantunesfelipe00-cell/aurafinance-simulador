@@ -506,10 +506,11 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
               {/* Seguros & Encargos Toggle */}
               <div
-                className={`mt-6 p-3.5 border rounded-none flex items-center justify-between gap-2 transition-all duration-300 ${inputs.includeInsurances
-                  ? 'bg-white/[0.03] border-white/30'
-                  : 'bg-black border-white/15 hover:border-white/30'
-                  }`}
+                className={`mt-6 p-3.5 border rounded-none flex items-center justify-between gap-2 transition-all duration-300 ${
+                  inputs.includeInsurances
+                    ? 'bg-white/[0.03] border-[#c2a25b]/60'
+                    : 'bg-black border-[#c2a25b]/45 hover:border-[#c2a25b]'
+                }`}
               >
                 <div className="min-w-0 flex-1 mr-2">
                   <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-normal uppercase tracking-wider text-white whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
