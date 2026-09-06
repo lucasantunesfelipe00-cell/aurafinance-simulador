@@ -513,8 +513,8 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                 }`}
               >
                 <div className="min-w-0 flex-1 mr-2">
-                  <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-normal uppercase tracking-wider text-white whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
-                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
+                  <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
+                  <p className="text-[9px] min-[360px]:text-[10px] text-gold-400/90 font-light whitespace-nowrap overflow-hidden text-ellipsis">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
                 </div>
 
                 <label
