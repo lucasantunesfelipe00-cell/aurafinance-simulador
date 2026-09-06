@@ -283,7 +283,7 @@ export default function Home() {
               </button>
 
               {isExtraAmortizationOpen && (
-                <div className="p-6 border-t !border-amber-400/40 space-y-5 animate-fadeIn">
+                <div className="p-6 space-y-5 animate-fadeIn">
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-left">
                     {/* Aporte Mensal Extra */}
