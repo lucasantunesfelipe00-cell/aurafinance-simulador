@@ -79,12 +79,12 @@ export const CustomCursor: React.FC = () => {
         height: size,
         opacity: visible && !isNative ? 1 : 0,
       }}
-      className={`pointer-events-none fixed left-0 top-0 z-[9999] rounded-full transition-colors duration-150 ${
+      className={`pointer-events-none fixed left-0 top-0 z-[2147483647] rounded-full transition-colors duration-150 ${
         variant === 'input'
-          ? 'bg-white'
+          ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]'
           : variant === 'button'
-          ? 'bg-black border border-gold-400/60 shadow-sm'
-          : 'bg-gold-400'
+          ? 'bg-black border border-[#c2a25b] shadow-[0_0_12px_rgba(194,162,91,0.6)]'
+          : 'bg-[#c2a25b] shadow-[0_0_12px_rgba(194,162,91,0.6)]'
       }`}
     />
   );
