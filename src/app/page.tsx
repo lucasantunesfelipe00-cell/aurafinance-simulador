@@ -235,7 +235,13 @@ export default function Home() {
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
-            <div className="editorial-card border border-amber-500/50 bg-black rounded-none overflow-hidden transition-all duration-300">
+            <div
+              className={`editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
+                ((inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0)
+                  ? 'border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
+                  : 'border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)]'
+              }`}
+            >
               <button
                 type="button"
                 onClick={() => {
