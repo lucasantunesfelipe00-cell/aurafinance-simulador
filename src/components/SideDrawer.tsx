@@ -135,7 +135,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="p-1.5 rounded-lg text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer"
+                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer"
                 title="Fechar menu"
                 aria-label="Fechar menu"
               >
@@ -156,10 +156,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
                     <Sliders className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
@@ -179,14 +179,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className={`w-full flex items-center justify-between p-3 rounded-xl border text-left transition-all group cursor-pointer ${
+                className={`w-full flex items-center justify-between p-3 rounded-none border text-left transition-all group cursor-pointer ${
                   activeTab === 'summary'
                     ? 'bg-[#c2a25b]/15 border-[#c2a25b]/50 text-white'
                     : 'bg-white/5 hover:bg-[#c2a25b]/10 border-white/5 hover:border-[#c2a25b]/30'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg transition-colors shrink-0 ${
+                  <div className={`p-2 rounded-none transition-colors shrink-0 ${
                     activeTab === 'summary' ? 'bg-[#c2a25b] text-black' : 'bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black'
                   }`}>
                     <Layers className="w-4 h-4" />
@@ -208,14 +208,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className={`w-full flex items-center justify-between p-3 rounded-xl border text-left transition-all group cursor-pointer ${
+                className={`w-full flex items-center justify-between p-3 rounded-none border text-left transition-all group cursor-pointer ${
                   activeTab === 'chart'
                     ? 'bg-[#c2a25b]/15 border-[#c2a25b]/50 text-white'
                     : 'bg-white/5 hover:bg-[#c2a25b]/10 border-white/5 hover:border-[#c2a25b]/30'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg transition-colors shrink-0 ${
+                  <div className={`p-2 rounded-none transition-colors shrink-0 ${
                     activeTab === 'chart' ? 'bg-[#c2a25b] text-black' : 'bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black'
                   }`}>
                     <LineChart className="w-4 h-4" />
@@ -237,14 +237,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className={`w-full flex items-center justify-between p-3 rounded-xl border text-left transition-all group cursor-pointer ${
+                className={`w-full flex items-center justify-between p-3 rounded-none border text-left transition-all group cursor-pointer ${
                   activeTab === 'table'
                     ? 'bg-[#c2a25b]/15 border-[#c2a25b]/50 text-white'
                     : 'bg-white/5 hover:bg-[#c2a25b]/10 border-white/5 hover:border-[#c2a25b]/30'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg transition-colors shrink-0 ${
+                  <div className={`p-2 rounded-none transition-colors shrink-0 ${
                     activeTab === 'table' ? 'bg-[#c2a25b] text-black' : 'bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black'
                   }`}>
                     <Table className="w-4 h-4" />
@@ -266,10 +266,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-amber-500/15 via-white/5 to-white/5 hover:from-amber-500/25 border border-amber-500/40 hover:border-amber-400 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-gradient-to-r from-amber-500/15 via-white/5 to-white/5 hover:from-amber-500/25 border border-amber-500/40 hover:border-amber-400 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-amber-500/20 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-colors shrink-0">
                     <Zap className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-amber-400 transition-colors">
@@ -289,10 +289,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-white/10 text-gold-400 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
                     <Scale className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
@@ -302,9 +302,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 <ChevronRight className="w-4 h-4 text-neutral-500 group-hover:text-[#c2a25b] group-hover:translate-x-0.5 transition-all shrink-0" />
               </button>
 
-              {/* Divisória Sutil */}
-              <div className="pt-2 pb-1">
-                <div className="h-[1px] bg-white/10 w-full" />
+              {/* Mini Título: Ajuda */}
+              <div className="pt-3 pb-1 px-1">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#c2a25b]">
+                  Ajuda
+                </span>
               </div>
 
               {/* Opção: Central de Ajuda & Manual (Sem o botão/badge de ?) */}
@@ -317,10 +319,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-[#c2a25b]/20 text-[#c2a25b] group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-[#c2a25b]/20 text-[#c2a25b] group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
                     <HelpCircle className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
@@ -341,10 +343,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
                     <BookOpen className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
@@ -364,10 +366,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded-none bg-white/5 hover:bg-[#c2a25b]/10 border border-white/5 hover:border-[#c2a25b]/30 text-left transition-all group cursor-pointer"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
+                  <div className="p-2 rounded-none bg-white/10 text-neutral-300 group-hover:bg-[#c2a25b] group-hover:text-black transition-colors shrink-0">
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <h4 className="text-xs font-bold text-white group-hover:text-[#c2a25b] transition-colors">
