@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   HelpCircle,
@@ -59,23 +60,22 @@ const FAQ_ITEMS: FaqItem[] = [
     question: 'Existe alguma multa ou cobrança de taxa bancária para fazer amortização extra?',
     category: 'Amortização',
     answer:
-      'Não! Pela Resolução nº 3.516 do Banco Central do Brasil, é expressamente proibida a cobrança de qualquer taxa, tarifa ou penalidade por liquidação antecipada ou amortização parcial de débitos em instituições financeiras.',
-    highlight: 'Garantia Legal: Você tem o direito de amortizar qualquer valor a qualquer momento sem custos extras.',
+      'Não! A Resolução nº 3.516/2007 do Conselho Monetário Nacional (CMN) proíbe expressamente os bancos de cobrarem qualquer tarifa, taxa ou multa por liquidação antecipada ou amortização extraordinária de financiamentos.',
+    highlight: 'Direito do Consumidor: É gratuito e pode ser feito pelo próprio aplicativo do seu banco.',
   },
   {
     id: 'faq-5',
-    question: 'O que é CET (Custo Efetivo Total) e qual sua importância?',
+    question: 'O que é a TR (Taxa Referencial) e como ela afeta minhas parcelas?',
     category: 'Taxas & Crédito',
     answer:
-      'O CET representa a porcentagem anual real cobrada pelo banco. Ele soma a taxa de juros nominal negociada + os seguros obrigatórios por lei (MIP e DFI) + as tarifas de administração contratual (~R$ 25/mês). Ao comparar bancos, compare sempre pelo CET e nunca apenas pela taxa de juros pura.',
-    highlight: 'Importante: Dois bancos com a mesma taxa de juros podem ter CETs bem diferentes devido ao custo dos seguros.',
+      'A Taxa Referencial é um indexador oficial divulgado diariamente pelo Banco Central. Quando a taxa Selic está acima de 8,5% ao ano, a TR fica positiva (geralmente entre 1% e 2% a.a.), o que faz com que o saldo devedor sofra uma leve correção mensal antes do abatimento da amortização.',
   },
   {
     id: 'faq-6',
-    question: 'O que acontece se a TR (Taxa Referencial) subir durante o contrato?',
+    question: 'Qual o percentual máximo da renda que posso comprometer com as parcelas?',
     category: 'Taxas & Crédito',
     answer:
-      'A TR é o indexador que atualiza o saldo devedor mensalmente antes de incidir a taxa de juros do contrato. Quando a Selic está acima de 8,5% ao ano, a TR fica ligeiramente positiva (~0,05% a 0,15% ao mês), promovendo um pequeno ajuste monetário no saldo devedor.',
+      'A legislação brasileira estabelece que o valor da prestação inicial do financiamento imobiliário não pode ultrapassar 30% da renda bruta comprovada do comprador (ou da soma das rendas dos participantes).',
   },
   {
     id: 'faq-7',
@@ -94,11 +94,16 @@ const FAQ_ITEMS: FaqItem[] = [
 ];
 
 export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, onClose }) => {
+  const [mounted, setMounted] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [expandedId, setExpandedId] = useState<string | null>('faq-1');
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const categories = ['Todos', 'Amortização', 'SAC vs PRICE', 'FGTS', 'Taxas & Crédito'];
 
@@ -115,8 +120,8 @@ export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, onClose }) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+  return createPortal(
+    <div className="fixed inset-0 z-[100001] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn font-sans">
       <div className="glass-card w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] rounded-2xl border border-[#c2a25b]/30 p-4 sm:p-6 flex flex-col relative shadow-2xl overflow-hidden bg-neutral-950/95">
         
         {/* Ambient Glow */}
@@ -283,6 +288,7 @@ export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, onClose }) => {
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
