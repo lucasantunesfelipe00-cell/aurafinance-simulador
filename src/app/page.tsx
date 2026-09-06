@@ -96,6 +96,11 @@ export default function Home() {
     setIsConfigVisible(true);
   };
 
+  const isAmortizationActive =
+    isExtraAmortizationOpen ||
+    (inputs.extraMonthlyAmortization || 0) > 0 ||
+    (inputs.extraAnnualAmortization || 0) > 0;
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
       {/* Background ambiente 100% estático sem efeitos de surgir/movimento */}
@@ -236,10 +241,10 @@ export default function Home() {
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
             <div
-              className={`editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
-                isExtraAmortizationOpen || (inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0
+              className={`group editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
+                isAmortizationActive
                   ? 'border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
-                  : 'border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] focus-within:border-amber-400'
+                  : 'border-white/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] focus-within:border-amber-400'
               }`}
             >
               <button
@@ -251,9 +256,21 @@ export default function Home() {
                 className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors gap-3"
               >
                 <div className="flex items-center space-x-2.5 sm:space-x-3.5 min-w-0 flex-1">
-                  <Zap className="w-4.5 h-4.5 sm:w-6 sm:h-6 text-amber-400 shrink-0" />
+                  <Zap
+                    className={`w-4.5 h-4.5 sm:w-6 sm:h-6 shrink-0 transition-colors ${
+                      isAmortizationActive
+                        ? 'text-amber-400'
+                        : 'text-gold-400 group-hover:text-amber-400'
+                    }`}
+                  />
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-amber-400 whitespace-nowrap truncate">
+                    <h3
+                      className={`text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider whitespace-nowrap truncate transition-colors ${
+                        isAmortizationActive
+                          ? 'text-amber-400'
+                          : 'text-gold-400 group-hover:text-amber-400'
+                      }`}
+                    >
                       Simulador de Amortização Acelerada
                     </h3>
                     <p className="text-[10px] sm:text-xs lg:text-sm text-neutral-400 font-light mt-0.5 truncate">
