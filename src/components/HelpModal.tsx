@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   HelpCircle,
@@ -95,11 +96,16 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
 ];
 
 export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'manual' | 'glossary' | 'tips'>('manual');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const categories = ['Todos', 'Estratégia', 'Modalidades', 'Sistema', 'Seguros & Taxas'];
 
@@ -112,8 +118,8 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     return matchesSearch && matchesCategory;
   });
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+  return createPortal(
+    <div className="fixed inset-0 z-[100001] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
       <div className="glass-card w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] rounded-2xl border border-[#c2a25b]/30 p-4 sm:p-6 flex flex-col relative shadow-2xl overflow-hidden bg-neutral-950/95">
         
         {/* Glow de fundo */}
@@ -442,6 +448,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

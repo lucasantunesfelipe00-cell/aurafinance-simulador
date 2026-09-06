@@ -178,7 +178,29 @@ export default function Home() {
             {/* Conteúdo da Aplicação em Camada Superior z-10 */}
             <div className="relative z-10 flex-1 flex flex-col w-full min-h-screen">
               {/* Header Superior (66px Height, 1078px max-width) */}
-              <Header onReset={handleReset} />
+              <Header
+                onReset={handleReset}
+                onSelectTab={(tab) => {
+                  setActiveTab(tab);
+                  setHasCalculated(true);
+                  setTimeout(() => {
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 100);
+                }}
+                onOpenSimulator={() => {
+                  setIsConfigVisible(true);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenAmortization={() => {
+                  setIsExtraAmortizationOpen(true);
+                  setHasCalculated(true);
+                  setTimeout(() => {
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 100);
+                }}
+                onOpenComparator={() => setIsComparatorOpen(true)}
+                activeTab={activeTab}
+              />
 
       {/* Conteúdo Principal (Max-width 1078px contained per design.md) */}
       <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">

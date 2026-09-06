@@ -11,9 +11,21 @@ import { SideDrawer } from '@/components/SideDrawer';
 
 interface HeaderProps {
   onReset?: () => void;
+  onSelectTab?: (tab: 'summary' | 'chart' | 'table') => void;
+  onOpenSimulator?: () => void;
+  onOpenAmortization?: () => void;
+  onOpenComparator?: () => void;
+  activeTab?: 'summary' | 'chart' | 'table';
 }
 
-export const Header: React.FC<HeaderProps> = ({ onReset }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onReset,
+  onSelectTab,
+  onOpenSimulator,
+  onOpenAmortization,
+  onOpenComparator,
+  activeTab = 'summary',
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -27,7 +39,8 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
         <div className="flex items-center">
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               vibrateShort();
               setIsDrawerOpen(true);
             }}
@@ -77,6 +90,11 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
         onOpenHelp={() => setIsHelpOpen(true)}
         onOpenFaq={() => setIsFaqOpen(true)}
         onOpenTerms={() => setIsTermsOpen(true)}
+        onSelectTab={onSelectTab}
+        onOpenSimulator={onOpenSimulator}
+        onOpenAmortization={onOpenAmortization}
+        onOpenComparator={onOpenComparator}
+        activeTab={activeTab}
       />
 
       {/* Modais de Ajuda, FAQ e Termos */}
