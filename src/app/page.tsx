@@ -289,10 +289,10 @@ export default function Home() {
                     {/* Aporte Mensal Extra */}
                     <div className="space-y-2">
                       <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                        <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
+                        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400">
                           Aporte Mensal Extra
                         </label>
-                        <div className="flex items-center bg-black border border-amber-500/40 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
+                        <div className="flex items-center bg-black border border-amber-400 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
                           <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
@@ -347,10 +347,10 @@ export default function Home() {
                     {/* Aporte Anual Extra */}
                     <div className="space-y-2">
                       <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                        <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
+                        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-400">
                           Aporte Anual Extra
                         </label>
-                        <div className="flex items-center bg-black border border-amber-500/40 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
+                        <div className="flex items-center bg-black border border-amber-400 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
                           <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
