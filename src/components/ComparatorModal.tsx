@@ -129,15 +129,6 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
 
         </div>
 
-        {/* Footer do Modal */}
-        <div className="flex justify-end">
-          <button
-            onClick={onClose}
-            className="btn-ghost-pill-dark btn-lift text-xs sm:text-sm uppercase tracking-widest px-6 py-2.5 rounded-full"
-          >
-            Fechar Comparativo
-          </button>
-        </div>
 
       </div>
     </div>
