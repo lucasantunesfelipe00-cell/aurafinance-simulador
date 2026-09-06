@@ -28,6 +28,7 @@ import {
   Layers,
   ChevronDown,
   ChevronUp,
+  Zap,
 } from 'lucide-react';
 
 function formatCurrencyMask(val: number): string {
@@ -234,7 +235,7 @@ export default function Home() {
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
-            <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden transition-all duration-300">
+            <div className="editorial-card border border-amber-500/50 bg-black rounded-none overflow-hidden transition-all duration-300">
               <button
                 type="button"
                 onClick={() => {
@@ -244,9 +245,9 @@ export default function Home() {
                 className="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none hover:bg-white/[0.02] transition-colors gap-3"
               >
                 <div className="flex items-center space-x-2.5 sm:space-x-3.5 min-w-0 flex-1">
-                  <Layers className="w-4.5 h-4.5 sm:w-6 sm:h-6 text-gold-400 shrink-0" />
+                  <Zap className="w-4.5 h-4.5 sm:w-6 sm:h-6 text-amber-400 shrink-0" />
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap truncate">
+                    <h3 className="text-xs min-[380px]:text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-amber-400 whitespace-nowrap truncate">
                       Simulador de Amortização Acelerada
                     </h3>
                     <p className="text-[10px] sm:text-xs lg:text-sm text-neutral-400 font-light mt-0.5 truncate">
