@@ -65,9 +65,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      setCursorVariant('default');
     }
     return () => {
       document.body.style.overflow = '';
+      setCursorVariant('default');
     };
   }, [isOpen]);
 
@@ -464,7 +466,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     )}
                     <span className="font-medium">Efeitos Sonoros</span>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                  <label
+                    onMouseEnter={() => setCursorVariant('button')}
+                    onMouseLeave={() => setCursorVariant('default')}
+                    className="relative inline-flex items-center cursor-pointer shrink-0"
+                  >
                     <input
                       type="checkbox"
                       checked={sound}
@@ -481,7 +487,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     <Smartphone className={`w-4 h-4 ${haptics ? 'text-[#c2a25b]' : 'text-neutral-500'}`} />
                     <span className="font-medium">Vibração Tátil (Haptics)</span>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                  <label
+                    onMouseEnter={() => setCursorVariant('button')}
+                    onMouseLeave={() => setCursorVariant('default')}
+                    className="relative inline-flex items-center cursor-pointer shrink-0"
+                  >
                     <input
                       type="checkbox"
                       checked={haptics}
