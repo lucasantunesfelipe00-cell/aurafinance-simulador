@@ -242,7 +242,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
           {/* Passo 1: Sistema de Amortização */}
           <div ref={(el) => { slideRefs.current[1] = el; }} className="w-full shrink-0 px-1">
-            <MouseGlow size={260} className="editorial-card p-6 sm:p-10 border border-white/10 bg-black rounded-none">
+            <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="relative grid grid-cols-2 gap-0 p-1 bg-black border border-white/15 rounded-none">
                 <div
                   className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] bg-gold-gradient-btn shadow-gold-glow-sm transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
@@ -285,7 +285,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
           {/* Passo 2: Valor do Bem */}
           <div ref={(el) => { slideRefs.current[2] = el; }} className="w-full shrink-0 px-1">
-            <MouseGlow size={260} className="editorial-card p-6 sm:p-10 border border-white/10 bg-black rounded-none">
+            <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
                 <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
                   Valor do Imóvel
@@ -340,7 +340,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
           {/* Passo 3: Valor da Entrada */}
           <div ref={(el) => { slideRefs.current[3] = el; }} className="w-full shrink-0 px-1">
-            <MouseGlow size={260} className="editorial-card p-6 sm:p-10 border border-white/10 bg-black rounded-none">
+            <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
                 <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
                   Valor da Entrada
@@ -394,7 +394,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
           {/* Passo 4: Taxa de Juros */}
           <div ref={(el) => { slideRefs.current[4] = el; }} className="w-full shrink-0 px-1">
-            <MouseGlow size={260} className="editorial-card p-6 sm:p-10 border border-white/10 bg-black rounded-none">
+            <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex justify-between items-center mb-2 gap-2">
                 <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
                   Taxa de Juros
@@ -449,7 +449,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
           {/* Passo 5: Prazo + Seguros + Simular */}
           <div ref={(el) => { slideRefs.current[5] = el; }} className="w-full shrink-0 px-1">
-            <MouseGlow size={260} className="editorial-card p-6 sm:p-10 border border-white/10 bg-black rounded-none">
+            <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex justify-between items-center mb-2 gap-2">
                 <div className="flex items-center space-x-1">
                   <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
