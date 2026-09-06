@@ -287,11 +287,11 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
           <div ref={(el) => { slideRefs.current[2] = el; }} className="w-full shrink-0 px-1">
             <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
+                <label className="text-xs sm:text-sm lg:text-base font-bold uppercase tracking-wider text-gold-400">
                   Valor do Imóvel
                 </label>
 
-                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-white/20 rounded-none shrink-0 max-w-full overflow-hidden focus-within:border-white">
+                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-[#c2a25b]/45 focus-within:border-[#c2a25b] rounded-none shrink-0 max-w-full overflow-hidden transition-colors">
                   <span className="text-white text-xs sm:text-sm lg:text-base font-medium mr-1.5 shrink-0">R$</span>
                   <input
                     type="text"
@@ -342,11 +342,11 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
           <div ref={(el) => { slideRefs.current[3] = el; }} className="w-full shrink-0 px-1">
             <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex flex-wrap justify-between items-center mb-2 gap-2">
-                <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
+                <label className="text-xs sm:text-sm lg:text-base font-bold uppercase tracking-wider text-gold-400">
                   Valor da Entrada
                 </label>
 
-                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-white/20 rounded-none shrink-0 max-w-full overflow-hidden focus-within:border-white">
+                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-[#c2a25b]/45 focus-within:border-[#c2a25b] rounded-none shrink-0 max-w-full overflow-hidden transition-colors">
                   <span className="text-white text-xs sm:text-sm lg:text-base font-medium mr-1.5 shrink-0">R$</span>
                   <input
                     type="text"
@@ -396,11 +396,11 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
           <div ref={(el) => { slideRefs.current[4] = el; }} className="w-full shrink-0 px-1">
             <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex justify-between items-center mb-2 gap-2">
-                <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
+                <label className="text-xs sm:text-sm lg:text-base font-bold uppercase tracking-wider text-gold-400">
                   Taxa de Juros
                 </label>
 
-                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-white/20 rounded-none shrink-0 overflow-hidden focus-within:border-white">
+                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-[#c2a25b]/45 focus-within:border-[#c2a25b] rounded-none shrink-0 overflow-hidden transition-colors">
                   <input
                     type="number"
                     step="0.1"
@@ -452,7 +452,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
             <MouseGlow size={260} className="editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none">
               <div className="flex justify-between items-center mb-2 gap-2">
                 <div className="flex items-center space-x-1">
-                  <label className="text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider text-neutral-300">
+                  <label className="text-xs sm:text-sm lg:text-base font-bold uppercase tracking-wider text-gold-400">
                     Prazo
                   </label>
                   <button
@@ -464,7 +464,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   </button>
                 </div>
 
-                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-white/20 rounded-none shrink-0 overflow-hidden focus-within:border-white">
+                <div className="h-9 sm:h-10 max-h-10 px-2.5 sm:px-3 py-0 flex items-center bg-black border border-[#c2a25b]/45 focus-within:border-[#c2a25b] rounded-none shrink-0 overflow-hidden transition-colors">
                   <input
                     type="number"
                     value={termUnit === 'years' ? termInYears : inputs.termMonths}
