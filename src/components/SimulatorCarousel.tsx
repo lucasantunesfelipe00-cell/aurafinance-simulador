@@ -119,7 +119,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   const renderNav = (isFirstStep: boolean, isLastStep: boolean) => (
-    <div className="flex items-center justify-between gap-3 mt-8 pt-6 border-t border-white/10">
+    <div className="flex items-center justify-between gap-3 mt-6">
       {!isFirstStep ? (
         <button
           type="button"
@@ -514,7 +514,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               >
                 <div className="min-w-0 flex-1 mr-2">
                   <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
-                  <p className="text-[9px] min-[360px]:text-[10px] text-gold-400/90 font-light whitespace-nowrap overflow-hidden text-ellipsis">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
+                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
                 </div>
 
                 <label
