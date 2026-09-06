@@ -158,13 +158,13 @@
   box-shadow: none;
 }
 
-/* Gold Gradient Border Card (Same gold gradient as btn-gold-fill) */
+/* Gold Gradient Border Card (Subtle hairline, slightly lighter gold gradient) */
 .editorial-card-gold-border {
   border: 1px solid transparent !important;
-  background-image: linear-gradient(#000000, #000000), linear-gradient(135deg, #a47e35 0%, #c2a25b 50%, #a47e35 100%) !important;
+  background-image: linear-gradient(#000000, #000000), linear-gradient(135deg, #b89247 0%, #d6bd85 50%, #b89247 100%) !important;
   background-origin: border-box !important;
   background-clip: padding-box, border-box !important;
-  box-shadow: 0 0 22px rgba(164, 126, 53, 0.25) !important;
+  box-shadow: 0 0 14px rgba(184, 146, 71, 0.18) !important;
 }
 
 /* Hide Native Number Input Spinner (Custom Compact Boxes) */
