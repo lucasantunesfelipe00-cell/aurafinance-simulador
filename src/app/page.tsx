@@ -237,9 +237,9 @@ export default function Home() {
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
             <div
               className={`editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
-                ((inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0)
+                isExtraAmortizationOpen || (inputs.extraMonthlyAmortization || 0) > 0 || (inputs.extraAnnualAmortization || 0) > 0
                   ? 'border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
-                  : 'border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)]'
+                  : 'border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] focus-within:border-amber-400'
               }`}
             >
               <button
@@ -278,7 +278,7 @@ export default function Home() {
                         <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
                           Aporte Mensal Extra
                         </label>
-                        <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+                        <div className="flex items-center bg-black border border-amber-500/40 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
                           <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
@@ -336,7 +336,7 @@ export default function Home() {
                         <label className="text-xs sm:text-sm font-medium uppercase tracking-wider text-neutral-300">
                           Aporte Anual Extra
                         </label>
-                        <div className="flex items-center bg-black border border-white/20 rounded-none px-2.5 py-1 shrink-0 focus-within:border-white">
+                        <div className="flex items-center bg-black border border-amber-500/40 focus-within:border-amber-400 rounded-none px-2.5 py-1 shrink-0">
                           <span className="text-white text-xs sm:text-sm font-medium mr-1.5">R$</span>
                           <input
                             type="text"
