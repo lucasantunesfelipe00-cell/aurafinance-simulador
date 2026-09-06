@@ -96,10 +96,7 @@ export default function Home() {
     setIsConfigVisible(true);
   };
 
-  const isAmortizationActive =
-    isExtraAmortizationOpen ||
-    (inputs.extraMonthlyAmortization || 0) > 0 ||
-    (inputs.extraAnnualAmortization || 0) > 0;
+  const isAmortizationActive = isExtraAmortizationOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
