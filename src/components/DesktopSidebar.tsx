@@ -76,7 +76,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   const navItems = [
     {
       id: 'config',
-      label: 'Configurar Financiamento',
+      label: 'Configurar',
       icon: Sliders,
       action: () => onOpenSimulator && onOpenSimulator(),
       isActive: false,
@@ -84,7 +84,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'summary',
-      label: 'Aba Resumo & KPIs',
+      label: 'Resumo',
       icon: Layers,
       action: () => onSelectTab && onSelectTab('summary'),
       isActive: activeTab === 'summary',
@@ -92,7 +92,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'chart',
-      label: 'Aba Gráfico Visual',
+      label: 'Gráfico',
       icon: LineChart,
       action: () => onSelectTab && onSelectTab('chart'),
       isActive: activeTab === 'chart',
@@ -100,7 +100,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'table',
-      label: 'Aba Tabela Mês a Mês',
+      label: 'Tabela',
       icon: Table,
       action: () => onSelectTab && onSelectTab('table'),
       isActive: activeTab === 'table',
@@ -108,7 +108,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'amortization',
-      label: 'Amortização Acelerada',
+      label: 'Amortização',
       icon: Zap,
       action: () => onOpenAmortization && onOpenAmortization(),
       isActive: false,
@@ -116,7 +116,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'comparator',
-      label: 'Comparar SAC x PRICE',
+      label: 'Comparar',
       icon: Scale,
       action: () => onOpenComparator && onOpenComparator(),
       isActive: false,
@@ -124,7 +124,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'help',
-      label: 'Central de Ajuda & Manual',
+      label: 'Suporte',
       icon: HelpCircle,
       action: () => onOpenHelp(),
       isActive: false,
@@ -132,7 +132,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'faq',
-      label: 'Perguntas Frequentes (FAQ)',
+      label: 'FAQ',
       icon: BookOpen,
       action: () => (onOpenFaq ? onOpenFaq() : onOpenHelp()),
       isActive: false,
@@ -140,7 +140,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     },
     {
       id: 'terms',
-      label: 'Termos & Privacidade',
+      label: 'Termos',
       icon: ShieldCheck,
       action: () => onOpenTerms && onOpenTerms(),
       isActive: false,
@@ -307,7 +307,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <Sliders className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-            <span>Configurar Financiamento</span>
+            <span>Configurar</span>
           </button>
 
           <button
@@ -325,7 +325,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }`}
           >
             <Layers className={`w-4 h-4 shrink-0 ${activeTab === 'summary' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-            <span>Aba Resumo &amp; KPIs</span>
+            <span>Resumo</span>
           </button>
 
           <button
@@ -343,7 +343,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }`}
           >
             <LineChart className={`w-4 h-4 shrink-0 ${activeTab === 'chart' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-            <span>Aba Gráfico Visual</span>
+            <span>Gráfico</span>
           </button>
 
           <button
@@ -361,7 +361,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }`}
           >
             <Table className={`w-4 h-4 shrink-0 ${activeTab === 'table' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-            <span>Aba Tabela Mês a Mês</span>
+            <span>Tabela</span>
           </button>
         </div>
 
@@ -384,7 +384,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-amber-400 hover:text-amber-300 hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <Zap className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Amortização Acelerada</span>
+            <span>Amortização</span>
           </button>
 
           <button
@@ -398,7 +398,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <Scale className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-            <span>Comparar SAC x PRICE</span>
+            <span>Comparar</span>
           </button>
         </div>
 
@@ -421,7 +421,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <HelpCircle className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-            <span>Central de Ajuda &amp; Manual</span>
+            <span>Suporte</span>
           </button>
 
           <button
@@ -436,7 +436,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <BookOpen className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
-            <span>Perguntas Frequentes (FAQ)</span>
+            <span>FAQ</span>
           </button>
 
           <button
@@ -450,7 +450,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
           >
             <ShieldCheck className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
-            <span>Termos &amp; Privacidade</span>
+            <span>Termos</span>
           </button>
         </div>
       </div>
