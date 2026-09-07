@@ -12,6 +12,7 @@ import {
   Sliders,
   Zap,
   ChevronRight,
+  Bookmark,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -26,6 +27,8 @@ export interface DesktopSidebarProps {
   onOpenTerms?: () => void;
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
+  onOpenSavedScenarios?: () => void;
+  savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isHelpActive?: boolean;
@@ -42,6 +45,8 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenTerms,
   onOpenSimulator,
   onOpenAmortization,
+  onOpenSavedScenarios,
+  savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isHelpActive = false,
@@ -89,7 +94,15 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       icon: Zap,
       action: () => onOpenAmortization && onOpenAmortization(),
       isActive: Boolean(isAmortizationActive),
-      iconColor: 'text-amber-400',
+      iconColor: 'text-[#c2a25b]',
+    },
+    {
+      id: 'savedScenarios',
+      label: `Cenários ${savedScenariosCount > 0 ? `(${savedScenariosCount})` : ''}`,
+      icon: Bookmark,
+      action: () => onOpenSavedScenarios && onOpenSavedScenarios(),
+      isActive: false,
+      iconColor: 'text-gold-400',
     },
     {
       id: 'help',

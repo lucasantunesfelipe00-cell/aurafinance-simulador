@@ -17,6 +17,7 @@ import {
   Table,
   Scale,
   Zap,
+  Bookmark,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -33,6 +34,8 @@ export interface SideDrawerProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenComparator?: () => void;
+  onOpenSavedScenarios?: () => void;
+  savedScenariosCount?: number;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -46,6 +49,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenComparator,
+  onOpenSavedScenarios,
+  savedScenariosCount = 0,
   activeTab = 'summary',
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -181,6 +186,30 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <Sliders className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
                   <span>Configurar Financiamento</span>
                 </button>
+
+                {onOpenSavedScenarios && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      vibrateShort();
+                      onClose();
+                      onOpenSavedScenarios();
+                    }}
+                    onMouseEnter={() => setCursorVariant('button')}
+                    onMouseLeave={() => setCursorVariant('default')}
+                    className="w-full flex items-center justify-between px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <Bookmark className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+                      <span>Cenários Salvos</span>
+                    </div>
+                    {savedScenariosCount > 0 && (
+                      <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-full">
+                        {savedScenariosCount}
+                      </span>
+                    )}
+                  </button>
+                )}
 
                 <button
                   type="button"

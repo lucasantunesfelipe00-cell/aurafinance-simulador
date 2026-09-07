@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Menu, RefreshCw } from 'lucide-react';
+import { Menu, RefreshCw, Bookmark } from 'lucide-react';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { vibrateShort } from '@/lib/haptics';
 import { SideDrawer } from '@/components/SideDrawer';
@@ -15,6 +15,8 @@ interface HeaderProps {
   onOpenHelp?: () => void;
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
+  onOpenSavedScenarios?: () => void;
+  savedScenariosCount?: number;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -27,6 +29,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenHelp,
   onOpenFaq,
   onOpenTerms,
+  onOpenSavedScenarios,
+  savedScenariosCount = 0,
   activeTab = 'summary',
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -71,8 +75,30 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Canto Superior Direito: Apenas Bandeira do Brasil + Botão de Resetar */}
+        {/* Canto Superior Direito: Cenários Salvos + Bandeira + Reset */}
         <div className="flex items-center space-x-2.5 sm:space-x-3.5">
+          {onOpenSavedScenarios && (
+            <button
+              type="button"
+              onClick={() => {
+                vibrateShort();
+                onOpenSavedScenarios();
+              }}
+              onMouseEnter={() => setCursorVariant('button')}
+              onMouseLeave={() => setCursorVariant('default')}
+              className="btn-lift flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-gold-400/60 transition-all cursor-pointer bg-white/5 hover:bg-gold-400/10 text-neutral-300 hover:text-white shrink-0 text-xs font-medium"
+              title="Histórico de Cenários Salvos"
+            >
+              <Bookmark className="w-3.5 h-3.5 text-gold-400" />
+              <span className="hidden sm:inline">Cenários</span>
+              {savedScenariosCount > 0 && (
+                <span className="ml-1 px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-full">
+                  {savedScenariosCount}
+                </span>
+              )}
+            </button>
+          )}
+
           <div className="flex items-center justify-center shrink-0 cursor-pointer group" title="Brasil">
             <img
               src="/brand/brazil-flag-circle.svg"

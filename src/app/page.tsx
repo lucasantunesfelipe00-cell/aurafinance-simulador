@@ -20,6 +20,8 @@ import { DesktopSidebar } from '@/components/DesktopSidebar';
 import { HelpModal } from '@/components/HelpModal';
 import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
+import { SavedScenariosModal } from '@/components/SavedScenariosModal';
+import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
 import { HeroTitle } from '@/components/HeroTitle';
 import { BankSplashFlow } from '@/components/BankSplashFlow';
 import { BackgroundLightTrail } from '@/components/BackgroundLightTrail';
@@ -55,8 +57,22 @@ export default function Home() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isSavedScenariosOpen, setIsSavedScenariosOpen] = useState(false);
+  const [savedScenariosList, setSavedScenariosList] = useState<SavedScenario[]>([]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  React.useEffect(() => {
+    setSavedScenariosList(getSavedScenarios());
+  }, []);
+
+  const handleSelectScenario = (newInputs: FinancingInputs) => {
+    setInputs(newInputs);
+    setCalculatedInputs(newInputs);
+    setHasCalculated(true);
+    setIsConfigVisible(true);
+    setSavedScenariosList(getSavedScenarios());
+  };
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -176,6 +192,8 @@ export default function Home() {
                   resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
               }}
+              onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
+              savedScenariosCount={savedScenariosList.length}
               isConfigActive={isConfigActive}
               isAmortizationActive={isAmortizationActive}
               isHelpActive={isHelpActive}
@@ -272,6 +290,8 @@ export default function Home() {
                   }, 100);
                 }}
                 onOpenComparator={() => setIsComparatorOpen(true)}
+                onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
+                savedScenariosCount={savedScenariosList.length}
                 onOpenHelp={() => {
                   setIsHelpOpen(true);
                   setIsFaqOpen(false);
@@ -349,6 +369,10 @@ export default function Home() {
                   onReset={handleReset}
                   onSimulate={handleSimulate}
                   onStepChange={setCurrentStep}
+                  onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
+                  onQuickSaveScenario={() => setIsSavedScenariosOpen(true)}
+                  savedScenarios={savedScenariosList}
+                  onSelectScenario={handleSelectScenario}
                 />
               </motion.div>
             )}
@@ -672,6 +696,16 @@ export default function Home() {
       <SpecsViewerModal
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
+      />
+
+      <SavedScenariosModal
+        isOpen={isSavedScenariosOpen}
+        onClose={() => {
+          setIsSavedScenariosOpen(false);
+          setSavedScenariosList(getSavedScenarios());
+        }}
+        currentInputs={inputs}
+        onSelectScenario={handleSelectScenario}
       />
 
     </div>
