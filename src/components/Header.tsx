@@ -8,6 +8,7 @@ import { HelpModal } from '@/components/HelpModal';
 import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
 import { SideDrawer } from '@/components/SideDrawer';
+import { DesktopSidebar } from '@/components/DesktopSidebar';
 
 interface HeaderProps {
   onReset?: () => void;
@@ -35,8 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="w-full border-b border-white/10 bg-black/90 backdrop-blur-md sticky top-0 z-50 h-[66px] relative font-sans">
       <div className="max-w-[1078px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
         
-        {/* Canto Superior Esquerdo: Botão de 3 Linhas (Menu Hamburger) */}
-        <div className="flex items-center">
+        {/* Canto Superior Esquerdo: Logo no mobile + Botão Hamburger (Apenas Mobile/Tablet) */}
+        <div className="flex items-center space-x-3">
           <button
             type="button"
             onClick={(e) => {
@@ -46,12 +47,29 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="btn-lift flex items-center justify-center p-2.5 rounded-xl border border-white/15 hover:border-[#c2a25b] transition-all cursor-pointer bg-white/5 hover:bg-[#c2a25b]/10 text-gold-400 hover:text-gold-300"
+            className="lg:hidden btn-lift flex items-center justify-center p-2 rounded-xl border border-white/15 hover:border-[#c2a25b] transition-all cursor-pointer bg-white/5 hover:bg-[#c2a25b]/10 text-gold-400 hover:text-gold-300 shrink-0"
             title="Abrir Menu Principal"
             aria-label="Abrir Menu"
           >
             <Menu className="w-5 h-5 text-gold-400" />
           </button>
+
+          {/* Logo no topo mobile */}
+          <div className="lg:hidden flex items-center space-x-2">
+            <img
+              src="/brand/logo-source.png"
+              alt="Logo Icon"
+              className="w-7 h-7 shrink-0 object-contain drop-shadow-md"
+            />
+            <div className="flex items-baseline">
+              <span className="font-extrabold text-base sm:text-lg text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
+                brasil
+              </span>
+              <span className="font-light text-base sm:text-lg text-neutral-300 tracking-normal">
+                finance
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Canto Superior Direito: Apenas Bandeira do Brasil + Botão de Resetar */}
@@ -83,7 +101,19 @@ export const Header: React.FC<HeaderProps> = ({
 
       </div>
 
-      {/* Drawer Lateral Esquerdo */}
+      {/* Sidebar Fixa Lateral para Desktop */}
+      <DesktopSidebar
+        onOpenHelp={() => setIsHelpOpen(true)}
+        onOpenFaq={() => setIsFaqOpen(true)}
+        onOpenTerms={() => setIsTermsOpen(true)}
+        onSelectTab={onSelectTab}
+        onOpenSimulator={onOpenSimulator}
+        onOpenAmortization={onOpenAmortization}
+        onOpenComparator={onOpenComparator}
+        activeTab={activeTab}
+      />
+
+      {/* Drawer Lateral Esquerdo para Mobile */}
       <SideDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
