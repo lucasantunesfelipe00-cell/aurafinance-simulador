@@ -550,7 +550,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               {/* Seleção rápida por Índices Macroeconômicos Oficiais */}
               <div className="mt-5 pt-4 border-t border-white/10 space-y-2.5 font-sans">
                 <div className="flex items-center justify-center text-center">
-                  <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-white">
+                  <span className="text-[13.5px] sm:text-[16.2px] font-mono font-bold uppercase tracking-wider text-white">
                     Taxas Atuais de Índices do Copom
                   </span>
                 </div>
