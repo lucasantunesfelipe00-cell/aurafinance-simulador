@@ -101,18 +101,6 @@ export const Header: React.FC<HeaderProps> = ({
 
       </div>
 
-      {/* Sidebar Fixa Lateral para Desktop */}
-      <DesktopSidebar
-        onOpenHelp={() => setIsHelpOpen(true)}
-        onOpenFaq={() => setIsFaqOpen(true)}
-        onOpenTerms={() => setIsTermsOpen(true)}
-        onSelectTab={onSelectTab}
-        onOpenSimulator={onOpenSimulator}
-        onOpenAmortization={onOpenAmortization}
-        onOpenComparator={onOpenComparator}
-        activeTab={activeTab}
-      />
-
       {/* Drawer Lateral Esquerdo para Mobile */}
       <SideDrawer
         isOpen={isDrawerOpen}
