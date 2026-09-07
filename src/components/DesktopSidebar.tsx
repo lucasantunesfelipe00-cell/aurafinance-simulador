@@ -77,6 +77,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'config',
       label: 'Configurar Financiamento',
+      shortLabel: 'Config',
       icon: Sliders,
       action: () => onOpenSimulator && onOpenSimulator(),
       isActive: false,
@@ -85,6 +86,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'summary',
       label: 'Aba Resumo & KPIs',
+      shortLabel: 'Resumo',
       icon: Layers,
       action: () => onSelectTab && onSelectTab('summary'),
       isActive: activeTab === 'summary',
@@ -93,6 +95,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'chart',
       label: 'Aba Gráfico Visual',
+      shortLabel: 'Gráfico',
       icon: LineChart,
       action: () => onSelectTab && onSelectTab('chart'),
       isActive: activeTab === 'chart',
@@ -101,6 +104,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'table',
       label: 'Aba Tabela Mês a Mês',
+      shortLabel: 'Tabela',
       icon: Table,
       action: () => onSelectTab && onSelectTab('table'),
       isActive: activeTab === 'table',
@@ -109,14 +113,17 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'amortization',
       label: 'Amortização Acelerada',
+      shortLabel: 'Acelerar',
       icon: Zap,
       action: () => onOpenAmortization && onOpenAmortization(),
       isActive: false,
       iconColor: 'text-amber-400',
+      isZap: true,
     },
     {
       id: 'comparator',
       label: 'Comparar SAC x PRICE',
+      shortLabel: 'Comparar',
       icon: Scale,
       action: () => onOpenComparator && onOpenComparator(),
       isActive: false,
@@ -125,6 +132,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'help',
       label: 'Central de Ajuda & Manual',
+      shortLabel: 'Manual',
       icon: HelpCircle,
       action: () => onOpenHelp(),
       isActive: false,
@@ -133,6 +141,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'faq',
       label: 'Perguntas Frequentes (FAQ)',
+      shortLabel: 'FAQ',
       icon: BookOpen,
       action: () => (onOpenFaq ? onOpenFaq() : onOpenHelp()),
       isActive: false,
@@ -141,6 +150,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     {
       id: 'terms',
       label: 'Termos & Privacidade',
+      shortLabel: 'Termos',
       icon: ShieldCheck,
       action: () => onOpenTerms && onOpenTerms(),
       isActive: false,
@@ -150,8 +160,8 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
 
   if (isCollapsed) {
     return (
-      <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[70px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
-        {/* Topo: Logo 'bf' no canto superior esquerdo (clicável para reabrir o menu) */}
+      <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[78px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
+        {/* Topo: Logo 'bf' no canto superior esquerdo (clicável para expandir o menu) */}
         <div className="flex items-center justify-center h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
           <button
             type="button"
@@ -161,20 +171,20 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="p-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center"
-            title="Expandir Menu de Navegação"
+            className="p-1 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center"
+            title="Expandir Menu"
             aria-label="Expandir Menu"
           >
             <img
               src="/brand/logo-source.png"
               alt="Logo Icon"
-              className="w-8 h-8 shrink-0 object-contain drop-shadow-md group-hover:scale-105 transition-transform"
+              className="w-8 h-8 shrink-0 object-contain drop-shadow-md group-hover:scale-110 transition-transform"
             />
           </button>
         </div>
 
-        {/* Lista Vertical de Ícones no Menu Fechado (Excluindo Ajustes Sensoriais) */}
-        <div className="flex-1 overflow-y-auto py-4 flex flex-col items-center space-y-3 custom-scrollbar">
+        {/* Lista Vertical de Ícones Animados + Nome Curto Embaixo (Sem retângulos/quadrados em volta) */}
+        <div className="flex-1 overflow-y-auto py-3 flex flex-col items-center space-y-3.5 custom-scrollbar">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -187,43 +197,52 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all group cursor-pointer"
+                className="group flex flex-col items-center justify-center w-full px-1 py-0.5 cursor-pointer transition-all"
                 title={item.label}
                 aria-label={item.label}
               >
-                {/* Indicador de Fundo Dourado Animado para a Aba Selecionada */}
-                {item.isActive && (
-                  <motion.div
-                    layoutId="activeCollapsedTabBg"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    className="absolute inset-0 bg-gradient-to-br from-[#a47e35]/35 via-[#c2a25b]/25 to-[#a47e35]/20 border border-[#c2a25b] rounded-xl shadow-gold-glow-sm"
-                  />
-                )}
+                {/* Ícone Solto Sem Borda/Caixa — Com Animação e Preenchimento Colorido Vibrante */}
+                <div className="relative flex items-center justify-center">
+                  {item.isActive ? (
+                    <motion.div
+                      key={`active-icon-${item.id}`}
+                      initial={{ scale: 0.85, rotate: -8 }}
+                      animate={{ scale: [1, 1.25, 1.15], rotate: [0, -6, 6, 0] }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      className="relative flex items-center justify-center"
+                    >
+                      {/* Halo Dourado de Luz Neon Vibrante em Volta do Ícone Ativo */}
+                      <div className="absolute inset-0 bg-[#c2a25b]/50 rounded-full blur-md animate-pulse" />
+                      <Icon
+                        className={`w-6 h-6 z-10 text-amber-300 drop-shadow-[0_0_12px_rgba(245,158,11,0.95)] fill-amber-400/40 stroke-[2.2]`}
+                      />
+                    </motion.div>
+                  ) : (
+                    <Icon
+                      className={`w-5 h-5 transition-all duration-300 ${
+                        item.isZap
+                          ? 'text-amber-400 hover:text-amber-300 group-hover:scale-110'
+                          : `${item.iconColor} group-hover:text-white group-hover:scale-110`
+                      }`}
+                    />
+                  )}
+                </div>
 
-                {/* Barra Indicadora Dourada na Borda Esquerda quando ativo */}
-                {item.isActive && (
-                  <motion.div
-                    layoutId="activeCollapsedTabIndicator"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-gradient-to-b from-[#c2a25b] to-[#a47e35] rounded-r-full shadow-gold-glow"
-                  />
-                )}
-
-                {/* Ícone com Destaque Colorido se Estiver Selecionado */}
-                <Icon
-                  className={`w-5 h-5 z-10 transition-all duration-300 ${
-                    item.isActive
-                      ? 'text-gold-300 scale-110 drop-shadow-[0_0_10px_rgba(194,162,91,0.6)]'
-                      : `${item.iconColor} group-hover:text-white group-hover:scale-110`
+                {/* Nome Curto Embaixo do Ícone */}
+                <span
+                  className={`text-[9.5px] tracking-tight font-medium mt-1 transition-colors text-center line-clamp-1 ${
+                    item.isActive ? 'text-amber-300 font-bold drop-shadow-sm' : 'text-neutral-400 group-hover:text-neutral-200'
                   }`}
-                />
+                >
+                  {item.shortLabel}
+                </span>
               </button>
             );
           })}
         </div>
 
-        {/* Botão Inferior para Reabrir / Expandir Menu */}
-        <div className="p-3 border-t border-white/10 bg-black flex justify-center shrink-0">
+        {/* Botão Inferior de Expandir */}
+        <div className="p-2 border-t border-white/10 bg-black flex justify-center shrink-0">
           <button
             type="button"
             onClick={() => {
@@ -232,11 +251,11 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="p-2 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+            className="p-1.5 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
             title="Expandir Menu"
             aria-label="Expandir Menu"
           >
-            <ChevronRight className="w-5 h-5 text-gold-400" />
+            <ChevronRight className="w-4 h-4 text-gold-400" />
           </button>
         </div>
       </aside>
