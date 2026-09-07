@@ -4,11 +4,7 @@ import React, { useState } from 'react';
 import { Menu, RefreshCw } from 'lucide-react';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { vibrateShort } from '@/lib/haptics';
-import { HelpModal } from '@/components/HelpModal';
-import { FaqModal } from '@/components/FaqModal';
-import { TermsModal } from '@/components/TermsModal';
 import { SideDrawer } from '@/components/SideDrawer';
-import { DesktopSidebar } from '@/components/DesktopSidebar';
 
 interface HeaderProps {
   onReset?: () => void;
@@ -16,6 +12,9 @@ interface HeaderProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenComparator?: () => void;
+  onOpenHelp?: () => void;
+  onOpenFaq?: () => void;
+  onOpenTerms?: () => void;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -25,12 +24,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenComparator,
+  onOpenHelp,
+  onOpenFaq,
+  onOpenTerms,
   activeTab = 'summary',
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const [isFaqOpen, setIsFaqOpen] = useState(false);
-  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   return (
     <header className="w-full border-b border-white/10 bg-black/90 backdrop-blur-md sticky top-0 z-50 h-[66px] relative font-sans">
@@ -105,20 +104,24 @@ export const Header: React.FC<HeaderProps> = ({
       <SideDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        onOpenHelp={() => setIsHelpOpen(true)}
-        onOpenFaq={() => setIsFaqOpen(true)}
-        onOpenTerms={() => setIsTermsOpen(true)}
+        onOpenHelp={() => {
+          setIsDrawerOpen(false);
+          if (onOpenHelp) onOpenHelp();
+        }}
+        onOpenFaq={() => {
+          setIsDrawerOpen(false);
+          if (onOpenFaq) onOpenFaq();
+        }}
+        onOpenTerms={() => {
+          setIsDrawerOpen(false);
+          if (onOpenTerms) onOpenTerms();
+        }}
         onSelectTab={onSelectTab}
         onOpenSimulator={onOpenSimulator}
         onOpenAmortization={onOpenAmortization}
         onOpenComparator={onOpenComparator}
         activeTab={activeTab}
       />
-
-      {/* Modais de Ajuda, FAQ e Termos */}
-      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-      <FaqModal isOpen={isFaqOpen} onClose={() => setIsFaqOpen(false)} />
-      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
 
       {/* Linha de brilho sutil com gradiente da paleta dourada */}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#c2a25b]/45 to-transparent pointer-events-none">

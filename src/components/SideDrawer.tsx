@@ -263,20 +263,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <span>Amortização Acelerada</span>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
-                    if (onOpenComparator) onOpenComparator();
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
-                >
-                  <Scale className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-                  <span>Comparar SAC x PRICE</span>
-                </button>
               </div>
 
               {/* Seção: Suporte */}
