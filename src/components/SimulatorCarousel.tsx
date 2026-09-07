@@ -16,7 +16,11 @@ import {
   RefreshCw,
   ChevronLeft,
   ChevronRight,
+  Bookmark,
+  FolderHeart,
+  Plus,
 } from 'lucide-react';
+import { SavedScenario } from '@/lib/saved-scenarios';
 
 interface SimulatorCarouselProps {
   inputs: FinancingInputs;
@@ -24,6 +28,10 @@ interface SimulatorCarouselProps {
   onReset: () => void;
   onSimulate: () => void;
   onStepChange?: (step: number) => void;
+  onOpenSavedScenarios?: () => void;
+  onQuickSaveScenario?: () => void;
+  savedScenarios?: SavedScenario[];
+  onSelectScenario?: (inputs: FinancingInputs) => void;
 }
 
 const TOTAL_CONFIG_STEPS = 5;
@@ -39,22 +47,22 @@ interface MacroPreset {
 const MACRO_PRESETS: MacroPreset[] = [
   {
     label: 'SELIC',
-    value: '10,50%',
-    rate: 10.5,
+    value: '14,00%',
+    rate: 14.00,
     sub: 'a.a.',
     source: 'Taxa Básica Banco Central do Brasil',
   },
   {
     label: 'TAXA MÉDIA SFH',
-    value: '10,20%',
-    rate: 10.2,
+    value: '11,39%',
+    rate: 11.39,
     sub: 'a.a.',
     source: 'Média de Mercado Habitacional SFH',
   },
   {
     label: 'IPCA',
-    value: '4,18%',
-    rate: 4.18,
+    value: '4,44%',
+    rate: 4.44,
     sub: '12m',
     source: 'Inflação Oficial IBGE',
   },
@@ -82,6 +90,10 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   onReset,
   onSimulate,
   onStepChange,
+  onOpenSavedScenarios,
+  onQuickSaveScenario,
+  savedScenarios = [],
+  onSelectScenario,
 }) => {
   const [step, setStepState] = useState(1);
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
@@ -237,6 +249,64 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   return (
     <div className="max-w-3xl mx-auto">
 
+      {/* Barra de Acesso aos Cenários Salvos */}
+      <div className="w-full mb-3 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-4 font-sans">
+        <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              onOpenSavedScenarios?.();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className="px-3 py-1.5 rounded-full bg-[#c2a25b]/15 hover:bg-[#c2a25b]/25 border border-[#c2a25b]/50 text-gold-400 font-medium text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm active:scale-95 shrink-0"
+            title="Abrir histórico de cenários salvos"
+          >
+            <FolderHeart className="w-3.5 h-3.5" />
+            <span>Cenários Salvos ({savedScenarios.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              onQuickSaveScenario?.();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-neutral-300 hover:text-white font-medium text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm active:scale-95 shrink-0"
+            title="Salvar esta simulação na memória local"
+          >
+            <Bookmark className="w-3.5 h-3.5 text-gold-400" />
+            <span className="hidden sm:inline">Salvar este Cenário</span>
+            <span className="sm:hidden">Salvar</span>
+          </button>
+        </div>
+
+        {/* Pílulas de Acesso Rápido a Cenários Salvos se houver */}
+        {savedScenarios.length > 0 && (
+          <div className="flex items-center space-x-1.5 overflow-x-auto max-w-full py-0.5 custom-scrollbar shrink-0">
+            {savedScenarios.slice(0, 3).map((sc) => (
+              <button
+                key={sc.id}
+                type="button"
+                onClick={() => {
+                  vibrateShort();
+                  onSelectScenario?.(sc.inputs);
+                }}
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+                className="px-2.5 py-1 rounded-md bg-black/80 hover:bg-[#c2a25b]/20 border border-white/15 hover:border-gold-400 text-[11px] font-mono text-neutral-300 hover:text-white truncate max-w-[150px] transition-all cursor-pointer"
+                title={`Carregar ${sc.name}`}
+              >
+                ⚡ {sc.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Cabeçalho do topo da caixa de configuração */}
       <div className="relative flex flex-col items-center justify-center pt-1 mb-8 px-4 sm:px-8 text-center w-full min-h-[96px]">
         <AnimatePresence mode="wait">
@@ -289,13 +359,12 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   return (
                     <div
                       key={i}
-                      className={`flex-1 h-1 rounded-none transition-all duration-300 ${
-                        isCurrent
-                          ? 'bg-gold-400 shadow-gold-glow-sm'
-                          : isCompleted
+                      className={`flex-1 h-1 rounded-none transition-all duration-300 ${isCurrent
+                        ? 'bg-gold-400 shadow-gold-glow-sm'
+                        : isCompleted
                           ? 'bg-[#a47e35]/60'
                           : 'bg-white/15'
-                      }`}
+                        }`}
                     />
                   );
                 })}
@@ -570,11 +639,10 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                         }}
                         onMouseEnter={() => setCursorVariant('button')}
                         onMouseLeave={() => setCursorVariant('default')}
-                        className={`p-2.5 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between space-y-1 ${
-                          isSelected
-                            ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm'
-                            : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white'
-                        }`}
+                        className={`p-2.5 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between space-y-1 ${isSelected
+                          ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm'
+                          : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white'
+                          }`}
                         title={`${preset.label}: ${preset.source}`}
                       >
                         <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider truncate">
@@ -657,11 +725,10 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
               {/* Seguros & Encargos Toggle */}
               <div
-                className={`mt-6 p-3.5 border rounded-none flex items-center justify-between gap-2 transition-all duration-300 ${
-                  inputs.includeInsurances
-                    ? 'bg-white/[0.03] border-[#c2a25b]/60'
-                    : 'bg-black border-[#c2a25b]/45 hover:border-[#c2a25b]'
-                }`}
+                className={`mt-6 p-3.5 border rounded-none flex items-center justify-between gap-2 transition-all duration-300 ${inputs.includeInsurances
+                  ? 'bg-white/[0.03] border-[#c2a25b]/60'
+                  : 'bg-black border-[#c2a25b]/45 hover:border-[#c2a25b]'
+                  }`}
               >
                 <div className="min-w-0 flex-1 mr-2">
                   <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
