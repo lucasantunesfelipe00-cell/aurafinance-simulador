@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import {
   X,
   HelpCircle,
@@ -118,41 +117,41 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     return matchesSearch && matchesCategory;
   });
 
-  return createPortal(
-    <div className="fixed inset-0 z-[100001] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
-      <div className="glass-card w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] rounded-2xl border border-[#c2a25b]/30 p-4 sm:p-6 flex flex-col relative shadow-2xl overflow-hidden bg-neutral-950/95">
-        
-        {/* Glow de fundo */}
-        <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c2a25b]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-60 h-60 bg-[#a47e35]/10 rounded-full blur-3xl pointer-events-none" />
+  return (
+    <section className="w-full max-w-3xl mx-auto editorial-card bg-neutral-950/95 border border-amber-400/40 p-4 sm:p-6 rounded-none shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+      
+      {/* Glow de fundo */}
+      <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c2a25b]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-60 h-60 bg-[#a47e35]/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Modal Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10">
-          <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shadow-inner">
-              <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" />
-            </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white flex items-center space-x-2">
-                <span>Manual do Aplicativo & Glossário</span>
-              </h2>
-              <p className="text-xs text-neutral-400">Guia definitivo de inteligência e estratégia em financiamento imobiliário</p>
-            </div>
+      {/* Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10">
+        <div className="flex items-center space-x-3">
+          <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shadow-inner">
+            <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-
-          <button
-            onClick={() => {
-              vibrateShort();
-              onClose();
-            }}
-            onMouseEnter={() => setCursorVariant('button')}
-            onMouseLeave={() => setCursorVariant('default')}
-            className="p-2 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/50 transition-all cursor-pointer"
-            title="Fechar manual"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div>
+            <h2 className="text-lg sm:text-xl font-bold text-white flex items-center space-x-2">
+              <span>Manual do Aplicativo &amp; Glossário</span>
+            </h2>
+            <p className="text-xs text-neutral-400">Guia definitivo de inteligência e estratégia em financiamento imobiliário</p>
+          </div>
         </div>
+
+        <button
+          onClick={() => {
+            vibrateShort();
+            onClose();
+          }}
+          onMouseEnter={() => setCursorVariant('button')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/50 transition-all cursor-pointer"
+          title="Fechar e voltar ao simulador"
+        >
+          <X className="w-4 h-4 text-amber-400" />
+          <span className="hidden sm:inline">Fechar</span>
+        </button>
+      </div>
 
         {/* Tab Selection Navigation */}
         <div className="flex space-x-2 my-4 border-b border-white/10 pb-3 relative z-10 overflow-x-auto no-scrollbar">
@@ -441,14 +440,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] text-black font-bold text-xs hover:brightness-110 transition-all cursor-pointer shadow-md shadow-[#c2a25b]/20"
+            className="px-4 py-2 rounded-none bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-bold text-xs hover:brightness-110 transition-all cursor-pointer shadow-md shadow-amber-400/20"
           >
-            Entendido, Fechar
+            Voltar à Simulação
           </button>
         </div>
-
-      </div>
-    </div>,
-    document.body
+    </section>
   );
 };

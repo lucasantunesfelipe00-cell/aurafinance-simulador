@@ -137,15 +137,39 @@ export default function Home() {
             <DesktopSidebar
               isCollapsed={isSidebarCollapsed}
               onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              onOpenHelp={() => setIsHelpOpen(true)}
-              onOpenFaq={() => setIsFaqOpen(true)}
-              onOpenTerms={() => setIsTermsOpen(true)}
+              onOpenHelp={() => {
+                setIsHelpOpen(true);
+                setIsFaqOpen(false);
+                setIsTermsOpen(false);
+                setIsExtraAmortizationOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenFaq={() => {
+                setIsFaqOpen(true);
+                setIsHelpOpen(false);
+                setIsTermsOpen(false);
+                setIsExtraAmortizationOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenTerms={() => {
+                setIsTermsOpen(true);
+                setIsHelpOpen(false);
+                setIsFaqOpen(false);
+                setIsExtraAmortizationOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               onOpenSimulator={() => {
+                setIsHelpOpen(false);
+                setIsFaqOpen(false);
+                setIsTermsOpen(false);
                 setIsExtraAmortizationOpen(false);
                 setIsConfigVisible(true);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               onOpenAmortization={() => {
+                setIsHelpOpen(false);
+                setIsFaqOpen(false);
+                setIsTermsOpen(false);
                 setIsExtraAmortizationOpen(true);
                 setHasCalculated(true);
                 setTimeout(() => {
@@ -230,10 +254,17 @@ export default function Home() {
                   }, 100);
                 }}
                 onOpenSimulator={() => {
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
                   setIsConfigVisible(true);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenAmortization={() => {
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
                   setIsExtraAmortizationOpen(true);
                   setHasCalculated(true);
                   setTimeout(() => {
@@ -241,14 +272,67 @@ export default function Home() {
                   }, 100);
                 }}
                 onOpenComparator={() => setIsComparatorOpen(true)}
+                onOpenHelp={() => {
+                  setIsHelpOpen(true);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenFaq={() => {
+                  setIsFaqOpen(true);
+                  setIsHelpOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenTerms={() => {
+                  setIsTermsOpen(true);
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 activeTab={activeTab}
               />
 
       {/* Conteúdo Principal (Max-width 1078px contained per design.md) */}
       <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
 
-        {/* HERO SECTION — Carrossel de Configuração da Simulação */}
-        <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
+        {isHelpOpen && (
+          <HelpModal
+            isOpen={isHelpOpen}
+            onClose={() => {
+              setIsHelpOpen(false);
+              setIsConfigVisible(true);
+            }}
+          />
+        )}
+
+        {isFaqOpen && (
+          <FaqModal
+            isOpen={isFaqOpen}
+            onClose={() => {
+              setIsFaqOpen(false);
+              setIsConfigVisible(true);
+            }}
+          />
+        )}
+
+        {isTermsOpen && (
+          <TermsModal
+            isOpen={isTermsOpen}
+            onClose={() => {
+              setIsTermsOpen(false);
+              setIsConfigVisible(true);
+            }}
+          />
+        )}
+
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && (
+          <>
+            {/* HERO SECTION — Carrossel de Configuração da Simulação */}
+            <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
           <AnimatePresence initial={false}>
             {isConfigVisible && (
               <motion.div
@@ -567,6 +651,8 @@ export default function Home() {
 
           </div>
         )}
+          </>
+        )}
 
       </main>
             </div>
@@ -585,10 +671,6 @@ export default function Home() {
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
       />
-
-      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-      <FaqModal isOpen={isFaqOpen} onClose={() => setIsFaqOpen(false)} />
-      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
 
     </div>
   );
