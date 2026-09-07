@@ -19,6 +19,22 @@
     text-size-adjust: 100% !important;
   }
 
+  /* Remoção global de linhas/contornos brancos de foco padrão de navegadores */
+  button, input, select, textarea, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+  }
+
+  button:focus,
+  button:focus-visible,
+  button:active,
+  [role="button"]:focus,
+  [role="button"]:focus-visible,
+  [role="button"]:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
   body {
     background-color: #000000;
     color: #ffffff;
