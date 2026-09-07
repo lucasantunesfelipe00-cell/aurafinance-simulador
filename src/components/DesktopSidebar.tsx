@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import {
+  X,
   BookOpen,
   HelpCircle,
   ShieldCheck,
@@ -20,6 +21,8 @@ import { isHapticEnabled, setHapticEnabled, vibrateShort } from '@/lib/haptics';
 import { setCursorVariant } from '@/lib/cursor-store';
 
 export interface DesktopSidebarProps {
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
   onOpenHelp: () => void;
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
@@ -31,6 +34,8 @@ export interface DesktopSidebarProps {
 }
 
 export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
+  isCollapsed = false,
+  onToggleCollapse,
   onOpenHelp,
   onOpenFaq,
   onOpenTerms,
@@ -66,26 +71,74 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     }
   };
 
+  if (isCollapsed) {
+    return (
+      <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[70px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
+        {/* Topo: Apenas a logo 'bf' no canto superior esquerdo (clicável para reabrir o menu) */}
+        <div className="flex items-center justify-center h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              if (onToggleCollapse) onToggleCollapse();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className="p-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center"
+            title="Abrir Menu de Navegação"
+            aria-label="Abrir Menu"
+          >
+            <img
+              src="/brand/logo-source.png"
+              alt="Logo Icon"
+              className="w-8 h-8 shrink-0 object-contain drop-shadow-md group-hover:scale-105 transition-transform"
+            />
+          </button>
+        </div>
+      </aside>
+    );
+  }
+
   return (
-    <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[260px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden">
+    <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[260px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
       {/* Ambient Background Glow */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none" />
 
-      {/* Topo: Logo 'bf' + escrita 'brasilfinance' */}
-      <div className="flex items-center space-x-2.5 px-5 h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
-        <img
-          src="/brand/logo-source.png"
-          alt="Logo Icon"
-          className="w-8 h-8 shrink-0 object-contain drop-shadow-md"
-        />
-        <div className="flex items-baseline">
-          <span className="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
-            brasil
-          </span>
-          <span className="font-light text-xl text-neutral-300 tracking-normal">
-            finance
-          </span>
+      {/* Topo: Logo 'bf' + escrita 'brasilfinance' + Botão 'X' para fechar */}
+      <div className="flex items-center justify-between px-4 h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
+        <div className="flex items-center space-x-2.5">
+          <img
+            src="/brand/logo-source.png"
+            alt="Logo Icon"
+            className="w-8 h-8 shrink-0 object-contain drop-shadow-md"
+          />
+          <div className="flex items-baseline">
+            <span className="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
+              brasil
+            </span>
+            <span className="font-light text-xl text-neutral-300 tracking-normal">
+              finance
+            </span>
+          </div>
         </div>
+
+        {/* Botão de Fechar X no Menu Desktop */}
+        {onToggleCollapse && (
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              onToggleCollapse();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer shrink-0"
+            title="Fechar menu"
+            aria-label="Fechar menu"
+          >
+            <X className="w-4 h-4 text-neutral-300 hover:text-white" />
+          </button>
+        )}
       </div>
 
       {/* Opções do Menu Soltas (Fora de Retângulos) */}

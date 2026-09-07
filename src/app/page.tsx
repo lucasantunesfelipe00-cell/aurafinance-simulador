@@ -55,6 +55,7 @@ export default function Home() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -128,8 +129,10 @@ export default function Home() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="flex-1 flex flex-col w-full min-h-screen relative"
           >
-            {/* Sidebar Fixa Lateral para Desktop (Colada 100% no canto esquerdo 0px) */}
+            {/* Sidebar Fixa Lateral para Desktop (Com estado expandido e recolhido em mini logo) */}
             <DesktopSidebar
+              isCollapsed={isSidebarCollapsed}
+              onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               onOpenHelp={() => setIsHelpOpen(true)}
               onOpenFaq={() => setIsFaqOpen(true)}
               onOpenTerms={() => setIsTermsOpen(true)}
@@ -211,8 +214,10 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70 pointer-events-none" />
             </div>
 
-            {/* Conteúdo da Aplicação em Camada Superior z-10 com offset da Sidebar no Desktop */}
-            <div className="relative z-10 flex-1 flex flex-col w-full min-h-screen lg:pl-[260px] transition-all">
+            {/* Conteúdo da Aplicação em Camada Superior z-10 com offset dinâmico da Sidebar no Desktop */}
+            <div className={`relative z-10 flex-1 flex flex-col w-full min-h-screen transition-all duration-300 ${
+              isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[260px]'
+            }`}>
               {/* Header Superior (66px Height, 1078px max-width) */}
               <Header
                 onReset={handleReset}
