@@ -10,6 +10,7 @@ import {
   formatBRL,
 } from '@/lib/financing-calculator';
 import { Header } from '@/components/Header';
+import { MacroTickerBar } from '@/components/MacroTickerBar';
 import { SimulatorCarousel } from '@/components/SimulatorCarousel';
 import { ResultsSummary } from '@/components/ResultsSummary';
 import { AmortizationChart } from '@/components/AmortizationChart';
@@ -295,6 +296,9 @@ export default function Home() {
                 }}
                 activeTab={activeTab}
               />
+
+              {/* Ticker de Indicadores Macroeconômicos (Estilo Terminal Bloomberg) */}
+              <MacroTickerBar />
 
       {/* Conteúdo Principal (Max-width 1078px contained per design.md) */}
       <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
