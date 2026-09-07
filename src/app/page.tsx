@@ -16,6 +16,10 @@ import { AmortizationChart } from '@/components/AmortizationChart';
 import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
+import { DesktopSidebar } from '@/components/DesktopSidebar';
+import { HelpModal } from '@/components/HelpModal';
+import { FaqModal } from '@/components/FaqModal';
+import { TermsModal } from '@/components/TermsModal';
 import { HeroTitle } from '@/components/HeroTitle';
 import { BankSplashFlow } from '@/components/BankSplashFlow';
 import { BackgroundLightTrail } from '@/components/BackgroundLightTrail';
@@ -48,6 +52,9 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -121,6 +128,32 @@ export default function Home() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="flex-1 flex flex-col w-full min-h-screen relative"
           >
+            {/* Sidebar Fixa Lateral para Desktop (Colada 100% no canto esquerdo 0px) */}
+            <DesktopSidebar
+              onOpenHelp={() => setIsHelpOpen(true)}
+              onOpenFaq={() => setIsFaqOpen(true)}
+              onOpenTerms={() => setIsTermsOpen(true)}
+              onSelectTab={(tab) => {
+                setActiveTab(tab);
+                setHasCalculated(true);
+                setTimeout(() => {
+                  resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+              }}
+              onOpenSimulator={() => {
+                setIsConfigVisible(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenAmortization={() => {
+                setIsExtraAmortizationOpen(true);
+                setHasCalculated(true);
+                setTimeout(() => {
+                  resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+              }}
+              onOpenComparator={() => setIsComparatorOpen(true)}
+              activeTab={activeTab}
+            />
             {/* Imagem de Fundo das Ondas Douradas (Escurecida 15%) */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
               {/* Versão Mobile (Vertical) — Escurecida 15% */}
@@ -546,6 +579,10 @@ export default function Home() {
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
       />
+
+      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      <FaqModal isOpen={isFaqOpen} onClose={() => setIsFaqOpen(false)} />
+      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
 
     </div>
   );

@@ -67,12 +67,12 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   };
 
   return (
-    <aside className="hidden lg:flex flex-col fixed top-0 left-0 w-[260px] h-screen bg-black/95 border-r border-white/10 z-40 select-none font-sans overflow-hidden">
+    <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[260px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden">
       {/* Ambient Background Glow */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none" />
 
       {/* Topo: Logo 'bf' + escrita 'brasilfinance' */}
-      <div className="flex items-center space-x-2.5 px-5 py-5 border-b border-white/10 relative z-10 bg-black/60 shrink-0">
+      <div className="flex items-center space-x-2.5 px-5 h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
         <img
           src="/brand/logo-source.png"
           alt="Logo Icon"
