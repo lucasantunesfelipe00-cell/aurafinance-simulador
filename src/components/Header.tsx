@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="w-full border-b border-white/10 bg-black/90 backdrop-blur-md sticky top-0 z-50 h-[66px] relative font-sans">
-      <div className="max-w-[1078px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 md:px-8 h-full flex items-center justify-between">
         
         {/* Canto Superior Esquerdo: Logo no mobile + Botão Hamburger (Apenas Mobile/Tablet) */}
         <div className="flex items-center space-x-3">
