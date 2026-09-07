@@ -178,8 +178,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70 pointer-events-none" />
             </div>
 
-            {/* Conteúdo da Aplicação em Camada Superior z-10 */}
-            <div className="relative z-10 flex-1 flex flex-col w-full min-h-screen">
+            {/* Conteúdo da Aplicação em Camada Superior z-10 com offset da Sidebar no Desktop */}
+            <div className="relative z-10 flex-1 flex flex-col w-full min-h-screen lg:pl-[260px] transition-all">
               {/* Header Superior (66px Height, 1078px max-width) */}
               <Header
                 onReset={handleReset}
