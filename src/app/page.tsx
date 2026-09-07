@@ -216,7 +216,7 @@ export default function Home() {
 
             {/* Conteúdo da Aplicação em Camada Superior z-10 com offset dinâmico da Sidebar no Desktop */}
             <div className={`relative z-10 flex-1 flex flex-col w-full min-h-screen transition-all duration-300 ${
-              isSidebarCollapsed ? 'lg:pl-[70px]' : 'lg:pl-[260px]'
+              isSidebarCollapsed ? 'lg:pl-[78px]' : 'lg:pl-[260px]'
             }`}>
               {/* Header Superior (66px Height, 1078px max-width) */}
               <Header
