@@ -121,10 +121,10 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-2 py-2 text-xs transition-all text-left group cursor-pointer ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
               activeTab === 'summary'
-                ? 'text-[#c2a25b] font-bold'
-                : 'text-neutral-300 hover:text-white hover:translate-x-0.5'
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
             }`}
           >
             <Layers className={`w-4 h-4 shrink-0 ${activeTab === 'summary' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
@@ -139,10 +139,10 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-2 py-2 text-xs transition-all text-left group cursor-pointer ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
               activeTab === 'chart'
-                ? 'text-[#c2a25b] font-bold'
-                : 'text-neutral-300 hover:text-white hover:translate-x-0.5'
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
             }`}
           >
             <LineChart className={`w-4 h-4 shrink-0 ${activeTab === 'chart' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
@@ -157,10 +157,10 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-2 py-2 text-xs transition-all text-left group cursor-pointer ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
               activeTab === 'table'
-                ? 'text-[#c2a25b] font-bold'
-                : 'text-neutral-300 hover:text-white hover:translate-x-0.5'
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
             }`}
           >
             <Table className={`w-4 h-4 shrink-0 ${activeTab === 'table' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
