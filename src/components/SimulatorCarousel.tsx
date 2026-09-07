@@ -119,8 +119,8 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   const termInYears = Math.round((inputs.termMonths / 12) * 10) / 10;
 
   const renderNav = (isFirstStep: boolean, isLastStep: boolean) => (
-    <div className="flex items-center justify-between gap-3 mt-6">
-      {!isFirstStep ? (
+    <div className={`flex items-center gap-3 mt-6 ${isFirstStep ? 'justify-center' : 'justify-between'}`}>
+      {!isFirstStep && (
         <button
           type="button"
           onClick={goBack}
@@ -129,8 +129,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
           <ChevronLeft className="w-4 h-4" />
           <span>Voltar</span>
         </button>
-      ) : (
-        <div />
       )}
 
       {isLastStep ? (
