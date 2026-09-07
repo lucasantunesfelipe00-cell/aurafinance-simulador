@@ -551,7 +551,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <div className="mt-5 pt-4 border-t border-white/10 space-y-2.5 font-sans">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
-                    Ou selecione uma taxa por índice oficial do momento:
+                    Taxas Atuais de Índices do Copom
                   </span>
                 </div>
 
