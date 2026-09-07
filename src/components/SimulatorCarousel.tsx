@@ -553,9 +553,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
                     Ou selecione uma taxa por índice oficial do momento:
                   </span>
-                  <span className="text-[9px] font-mono text-amber-400/80 uppercase tracking-widest hidden sm:inline">
-                    BANCO CENTRAL
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono">
@@ -575,7 +572,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                         onMouseLeave={() => setCursorVariant('default')}
                         className={`p-2.5 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between space-y-1 ${
                           isSelected
-                            ? 'bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent border-amber-400 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                            ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm'
                             : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white'
                         }`}
                         title={`${preset.label}: ${preset.source}`}
@@ -584,7 +581,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                           {preset.label}
                         </span>
                         <div className="flex items-baseline justify-between">
-                          <span className={`text-xs sm:text-sm font-extrabold ${isSelected ? 'text-amber-300' : 'text-gold-400'}`}>
+                          <span className="text-xs sm:text-sm font-extrabold text-gold-400">
                             {preset.value}
                           </span>
                           <span className="text-[9px] text-neutral-400 font-light ml-1">
