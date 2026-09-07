@@ -393,9 +393,11 @@ export default function Home() {
                     >
                       Simulador de Amortização Acelerada
                     </h3>
-                    <p className="text-[10px] sm:text-xs lg:text-sm text-neutral-400 font-light mt-0.5 truncate">
-                      Acelere a quitação amortizando valores adicionais
-                    </p>
+                    {isExtraAmortizationOpen && (
+                      <p className="text-[10px] sm:text-xs lg:text-sm text-neutral-400 font-light mt-0.5 truncate animate-fadeIn">
+                        Acelere a quitação amortizando valores adicionais
+                      </p>
+                    )}
                   </div>
                 </div>
                 {isExtraAmortizationOpen ? (
