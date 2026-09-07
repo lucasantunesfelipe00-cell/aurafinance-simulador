@@ -10,7 +10,6 @@ import {
   VolumeX,
   Smartphone,
   Sliders,
-  Scale,
   Zap,
   ChevronRight,
 } from 'lucide-react';
@@ -25,10 +24,13 @@ export interface DesktopSidebarProps {
   onOpenHelp: () => void;
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
-  onSelectTab?: (tab: 'summary' | 'chart' | 'table') => void;
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
-  onOpenComparator?: () => void;
+  isConfigActive?: boolean;
+  isAmortizationActive?: boolean;
+  isHelpActive?: boolean;
+  isFaqActive?: boolean;
+  isTermsActive?: boolean;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -38,11 +40,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenHelp,
   onOpenFaq,
   onOpenTerms,
-  onSelectTab,
   onOpenSimulator,
   onOpenAmortization,
-  onOpenComparator,
-  activeTab = 'summary',
+  isConfigActive = false,
+  isAmortizationActive = false,
+  isHelpActive = false,
+  isFaqActive = false,
+  isTermsActive = false,
 }) => {
   const [sound, setSound] = useState(true);
   const [haptics, setHaptics] = useState(true);
@@ -76,7 +80,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       label: 'Configurar',
       icon: Sliders,
       action: () => onOpenSimulator && onOpenSimulator(),
-      isActive: false,
+      isActive: Boolean(isConfigActive),
       iconColor: 'text-gold-400',
     },
     {
@@ -84,23 +88,15 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       label: 'Amortização',
       icon: Zap,
       action: () => onOpenAmortization && onOpenAmortization(),
-      isActive: false,
+      isActive: Boolean(isAmortizationActive),
       iconColor: 'text-amber-400',
-    },
-    {
-      id: 'comparator',
-      label: 'Comparar',
-      icon: Scale,
-      action: () => onOpenComparator && onOpenComparator(),
-      isActive: false,
-      iconColor: 'text-gold-400',
     },
     {
       id: 'help',
       label: 'Suporte',
       icon: HelpCircle,
       action: () => onOpenHelp(),
-      isActive: false,
+      isActive: Boolean(isHelpActive),
       iconColor: 'text-gold-400',
     },
     {
@@ -108,7 +104,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       label: 'FAQ',
       icon: BookOpen,
       action: () => (onOpenFaq ? onOpenFaq() : onOpenHelp()),
-      isActive: false,
+      isActive: Boolean(isFaqActive),
       iconColor: 'text-neutral-400',
     },
     {
@@ -116,7 +112,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       label: 'Termos',
       icon: ShieldCheck,
       action: () => onOpenTerms && onOpenTerms(),
-      isActive: false,
+      isActive: Boolean(isTermsActive),
       iconColor: 'text-neutral-400',
     },
   ];
@@ -298,9 +294,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isConfigActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+            }`}
           >
-            <Sliders className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+            <Sliders className={`w-4 h-4 shrink-0 ${isConfigActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
             <span>Configurar</span>
           </button>
         </div>
@@ -321,24 +321,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-amber-400 hover:text-amber-300 hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isAmortizationActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-amber-300 font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-amber-400 hover:text-amber-300 hover:translate-x-0.5'
+            }`}
           >
-            <Zap className="w-4 h-4 text-amber-400 shrink-0" />
+            <Zap className={`w-4 h-4 shrink-0 ${isAmortizationActive ? 'text-amber-300' : 'text-amber-400'}`} />
             <span>Amortização</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              vibrateShort();
-              if (onOpenComparator) onOpenComparator();
-            }}
-            onMouseEnter={() => setCursorVariant('button')}
-            onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
-          >
-            <Scale className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-            <span>Comparar</span>
           </button>
         </div>
 
@@ -358,9 +348,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isHelpActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+            }`}
           >
-            <HelpCircle className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+            <HelpCircle className={`w-4 h-4 shrink-0 ${isHelpActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
             <span>Suporte</span>
           </button>
 
@@ -373,9 +367,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isFaqActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+            }`}
           >
-            <BookOpen className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
+            <BookOpen className={`w-4 h-4 shrink-0 ${isFaqActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`} />
             <span>FAQ</span>
           </button>
 
@@ -387,9 +385,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isTermsActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+            }`}
           >
-            <ShieldCheck className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
+            <ShieldCheck className={`w-4 h-4 shrink-0 ${isTermsActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`} />
             <span>Termos</span>
           </button>
         </div>
