@@ -104,7 +104,11 @@ export default function Home() {
     setIsConfigVisible(true);
   };
 
-  const isAmortizationActive = isExtraAmortizationOpen;
+  const isHelpActive = isHelpOpen;
+  const isFaqActive = isFaqOpen;
+  const isTermsActive = isTermsOpen;
+  const isAmortizationActive = isExtraAmortizationOpen && !isHelpOpen && !isFaqOpen && !isTermsOpen;
+  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isHelpOpen && !isFaqOpen && !isTermsOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
@@ -136,14 +140,8 @@ export default function Home() {
               onOpenHelp={() => setIsHelpOpen(true)}
               onOpenFaq={() => setIsFaqOpen(true)}
               onOpenTerms={() => setIsTermsOpen(true)}
-              onSelectTab={(tab) => {
-                setActiveTab(tab);
-                setHasCalculated(true);
-                setTimeout(() => {
-                  resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-              }}
               onOpenSimulator={() => {
+                setIsExtraAmortizationOpen(false);
                 setIsConfigVisible(true);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -154,8 +152,11 @@ export default function Home() {
                   resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
               }}
-              onOpenComparator={() => setIsComparatorOpen(true)}
-              activeTab={activeTab}
+              isConfigActive={isConfigActive}
+              isAmortizationActive={isAmortizationActive}
+              isHelpActive={isHelpActive}
+              isFaqActive={isFaqActive}
+              isTermsActive={isTermsActive}
             />
             {/* Imagem de Fundo das Ondas Douradas (Escurecida 15%) */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
