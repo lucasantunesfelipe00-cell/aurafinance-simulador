@@ -15,7 +15,9 @@ import {
   Table,
   Scale,
   Zap,
+  ChevronRight,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
 import { isHapticEnabled, setHapticEnabled, vibrateShort } from '@/lib/haptics';
 import { setCursorVariant } from '@/lib/cursor-store';
@@ -71,10 +73,85 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     }
   };
 
+  const navItems = [
+    {
+      id: 'config',
+      label: 'Configurar Financiamento',
+      icon: Sliders,
+      action: () => onOpenSimulator && onOpenSimulator(),
+      isActive: false,
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'summary',
+      label: 'Aba Resumo & KPIs',
+      icon: Layers,
+      action: () => onSelectTab && onSelectTab('summary'),
+      isActive: activeTab === 'summary',
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'chart',
+      label: 'Aba Gráfico Visual',
+      icon: LineChart,
+      action: () => onSelectTab && onSelectTab('chart'),
+      isActive: activeTab === 'chart',
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'table',
+      label: 'Aba Tabela Mês a Mês',
+      icon: Table,
+      action: () => onSelectTab && onSelectTab('table'),
+      isActive: activeTab === 'table',
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'amortization',
+      label: 'Amortização Acelerada',
+      icon: Zap,
+      action: () => onOpenAmortization && onOpenAmortization(),
+      isActive: false,
+      iconColor: 'text-amber-400',
+    },
+    {
+      id: 'comparator',
+      label: 'Comparar SAC x PRICE',
+      icon: Scale,
+      action: () => onOpenComparator && onOpenComparator(),
+      isActive: false,
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'help',
+      label: 'Central de Ajuda & Manual',
+      icon: HelpCircle,
+      action: () => onOpenHelp(),
+      isActive: false,
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'faq',
+      label: 'Perguntas Frequentes (FAQ)',
+      icon: BookOpen,
+      action: () => (onOpenFaq ? onOpenFaq() : onOpenHelp()),
+      isActive: false,
+      iconColor: 'text-neutral-400',
+    },
+    {
+      id: 'terms',
+      label: 'Termos & Privacidade',
+      icon: ShieldCheck,
+      action: () => onOpenTerms && onOpenTerms(),
+      isActive: false,
+      iconColor: 'text-neutral-400',
+    },
+  ];
+
   if (isCollapsed) {
     return (
       <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[70px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
-        {/* Topo: Apenas a logo 'bf' no canto superior esquerdo (clicável para reabrir o menu) */}
+        {/* Topo: Logo 'bf' no canto superior esquerdo (clicável para reabrir o menu) */}
         <div className="flex items-center justify-center h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
           <button
             type="button"
@@ -85,14 +162,81 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
             className="p-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center"
-            title="Abrir Menu de Navegação"
-            aria-label="Abrir Menu"
+            title="Expandir Menu de Navegação"
+            aria-label="Expandir Menu"
           >
             <img
               src="/brand/logo-source.png"
               alt="Logo Icon"
               className="w-8 h-8 shrink-0 object-contain drop-shadow-md group-hover:scale-105 transition-transform"
             />
+          </button>
+        </div>
+
+        {/* Lista Vertical de Ícones no Menu Fechado (Excluindo Ajustes Sensoriais) */}
+        <div className="flex-1 overflow-y-auto py-4 flex flex-col items-center space-y-3 custom-scrollbar">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  vibrateShort();
+                  item.action();
+                }}
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+                className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all group cursor-pointer"
+                title={item.label}
+                aria-label={item.label}
+              >
+                {/* Indicador de Fundo Dourado Animado para a Aba Selecionada */}
+                {item.isActive && (
+                  <motion.div
+                    layoutId="activeCollapsedTabBg"
+                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 bg-gradient-to-br from-[#a47e35]/35 via-[#c2a25b]/25 to-[#a47e35]/20 border border-[#c2a25b] rounded-xl shadow-gold-glow-sm"
+                  />
+                )}
+
+                {/* Barra Indicadora Dourada na Borda Esquerda quando ativo */}
+                {item.isActive && (
+                  <motion.div
+                    layoutId="activeCollapsedTabIndicator"
+                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-gradient-to-b from-[#c2a25b] to-[#a47e35] rounded-r-full shadow-gold-glow"
+                  />
+                )}
+
+                {/* Ícone com Destaque Colorido se Estiver Selecionado */}
+                <Icon
+                  className={`w-5 h-5 z-10 transition-all duration-300 ${
+                    item.isActive
+                      ? 'text-gold-300 scale-110 drop-shadow-[0_0_10px_rgba(194,162,91,0.6)]'
+                      : `${item.iconColor} group-hover:text-white group-hover:scale-110`
+                  }`}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Botão Inferior para Reabrir / Expandir Menu */}
+        <div className="p-3 border-t border-white/10 bg-black flex justify-center shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              if (onToggleCollapse) onToggleCollapse();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className="p-2 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+            title="Expandir Menu"
+            aria-label="Expandir Menu"
+          >
+            <ChevronRight className="w-5 h-5 text-gold-400" />
           </button>
         </div>
       </aside>
