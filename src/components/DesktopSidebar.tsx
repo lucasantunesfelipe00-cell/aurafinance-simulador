@@ -152,7 +152,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     return (
       <aside className="hidden lg:flex flex-col fixed top-0 left-0 bottom-0 w-[78px] h-screen bg-black border-r border-white/10 z-[100] select-none font-sans overflow-hidden transition-all duration-300">
         {/* Topo: Logo 'bf' no canto superior esquerdo (clicável para reabrir o menu) */}
-        <div className="flex items-center justify-center h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
+        <div className="flex items-center justify-center h-[66px] border-b border-white/5 relative z-10 bg-black shrink-0">
           <button
             type="button"
             onClick={() => {
@@ -161,7 +161,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="p-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center"
+            className="p-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer group flex items-center justify-center focus:outline-none focus-visible:outline-none outline-none"
             title="Expandir Menu de Navegação"
             aria-label="Expandir Menu"
           >
@@ -174,7 +174,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         </div>
 
         {/* Lista Vertical de Ícones no Menu Fechado com Palavra Única Embaixo de Cada Ícone */}
-        <div className="flex-1 overflow-y-auto py-3.5 flex flex-col items-center space-y-3 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto py-3.5 flex flex-col items-center space-y-2.5 custom-scrollbar">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -187,33 +187,52 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="relative flex flex-col items-center justify-center w-full px-1 py-1 group cursor-pointer transition-all focus:outline-none"
+                className={`relative flex flex-col items-center justify-center w-full py-1.5 px-1 group cursor-pointer transition-all focus:outline-none focus-visible:outline-none outline-none select-none rounded-xl ${
+                  item.isActive ? '' : 'hover:bg-white/[0.04]'
+                }`}
                 title={item.label}
                 aria-label={item.label}
               >
-                {/* Barra Indicadora Dourada na Borda Esquerda quando ativo */}
+                {/* Destaque Visual Cristalino: Cápsula Dourada Animada que indica claramente a aba ativa */}
                 {item.isActive && (
                   <motion.div
-                    layoutId="activeCollapsedTabIndicator"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-[#c2a25b] to-[#a47e35] rounded-r-full shadow-gold-glow"
+                    layoutId="activeCollapsedTabCard"
+                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    className="absolute inset-x-1 inset-y-0.5 bg-gradient-to-b from-[#c2a25b]/25 via-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/60 rounded-xl shadow-[0_0_16px_rgba(194,162,91,0.25)] pointer-events-none -z-10"
                   />
                 )}
 
-                {/* Ícone com Destaque Dourado se Estiver Selecionado */}
-                <Icon
-                  className={`w-5 h-5 transition-all duration-300 ${
-                    item.isActive
-                      ? 'text-gold-300 scale-110 drop-shadow-[0_0_10px_rgba(194,162,91,0.7)]'
-                      : `${item.iconColor} group-hover:text-white group-hover:scale-105`
-                  }`}
-                />
+                {/* Área do Ícone com Altura Fixa (h-7) para Alinhamento 100% Preciso do Marcador com o Ícone */}
+                <div className="relative w-full h-7 flex items-center justify-center">
+                  {/* Barra Indicadora Dourada na Borda Esquerda — 100% Alinhada ao Centro Matemático do Ícone */}
+                  {item.isActive && (
+                    <motion.div
+                      layoutId="activeCollapsedTabIndicator"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-gradient-to-b from-[#f3e3ba] via-[#c2a25b] to-[#a47e35] rounded-r-full shadow-[0_0_12px_rgba(194,162,91,0.95)]"
+                    />
+                  )}
 
-                {/* Palavra Única Embaixo do Ícone */}
+                  {/* Halo de luz suave atrás do ícone selecionado */}
+                  {item.isActive && (
+                    <div className="absolute w-7 h-7 rounded-full bg-[#c2a25b]/30 blur-sm pointer-events-none -z-10" />
+                  )}
+
+                  {/* Ícone com Destaque Dourado Forte */}
+                  <Icon
+                    className={`w-5 h-5 z-10 transition-all duration-300 ${
+                      item.isActive
+                        ? 'text-[#f5deb3] fill-[#c2a25b]/30 scale-110 drop-shadow-[0_0_12px_rgba(194,162,91,0.95)] stroke-[2.2]'
+                        : `${item.iconColor} group-hover:text-white group-hover:scale-105 stroke-[1.8]`
+                    }`}
+                  />
+                </div>
+
+                {/* Palavra Única Embaixo do Ícone — Nítida e Clara */}
                 <span
-                  className={`text-[9.5px] tracking-tight font-medium mt-1 transition-colors text-center line-clamp-1 select-none ${
+                  className={`text-[10px] tracking-tight font-medium mt-1 transition-colors text-center line-clamp-1 select-none z-10 ${
                     item.isActive
-                      ? 'text-gold-300 font-bold drop-shadow-[0_0_6px_rgba(194,162,91,0.5)]'
+                      ? 'text-[#f5deb3] font-bold drop-shadow-[0_0_8px_rgba(194,162,91,0.7)]'
                       : 'text-neutral-400 group-hover:text-neutral-200'
                   }`}
                 >
@@ -225,7 +244,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         </div>
 
         {/* Botão Inferior para Reabrir / Expandir Menu */}
-        <div className="p-2 border-t border-white/10 bg-black flex justify-center shrink-0">
+        <div className="p-2 border-t border-white/5 bg-black flex justify-center shrink-0">
           <button
             type="button"
             onClick={() => {
@@ -234,7 +253,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="p-2 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+            className="p-2 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
             title="Expandir Menu"
             aria-label="Expandir Menu"
           >
@@ -278,7 +297,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer shrink-0"
+            className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer shrink-0 focus:outline-none focus-visible:outline-none outline-none"
             title="Fechar menu"
             aria-label="Fechar menu"
           >
@@ -306,7 +325,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <Sliders className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
             <span>Configurar</span>
@@ -320,7 +339,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
               activeTab === 'summary'
                 ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
                 : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
@@ -338,7 +357,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
               activeTab === 'chart'
                 ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
                 : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
@@ -356,7 +375,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
+            className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
               activeTab === 'table'
                 ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
                 : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
@@ -383,7 +402,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-amber-400 hover:text-amber-300 hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-amber-400 hover:text-amber-300 hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <Zap className="w-4 h-4 text-amber-400 shrink-0" />
             <span>Amortização</span>
@@ -397,7 +416,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <Scale className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
             <span>Comparar</span>
@@ -420,7 +439,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <HelpCircle className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
             <span>Suporte</span>
@@ -435,7 +454,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <BookOpen className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
             <span>FAQ</span>
@@ -449,7 +468,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+            className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
           >
             <ShieldCheck className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
             <span>Termos</span>
