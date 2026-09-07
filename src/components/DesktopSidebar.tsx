@@ -33,6 +33,12 @@ export interface DesktopSidebarProps {
   onOpenAmortization?: () => void;
   onOpenComparator?: () => void;
   activeTab?: 'summary' | 'chart' | 'table';
+  isAmortizationActive?: boolean;
+  isComparatorActive?: boolean;
+  isHelpActive?: boolean;
+  isFaqActive?: boolean;
+  isTermsActive?: boolean;
+  isConfigActive?: boolean;
 }
 
 export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
@@ -46,6 +52,12 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenAmortization,
   onOpenComparator,
   activeTab = 'summary',
+  isAmortizationActive = false,
+  isComparatorActive = false,
+  isHelpActive = false,
+  isFaqActive = false,
+  isTermsActive = false,
+  isConfigActive = false,
 }) => {
   const [sound, setSound] = useState(true);
   const [haptics, setHaptics] = useState(true);
@@ -73,6 +85,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
     }
   };
 
+  // Identidade cromática e animação personalizada para cada ícone (Inspirado no visual premium)
   const navItems = [
     {
       id: 'config',
@@ -80,8 +93,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Config',
       icon: Sliders,
       action: () => onOpenSimulator && onOpenSimulator(),
-      isActive: false,
-      iconColor: 'text-gold-400',
+      isActive: Boolean(isConfigActive),
+      inactiveColor: 'text-slate-400 group-hover:text-slate-200',
+      activeColor: 'text-slate-200',
+      activeFill: 'fill-slate-300/20',
+      activeAura: 'bg-slate-300/30',
+      activeGlow: 'drop-shadow-[0_0_10px_rgba(226,232,240,0.7)]',
+      labelActiveColor: 'text-slate-200 drop-shadow-[0_0_6px_rgba(226,232,240,0.4)]',
     },
     {
       id: 'summary',
@@ -89,8 +107,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Resumo',
       icon: Layers,
       action: () => onSelectTab && onSelectTab('summary'),
-      isActive: activeTab === 'summary',
-      iconColor: 'text-gold-400',
+      isActive: activeTab === 'summary' && !isComparatorActive && !isHelpActive && !isFaqActive && !isTermsActive && !isAmortizationActive,
+      inactiveColor: 'text-emerald-500/70 group-hover:text-emerald-400',
+      activeColor: 'text-emerald-400',
+      activeFill: 'fill-emerald-500/25',
+      activeAura: 'bg-emerald-500/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(16,185,129,0.85)]',
+      labelActiveColor: 'text-emerald-400 drop-shadow-[0_0_6px_rgba(16,185,129,0.4)]',
     },
     {
       id: 'chart',
@@ -98,8 +121,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Gráfico',
       icon: LineChart,
       action: () => onSelectTab && onSelectTab('chart'),
-      isActive: activeTab === 'chart',
-      iconColor: 'text-gold-400',
+      isActive: activeTab === 'chart' && !isComparatorActive && !isHelpActive && !isFaqActive && !isTermsActive && !isAmortizationActive,
+      inactiveColor: 'text-sky-500/70 group-hover:text-sky-400',
+      activeColor: 'text-sky-400',
+      activeFill: 'fill-sky-400/20',
+      activeAura: 'bg-sky-500/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(56,189,248,0.85)]',
+      labelActiveColor: 'text-sky-400 drop-shadow-[0_0_6px_rgba(56,189,248,0.4)]',
     },
     {
       id: 'table',
@@ -107,8 +135,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Tabela',
       icon: Table,
       action: () => onSelectTab && onSelectTab('table'),
-      isActive: activeTab === 'table',
-      iconColor: 'text-gold-400',
+      isActive: activeTab === 'table' && !isComparatorActive && !isHelpActive && !isFaqActive && !isTermsActive && !isAmortizationActive,
+      inactiveColor: 'text-amber-300/70 group-hover:text-amber-200',
+      activeColor: 'text-amber-200',
+      activeFill: 'fill-amber-400/20',
+      activeAura: 'bg-amber-400/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(253,230,138,0.85)]',
+      labelActiveColor: 'text-amber-200 drop-shadow-[0_0_6px_rgba(253,230,138,0.4)]',
     },
     {
       id: 'amortization',
@@ -116,9 +149,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Acelerar',
       icon: Zap,
       action: () => onOpenAmortization && onOpenAmortization(),
-      isActive: false,
-      iconColor: 'text-amber-400',
-      isZap: true,
+      isActive: Boolean(isAmortizationActive),
+      inactiveColor: 'text-amber-500/80 group-hover:text-amber-400',
+      activeColor: 'text-amber-400',
+      activeFill: 'fill-amber-400/30',
+      activeAura: 'bg-gradient-to-r from-amber-500/40 to-orange-500/40',
+      activeGlow: 'drop-shadow-[0_0_14px_rgba(245,158,11,0.95)]',
+      labelActiveColor: 'text-amber-400 drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]',
     },
     {
       id: 'comparator',
@@ -126,8 +163,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Comparar',
       icon: Scale,
       action: () => onOpenComparator && onOpenComparator(),
-      isActive: false,
-      iconColor: 'text-gold-400',
+      isActive: Boolean(isComparatorActive),
+      inactiveColor: 'text-purple-400/70 group-hover:text-purple-300',
+      activeColor: 'text-purple-400',
+      activeFill: 'fill-purple-500/25',
+      activeAura: 'bg-purple-600/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(192,132,252,0.85)]',
+      labelActiveColor: 'text-purple-300 drop-shadow-[0_0_6px_rgba(192,132,252,0.4)]',
     },
     {
       id: 'help',
@@ -135,8 +177,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Manual',
       icon: HelpCircle,
       action: () => onOpenHelp(),
-      isActive: false,
-      iconColor: 'text-gold-400',
+      isActive: Boolean(isHelpActive),
+      inactiveColor: 'text-indigo-400/70 group-hover:text-indigo-300',
+      activeColor: 'text-indigo-400',
+      activeFill: 'fill-indigo-500/25',
+      activeAura: 'bg-indigo-500/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(129,140,248,0.85)]',
+      labelActiveColor: 'text-indigo-300 drop-shadow-[0_0_6px_rgba(129,140,248,0.4)]',
     },
     {
       id: 'faq',
@@ -144,8 +191,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'FAQ',
       icon: BookOpen,
       action: () => (onOpenFaq ? onOpenFaq() : onOpenHelp()),
-      isActive: false,
-      iconColor: 'text-neutral-400',
+      isActive: Boolean(isFaqActive),
+      inactiveColor: 'text-teal-400/70 group-hover:text-teal-300',
+      activeColor: 'text-teal-400',
+      activeFill: 'fill-teal-500/25',
+      activeAura: 'bg-teal-500/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(45,212,191,0.85)]',
+      labelActiveColor: 'text-teal-300 drop-shadow-[0_0_6px_rgba(45,212,191,0.4)]',
     },
     {
       id: 'terms',
@@ -153,8 +205,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       shortLabel: 'Termos',
       icon: ShieldCheck,
       action: () => onOpenTerms && onOpenTerms(),
-      isActive: false,
-      iconColor: 'text-neutral-400',
+      isActive: Boolean(isTermsActive),
+      inactiveColor: 'text-emerald-600/70 group-hover:text-emerald-500',
+      activeColor: 'text-emerald-500',
+      activeFill: 'fill-emerald-500/25',
+      activeAura: 'bg-emerald-600/35',
+      activeGlow: 'drop-shadow-[0_0_12px_rgba(16,185,129,0.85)]',
+      labelActiveColor: 'text-emerald-400 drop-shadow-[0_0_6px_rgba(16,185,129,0.4)]',
     },
   ];
 
@@ -183,7 +240,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
           </button>
         </div>
 
-        {/* Lista Vertical de Ícones Animados + Nome Curto Embaixo (Sem retângulos/quadrados em volta) */}
+        {/* Lista Vertical de Ícones Animados Sofisticados (Sem caixas/quadrados em volta) */}
         <div className="flex-1 overflow-y-auto py-3 flex flex-col items-center space-y-3.5 custom-scrollbar">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -197,41 +254,43 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="group flex flex-col items-center justify-center w-full px-1 py-0.5 cursor-pointer transition-all"
+                className="group flex flex-col items-center justify-center w-full px-1 py-1 cursor-pointer transition-all focus:outline-none"
                 title={item.label}
                 aria-label={item.label}
               >
-                {/* Ícone Solto Sem Borda/Caixa — Com Animação e Preenchimento Colorido Vibrante */}
-                <div className="relative flex items-center justify-center">
+                {/* Ícone Solto Sem Borda/Caixa — Design Sofisticado, Iluminação Colorida e Micro-elevação */}
+                <div className="relative flex items-center justify-center w-8 h-8">
                   {item.isActive ? (
                     <motion.div
                       key={`active-icon-${item.id}`}
-                      initial={{ scale: 0.85, rotate: -8 }}
-                      animate={{ scale: [1, 1.25, 1.15], rotate: [0, -6, 6, 0] }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      initial={{ y: 0, scale: 0.96 }}
+                      animate={{ y: -2, scale: 1.08 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
                       className="relative flex items-center justify-center"
                     >
-                      {/* Halo Dourado de Luz Neon Vibrante em Volta do Ícone Ativo */}
-                      <div className="absolute inset-0 bg-[#c2a25b]/50 rounded-full blur-md animate-pulse" />
+                      {/* Halo Suave de Luz Ambiente Colorida Vibrante */}
+                      <div className={`absolute inset-0 rounded-full blur-md ${item.activeAura} opacity-70 animate-pulse`} />
                       <Icon
-                        className={`w-6 h-6 z-10 text-amber-300 drop-shadow-[0_0_12px_rgba(245,158,11,0.95)] fill-amber-400/40 stroke-[2.2]`}
+                        className={`w-6 h-6 z-10 ${item.activeColor} ${item.activeFill} ${item.activeGlow} stroke-[2.2] transition-all`}
                       />
                     </motion.div>
                   ) : (
-                    <Icon
-                      className={`w-5 h-5 transition-all duration-300 ${
-                        item.isZap
-                          ? 'text-amber-400 hover:text-amber-300 group-hover:scale-110'
-                          : `${item.iconColor} group-hover:text-white group-hover:scale-110`
-                      }`}
-                    />
+                    <div className="relative flex items-center justify-center transition-transform duration-200 group-hover:-translate-y-0.5">
+                      {/* Glow sutil ao passar o mouse */}
+                      <div className={`absolute inset-0 rounded-full blur-sm ${item.activeAura} opacity-0 group-hover:opacity-40 transition-opacity duration-300`} />
+                      <Icon
+                        className={`w-5 h-5 z-10 transition-all duration-300 ${item.inactiveColor} group-hover:scale-110 stroke-[1.8]`}
+                      />
+                    </div>
                   )}
                 </div>
 
                 {/* Nome Curto Embaixo do Ícone */}
                 <span
-                  className={`text-[9.5px] tracking-tight font-medium mt-1 transition-colors text-center line-clamp-1 ${
-                    item.isActive ? 'text-amber-300 font-bold drop-shadow-sm' : 'text-neutral-400 group-hover:text-neutral-200'
+                  className={`text-[9.5px] tracking-tight font-medium mt-1 transition-colors text-center line-clamp-1 select-none ${
+                    item.isActive
+                      ? `${item.labelActiveColor} font-bold`
+                      : 'text-neutral-400 group-hover:text-neutral-200'
                   }`}
                 >
                   {item.shortLabel}
