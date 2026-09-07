@@ -267,14 +267,14 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   PRICE
                 </button>
               </div>
-              <p className="text-sm sm:text-base lg:text-lg text-neutral-300 font-light mt-5 text-center leading-relaxed">
+              <p className="text-xs sm:text-sm lg:text-base text-neutral-300 font-light mt-4 text-center leading-relaxed min-h-[44px] flex items-center justify-center">
                 {inputs.amortizationMethod === 'SAC' ? (
                   <>
-                    <span className="font-medium text-white">SAC significa Sistema de Amortização Constante</span>: o valor das parcelas diminui mês a mês, reduzindo o custo total em juros.
+                    <span><span className="font-medium text-white">SAC significa Sistema de Amortização Constante</span>: parcelas decrescentes que diminuem a cada mês, reduzindo o total pago em juros.</span>
                   </>
                 ) : (
                   <>
-                    <span className="font-medium text-white">PRICE significa Tabela Price (Parcela Fixa)</span>: o valor da prestação permanece idêntico do início ao fim, garantindo previsibilidade.
+                    <span><span className="font-medium text-white">PRICE significa Tabela Price (Prestação Fixa)</span>: parcelas com o mesmo valor do início ao fim do contrato, garantindo previsibilidade.</span>
                   </>
                 )}
               </p>
