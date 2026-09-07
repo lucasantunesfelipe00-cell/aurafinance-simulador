@@ -71,6 +71,44 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
     setRawInterestRate(inputs.interestRateYearly.toString());
   }, [inputs.interestRateYearly]);
 
+  const [hoveredMethod, setHoveredMethod] = useState<'SAC' | 'PRICE' | null>(null);
+  const [mobileExplanationMethod, setMobileExplanationMethod] = useState<'SAC' | 'PRICE' | null>(null);
+  const explanationTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const triggerMobileExplanation = (method: 'SAC' | 'PRICE') => {
+    if (explanationTimerRef.current) {
+      clearTimeout(explanationTimerRef.current);
+    }
+    setMobileExplanationMethod(method);
+    explanationTimerRef.current = setTimeout(() => {
+      setMobileExplanationMethod(null);
+    }, 8000);
+  };
+
+  useEffect(() => {
+    if (!mobileExplanationMethod) return;
+
+    const handleGlobalClick = () => {
+      if (explanationTimerRef.current) {
+        clearTimeout(explanationTimerRef.current);
+      }
+      setMobileExplanationMethod(null);
+    };
+
+    const timeoutId = setTimeout(() => {
+      window.addEventListener('click', handleGlobalClick);
+      window.addEventListener('touchstart', handleGlobalClick);
+    }, 50);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('click', handleGlobalClick);
+      window.removeEventListener('touchstart', handleGlobalClick);
+    };
+  }, [mobileExplanationMethod]);
+
+  const activeMethodToExplain = hoveredMethod || mobileExplanationMethod;
+
   const slideRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const [trackHeight, setTrackHeight] = useState<number>();
 
@@ -83,7 +121,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, [step, inputs, termUnit]);
+  }, [step, inputs, termUnit, hoveredMethod, mobileExplanationMethod]);
 
   const goNext = () => setStep((s) => Math.min(5, s + 1));
   const goBack = () => setStep((s) => Math.max(1, s - 1));
@@ -249,7 +287,12 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => onChange({ ...inputs, amortizationMethod: 'SAC' })}
+                  onMouseEnter={() => setHoveredMethod('SAC')}
+                  onMouseLeave={() => setHoveredMethod(null)}
+                  onClick={() => {
+                    onChange({ ...inputs, amortizationMethod: 'SAC' });
+                    triggerMobileExplanation('SAC');
+                  }}
                   className={`relative z-10 h-11 sm:h-12 py-1.5 px-2 rounded-none text-sm sm:text-lg lg:text-xl tracking-widest font-normal flex items-center justify-center text-center leading-none transition-colors duration-300 ${inputs.amortizationMethod === 'SAC' ? 'text-black font-normal' : 'text-neutral-400 hover:text-white'
                     }`}
                 >
@@ -258,28 +301,48 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => onChange({ ...inputs, amortizationMethod: 'PRICE' })}
+                  onMouseEnter={() => setHoveredMethod('PRICE')}
+                  onMouseLeave={() => setHoveredMethod(null)}
+                  onClick={() => {
+                    onChange({ ...inputs, amortizationMethod: 'PRICE' });
+                    triggerMobileExplanation('PRICE');
+                  }}
                   className={`relative z-10 h-11 sm:h-12 py-1.5 px-2 rounded-none text-sm sm:text-lg lg:text-xl tracking-widest font-normal flex items-center justify-center text-center leading-none transition-colors duration-300 ${inputs.amortizationMethod === 'PRICE' ? 'text-black font-normal' : 'text-neutral-400 hover:text-white'
                     }`}
                 >
                   PRICE
                 </button>
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-neutral-300 font-light mt-4 text-center leading-relaxed">
-                {inputs.amortizationMethod === 'SAC' ? (
-                  <>
-                    <span className="font-medium text-white">SAC significa o Sistema de Amortização Constante:</span>
-                    <br />
-                    <span>parcelas decrescentes com maior economia de juros.</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="font-medium text-white">PRICE significa o Sistema de Parcela Fixa:</span>
-                    <br />
-                    <span>prestações iguais da primeira à última parcela.</span>
-                  </>
-                )}
-              </p>
+
+              {/* Explicação dinâmica de SAC e PRICE (Hover no desktop, 8s no mobile/click) */}
+              <div className="mt-4 min-h-[48px] flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  {activeMethodToExplain && (
+                    <motion.p
+                      key={activeMethodToExplain}
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                      className="text-xs sm:text-sm lg:text-base text-neutral-300 font-light text-center leading-relaxed"
+                    >
+                      {activeMethodToExplain === 'SAC' ? (
+                        <>
+                          <span className="font-medium text-white">SAC significa o Sistema de Amortização Constante:</span>
+                          <br />
+                          <span>parcelas decrescentes com maior economia de juros.</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="font-medium text-white">PRICE significa o Sistema de Parcela Fixa:</span>
+                          <br />
+                          <span>prestações iguais da primeira à última parcela.</span>
+                        </>
+                      )}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {renderNav(true, false)}
             </MouseGlow>
