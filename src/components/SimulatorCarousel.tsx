@@ -28,6 +28,45 @@ interface SimulatorCarouselProps {
 
 const TOTAL_CONFIG_STEPS = 5;
 
+interface MacroPreset {
+  label: string;
+  value: string;
+  rate: number;
+  sub: string;
+  source: string;
+}
+
+const MACRO_PRESETS: MacroPreset[] = [
+  {
+    label: 'SELIC',
+    value: '10,50%',
+    rate: 10.5,
+    sub: 'a.a.',
+    source: 'Taxa Básica Banco Central do Brasil',
+  },
+  {
+    label: 'TAXA MÉDIA SFH',
+    value: '10,20%',
+    rate: 10.2,
+    sub: 'a.a.',
+    source: 'Média de Mercado Habitacional SFH',
+  },
+  {
+    label: 'IPCA',
+    value: '4,18%',
+    rate: 4.18,
+    sub: '12m',
+    source: 'Inflação Oficial IBGE',
+  },
+  {
+    label: 'TR',
+    value: '0,08%',
+    rate: 0.08,
+    sub: 'a.m.',
+    source: 'Taxa Referencial Banco Central',
+  },
+];
+
 // Formata valores com centavos pt-BR (ex: 600000 -> 600.000,00)
 function formatCurrencyMask(val: number): string {
   if (isNaN(val)) return '0,00';
@@ -506,6 +545,56 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               </div>
               <div className="text-xs sm:text-sm lg:text-base text-neutral-400 mt-1.5 font-mono text-right">
                 ~{formatPercent(inputs.interestRateYearly / 12, 2)} / mês
+              </div>
+
+              {/* Seleção rápida por Índices Macroeconômicos Oficiais */}
+              <div className="mt-5 pt-4 border-t border-white/10 space-y-2.5 font-sans">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
+                    Ou selecione uma taxa por índice oficial do momento:
+                  </span>
+                  <span className="text-[9px] font-mono text-amber-400/80 uppercase tracking-widest hidden sm:inline">
+                    BANCO CENTRAL
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono">
+                  {MACRO_PRESETS.map((preset) => {
+                    const isSelected = Math.abs(inputs.interestRateYearly - preset.rate) < 0.05;
+                    return (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => {
+                          vibrateShort();
+                          playTypeSound();
+                          setRawInterestRate(preset.rate.toString());
+                          onChange({ ...inputs, interestRateYearly: preset.rate });
+                        }}
+                        onMouseEnter={() => setCursorVariant('button')}
+                        onMouseLeave={() => setCursorVariant('default')}
+                        className={`p-2.5 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between space-y-1 ${
+                          isSelected
+                            ? 'bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent border-amber-400 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                            : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white'
+                        }`}
+                        title={`${preset.label}: ${preset.source}`}
+                      >
+                        <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider truncate">
+                          {preset.label}
+                        </span>
+                        <div className="flex items-baseline justify-between">
+                          <span className={`text-xs sm:text-sm font-extrabold ${isSelected ? 'text-amber-300' : 'text-gold-400'}`}>
+                            {preset.value}
+                          </span>
+                          <span className="text-[9px] text-neutral-400 font-light ml-1">
+                            {preset.sub}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {renderNav(false, false)}
