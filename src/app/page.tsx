@@ -156,12 +156,6 @@ export default function Home() {
               }}
               onOpenComparator={() => setIsComparatorOpen(true)}
               activeTab={activeTab}
-              isAmortizationActive={isExtraAmortizationOpen}
-              isComparatorActive={isComparatorOpen}
-              isHelpActive={isHelpOpen}
-              isFaqActive={isFaqOpen}
-              isTermsActive={isTermsOpen}
-              isConfigActive={isConfigVisible && !hasCalculated}
             />
             {/* Imagem de Fundo das Ondas Douradas (Escurecida 15%) */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
