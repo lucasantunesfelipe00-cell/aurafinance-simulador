@@ -48,7 +48,7 @@ export const SimulationLoader: React.FC<SimulationLoaderProps> = ({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="w-full max-w-xl mx-auto my-8 p-8 sm:p-10 rounded-2xl bg-neutral-950/90 border border-gold-400/40 shadow-2xl backdrop-blur-md relative overflow-hidden text-center font-sans space-y-6"
+      className="w-full max-w-xl mx-auto my-8 p-8 sm:p-10 rounded-none bg-neutral-950/90 border border-gold-400/40 shadow-2xl backdrop-blur-md relative overflow-hidden text-center font-sans space-y-6"
     >
       {/* Feixe Decorativo de Luz Dourada Superior */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#c2a25b] to-transparent animate-pulse" />
@@ -58,10 +58,10 @@ export const SimulationLoader: React.FC<SimulationLoaderProps> = ({
         <motion.div
           animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.7, 0.3] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute inset-0 rounded-full bg-gold-400/20 blur-xl"
+          className="absolute inset-0 rounded-none bg-gold-400/20 blur-xl"
         />
         
-        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#c2a25b]/20 to-black border border-[#c2a25b]/50 flex items-center justify-center shadow-gold-glow">
+        <div className="relative w-16 h-16 rounded-none bg-gradient-to-br from-[#c2a25b]/20 to-black border border-[#c2a25b]/50 flex items-center justify-center shadow-gold-glow">
           <motion.img
             src="/brand/logo-source.png"
             alt="Loading Logo"
@@ -88,16 +88,15 @@ export const SimulationLoader: React.FC<SimulationLoaderProps> = ({
 
       {/* Barra de Progresso e Percentual */}
       <div className="space-y-2 max-w-md mx-auto pt-2">
-        <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10">
+        <div className="w-full h-2 bg-white/10 rounded-none overflow-hidden p-0.5 border border-white/10">
           <motion.div
-            className="h-full bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#e8d5a7] rounded-full shadow-gold-glow"
+            className="h-full bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#e8d5a7] rounded-none shadow-gold-glow"
             style={{ width: `${progress}%` }}
             transition={{ ease: 'linear' }}
           />
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 px-1">
-          <span>Aura Finance Engine</span>
+        <div className="flex items-center justify-center text-[11px] font-mono text-neutral-400 px-1">
           <span className="font-bold text-gold-400">{progress}%</span>
         </div>
       </div>
