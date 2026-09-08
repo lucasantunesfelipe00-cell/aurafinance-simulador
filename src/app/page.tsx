@@ -71,6 +71,36 @@ export default function Home() {
     setSavedScenariosList(getSavedScenarios());
   }, []);
 
+  // Se o usuário clica em qualquer lugar da tela sem ser no botão ou aviso, o aviso desaparece até a próxima simulação
+  React.useEffect(() => {
+    if (!showSaveNotice) return;
+
+    const handleGlobalClick = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      // Se clicou no aviso ou no botão de cenários, mantém a ação normalmente
+      if (target.closest('[data-save-notice]') || target.closest('[data-scenarios-button]')) {
+        return;
+      }
+
+      // Se clicou em qualquer outro lugar da tela, oculta o aviso
+      setShowSaveNotice(false);
+    };
+
+    // Pequeno delay para evitar disparos imediatos do clique que gerou o evento
+    const timer = setTimeout(() => {
+      window.addEventListener('click', handleGlobalClick, { capture: true });
+      window.addEventListener('touchstart', handleGlobalClick, { capture: true });
+    }, 150);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('click', handleGlobalClick, { capture: true });
+      window.removeEventListener('touchstart', handleGlobalClick, { capture: true });
+    };
+  }, [showSaveNotice]);
+
   const handleSelectScenario = (newInputs: FinancingInputs) => {
     setInputs(newInputs);
     setCalculatedInputs(newInputs);
