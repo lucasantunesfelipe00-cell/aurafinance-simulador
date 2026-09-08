@@ -31,6 +31,8 @@ export interface DesktopSidebarProps {
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
+  isSavedScenariosActive?: boolean;
+  showSaveNotice?: boolean;
   isHelpActive?: boolean;
   isFaqActive?: boolean;
   isTermsActive?: boolean;
@@ -49,6 +51,8 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
+  isSavedScenariosActive = false,
+  showSaveNotice = false,
   isHelpActive = false,
   isFaqActive = false,
   isTermsActive = false,
@@ -342,6 +346,32 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
           >
             <Zap className={`w-4 h-4 shrink-0 ${isAmortizationActive ? 'text-amber-300' : 'text-amber-400'}`} />
             <span>Amortização</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              if (onOpenSavedScenarios) onOpenSavedScenarios();
+            }}
+            onMouseEnter={() => setCursorVariant('button')}
+            onMouseLeave={() => setCursorVariant('default')}
+            className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+              isSavedScenariosActive
+                ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+            }`}
+          >
+            <div className="flex items-center space-x-3 min-w-0">
+              <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+              <span className="truncate">Cenários</span>
+            </div>
+
+            {showSaveNotice && (
+              <span className="animate-pulse bg-[#c2a25b] text-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-full shadow-gold-glow shrink-0 ml-1">
+                Salve o Cenário aqui
+              </span>
+            )}
           </button>
         </div>
 

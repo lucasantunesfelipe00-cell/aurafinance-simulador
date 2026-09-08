@@ -36,6 +36,8 @@ export interface SideDrawerProps {
   onOpenComparator?: () => void;
   onOpenSavedScenarios?: () => void;
   savedScenariosCount?: number;
+  isSavedScenariosActive?: boolean;
+  showSaveNotice?: boolean;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -51,6 +53,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenComparator,
   onOpenSavedScenarios,
   savedScenariosCount = 0,
+  isSavedScenariosActive = false,
+  showSaveNotice = false,
   activeTab = 'summary',
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -197,16 +201,27 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     }}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
-                    className="w-full flex items-center justify-between px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                    className={`w-full flex items-center justify-between px-2 py-2 text-xs font-medium transition-all text-left group cursor-pointer border ${
+                      isSavedScenariosActive
+                        ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold'
+                        : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                    }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <Bookmark className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+                      <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
                       <span>Cenários Salvos</span>
                     </div>
-                    {savedScenariosCount > 0 && (
-                      <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-full">
-                        {savedScenariosCount}
+
+                    {showSaveNotice ? (
+                      <span className="animate-pulse bg-[#c2a25b] text-black text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-gold-glow shrink-0 ml-1">
+                        Salve o Cenário aqui
                       </span>
+                    ) : (
+                      savedScenariosCount > 0 && (
+                        <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-full">
+                          {savedScenariosCount}
+                        </span>
+                      )
                     )}
                   </button>
                 )}
