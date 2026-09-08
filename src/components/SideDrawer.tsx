@@ -18,6 +18,7 @@ import {
   Scale,
   Zap,
   Bookmark,
+  Sparkles,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -192,38 +193,69 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 </button>
 
                 {onOpenSavedScenarios && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      vibrateShort();
-                      onClose();
-                      onOpenSavedScenarios();
-                    }}
-                    onMouseEnter={() => setCursorVariant('button')}
-                    onMouseLeave={() => setCursorVariant('default')}
-                    className={`w-full flex items-center justify-between px-2 py-2 text-xs font-medium transition-all text-left group cursor-pointer border ${
-                      isSavedScenariosActive
-                        ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold'
-                        : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
-                      <span>Cenários Salvos</span>
-                    </div>
+                  <div className="space-y-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        vibrateShort();
+                        onClose();
+                        onOpenSavedScenarios();
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className={`w-full flex items-center justify-between px-2 py-2 text-xs font-medium transition-all text-left group cursor-pointer border rounded-none ${
+                        isSavedScenariosActive
+                          ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold'
+                          : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                        <span>Cenários Salvos</span>
+                      </div>
 
-                    {showSaveNotice ? (
-                      <span className="animate-pulse bg-[#c2a25b] text-black text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-gold-glow shrink-0 ml-1">
-                        Salve o Cenário aqui
-                      </span>
-                    ) : (
-                      savedScenariosCount > 0 && (
-                        <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-full">
-                          {savedScenariosCount}
+                      {showSaveNotice ? (
+                        <span className="flex items-center gap-1.5 px-2 py-0.5 bg-gradient-to-r from-[#c2a25b]/25 to-[#c2a25b]/10 border border-[#c2a25b]/70 text-gold-300 text-[9px] font-extrabold tracking-wider uppercase rounded-none shrink-0 shadow-gold-glow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
+                          Salvar
                         </span>
-                      )
+                      ) : (
+                        savedScenariosCount > 0 && (
+                          <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-none">
+                            {savedScenariosCount}
+                          </span>
+                        )
+                      )}
+                    </button>
+
+                    {showSaveNotice && (
+                      <div
+                        onClick={() => {
+                          vibrateShort();
+                          onClose();
+                          onOpenSavedScenarios();
+                        }}
+                        className="p-2.5 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(194,162,91,0.2)] cursor-pointer select-none"
+                      >
+                        <div className="flex items-start gap-2">
+                          <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
+                            <Sparkles className="w-3 h-3 text-gold-300 animate-pulse" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
+                                Salve o Cenário aqui
+                              </span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
+                            </div>
+                            <p className="text-[9px] text-neutral-300 mt-0.5 leading-snug">
+                              Sua simulação está pronta. Toque para guardar e comparar no histórico.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     )}
-                  </button>
+                  </div>
                 )}
 
                 <button
