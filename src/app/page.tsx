@@ -106,6 +106,7 @@ export default function Home() {
     setCalculatedInputs(newInputs);
     setHasCalculated(true);
     setIsSimulating(false);
+    setIsSavedScenariosActive(false);
     setIsConfigVisible(true);
     setSavedScenariosList(getSavedScenarios());
   };
@@ -237,6 +238,7 @@ export default function Home() {
                 setIsFaqOpen(false);
                 setIsTermsOpen(false);
                 setIsExtraAmortizationOpen(false);
+                setIsSavedScenariosActive(false);
                 setIsConfigVisible(true);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -244,6 +246,7 @@ export default function Home() {
                 setIsHelpOpen(false);
                 setIsFaqOpen(false);
                 setIsTermsOpen(false);
+                setIsSavedScenariosActive(false);
                 setIsExtraAmortizationOpen(true);
                 setHasCalculated(true);
                 setTimeout(() => {
@@ -336,6 +339,7 @@ export default function Home() {
                   setIsFaqOpen(false);
                   setIsTermsOpen(false);
                   setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
                   setIsConfigVisible(true);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
@@ -343,6 +347,7 @@ export default function Home() {
                   setIsHelpOpen(false);
                   setIsFaqOpen(false);
                   setIsTermsOpen(false);
+                  setIsSavedScenariosActive(false);
                   setIsExtraAmortizationOpen(true);
                   setHasCalculated(true);
                   setTimeout(() => {
