@@ -17,10 +17,11 @@ import { AmortizationTable } from '@/components/AmortizationTable';
 import { ComparatorModal } from '@/components/ComparatorModal';
 import { SpecsViewerModal } from '@/components/SpecsViewerModal';
 import { DesktopSidebar } from '@/components/DesktopSidebar';
+import { SideDrawer } from '@/components/SideDrawer';
 import { HelpModal } from '@/components/HelpModal';
 import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
-import { SavedScenariosModal } from '@/components/SavedScenariosModal';
+import { SavedScenariosView } from '@/components/SavedScenariosView';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
 import { SimulationLoader } from '@/components/SimulationLoader';
 import { HeroTitle } from '@/components/HeroTitle';
@@ -51,7 +52,6 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<'onboarding' | 'simulator'>('onboarding');
   const [inputs, setInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
   const [calculatedInputs, setCalculatedInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
-  const [isCalculated, setIsCalculated] = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [isConfigVisible, setIsConfigVisible] = useState(true);
@@ -61,7 +61,8 @@ export default function Home() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
-  const [isSavedScenariosOpen, setIsSavedScenariosOpen] = useState(false);
+  const [isSavedScenariosActive, setIsSavedScenariosActive] = useState(false);
+  const [showSaveNotice, setShowSaveNotice] = useState(false);
   const [savedScenariosList, setSavedScenariosList] = useState<SavedScenario[]>([]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -77,6 +78,16 @@ export default function Home() {
     setIsSimulating(false);
     setIsConfigVisible(true);
     setSavedScenariosList(getSavedScenarios());
+  };
+
+  const handleOpenSavedScenarios = () => {
+    setIsHelpOpen(false);
+    setIsFaqOpen(false);
+    setIsTermsOpen(false);
+    setIsExtraAmortizationOpen(false);
+    setIsSavedScenariosActive(true);
+    setShowSaveNotice(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -118,6 +129,7 @@ export default function Home() {
       setCalculatedInputs(inputs);
       setHasCalculated(true);
       setIsSimulating(false);
+      setShowSaveNotice(true);
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -130,14 +142,17 @@ export default function Home() {
     setCurrentStep(1);
     setHasCalculated(false);
     setIsSimulating(false);
+    setIsSavedScenariosActive(false);
+    setShowSaveNotice(false);
     setIsConfigVisible(true);
   };
 
   const isHelpActive = isHelpOpen;
   const isFaqActive = isFaqOpen;
   const isTermsActive = isTermsOpen;
-  const isAmortizationActive = isExtraAmortizationOpen && !isHelpOpen && !isFaqOpen && !isTermsOpen;
-  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isHelpOpen && !isFaqOpen && !isTermsOpen;
+  const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
+  const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
+  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
@@ -205,10 +220,12 @@ export default function Home() {
                   resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
               }}
-              onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
+              onOpenSavedScenarios={handleOpenSavedScenarios}
               savedScenariosCount={savedScenariosList.length}
               isConfigActive={isConfigActive}
               isAmortizationActive={isAmortizationActive}
+              isSavedScenariosActive={isSavedScenariosViewActive}
+              showSaveNotice={showSaveNotice}
               isHelpActive={isHelpActive}
               isFaqActive={isFaqActive}
               isTermsActive={isTermsActive}
@@ -303,13 +320,12 @@ export default function Home() {
                   }, 100);
                 }}
                 onOpenComparator={() => setIsComparatorOpen(true)}
-                onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
-                savedScenariosCount={savedScenariosList.length}
                 onOpenHelp={() => {
                   setIsHelpOpen(true);
                   setIsFaqOpen(false);
                   setIsTermsOpen(false);
                   setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenFaq={() => {
@@ -317,6 +333,7 @@ export default function Home() {
                   setIsHelpOpen(false);
                   setIsTermsOpen(false);
                   setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenTerms={() => {
@@ -324,8 +341,72 @@ export default function Home() {
                   setIsHelpOpen(false);
                   setIsFaqOpen(false);
                   setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
+                activeTab={activeTab}
+              />
+
+              {/* SideDrawer para Telas Menores */}
+              <SideDrawer
+                isOpen={false}
+                onClose={() => {}}
+                onOpenHelp={() => {
+                  setIsHelpOpen(true);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenFaq={() => {
+                  setIsFaqOpen(true);
+                  setIsHelpOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenTerms={() => {
+                  setIsTermsOpen(true);
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onSelectTab={(tab) => {
+                  setActiveTab(tab);
+                  setHasCalculated(true);
+                  setTimeout(() => {
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 100);
+                }}
+                onOpenSimulator={() => {
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
+                  setIsExtraAmortizationOpen(false);
+                  setIsSavedScenariosActive(false);
+                  setIsConfigVisible(true);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onOpenAmortization={() => {
+                  setIsHelpOpen(false);
+                  setIsFaqOpen(false);
+                  setIsTermsOpen(false);
+                  setIsSavedScenariosActive(false);
+                  setIsExtraAmortizationOpen(true);
+                  setHasCalculated(true);
+                  setTimeout(() => {
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 100);
+                }}
+                onOpenComparator={() => setIsComparatorOpen(true)}
+                onOpenSavedScenarios={handleOpenSavedScenarios}
+                savedScenariosCount={savedScenariosList.length}
+                isSavedScenariosActive={isSavedScenariosViewActive}
+                showSaveNotice={showSaveNotice}
                 activeTab={activeTab}
               />
 
@@ -362,7 +443,17 @@ export default function Home() {
           />
         )}
 
-        {!isHelpOpen && !isFaqOpen && !isTermsOpen && (
+        {isSavedScenariosViewActive && (
+          <SavedScenariosView
+            currentInputs={inputs}
+            onSelectScenario={handleSelectScenario}
+            onScenarioSaved={() => {
+              setSavedScenariosList(getSavedScenarios());
+            }}
+          />
+        )}
+
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
             <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
@@ -691,23 +782,6 @@ export default function Home() {
               )}
             </AnimatePresence>
 
-            {/* Botão de Salvar Cenário (Posicionado no final de toda a seção de resultados) */}
-            <div className="flex justify-center pt-6 pb-4">
-              <button
-                type="button"
-                onClick={() => {
-                  vibrateShort();
-                  setIsSavedScenariosOpen(true);
-                }}
-                onMouseEnter={() => setCursorVariant('button')}
-                onMouseLeave={() => setCursorVariant('default')}
-                className="btn-lift btn-gold-fill flex items-center space-x-2.5 px-8 py-3.5 rounded-full border border-gold-400/60 text-xs sm:text-sm font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] transition-all shadow-gold-glow cursor-pointer active:scale-95 shrink-0"
-              >
-                <Bookmark className="w-4 h-4 text-black" />
-                <span>Salvar Cenário</span>
-              </button>
-            </div>
-
           </div>
         )}
           </>
@@ -729,16 +803,6 @@ export default function Home() {
       <SpecsViewerModal
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
-      />
-
-      <SavedScenariosModal
-        isOpen={isSavedScenariosOpen}
-        onClose={() => {
-          setIsSavedScenariosOpen(false);
-          setSavedScenariosList(getSavedScenarios());
-        }}
-        currentInputs={inputs}
-        onSelectScenario={handleSelectScenario}
       />
 
     </div>
