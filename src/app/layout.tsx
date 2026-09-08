@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { PwaRegister } from "@/components/PwaRegister";
+import { InstallPwaPrompt } from "@/components/InstallPwaPrompt";
 import { CustomCursor } from "@/components/CustomCursor";
 import { SoundEffects } from "@/components/SoundEffects";
 
@@ -150,6 +151,7 @@ export default function RootLayout({
       </head>
       <body className="bg-black text-gray-100 antialiased font-sans selection:bg-gold-500 selection:text-obsidian-950">
         <PwaRegister />
+        <InstallPwaPrompt />
         <CustomCursor />
         <SoundEffects />
         {children}
