@@ -22,6 +22,7 @@ import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
 import { SavedScenariosModal } from '@/components/SavedScenariosModal';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
+import { SimulationLoader } from '@/components/SimulationLoader';
 import { HeroTitle } from '@/components/HeroTitle';
 import { BankSplashFlow } from '@/components/BankSplashFlow';
 import { BackgroundLightTrail } from '@/components/BackgroundLightTrail';
@@ -50,7 +51,9 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<'onboarding' | 'simulator'>('onboarding');
   const [inputs, setInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
   const [calculatedInputs, setCalculatedInputs] = useState<FinancingInputs>(DEFAULT_FINANCING_INPUTS);
+  const [isCalculated, setIsCalculated] = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
   const [isConfigVisible, setIsConfigVisible] = useState(true);
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
@@ -71,6 +74,7 @@ export default function Home() {
     setInputs(newInputs);
     setCalculatedInputs(newInputs);
     setHasCalculated(true);
+    setIsSimulating(false);
     setIsConfigVisible(true);
     setSavedScenariosList(getSavedScenarios());
   };
@@ -103,14 +107,21 @@ export default function Home() {
     });
   }, [calculatedInputs]);
 
-  // Função disparada ao clicar em SIMULAR
+  // Função disparada ao clicar em SIMULAR (com animação de 3 segundos)
   const handleSimulate = () => {
-    setCalculatedInputs(inputs);
-    setHasCalculated(true);
+    setIsSimulating(true);
+    setHasCalculated(false);
     setIsConfigVisible(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     setTimeout(() => {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 150);
+      setCalculatedInputs(inputs);
+      setHasCalculated(true);
+      setIsSimulating(false);
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }, 3000);
   };
 
   const handleReset = () => {
@@ -118,6 +129,7 @@ export default function Home() {
     setCalculatedInputs(DEFAULT_FINANCING_INPUTS);
     setCurrentStep(1);
     setHasCalculated(false);
+    setIsSimulating(false);
     setIsConfigVisible(true);
   };
 
@@ -376,33 +388,16 @@ export default function Home() {
           </AnimatePresence>
         </div>
 
+        {/* Animação de Carregamento de 3 Segundos ao Clicar em SIMULAR */}
+        {isSimulating && (
+          <div className="max-w-3xl mx-auto">
+            <SimulationLoader durationSeconds={3} />
+          </div>
+        )}
+
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
-        {hasCalculated && (
+        {hasCalculated && !isSimulating && (
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
-
-            {/* Barra de Ação Superior: Salvar Cenário (Apenas visível após clicar em Simular) */}
-            <div className="flex items-center justify-between px-1 sm:px-2 pt-2">
-              <div className="flex items-center space-x-2">
-                <Bookmark className="w-4 h-4 text-gold-400" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300">
-                  Simulação Calculada
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  vibrateShort();
-                  setIsSavedScenariosOpen(true);
-                }}
-                onMouseEnter={() => setCursorVariant('button')}
-                onMouseLeave={() => setCursorVariant('default')}
-                className="btn-lift flex items-center space-x-2 px-4 py-2 rounded-full border border-gold-400/60 text-xs font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] transition-all shadow-gold-glow cursor-pointer active:scale-95 shrink-0"
-              >
-                <Bookmark className="w-3.5 h-3.5" />
-                <span>Salvar este Cenário</span>
-              </button>
-            </div>
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
             <div
@@ -695,6 +690,23 @@ export default function Home() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Botão de Salvar Cenário (Posicionado no final de toda a seção de resultados) */}
+            <div className="flex justify-center pt-6 pb-4">
+              <button
+                type="button"
+                onClick={() => {
+                  vibrateShort();
+                  setIsSavedScenariosOpen(true);
+                }}
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+                className="btn-lift btn-gold-fill flex items-center space-x-2.5 px-8 py-3.5 rounded-full border border-gold-400/60 text-xs sm:text-sm font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] transition-all shadow-gold-glow cursor-pointer active:scale-95 shrink-0"
+              >
+                <Bookmark className="w-4 h-4 text-black" />
+                <span>Salvar Cenário</span>
+              </button>
+            </div>
 
           </div>
         )}
