@@ -35,6 +35,7 @@ import {
   ChevronDown,
   ChevronUp,
   Zap,
+  Bookmark,
 } from 'lucide-react';
 
 function formatCurrencyMask(val: number): string {
@@ -369,10 +370,6 @@ export default function Home() {
                   onReset={handleReset}
                   onSimulate={handleSimulate}
                   onStepChange={setCurrentStep}
-                  onOpenSavedScenarios={() => setIsSavedScenariosOpen(true)}
-                  onQuickSaveScenario={() => setIsSavedScenariosOpen(true)}
-                  savedScenarios={savedScenariosList}
-                  onSelectScenario={handleSelectScenario}
                 />
               </motion.div>
             )}
@@ -382,6 +379,30 @@ export default function Home() {
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
         {hasCalculated && (
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
+
+            {/* Barra de Ação Superior: Salvar Cenário (Apenas visível após clicar em Simular) */}
+            <div className="flex items-center justify-between px-1 sm:px-2 pt-2">
+              <div className="flex items-center space-x-2">
+                <Bookmark className="w-4 h-4 text-gold-400" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300">
+                  Simulação Calculada
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  vibrateShort();
+                  setIsSavedScenariosOpen(true);
+                }}
+                onMouseEnter={() => setCursorVariant('button')}
+                onMouseLeave={() => setCursorVariant('default')}
+                className="btn-lift flex items-center space-x-2 px-4 py-2 rounded-full border border-gold-400/60 text-xs font-bold uppercase tracking-wider text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] transition-all shadow-gold-glow cursor-pointer active:scale-95 shrink-0"
+              >
+                <Bookmark className="w-3.5 h-3.5" />
+                <span>Salvar este Cenário</span>
+              </button>
+            </div>
 
             {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
             <div
