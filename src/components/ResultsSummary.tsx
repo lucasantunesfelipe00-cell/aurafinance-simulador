@@ -145,7 +145,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Botão Comparar Lado a Lado (Fundo Preto, Pill Border, Magnético & Tátil) */}
+      {/* Botão Comparar SAC X PRICE (Fundo Preto, Pill Border, Magnético & Tátil) */}
       <div className="flex justify-center pt-3">
         <MagneticButton
           type="button"
@@ -153,7 +153,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           className="btn-lift flex items-center space-x-3 uppercase tracking-widest text-xs sm:text-sm font-medium text-white bg-black border border-white/30 hover:border-white hover:bg-neutral-950 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer shadow-xl"
         >
           <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400" />
-          <span>Comparar Lado a Lado</span>
+          <span>COMPARAR SAC X PRICE</span>
         </MagneticButton>
       </div>
 
