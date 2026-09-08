@@ -344,6 +344,9 @@ export default function Home() {
                   setIsSavedScenariosActive(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
+                onOpenSavedScenarios={handleOpenSavedScenarios}
+                savedScenariosCount={savedScenariosList.length}
+                showSaveNotice={showSaveNotice}
                 activeTab={activeTab}
               />
 

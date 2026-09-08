@@ -17,6 +17,7 @@ interface HeaderProps {
   onOpenTerms?: () => void;
   onOpenSavedScenarios?: () => void;
   savedScenariosCount?: number;
+  showSaveNotice?: boolean;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -31,6 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTerms,
   onOpenSavedScenarios,
   savedScenariosCount = 0,
+  showSaveNotice = false,
   activeTab = 'summary',
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -50,11 +52,17 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="lg:hidden btn-lift flex items-center justify-center p-2 rounded-xl border border-white/15 hover:border-[#c2a25b] transition-all cursor-pointer bg-white/5 hover:bg-[#c2a25b]/10 text-gold-400 hover:text-gold-300 shrink-0"
+            className="relative lg:hidden btn-lift flex items-center justify-center p-2 rounded-xl border border-white/15 hover:border-[#c2a25b] transition-all cursor-pointer bg-white/5 hover:bg-[#c2a25b]/10 text-gold-400 hover:text-gold-300 shrink-0"
             title="Abrir Menu Principal"
             aria-label="Abrir Menu"
           >
             <Menu className="w-5 h-5 text-gold-400" />
+            {showSaveNotice && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3 pointer-events-none">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c2a25b] opacity-80" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-tr from-[#a47e35] via-[#f3e3ba] to-[#c2a25b] shadow-[0_0_8px_#c2a25b]" />
+              </span>
+            )}
           </button>
 
           {/* Logo no topo mobile */}
@@ -125,6 +133,12 @@ export const Header: React.FC<HeaderProps> = ({
         onOpenSimulator={onOpenSimulator}
         onOpenAmortization={onOpenAmortization}
         onOpenComparator={onOpenComparator}
+        onOpenSavedScenarios={() => {
+          setIsDrawerOpen(false);
+          if (onOpenSavedScenarios) onOpenSavedScenarios();
+        }}
+        savedScenariosCount={savedScenariosCount}
+        showSaveNotice={showSaveNotice}
         activeTab={activeTab}
       />
 
