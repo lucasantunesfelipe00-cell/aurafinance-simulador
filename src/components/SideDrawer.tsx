@@ -396,6 +396,26 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <ShieldCheck className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
                   <span>Termos &amp; Privacidade</span>
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    vibrateShort();
+                    onClose();
+                    window.dispatchEvent(new CustomEvent('open-pwa-install'));
+                  }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className="w-full flex items-center justify-between px-2.5 py-2 text-xs font-medium text-[#f3e3ba] hover:text-white transition-all text-left group cursor-pointer bg-gradient-to-r from-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/50 hover:border-[#c2a25b] mt-2 shadow-[0_0_12px_rgba(194,162,91,0.15)]"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+                    <span className="font-semibold">Instalar App no Celular</span>
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-black/60 px-1.5 py-0.5 border border-[#c2a25b]/50">
+                    PWA
+                  </span>
+                </button>
               </div>
             </div>
 
