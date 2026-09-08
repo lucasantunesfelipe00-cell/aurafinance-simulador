@@ -196,6 +196,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <div className="space-y-1">
                     <button
                       type="button"
+                      data-scenarios-button="true"
                       onClick={() => {
                         vibrateShort();
                         onClose();
@@ -230,6 +231,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
                     {showSaveNotice && (
                       <div
+                        data-save-notice="true"
                         onClick={() => {
                           vibrateShort();
                           onClose();

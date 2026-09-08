@@ -170,6 +170,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
               <div key={item.id} className="relative w-full px-1 flex flex-col items-center">
                 <button
                   type="button"
+                  data-scenarios-button={isScenarios ? "true" : undefined}
                   onClick={() => {
                     vibrateShort();
                     item.action();
@@ -191,7 +192,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                     />
                   )}
 
-                  {/* Área do Ícone com Altura Fixa */}
+                  {/* Área do Ícone com Altura Fixa - 100% Alinhada com o Aviso Flutuante */}
                   <div className="relative w-full h-7 flex items-center justify-center">
                     {/* Barra Indicadora Dourada na Borda Esquerda */}
                     {item.isActive && (
@@ -225,6 +226,54 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                           : `${item.iconColor} group-hover:text-white group-hover:scale-105 stroke-[1.8]`
                       }`}
                     />
+
+                    {/* Aviso Flutuante Compacto e 100% Alinhado na Altura do Ícone */}
+                    {isScenarios && showSaveNotice && (
+                      <motion.div
+                        data-save-notice="true"
+                        initial={{ opacity: 0, x: -8, scale: 0.96 }}
+                        animate={{
+                          opacity: 1,
+                          x: 0,
+                          scale: 1,
+                          y: [0, -2, 0],
+                        }}
+                        transition={{
+                          opacity: { duration: 0.2 },
+                          x: { duration: 0.25, ease: 'easeOut' },
+                          y: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          vibrateShort();
+                          item.action();
+                        }}
+                        onMouseEnter={() => setCursorVariant('button')}
+                        onMouseLeave={() => setCursorVariant('default')}
+                        className="absolute left-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-[150] cursor-pointer select-none group/callout"
+                      >
+                        <div className="relative flex items-center gap-2 px-2.5 py-1.5 bg-gradient-to-r from-neutral-950 via-[#13110a] to-neutral-950 border border-[#c2a25b]/80 rounded-none shadow-[0_6px_25px_rgba(0,0,0,0.92),0_0_18px_rgba(194,162,91,0.35)] backdrop-blur-xl whitespace-nowrap hover:border-[#c2a25b] hover:shadow-[0_8px_30px_rgba(0,0,0,0.96),0_0_24px_rgba(194,162,91,0.5)] transition-all">
+                          {/* Seta indicadora rigorosamente alinhada ao centro do ícone */}
+                          <div className="absolute -left-[4px] top-1/2 -translate-y-1/2 w-2 h-2 bg-neutral-950 border-l border-b border-[#c2a25b]/80 rotate-45 pointer-events-none" />
+
+                          {/* Ícone em miniatura */}
+                          <div className="flex items-center justify-center w-5 h-5 bg-[#c2a25b]/20 border border-[#c2a25b]/60 shrink-0">
+                            <Sparkles className="w-3 h-3 text-gold-300 animate-pulse" />
+                          </div>
+
+                          {/* Texto compacto e legível */}
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black tracking-wider uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
+                              Salve o Cenário aqui
+                            </span>
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
+                          </div>
+
+                          {/* Seta discreta */}
+                          <ChevronRight className="w-3.5 h-3.5 text-gold-400 group-hover/callout:translate-x-0.5 transition-transform shrink-0 ml-0.5" />
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
 
                   {/* Nome da aba */}
@@ -240,58 +289,6 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                     {item.label}
                   </span>
                 </button>
-
-                {/* Aviso Flutuante Ultra-Refinado (Aparece com a aba lateral esquerda fechada!) */}
-                {isScenarios && showSaveNotice && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -14, scale: 0.94 }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      scale: 1,
-                      y: [0, -3, 0],
-                    }}
-                    transition={{
-                      opacity: { duration: 0.25 },
-                      x: { duration: 0.3, ease: 'easeOut' },
-                      y: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' },
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      vibrateShort();
-                      item.action();
-                    }}
-                    onMouseEnter={() => setCursorVariant('button')}
-                    onMouseLeave={() => setCursorVariant('default')}
-                    className="absolute left-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-[150] cursor-pointer select-none group/callout"
-                  >
-                    <div className="relative flex items-center gap-3.5 px-4 py-3 bg-gradient-to-r from-neutral-950 via-[#14120a] to-neutral-950 border border-[#c2a25b]/80 rounded-none shadow-[0_12px_45px_rgba(0,0,0,0.95),0_0_30px_rgba(194,162,91,0.4)] backdrop-blur-xl whitespace-nowrap hover:border-[#c2a25b] hover:shadow-[0_12px_50px_rgba(0,0,0,0.98),0_0_35px_rgba(194,162,91,0.6)] transition-all">
-                      {/* Seta indicadora apontando exatamente para o ícone na sidebar */}
-                      <div className="absolute -left-[6px] top-1/2 -translate-y-1/2 w-3 h-3 bg-neutral-950 border-l border-b border-[#c2a25b]/80 rotate-45 pointer-events-none" />
-
-                      {/* Ícone com moldura dourada */}
-                      <div className="relative flex items-center justify-center w-7 h-7 rounded-none bg-[#c2a25b]/20 border border-[#c2a25b]/60 shrink-0">
-                        <Sparkles className="w-3.5 h-3.5 text-gold-300 animate-pulse" />
-                      </div>
-
-                      {/* Textos */}
-                      <div className="flex flex-col text-left">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-black tracking-wider uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
-                            Salve o Cenário aqui
-                          </span>
-                          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
-                        </div>
-                        <span className="text-[9.5px] font-normal text-neutral-300 group-hover/callout:text-white transition-colors">
-                          Clique para guardar e comparar esta simulação
-                        </span>
-                      </div>
-
-                      {/* Seta de ação */}
-                      <ChevronRight className="w-4 h-4 text-gold-400 group-hover/callout:translate-x-1 transition-transform shrink-0 ml-1" />
-                    </div>
-                  </motion.div>
-                )}
               </div>
             );
           })}
@@ -419,6 +416,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
           <div className="relative">
             <button
               type="button"
+              data-scenarios-button="true"
               onClick={() => {
                 vibrateShort();
                 if (onOpenSavedScenarios) onOpenSavedScenarios();
@@ -453,21 +451,22 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
             {/* Cartão de Chamada com Design Premium na Barra Aberta */}
             {showSaveNotice && (
               <motion.div
-                initial={{ opacity: 0, y: -6, height: 0 }}
+                data-save-notice="true"
+                initial={{ opacity: 0, y: -4, height: 0 }}
                 animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -6, height: 0 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                exit={{ opacity: 0, y: -4, height: 0 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
                 onClick={() => {
                   vibrateShort();
                   if (onOpenSavedScenarios) onOpenSavedScenarios();
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="mt-2 p-3 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_6px_25px_rgba(0,0,0,0.85),0_0_20px_rgba(194,162,91,0.25)] cursor-pointer group/card hover:border-[#c2a25b] transition-all select-none"
+                className="mt-1.5 p-2.5 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(194,162,91,0.2)] cursor-pointer group/card hover:border-[#c2a25b] transition-all select-none"
               >
-                <div className="flex items-start gap-2.5">
-                  <div className="p-1.5 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
-                    <Sparkles className="w-3.5 h-3.5 animate-pulse text-gold-300" />
+                <div className="flex items-start gap-2">
+                  <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
+                    <Sparkles className="w-3 h-3 animate-pulse text-gold-300" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
@@ -476,13 +475,9 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                       </span>
                       <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
                     </div>
-                    <p className="text-[9.5px] text-neutral-300 group-hover/card:text-white transition-colors mt-1 leading-snug">
-                      Sua simulação está calculada. Guarde-a aqui para alternar e comparar lado a lado.
+                    <p className="text-[9px] text-neutral-300 group-hover/card:text-white transition-colors mt-0.5 leading-snug">
+                      Sua simulação está pronta. Clique para salvar e comparar no histórico.
                     </p>
-                    <div className="mt-2 flex items-center text-[9px] font-bold text-gold-400 group-hover/card:text-gold-300 tracking-wider uppercase">
-                      <span>Acessar Cenários</span>
-                      <ChevronRight className="w-3 h-3 ml-0.5 group-hover/card:translate-x-1 transition-transform" />
-                    </div>
                   </div>
                 </div>
               </motion.div>
