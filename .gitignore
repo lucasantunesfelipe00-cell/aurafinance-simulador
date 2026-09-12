@@ -33,3 +33,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*
+create_lucas_analysis_pdf.py
+output/pdf/analise-desenvolvimento-lucas.pdf
+tmp/pdfs/lucas-1.png
+tmp/pdfs/lucas-2.png
+tmp/pdfs/lucas-3.png
+tmp/pdfs/lucas-4.png
+tmp/pdfs/lucas-5.png
+tmp/pdfs/lucas-6.png
