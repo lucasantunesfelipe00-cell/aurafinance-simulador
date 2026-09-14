@@ -301,7 +301,7 @@ export const DEFAULT_FINANCING_INPUTS: FinancingInputs = {
   propertyValue: 500000,
   downPayment: 100000,
   downPaymentPercent: 20,
-  interestRateYearly: 10.5,
+  interestRateYearly: 11.39,
   termMonths: 360,
   amortizationMethod: 'SAC',
   includeInsurances: true,
