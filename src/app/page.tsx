@@ -66,6 +66,7 @@ export default function Home() {
   const [savedScenariosList, setSavedScenariosList] = useState<SavedScenario[]>([]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [helpInitialTab, setHelpInitialTab] = useState<'manual' | 'glossary' | 'tips'>('manual');
 
   React.useEffect(() => {
     setSavedScenariosList(getSavedScenarios());
@@ -454,6 +455,7 @@ export default function Home() {
         {isHelpOpen && (
           <HelpModal
             isOpen={isHelpOpen}
+            initialTab={helpInitialTab}
             onClose={() => {
               setIsHelpOpen(false);
               setIsConfigVisible(true);
@@ -510,8 +512,10 @@ export default function Home() {
                   onChange={setInputs}
                   onReset={handleReset}
                   onSimulate={handleSimulate}
+                  currentStep={currentStep}
                   onStepChange={setCurrentStep}
                   onOpenHelp={() => {
+                    setHelpInitialTab('glossary');
                     setIsHelpOpen(true);
                     setIsFaqOpen(false);
                     setIsTermsOpen(false);

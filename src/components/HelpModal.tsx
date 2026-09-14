@@ -19,6 +19,7 @@ import { vibrateShort } from '@/lib/haptics';
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialTab?: 'manual' | 'glossary' | 'tips';
 }
 
 interface GlossaryItem {
@@ -101,11 +102,15 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
   },
 ];
 
-export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, initialTab = 'manual' }) => {
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<'manual' | 'glossary' | 'tips'>('manual');
+  const [activeTab, setActiveTab] = useState<'manual' | 'glossary' | 'tips'>(initialTab);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   useEffect(() => {
     setMounted(true);

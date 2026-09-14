@@ -26,6 +26,7 @@ interface SimulatorCarouselProps {
   onSimulate: () => void;
   onStepChange?: (step: number) => void;
   onOpenHelp?: () => void;
+  currentStep?: number;
 }
 
 const TOTAL_CONFIG_STEPS = 5;
@@ -100,13 +101,20 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   onSimulate,
   onStepChange,
   onOpenHelp,
+  currentStep = 1,
 }) => {
-  const [step, setStepState] = useState(1);
+  const [step, setStepState] = useState(currentStep || 1);
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
   const [blockedNotice, setBlockedNotice] = useState<string | null>(null);
   const blockedNoticeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [showLegalNotice, setShowLegalNotice] = useState(false);
   const legalNoticeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (currentStep && currentStep !== step) {
+      setStepState(currentStep);
+    }
+  }, [currentStep]);
 
   useEffect(() => {
     if (step === 5) {
