@@ -188,16 +188,30 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   const slideRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const [trackHeight, setTrackHeight] = useState<number>();
 
-  // Altura do trilho acompanha o slide ativo
+  // Altura do trilho acompanha o slide ativo dinamicamente em tempo real
   useEffect(() => {
-    const measure = () => {
-      const el = slideRefs.current[step];
-      if (el) setTrackHeight(el.offsetHeight);
+    const el = slideRefs.current[step];
+    if (!el) return;
+
+    const updateHeight = () => {
+      // +6px de margem de segurança para garantir que bordas inferiores e sombras nunca sejam cortadas
+      setTrackHeight(Math.ceil(el.scrollHeight || el.offsetHeight) + 6);
     };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, [step, inputs, termUnit, hoveredMethod, mobileExplanationMethod]);
+
+    updateHeight();
+
+    const ro = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    ro.observe(el);
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [step, inputs, termUnit, hoveredMethod, mobileExplanationMethod, blockedNotice, showLegalNotice]);
 
   const goNext = () => setStep((s) => Math.min(5, s + 1));
   const goBack = () => setStep((s) => Math.max(1, s - 1));
@@ -357,8 +371,8 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
       {/* Trilho do Carrossel (Física de mola editorial suave) */}
       <div
-        className="overflow-hidden transition-[height] duration-600 ease-[cubic-bezier(0.16,1,0.3,1)]"
-        style={{ height: trackHeight }}
+        className="overflow-hidden transition-[height] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] py-1"
+        style={{ height: trackHeight ? trackHeight + 6 : undefined }}
       >
         <div
           className="flex items-start transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -775,9 +789,9 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   : 'bg-black border-[#c2a25b]/45 hover:border-[#c2a25b]'
                   }`}
               >
-                <div className="min-w-0 flex-1 mr-2">
-                  <div className="flex items-center space-x-2">
-                    <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">
+                <div className="min-w-0 flex-1 flex flex-col items-center justify-center text-center">
+                  <div className="flex items-center justify-center space-x-2 w-full">
+                    <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis leading-tight text-center">
                       Seguros &amp; Taxas Administrativas
                     </h4>
                     <AnimatePresence>
@@ -787,14 +801,14 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.85 }}
                           transition={{ duration: 0.25 }}
-                          className="text-[8px] sm:text-[9px] text-amber-400 bg-amber-950/60 border border-amber-500/40 px-1.5 py-0.5 uppercase tracking-wider shrink-0 font-mono"
+                          className="text-[8px] sm:text-[9px] text-amber-400 bg-amber-950/60 border border-amber-500/40 px-1.5 py-0.5 uppercase tracking-wider shrink-0 font-mono leading-none"
                         >
                           Obrigatório por Lei
                         </motion.span>
                       )}
                     </AnimatePresence>
                   </div>
-                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis mt-0.5">
+                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis mt-1 leading-tight text-center w-full">
                     MIP (Morte/Invalidez), DFI (Danos Físicos ao Imóvel) e taxa mensal R$ 25,00
                   </p>
                 </div>
