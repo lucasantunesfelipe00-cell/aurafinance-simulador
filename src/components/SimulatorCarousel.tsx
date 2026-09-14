@@ -29,41 +29,56 @@ interface SimulatorCarouselProps {
 const TOTAL_CONFIG_STEPS = 5;
 
 interface MacroPreset {
+  id: 'SFH' | 'SFI' | 'SELIC' | 'POUPANCA';
   label: string;
   value: string;
   rate: number;
   sub: string;
   source: string;
+  isAvailable: (propertyValue: number) => boolean;
+  disabledReason: (propertyValue: number) => string;
 }
 
 const MACRO_PRESETS: MacroPreset[] = [
   {
+    id: 'SFH',
     label: 'MÉDIA SFH',
     value: '11,39%',
     rate: 11.39,
     sub: 'a.a.',
     source: 'Taxa Média de Mercado Habitacional SFH (Banco Central)',
+    isAvailable: (pv) => pv <= 2_250_000,
+    disabledReason: () => 'Bloqueado: Imóvel acima do teto SFH (R$ 2,25 milhões)',
   },
   {
+    id: 'SFI',
     label: 'MÉDIA SFI',
     value: '12,50%',
     rate: 12.50,
     sub: 'a.a.',
-    source: 'Taxa Média de Mercado Livre SFI',
+    source: 'Taxa Média de Mercado Livre SFI (Imóveis > R$ 2,25M)',
+    isAvailable: (pv) => pv > 2_250_000,
+    disabledReason: () => 'Bloqueado: Exclusivo para imóveis acima de R$ 2,25 milhões',
   },
   {
+    id: 'SELIC',
     label: 'SELIC REF.',
     value: '14,00%',
     rate: 14.00,
     sub: 'a.a.',
-    source: 'Taxa Básica Copom / Banco Central',
+    source: 'Taxa Básica Copom / Banco Central (Livre Mercado)',
+    isAvailable: () => true,
+    disabledReason: () => '',
   },
   {
+    id: 'POUPANÇA' as any,
     label: 'POUPANÇA + TR',
     value: '9,50%',
     rate: 9.50,
     sub: 'a.a.',
-    source: 'Taxa Referencial Balcão Imobiliário',
+    source: 'Linha Balcão Habitacional Vinculada à Poupança (SFH)',
+    isAvailable: (pv) => pv <= 2_250_000,
+    disabledReason: () => 'Bloqueado: Linha restrita a imóveis até R$ 2,25 milhões (SFH)',
   },
 ];
 
@@ -167,18 +182,32 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
   const handlePropertyValueInput = (valStr: string) => {
     const digitsOnly = valStr.replace(/\D/g, '');
-    const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    let numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    if (numericVal > 100_000_000) {
+      numericVal = 100_000_000;
+    }
     setMaskedPropertyValue(formatCurrencyMask(numericVal));
 
     const propertyValue = Math.max(0, numericVal);
     const downPayment = Math.min(propertyValue, (propertyValue * inputs.downPaymentPercent) / 100);
     setMaskedDownPayment(formatCurrencyMask(downPayment));
-    onChange({ ...inputs, propertyValue, downPayment });
+
+    let updatedRate = inputs.interestRateYearly;
+    if (propertyValue > 2_250_000 && (inputs.interestRateYearly === 11.39 || inputs.interestRateYearly === 9.50)) {
+      updatedRate = 12.50; // Migra para SFI se ultrapassar o teto do SFH
+    } else if (propertyValue <= 2_250_000 && inputs.interestRateYearly === 12.50) {
+      updatedRate = 11.39; // Migra para SFH se voltar para o teto regulatório
+    }
+
+    onChange({ ...inputs, propertyValue, downPayment, interestRateYearly: updatedRate });
   };
 
   const handleDownPaymentInput = (valStr: string) => {
     const digitsOnly = valStr.replace(/\D/g, '');
-    const numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    let numericVal = digitsOnly ? parseInt(digitsOnly, 10) / 100 : 0;
+    if (numericVal > 100_000_000) {
+      numericVal = 100_000_000;
+    }
     const downPayment = Math.min(inputs.propertyValue, Math.max(0, numericVal));
     setMaskedDownPayment(formatCurrencyMask(downPayment));
 
@@ -417,15 +446,23 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                 <input
                   type="range"
                   min={50000}
-                  max={50000000}
-                  step={10000}
-                  value={inputs.propertyValue}
+                  max={100000000}
+                  step={50000}
+                  value={Math.min(100000000, inputs.propertyValue)}
                   onChange={(e) => {
-                    const val = Number(e.target.value);
+                    const val = Math.min(100000000, Math.max(0, Number(e.target.value)));
                     setMaskedPropertyValue(formatCurrencyMask(val));
                     const downPayment = Math.min(val, (val * inputs.downPaymentPercent) / 100);
                     setMaskedDownPayment(formatCurrencyMask(downPayment));
-                    onChange({ ...inputs, propertyValue: val, downPayment });
+
+                    let updatedRate = inputs.interestRateYearly;
+                    if (val > 2_250_000 && (inputs.interestRateYearly === 11.39 || inputs.interestRateYearly === 9.50)) {
+                      updatedRate = 12.50;
+                    } else if (val <= 2_250_000 && inputs.interestRateYearly === 12.50) {
+                      updatedRate = 11.39;
+                    }
+
+                    onChange({ ...inputs, propertyValue: val, downPayment, interestRateYearly: updatedRate });
                   }}
                   onInput={() => vibrateShort()}
                   className="w-full cursor-pointer"
@@ -434,7 +471,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <div className="flex justify-between text-xs sm:text-sm lg:text-base text-neutral-400 mt-1.5 font-mono">
                 <span>R$ 50 mil</span>
                 <span className="text-white font-medium">{formatBRL(inputs.propertyValue)}</span>
-                <span>R$ 50 mi</span>
+                <span>R$ 100 mi</span>
               </div>
 
               {renderNav(false, false)}
@@ -510,8 +547,10 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                     value={rawInterestRate}
                     onChange={(e) => {
                       setRawInterestRate(e.target.value);
-                      const num = parseFloat(e.target.value) || 0;
-                      onChange({ ...inputs, interestRateYearly: Math.max(0.1, num) });
+                      let num = parseFloat(e.target.value) || 0;
+                      if (num > 50) num = 50;
+                      if (num < 0) num = 0;
+                      onChange({ ...inputs, interestRateYearly: num });
                     }}
                     onKeyDown={() => playTypeSound()}
                     onMouseEnter={() => setCursorVariant('input')}
@@ -548,38 +587,56 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
               {/* Seleção rápida por Índices Macroeconômicos Oficiais */}
               <div className="mt-5 pt-4 border-t border-white/10 space-y-2.5 font-sans">
-                <div className="flex items-center justify-center text-center mb-1.5">
-                  <span className="text-[13.5px] sm:text-[16.2px] font-mono font-bold uppercase tracking-wider text-white">
+                <div className="flex items-center justify-between text-center mb-1.5 px-1">
+                  <span className="text-[12px] sm:text-[14px] font-mono font-bold uppercase tracking-wider text-white">
                     Médias e Índices de Referência
+                  </span>
+                  <span className="text-[10px] text-neutral-400 font-mono">
+                    {inputs.propertyValue <= 2_250_000 ? 'Enquadramento: SFH' : 'Enquadramento: SFI'}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono">
                   {MACRO_PRESETS.map((preset) => {
-                    const isSelected = Math.abs(inputs.interestRateYearly - preset.rate) < 0.05;
+                    const isAvailable = preset.isAvailable(inputs.propertyValue);
+                    const isSelected = isAvailable && Math.abs(inputs.interestRateYearly - preset.rate) < 0.05;
+                    const reason = !isAvailable ? preset.disabledReason(inputs.propertyValue) : `${preset.label}: ${preset.source}`;
+
                     return (
                       <button
                         key={preset.label}
                         type="button"
+                        disabled={!isAvailable}
                         onClick={() => {
+                          if (!isAvailable) return;
                           vibrateShort();
                           playTypeSound();
                           setRawInterestRate(preset.rate.toString());
                           onChange({ ...inputs, interestRateYearly: preset.rate });
                         }}
-                        onMouseEnter={() => setCursorVariant('button')}
+                        onMouseEnter={() => isAvailable && setCursorVariant('button')}
                         onMouseLeave={() => setCursorVariant('default')}
-                        className={`p-2.5 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between space-y-1 ${isSelected
-                          ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm'
-                          : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white'
-                          }`}
-                        title={`${preset.label}: ${preset.source}`}
+                        className={`p-2.5 rounded-none border text-left transition-all flex flex-col justify-between space-y-1 ${
+                          !isAvailable
+                            ? 'bg-neutral-950/60 border-white/5 text-neutral-600 opacity-40 cursor-not-allowed'
+                            : isSelected
+                            ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm cursor-pointer'
+                            : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white cursor-pointer'
+                        }`}
+                        title={reason}
                       >
-                        <span className="text-[10px] font-medium text-neutral-400 uppercase tracking-wider truncate">
-                          {preset.label}
-                        </span>
+                        <div className="flex items-center justify-between w-full">
+                          <span className="text-[10px] font-medium uppercase tracking-wider truncate">
+                            {preset.label}
+                          </span>
+                          {!isAvailable && (
+                            <span className="text-[8px] text-red-400 font-semibold uppercase shrink-0 ml-1">
+                              Bloq.
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-baseline justify-between">
-                          <span className="text-xs sm:text-sm font-extrabold text-gold-400">
+                          <span className={`text-xs sm:text-sm font-extrabold ${!isAvailable ? 'text-neutral-500 line-through' : 'text-gold-400'}`}>
                             {preset.value}
                           </span>
                           <span className="text-[9px] text-neutral-400 font-light ml-1">
@@ -618,9 +675,18 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                     type="number"
                     value={termUnit === 'years' ? termInYears : inputs.termMonths}
                     onChange={(e) => {
-                      const val = Number(e.target.value);
-                      const termMonths = termUnit === 'years' ? Math.round(val * 12) : val;
-                      onChange({ ...inputs, termMonths: Math.max(1, termMonths) });
+                      let val = Number(e.target.value);
+                      if (termUnit === 'years') {
+                        if (val > 35) val = 35;
+                        if (val < 1 && e.target.value !== '') val = 1;
+                        const termMonths = Math.min(420, Math.max(1, Math.round(val * 12)));
+                        onChange({ ...inputs, termMonths });
+                      } else {
+                        if (val > 420) val = 420;
+                        if (val < 1 && e.target.value !== '') val = 1;
+                        const termMonths = Math.min(420, Math.max(1, val));
+                        onChange({ ...inputs, termMonths });
+                      }
                     }}
                     onKeyDown={() => playTypeSound()}
                     onMouseEnter={() => setCursorVariant('input')}
