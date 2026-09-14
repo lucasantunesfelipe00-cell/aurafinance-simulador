@@ -51,7 +51,7 @@ const FAQ_ITEMS: FaqItem[] = [
     question: 'Como utilizar o saldo do FGTS para amortizar o financiamento?',
     category: 'FGTS',
     answer:
-      'Pelas regras do Sistema Financeiro da Habitação (SFH), para imóveis avaliados em até R$ 1,5 milhão, você pode usar todo o saldo retido na conta do FGTS a cada 24 meses (2 anos) para abater o saldo devedor ou diminuir até 80% do valor de 12 parcelas consecutivas.',
+      'Pelas regras do Sistema Financeiro da Habitação (SFH), para imóveis avaliados em até R$ 2,25 milhões, você pode usar todo o saldo retido na conta do FGTS a cada 24 meses (2 anos) para abater o saldo devedor ou diminuir até 80% do valor de 12 parcelas consecutivas.',
     highlight: 'Regra: O titular deve ter pelo menos 3 anos de trabalho sob o regime do FGTS.',
   },
   {

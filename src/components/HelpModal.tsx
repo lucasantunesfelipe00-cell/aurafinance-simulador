@@ -53,14 +53,14 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
   {
     term: 'SFH (Sistema Financeiro da Habitação)',
     category: 'Sistema',
-    shortDef: 'Regime regulamentado pelo governo para imóveis de até R$ 1,5 milhão.',
+    shortDef: 'Regime regulamentado com teto oficial atualizado de até R$ 2,25 milhões.',
     fullDesc:
-      'Criado para facilitar a aquisição da casa própria no Brasil. Possui teto de taxa de juros anual (geralmente limitado a 12% a.a. + TR) e permite o uso integral do saldo do FGTS para entrada ou amortização extraordinária.',
+      'Criado para facilitar a aquisição da casa própria no Brasil. Possui teto oficial regulatório atualizado para até R$ 2,25 milhões (Resoluções Banco Central/CMN), permitindo uso integral do saldo do FGTS para entrada ou amortização extraordinária.',
   },
   {
     term: 'SFI (Sistema de Financiamento Imobiliário)',
     category: 'Sistema',
-    shortDef: 'Regime livre para imóveis acima de R$ 1,5 milhão ou perfis de investimento.',
+    shortDef: 'Regime livre para imóveis acima de R$ 2,25 milhões ou perfis de investimento.',
     fullDesc:
       'Utilizado para imóveis que ultrapassam o teto do SFH ou para compras por pessoa jurídica. As taxas de juros são negociadas livremente entre o comprador e a instituição financeira.',
   },
@@ -74,9 +74,9 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
   {
     term: 'CET (Custo Efetivo Total)',
     category: 'Seguros & Taxas',
-    shortDef: 'A taxa real e completa cobrada pelo banco por ano.',
+    shortDef: 'Taxa real estimada englobando juros, seguros e tarifas bancárias.',
     fullDesc:
-      'É a porcentagem anual real do financiamento. Engloba a taxa de juros nominal negociada, os seguros obrigatórios (MIP e DFI) e as tarifas bancárias de administração do contrato.',
+      'É a taxa anual estimada do financiamento. Engloba a taxa de juros nominal contratual, os seguros obrigatórios (MIP e DFI) e as tarifas bancárias mensais de administração do contrato.',
   },
   {
     term: 'MIP (Morte e Invalidez Permanente)',
