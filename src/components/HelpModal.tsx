@@ -92,6 +92,13 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
     fullDesc:
       'Garante a reconstrução ou indenização caso o imóvel financiado sofra sinistros graves de origem física, como incêndios, desmoronamentos, alagamentos ou vendavais.',
   },
+  {
+    term: 'Índices e Taxas de Referência',
+    category: 'Seguros & Taxas',
+    shortDef: 'Médias de mercado e taxas balcão aplicadas pelas instituições financeiras.',
+    fullDesc:
+      'As taxas médias do Banco Central refletem o custo efetivo do crédito habitacional no Brasil. O SFH costuma operar com taxas regulamentadas e linhas vinculadas à Poupança + TR, enquanto o SFI atende imóveis acima de R$ 2,25 milhões com taxas negociadas livremente no mercado.',
+  },
 ];
 
 export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {

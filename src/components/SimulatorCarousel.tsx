@@ -16,6 +16,7 @@ import {
   RefreshCw,
   ChevronLeft,
   ChevronRight,
+  HelpCircle,
 } from 'lucide-react';
 
 interface SimulatorCarouselProps {
@@ -24,6 +25,7 @@ interface SimulatorCarouselProps {
   onReset: () => void;
   onSimulate: () => void;
   onStepChange?: (step: number) => void;
+  onOpenHelp?: () => void;
 }
 
 const TOTAL_CONFIG_STEPS = 5;
@@ -97,9 +99,12 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   onReset,
   onSimulate,
   onStepChange,
+  onOpenHelp,
 }) => {
   const [step, setStepState] = useState(1);
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
+  const [blockedNotice, setBlockedNotice] = useState<string | null>(null);
+  const blockedNoticeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const setStep = (newStepOrFn: number | ((prev: number) => number)) => {
     setStepState((prev) => {
@@ -606,15 +611,21 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                       <button
                         key={preset.label}
                         type="button"
-                        disabled={!isAvailable}
                         onClick={() => {
-                          if (!isAvailable) return;
+                          if (!isAvailable) {
+                            vibrateShort();
+                            setBlockedNotice(preset.disabledReason(inputs.propertyValue));
+                            if (blockedNoticeTimerRef.current) clearTimeout(blockedNoticeTimerRef.current);
+                            blockedNoticeTimerRef.current = setTimeout(() => setBlockedNotice(null), 4000);
+                            return;
+                          }
+                          setBlockedNotice(null);
                           vibrateShort();
                           playTypeSound();
                           setRawInterestRate(preset.rate.toString());
                           onChange({ ...inputs, interestRateYearly: preset.rate });
                         }}
-                        onMouseEnter={() => isAvailable && setCursorVariant('button')}
+                        onMouseEnter={() => setCursorVariant('button')}
                         onMouseLeave={() => setCursorVariant('default')}
                         className={`p-2.5 rounded-none border text-left transition-all flex flex-col justify-between space-y-1 ${
                           !isAvailable
@@ -647,6 +658,45 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                     );
                   })}
                 </div>
+
+                {/* Micro-aviso se tentar clicar em opção bloqueada */}
+                <AnimatePresence>
+                  {blockedNotice && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-2.5 p-2 bg-neutral-900/90 border border-[#c2a25b]/40 text-neutral-200 text-[11px] font-mono flex items-center justify-between"
+                    >
+                      <span className="truncate mr-2">⚠️ {blockedNotice}</span>
+                      <button
+                        type="button"
+                        onClick={() => setBlockedNotice(null)}
+                        className="text-neutral-400 hover:text-white text-xs px-1"
+                      >
+                        ✕
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Micro-link minimalista para o Menu de Ajuda */}
+                {onOpenHelp && (
+                  <div className="mt-3 text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playTypeSound();
+                        onOpenHelp();
+                      }}
+                      className="inline-flex items-center space-x-1.5 text-[11px] sm:text-xs text-neutral-400 hover:text-gold-400 transition-colors font-sans group cursor-pointer"
+                    >
+                      <HelpCircle className="w-3.5 h-3.5 text-neutral-500 group-hover:text-gold-400 transition-colors" />
+                      <span className="underline underline-offset-2">Entenda as taxas, SFH e SFI no Guia de Ajuda</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
               {renderNav(false, false)}
@@ -727,8 +777,17 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                   }`}
               >
                 <div className="min-w-0 flex-1 mr-2">
-                  <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">Seguros &amp; Taxas Administrativas</h4>
-                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis">Seguros MIP/DFI e taxa mensal R$ 25,00</p>
+                  <div className="flex items-center space-x-2">
+                    <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">
+                      Seguros &amp; Taxas Administrativas
+                    </h4>
+                    <span className="text-[8px] sm:text-[9px] text-neutral-400 border border-white/10 px-1 py-0.5 uppercase tracking-wider shrink-0 font-mono">
+                      Obrigatório por Lei
+                    </span>
+                  </div>
+                  <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis mt-0.5">
+                    MIP (Morte/Invalidez), DFI (Danos Físicos ao Imóvel) e taxa mensal R$ 25,00
+                  </p>
                 </div>
 
                 <label

@@ -511,6 +511,13 @@ export default function Home() {
                   onReset={handleReset}
                   onSimulate={handleSimulate}
                   onStepChange={setCurrentStep}
+                  onOpenHelp={() => {
+                    setIsHelpOpen(true);
+                    setIsFaqOpen(false);
+                    setIsTermsOpen(false);
+                    setIsExtraAmortizationOpen(false);
+                    setIsSavedScenariosActive(false);
+                  }}
                 />
               </motion.div>
             )}
