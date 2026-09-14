@@ -20,6 +20,8 @@ interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialTab?: 'manual' | 'glossary' | 'tips';
+  initialCategory?: string;
+  initialSearch?: string;
 }
 
 interface GlossaryItem {
@@ -102,15 +104,29 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
   },
 ];
 
-export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, initialTab = 'manual' }) => {
+export const HelpModal: React.FC<HelpModalProps> = ({
+  isOpen,
+  onClose,
+  initialTab = 'manual',
+  initialCategory = 'Todos',
+  initialSearch = '',
+}) => {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'manual' | 'glossary' | 'tips'>(initialTab);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
   useEffect(() => {
     setActiveTab(initialTab);
   }, [initialTab]);
+
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
+
+  useEffect(() => {
+    setSearchTerm(initialSearch);
+  }, [initialSearch]);
 
   useEffect(() => {
     setMounted(true);
@@ -118,7 +134,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, initialTa
 
   if (!isOpen || !mounted) return null;
 
-  const categories = ['Todos', 'Estratégia', 'Modalidades', 'Sistema', 'Seguros & Taxas'];
+  const categories = ['Todos', 'Sistema', 'Modalidades', 'Seguros & Taxas', 'Estratégia'];
 
   const filteredGlossary = GLOSSARY_ITEMS.filter((item) => {
     const matchesSearch =

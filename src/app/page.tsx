@@ -67,6 +67,8 @@ export default function Home() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [helpInitialTab, setHelpInitialTab] = useState<'manual' | 'glossary' | 'tips'>('manual');
+  const [helpInitialCategory, setHelpInitialCategory] = useState<string>('Todos');
+  const [helpInitialSearch, setHelpInitialSearch] = useState<string>('');
 
   React.useEffect(() => {
     setSavedScenariosList(getSavedScenarios());
@@ -214,6 +216,9 @@ export default function Home() {
               isCollapsed={isSidebarCollapsed}
               onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               onOpenHelp={() => {
+                setHelpInitialTab('manual');
+                setHelpInitialCategory('Todos');
+                setHelpInitialSearch('');
                 setIsHelpOpen(true);
                 setIsFaqOpen(false);
                 setIsTermsOpen(false);
@@ -357,6 +362,9 @@ export default function Home() {
                 }}
                 onOpenComparator={() => setIsComparatorOpen(true)}
                 onOpenHelp={() => {
+                  setHelpInitialTab('manual');
+                  setHelpInitialCategory('Todos');
+                  setHelpInitialSearch('');
                   setIsHelpOpen(true);
                   setIsFaqOpen(false);
                   setIsTermsOpen(false);
@@ -391,6 +399,9 @@ export default function Home() {
                 isOpen={false}
                 onClose={() => {}}
                 onOpenHelp={() => {
+                  setHelpInitialTab('manual');
+                  setHelpInitialCategory('Todos');
+                  setHelpInitialSearch('');
                   setIsHelpOpen(true);
                   setIsFaqOpen(false);
                   setIsTermsOpen(false);
@@ -456,6 +467,8 @@ export default function Home() {
           <HelpModal
             isOpen={isHelpOpen}
             initialTab={helpInitialTab}
+            initialCategory={helpInitialCategory}
+            initialSearch={helpInitialSearch}
             onClose={() => {
               setIsHelpOpen(false);
               setIsConfigVisible(true);
@@ -516,6 +529,8 @@ export default function Home() {
                   onStepChange={setCurrentStep}
                   onOpenHelp={() => {
                     setHelpInitialTab('glossary');
+                    setHelpInitialCategory('Sistema');
+                    setHelpInitialSearch('');
                     setIsHelpOpen(true);
                     setIsFaqOpen(false);
                     setIsTermsOpen(false);
