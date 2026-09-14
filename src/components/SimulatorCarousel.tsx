@@ -105,6 +105,23 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   const [termUnit, setTermUnit] = useState<'years' | 'months'>('years');
   const [blockedNotice, setBlockedNotice] = useState<string | null>(null);
   const blockedNoticeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [showLegalNotice, setShowLegalNotice] = useState(false);
+  const legalNoticeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (step === 5) {
+      setShowLegalNotice(true);
+      if (legalNoticeTimerRef.current) clearTimeout(legalNoticeTimerRef.current);
+      legalNoticeTimerRef.current = setTimeout(() => {
+        setShowLegalNotice(false);
+      }, 4500);
+    } else {
+      setShowLegalNotice(false);
+    }
+    return () => {
+      if (legalNoticeTimerRef.current) clearTimeout(legalNoticeTimerRef.current);
+    };
+  }, [step]);
 
   const setStep = (newStepOrFn: number | ((prev: number) => number)) => {
     setStepState((prev) => {
@@ -627,13 +644,12 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                         }}
                         onMouseEnter={() => setCursorVariant('button')}
                         onMouseLeave={() => setCursorVariant('default')}
-                        className={`p-2.5 rounded-none border text-left transition-all flex flex-col justify-between space-y-1 ${
-                          !isAvailable
-                            ? 'bg-neutral-950/60 border-white/5 text-neutral-600 opacity-40 cursor-not-allowed'
-                            : isSelected
+                        className={`p-2.5 rounded-none border text-left transition-all flex flex-col justify-between space-y-1 ${!isAvailable
+                          ? 'bg-neutral-950/60 border-white/5 text-neutral-600 opacity-40 cursor-not-allowed'
+                          : isSelected
                             ? 'bg-gradient-to-r from-[#a47e35]/25 via-[#c2a25b]/15 to-transparent border-[#c2a25b] text-[#c2a25b] shadow-gold-glow-sm cursor-pointer'
                             : 'bg-black border-white/15 text-neutral-300 hover:border-gold-400/60 hover:text-white cursor-pointer'
-                        }`}
+                          }`}
                         title={reason}
                       >
                         <div className="flex items-center justify-between w-full">
@@ -680,23 +696,6 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                     </motion.div>
                   )}
                 </AnimatePresence>
-
-                {/* Micro-link minimalista para o Menu de Ajuda */}
-                {onOpenHelp && (
-                  <div className="mt-3 text-center">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        playTypeSound();
-                        onOpenHelp();
-                      }}
-                      className="inline-flex items-center space-x-1.5 text-[11px] sm:text-xs text-neutral-400 hover:text-gold-400 transition-colors font-sans group cursor-pointer"
-                    >
-                      <HelpCircle className="w-3.5 h-3.5 text-neutral-500 group-hover:text-gold-400 transition-colors" />
-                      <span className="underline underline-offset-2">Entenda as taxas, SFH e SFI no Guia de Ajuda</span>
-                    </button>
-                  </div>
-                )}
               </div>
 
               {renderNav(false, false)}
@@ -781,9 +780,19 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
                     <h4 className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 whitespace-nowrap overflow-hidden text-ellipsis">
                       Seguros &amp; Taxas Administrativas
                     </h4>
-                    <span className="text-[8px] sm:text-[9px] text-neutral-400 border border-white/10 px-1 py-0.5 uppercase tracking-wider shrink-0 font-mono">
-                      Obrigatório por Lei
-                    </span>
+                    <AnimatePresence>
+                      {showLegalNotice && (
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.85 }}
+                          transition={{ duration: 0.25 }}
+                          className="text-[8px] sm:text-[9px] text-amber-400 bg-amber-950/60 border border-amber-500/40 px-1.5 py-0.5 uppercase tracking-wider shrink-0 font-mono"
+                        >
+                          Obrigatório por Lei
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
                   </div>
                   <p className="text-[9px] min-[360px]:text-[10px] text-neutral-400 font-light whitespace-nowrap overflow-hidden text-ellipsis mt-0.5">
                     MIP (Morte/Invalidez), DFI (Danos Físicos ao Imóvel) e taxa mensal R$ 25,00
@@ -811,6 +820,31 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
         </div>
       </div>
+
+      {/* Micro-link minimalista para o Menu de Ajuda (renderizado fora da caixa de configuração) */}
+      <AnimatePresence>
+        {step === 4 && onOpenHelp && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="mt-4 text-center"
+          >
+            <button
+              type="button"
+              onClick={() => {
+                playTypeSound();
+                onOpenHelp();
+              }}
+              className="inline-flex items-center space-x-1.5 text-xs text-neutral-400 hover:text-gold-400 transition-colors font-sans group cursor-pointer"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-neutral-500 group-hover:text-gold-400 transition-colors" />
+              <span className="underline underline-offset-4">Entenda as taxas, SFH e SFI no Guia de Ajuda ↗</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
