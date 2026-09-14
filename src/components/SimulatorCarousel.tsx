@@ -38,32 +38,32 @@ interface MacroPreset {
 
 const MACRO_PRESETS: MacroPreset[] = [
   {
-    label: 'SELIC',
-    value: '14,00%',
-    rate: 14.00,
-    sub: 'a.a.',
-    source: 'Taxa Básica Banco Central do Brasil',
-  },
-  {
-    label: 'TAXA MÉDIA SFH',
+    label: 'MÉDIA SFH',
     value: '11,39%',
     rate: 11.39,
     sub: 'a.a.',
-    source: 'Média de Mercado Habitacional SFH',
+    source: 'Taxa Média de Mercado Habitacional SFH (Banco Central)',
   },
   {
-    label: 'IPCA',
-    value: '4,44%',
-    rate: 4.44,
-    sub: '12m',
-    source: 'Inflação Oficial IBGE',
+    label: 'MÉDIA SFI',
+    value: '12,50%',
+    rate: 12.50,
+    sub: 'a.a.',
+    source: 'Taxa Média de Mercado Livre SFI',
   },
   {
-    label: 'TR',
-    value: '0,08%',
-    rate: 0.08,
-    sub: 'a.m.',
-    source: 'Taxa Referencial Banco Central',
+    label: 'SELIC REF.',
+    value: '14,00%',
+    rate: 14.00,
+    sub: 'a.a.',
+    source: 'Taxa Básica Copom / Banco Central',
+  },
+  {
+    label: 'POUPANÇA + TR',
+    value: '9,50%',
+    rate: 9.50,
+    sub: 'a.a.',
+    source: 'Taxa Referencial Balcão Imobiliário',
   },
 ];
 
@@ -550,7 +550,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               <div className="mt-5 pt-4 border-t border-white/10 space-y-2.5 font-sans">
                 <div className="flex items-center justify-center text-center mb-1.5">
                   <span className="text-[13.5px] sm:text-[16.2px] font-mono font-bold uppercase tracking-wider text-white">
-                    Taxas Atuais de Índices do Copom
+                    Médias e Índices de Referência
                   </span>
                 </div>
 

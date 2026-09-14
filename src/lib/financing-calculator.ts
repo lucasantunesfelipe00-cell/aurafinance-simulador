@@ -1,30 +1,109 @@
 import { FinancingInputs, FinancingResult, Installment, ComparisonResult } from '@/types/financing';
 
 /**
+ * Limites regulatórios e de segurança do motor financeiro
+ */
+export const FINANCIAL_LIMITS = {
+  MIN_PROPERTY_VALUE: 1000,
+  MAX_PROPERTY_VALUE: 100_000_000,
+  MIN_TERM_MONTHS: 1,
+  MAX_TERM_MONTHS: 420, // 35 anos (limite máximo SFH / SFI no Brasil)
+  MIN_INTEREST_RATE_YEARLY: 0,
+  MAX_INTEREST_RATE_YEARLY: 50,
+  SFH_CEILING_VALUE: 2_250_000, // Teto regulatório oficial SFH atualizado (R$ 2,25 milhões)
+};
+
+/**
+ * Valida e higieniza os parâmetros de entrada para evitar números infinitos,
+ * negativos, NaN ou prazos absurdos que travariam o cálculo.
+ */
+export type SanitizedFinancingInputs = Required<FinancingInputs>;
+
+export function sanitizeFinancingInputs(inputs: Partial<FinancingInputs>): SanitizedFinancingInputs {
+  const rawPropVal = Number(inputs.propertyValue);
+  const propertyValue = Number.isFinite(rawPropVal)
+    ? Math.min(Math.max(FINANCIAL_LIMITS.MIN_PROPERTY_VALUE, rawPropVal), FINANCIAL_LIMITS.MAX_PROPERTY_VALUE)
+    : DEFAULT_FINANCING_INPUTS.propertyValue;
+
+  const rawDownPayment = Number(inputs.downPayment);
+  const downPayment = Number.isFinite(rawDownPayment)
+    ? Math.min(Math.max(0, rawDownPayment), propertyValue)
+    : Math.min(DEFAULT_FINANCING_INPUTS.downPayment, propertyValue);
+
+  const rawRate = Number(inputs.interestRateYearly);
+  const interestRateYearly = Number.isFinite(rawRate)
+    ? Math.min(Math.max(FINANCIAL_LIMITS.MIN_INTEREST_RATE_YEARLY, rawRate), FINANCIAL_LIMITS.MAX_INTEREST_RATE_YEARLY)
+    : DEFAULT_FINANCING_INPUTS.interestRateYearly;
+
+  const rawTerm = Number(inputs.termMonths);
+  const termMonths = Number.isFinite(rawTerm)
+    ? Math.min(Math.max(FINANCIAL_LIMITS.MIN_TERM_MONTHS, Math.round(rawTerm)), FINANCIAL_LIMITS.MAX_TERM_MONTHS)
+    : DEFAULT_FINANCING_INPUTS.termMonths;
+
+  const rawExtraMonthly = Number(inputs.extraMonthlyAmortization);
+  const extraMonthlyAmortization = Number.isFinite(rawExtraMonthly) && rawExtraMonthly > 0 ? rawExtraMonthly : 0;
+
+  const rawExtraAnnual = Number(inputs.extraAnnualAmortization);
+  const extraAnnualAmortization = Number.isFinite(rawExtraAnnual) && rawExtraAnnual > 0 ? rawExtraAnnual : 0;
+
+  const rawAdminFee = Number(inputs.monthlyAdminFee);
+  const monthlyAdminFee = Number.isFinite(rawAdminFee) && rawAdminFee >= 0 ? rawAdminFee : DEFAULT_FINANCING_INPUTS.monthlyAdminFee;
+
+  const rawMip = Number(inputs.mipRateYearly);
+  const mipRateYearly = Number.isFinite(rawMip) && rawMip >= 0 ? rawMip : DEFAULT_FINANCING_INPUTS.mipRateYearly;
+
+  const rawDfi = Number(inputs.dfiRateYearly);
+  const dfiRateYearly = Number.isFinite(rawDfi) && rawDfi >= 0 ? rawDfi : DEFAULT_FINANCING_INPUTS.dfiRateYearly;
+
+  const downPaymentPercent = propertyValue > 0 ? (downPayment / propertyValue) * 100 : 0;
+
+  return {
+    category: inputs.category || DEFAULT_FINANCING_INPUTS.category,
+    propertyValue,
+    downPayment,
+    downPaymentPercent,
+    interestRateYearly,
+    termMonths,
+    amortizationMethod: inputs.amortizationMethod === 'PRICE' ? 'PRICE' : 'SAC',
+    includeInsurances: inputs.includeInsurances !== undefined ? Boolean(inputs.includeInsurances) : DEFAULT_FINANCING_INPUTS.includeInsurances,
+    monthlyAdminFee,
+    mipRateYearly,
+    dfiRateYearly,
+    extraMonthlyAmortization,
+    extraAnnualAmortization,
+  };
+}
+
+/**
  * Formata valores numéricos para a moeda brasileira (R$).
  */
 export function formatBRL(value: number): string {
+  const safeValue = Number.isFinite(value) ? value : 0;
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     maximumFractionDigits: 2,
-  }).format(isNaN(value) ? 0 : value);
+  }).format(safeValue);
 }
 
 /**
  * Formata valores numéricos para porcentagem (ex: 10,50%).
  */
 export function formatPercent(value: number, decimals: number = 2): string {
-  return new Intl.NumberFormat('pt-BR', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(isNaN(value) ? 0 : value) + '%';
+  const safeValue = Number.isFinite(value) ? value : 0;
+  return (
+    new Intl.NumberFormat('pt-BR', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }).format(safeValue) + '%'
+  );
 }
 
 /**
  * Calcula o financiamento pelo Sistema de Amortização Constante (SAC) ou Tabela PRICE.
  */
-export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
+export function calculateFinancing(rawInputs: FinancingInputs): FinancingResult {
+  const inputs = sanitizeFinancingInputs(rawInputs);
   const {
     propertyValue,
     downPayment,
@@ -35,6 +114,8 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
     monthlyAdminFee,
     mipRateYearly,
     dfiRateYearly,
+    extraMonthlyAmortization,
+    extraAnnualAmortization,
   } = inputs;
 
   const loanAmount = Math.max(0, propertyValue - downPayment);
@@ -58,7 +139,10 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
   }
 
   // Taxa mensal proporcional i = (1 + i_a)^(1/12) - 1
-  const monthlyRate = Math.pow(1 + interestRateYearly / 100, 1 / 12) - 1;
+  const monthlyRate = interestRateYearly > 0
+    ? Math.pow(1 + interestRateYearly / 100, 1 / 12) - 1
+    : 0;
+
   const mipMonthlyRate = includeInsurances ? (mipRateYearly / 100) / 12 : 0;
   const dfiMonthlyRate = includeInsurances ? (dfiRateYearly / 100) / 12 : 0;
   const adminFee = includeInsurances ? monthlyAdminFee : 0;
@@ -69,9 +153,6 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
   let accumulatedPaid = 0;
   let totalInsurancesAndFees = 0;
 
-  const extraMonthly = inputs.extraMonthlyAmortization || 0;
-  const extraAnnual = inputs.extraAnnualAmortization || 0;
-
   if (amortizationMethod === 'SAC') {
     // Amortização constante
     const fixedAmortization = loanAmount / termMonths;
@@ -80,8 +161,8 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
       const interestPaid = currentBalance * monthlyRate;
       
       // Amortização normal + extra
-      const annualExtraPaid = (m % 12 === 0) ? extraAnnual : 0;
-      let principalAmortization = fixedAmortization + extraMonthly + annualExtraPaid;
+      const annualExtraPaid = (m % 12 === 0) ? extraAnnualAmortization : 0;
+      let principalAmortization = fixedAmortization + extraMonthlyAmortization + annualExtraPaid;
 
       if (principalAmortization > currentBalance) {
         principalAmortization = currentBalance;
@@ -128,9 +209,9 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
       const interestPaid = currentBalance * monthlyRate;
       
       // Amortização normal + extra
-      const normalAmortization = pmtPure - interestPaid;
-      const annualExtraPaid = (m % 12 === 0) ? extraAnnual : 0;
-      let principalAmortization = normalAmortization + extraMonthly + annualExtraPaid;
+      const normalAmortization = Math.max(0, pmtPure - interestPaid);
+      const annualExtraPaid = (m % 12 === 0) ? extraAnnualAmortization : 0;
+      let principalAmortization = normalAmortization + extraMonthlyAmortization + annualExtraPaid;
 
       if (principalAmortization > currentBalance) {
         principalAmortization = currentBalance;
@@ -170,17 +251,18 @@ export function calculateFinancing(inputs: FinancingInputs): FinancingResult {
   const totalPaid = accumulatedPaid;
   const totalInterest = accumulatedInterest;
 
-  // Cálculo aproximado do Custo Efetivo Total (CET) anualizado
+  // Cálculo de estimativa simplificada do Custo Efetivo Total (CET) anualizado
   const totalFinancialCost = totalInterest + totalInsurancesAndFees;
-  const yearlyCostFactor = Math.pow((loanAmount + totalFinancialCost) / loanAmount, 12 / termMonths) - 1;
-  const effectiveYearlyRate = Math.max(interestRateYearly, yearlyCostFactor * 100);
+  const actualMonths = Math.max(1, installments.length);
+  const yearlyCostFactor = Math.pow((loanAmount + totalFinancialCost) / loanAmount, 12 / actualMonths) - 1;
+  const effectiveYearlyRate = Math.max(interestRateYearly, (Number.isFinite(yearlyCostFactor) ? yearlyCostFactor * 100 : interestRateYearly));
 
   return {
     method: amortizationMethod,
     propertyValue,
     downPayment,
     loanAmount,
-    termMonths,
+    termMonths: actualMonths,
     firstInstallment,
     lastInstallment,
     totalPaid,
