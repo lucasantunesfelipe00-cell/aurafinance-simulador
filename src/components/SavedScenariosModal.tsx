@@ -16,6 +16,8 @@ import {
   SlidersHorizontal,
   FolderHeart,
   ExternalLink,
+  Share2,
+  Link2,
 } from 'lucide-react';
 import { FinancingInputs } from '@/types/financing';
 import { formatBRL, formatPercent } from '@/lib/financing-calculator';
@@ -27,6 +29,7 @@ import {
   updateScenarioName,
   generateDefaultName,
 } from '@/lib/saved-scenarios';
+import { copyShareUrlToClipboard } from '@/lib/share-url';
 import { vibrateShort } from '@/lib/haptics';
 import { playClickSound } from '@/lib/sound';
 import { setCursorVariant } from '@/lib/cursor-store';
@@ -50,6 +53,7 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -114,6 +118,18 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
     playClickSound();
     onSelectScenario(inputs);
     onClose();
+  };
+
+  const handleShare = async (scenario: SavedScenario) => {
+    vibrateShort();
+    playClickSound();
+    const success = await copyShareUrlToClipboard(scenario.inputs, { name: scenario.name });
+    if (success) {
+      setCopiedId(scenario.id);
+      setTimeout(() => {
+        setCopiedId((current) => (current === scenario.id ? null : current));
+      }, 2500);
+    }
   };
 
   const modalContent = (
@@ -351,6 +367,31 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
 
                           {/* Botões de Ação do Cenário */}
                           <div className="flex items-center justify-end space-x-2 pt-1">
+                            <button
+                              type="button"
+                              onClick={() => handleShare(sc)}
+                              onMouseEnter={() => setCursorVariant('button')}
+                              onMouseLeave={() => setCursorVariant('default')}
+                              className={`px-2.5 py-1.5 rounded-lg border text-xs flex items-center gap-1.5 transition-all ${
+                                copiedId === sc.id
+                                  ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 font-medium'
+                                  : 'border-white/10 hover:border-gold-400/50 hover:bg-gold-400/10 text-neutral-300 hover:text-gold-400'
+                              }`}
+                              title="Copiar link direto para compartilhar este cenário"
+                            >
+                              {copiedId === sc.id ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                  <span>Link Copiado!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Share2 className="w-3.5 h-3.5" />
+                                  <span>Compartilhar</span>
+                                </>
+                              )}
+                            </button>
+
                             <button
                               type="button"
                               onClick={() => handleDelete(sc.id)}

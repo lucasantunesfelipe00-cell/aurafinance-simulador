@@ -1,25 +1,31 @@
 'use client';
 
-import React from 'react';
-import { FinancingResult, ComparisonResult } from '@/types/financing';
+import React, { useState } from 'react';
+import { FinancingResult, ComparisonResult, FinancingInputs } from '@/types/financing';
 import { formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { MagneticButton } from '@/components/MagneticButton';
-import { DollarSign, Percent, TrendingDown, Layers, ArrowRightLeft } from 'lucide-react';
+import { copyShareUrlToClipboard } from '@/lib/share-url';
+import { vibrateShort } from '@/lib/haptics';
+import { playClickSound } from '@/lib/sound';
+import { DollarSign, Percent, TrendingDown, Layers, ArrowRightLeft, Share2, Check } from 'lucide-react';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
   comparison: ComparisonResult;
   onOpenComparison: () => void;
+  inputs?: FinancingInputs;
 }
 
 export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   result,
   comparison,
   onOpenComparison,
+  inputs,
 }) => {
   const [activeCard, setActiveCard] = React.useState<number | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
   const lastInteractionRef = React.useRef<{ id: number; time: number }>({ id: 0, time: 0 });
 
   const handleCardActivate = (cardId: number) => {
@@ -30,6 +36,31 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
     }
     lastInteractionRef.current = { id: cardId, time: now };
     setActiveCard((prev) => (prev === cardId ? null : cardId));
+  };
+
+  const handleShare = async () => {
+    vibrateShort();
+    playClickSound();
+
+    const currentInputs: FinancingInputs = inputs || {
+      category: 'property',
+      propertyValue: result.propertyValue,
+      downPayment: result.downPayment,
+      downPaymentPercent: (result.downPayment / result.propertyValue) * 100,
+      interestRateYearly: 10.5,
+      termMonths: result.termMonths,
+      amortizationMethod: result.method,
+      includeInsurances: true,
+      monthlyAdminFee: 25,
+      mipRateYearly: 0.021,
+      dfiRateYearly: 0.008,
+    };
+
+    const success = await copyShareUrlToClipboard(currentInputs);
+    if (success) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 3000);
+    }
   };
 
   return (
@@ -145,17 +176,45 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Botão Comparar SAC X PRICE (Fundo Preto, Pill Border Dourada, Magnético & Tátil) */}
-      <div className="w-full flex items-center justify-center pt-4 text-center">
+      {/* Ações Finais: Comparar SAC x PRICE + Compartilhar Simulação */}
+      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4 text-center">
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
-          className="btn-lift flex items-center justify-center space-x-3 uppercase tracking-widest text-xs sm:text-sm font-medium text-white bg-black border border-gold-400/60 hover:border-gold-400 hover:bg-neutral-950 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)] mx-auto"
+          className="btn-lift flex items-center justify-center space-x-2.5 uppercase tracking-widest text-xs sm:text-sm font-medium text-white bg-black border border-gold-400/60 hover:border-gold-400 hover:bg-neutral-950 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)] w-full sm:w-auto"
         >
           <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0" />
           <span>COMPARAR SAC X PRICE</span>
         </MagneticButton>
+
+        <MagneticButton
+          type="button"
+          onClick={handleShare}
+          className={`btn-lift flex items-center justify-center space-x-2.5 uppercase tracking-widest text-xs sm:text-sm font-medium px-6 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer w-full sm:w-auto ${
+            isCopied
+              ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+              : 'text-gold-400 bg-gold-400/10 border border-gold-400/60 hover:border-gold-400 hover:bg-gold-400/20 shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)]'
+          }`}
+        >
+          {isCopied ? (
+            <>
+              <Check className="w-4 h-4 sm:w-5 sm:h-5 text-black shrink-0" />
+              <span>LINK COPIADO!</span>
+            </>
+          ) : (
+            <>
+              <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0" />
+              <span>COMPARTILHAR SIMULAÇÃO</span>
+            </>
+          )}
+        </MagneticButton>
       </div>
+
+      {isCopied && (
+        <p className="text-center text-xs font-mono text-emerald-400 animate-fadeIn -mt-2">
+          ✓ Link copiado para a área de transferência! Cole no WhatsApp, e-mail ou redes sociais.
+        </p>
+      )}
 
     </div>
   );
