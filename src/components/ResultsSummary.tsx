@@ -254,16 +254,8 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MagneticButton>
       </div>
 
-      {/* 2. Hub Separado: Ações do Cenário & Próximos Passos (Gestão, Compartilhamento e Concierge) */}
-      <div className="w-full pt-6 border-t border-white/10 mt-6 space-y-4">
-        <div className="flex items-center justify-center gap-3">
-          <div className="h-px bg-gradient-to-r from-transparent via-gold-400/20 to-transparent flex-1 max-w-[80px] sm:max-w-[120px]" />
-          <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">
-            Ações do Cenário &amp; Próximos Passos
-          </span>
-          <div className="h-px bg-gradient-to-r from-transparent via-gold-400/20 to-transparent flex-1 max-w-[80px] sm:max-w-[120px]" />
-        </div>
-
+      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) */}
+      <div className="w-full pt-4 border-t border-white/10 mt-6">
         {/* Trio de Ações: Mobile (1 por linha) | Desktop (3 na mesma linha) */}
         <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 text-center">
           {/* Botão 1: Salvar Cenário */}
