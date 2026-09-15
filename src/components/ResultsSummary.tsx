@@ -190,11 +190,6 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
               animate
             />
           </div>
-          {result.propertyValue > 0 && (
-            <span className="text-[10px] text-gold-400/80 mt-1 block font-mono whitespace-nowrap">
-              {((result.downPayment / result.propertyValue) * 100).toFixed(1)}% do valor do imóvel
-            </span>
-          )}
         </button>
 
         {/* Card 3: Primeira Parcela */}
