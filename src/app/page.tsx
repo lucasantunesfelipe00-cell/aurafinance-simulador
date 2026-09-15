@@ -57,7 +57,7 @@ export default function Home() {
   const [hasCalculated, setHasCalculated] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [isConfigVisible, setIsConfigVisible] = useState(true);
-  const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
+  const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('table');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -84,6 +84,7 @@ export default function Home() {
         setInputs(parsed.inputs);
         setCalculatedInputs(parsed.inputs);
         setHasCalculated(true);
+        setActiveTab('table');
         setViewMode('simulator');
         setSharedBannerInfo({ name: parsed.scenarioName });
         setTimeout(() => {
@@ -139,6 +140,7 @@ export default function Home() {
     setInputs(newInputs);
     setCalculatedInputs(newInputs);
     setHasCalculated(true);
+    setActiveTab('table');
     setIsSimulating(false);
     setIsSavedScenariosActive(false);
     setIsConfigVisible(true);
@@ -188,11 +190,13 @@ export default function Home() {
     setIsSimulating(true);
     setHasCalculated(false);
     setIsConfigVisible(false);
+    setActiveTab('table');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     setTimeout(() => {
       setCalculatedInputs(inputs);
       setHasCalculated(true);
+      setActiveTab('table');
       setIsSimulating(false);
       setShowSaveNotice(true);
       setTimeout(() => {
@@ -206,6 +210,7 @@ export default function Home() {
     setCalculatedInputs(DEFAULT_FINANCING_INPUTS);
     setCurrentStep(1);
     setHasCalculated(false);
+    setActiveTab('table');
     setIsSimulating(false);
     setIsSavedScenariosActive(false);
     setShowSaveNotice(false);
