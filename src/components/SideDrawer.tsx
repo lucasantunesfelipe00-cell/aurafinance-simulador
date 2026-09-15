@@ -10,12 +10,7 @@ import {
   Volume2,
   VolumeX,
   Smartphone,
-  ChevronRight,
   Sliders,
-  Layers,
-  LineChart,
-  Table,
-  Scale,
   Zap,
   Bookmark,
   Sparkles,
@@ -31,15 +26,17 @@ export interface SideDrawerProps {
   onOpenHelp: () => void;
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
-  onSelectTab?: (tab: 'summary' | 'chart' | 'table') => void;
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
-  onOpenComparator?: () => void;
   onOpenSavedScenarios?: () => void;
   savedScenariosCount?: number;
+  isConfigActive?: boolean;
+  isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
   showSaveNotice?: boolean;
-  activeTab?: 'summary' | 'chart' | 'table';
+  isHelpActive?: boolean;
+  isFaqActive?: boolean;
+  isTermsActive?: boolean;
 }
 
 export const SideDrawer: React.FC<SideDrawerProps> = ({
@@ -48,15 +45,17 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenHelp,
   onOpenFaq,
   onOpenTerms,
-  onSelectTab,
   onOpenSimulator,
   onOpenAmortization,
-  onOpenComparator,
   onOpenSavedScenarios,
   savedScenariosCount = 0,
+  isConfigActive = false,
+  isAmortizationActive = false,
   isSavedScenariosActive = false,
   showSaveNotice = false,
-  activeTab = 'summary',
+  isHelpActive = false,
+  isFaqActive = false,
+  isTermsActive = false,
 }) => {
   const [mounted, setMounted] = useState(false);
   const [sound, setSound] = useState(true);
@@ -126,24 +125,24 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-            className="relative w-[290px] sm:w-[320px] max-w-[85vw] h-full bg-neutral-950 border-r border-[#c2a25b]/30 shadow-2xl flex flex-col z-[100000] overflow-hidden pointer-events-auto"
+            className="relative w-[260px] sm:w-[280px] max-w-[85vw] h-full bg-neutral-950 border-r border-white/10 shadow-2xl flex flex-col z-[100000] overflow-hidden pointer-events-auto"
           >
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none" />
 
             {/* Topo: Logo 'bf' + escrita 'brasilfinance' + Botão de Fechar */}
-            <div className="px-4 py-4 border-b border-white/10 flex items-center justify-between relative z-10 bg-black/60 shrink-0">
-              <div className="flex items-center space-x-2">
+            <div className="px-4 h-[66px] border-b border-white/10 flex items-center justify-between relative z-10 bg-black shrink-0">
+              <div className="flex items-center space-x-2.5">
                 <img
                   src="/brand/logo-source.png"
                   alt="Logo Icon"
-                  className="w-7 h-7 shrink-0 object-contain drop-shadow-md"
+                  className="w-8 h-8 shrink-0 object-contain drop-shadow-md"
                 />
                 <div className="flex items-baseline">
-                  <span className="font-extrabold text-lg text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
+                  <span className="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
                     brasil
                   </span>
-                  <span className="font-light text-lg text-neutral-300 tracking-normal">
+                  <span className="font-light text-xl text-neutral-300 tracking-normal">
                     finance
                   </span>
                 </div>
@@ -158,22 +157,22 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer"
+                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
                 title="Fechar menu"
                 aria-label="Fechar menu"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4 text-neutral-300 hover:text-white" />
               </button>
             </div>
 
-            {/* Conteúdo Principal de Opções Soltas (Fora de Retângulos) */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6 relative z-10 custom-scrollbar">
+            {/* Conteúdo Principal de Opções (Idêntico ao DesktopSidebar) */}
+            <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6 relative z-10 custom-scrollbar">
               
-              {/* Seção: Simulação & Vistas */}
+              {/* Seção: Simulação */}
               <div className="space-y-1">
                 <div className="px-2 pb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#c2a25b]">
-                    Simulação &amp; Vistas
+                    Simulação
                   </span>
                 </div>
 
@@ -186,135 +185,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
-                >
-                  <Sliders className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-                  <span>Configurar Financiamento</span>
-                </button>
-
-                {onOpenSavedScenarios && (
-                  <div className="space-y-1">
-                    <button
-                      type="button"
-                      data-scenarios-button="true"
-                      onClick={() => {
-                        vibrateShort();
-                        onClose();
-                        onOpenSavedScenarios();
-                      }}
-                      onMouseEnter={() => setCursorVariant('button')}
-                      onMouseLeave={() => setCursorVariant('default')}
-                      className={`w-full flex items-center justify-between px-2 py-2 text-xs font-medium transition-all text-left group cursor-pointer border rounded-none ${
-                        isSavedScenariosActive
-                          ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold'
-                          : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
-                        <span>Cenários Salvos</span>
-                      </div>
-
-                      {showSaveNotice ? (
-                        <span className="flex items-center gap-1.5 px-2 py-0.5 bg-gradient-to-r from-[#c2a25b]/25 to-[#c2a25b]/10 border border-[#c2a25b]/70 text-gold-300 text-[9px] font-extrabold tracking-wider uppercase rounded-none shrink-0 shadow-gold-glow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
-                          Salvar
-                        </span>
-                      ) : (
-                        savedScenariosCount > 0 && (
-                          <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-none">
-                            {savedScenariosCount}
-                          </span>
-                        )
-                      )}
-                    </button>
-
-                    {showSaveNotice && (
-                      <div
-                        data-save-notice="true"
-                        onClick={() => {
-                          vibrateShort();
-                          onClose();
-                          onOpenSavedScenarios();
-                        }}
-                        className="p-2.5 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(194,162,91,0.2)] cursor-pointer select-none"
-                      >
-                        <div className="flex items-start gap-2">
-                          <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
-                            <Sparkles className="w-3 h-3 text-gold-300 animate-pulse" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
-                                Salve o Cenário aqui
-                              </span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
-                            </div>
-                            <p className="text-[9px] text-neutral-300 mt-0.5 leading-snug">
-                              Sua simulação está pronta. Toque para guardar e comparar no histórico.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
-                    if (onSelectTab) onSelectTab('summary');
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
-                    activeTab === 'summary'
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isConfigActive
                       ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
                       : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
                   }`}
                 >
-                  <Layers className={`w-4 h-4 shrink-0 ${activeTab === 'summary' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-                  <span>Aba Resumo &amp; KPIs</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
-                    if (onSelectTab) onSelectTab('chart');
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
-                    activeTab === 'chart'
-                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
-                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
-                  }`}
-                >
-                  <LineChart className={`w-4 h-4 shrink-0 ${activeTab === 'chart' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-                  <span>Aba Gráfico Visual</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
-                    if (onSelectTab) onSelectTab('table');
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border ${
-                    activeTab === 'table'
-                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
-                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
-                  }`}
-                >
-                  <Table className={`w-4 h-4 shrink-0 ${activeTab === 'table' ? 'text-[#c2a25b]' : 'text-gold-400'}`} />
-                  <span>Aba Tabela Mês a Mês</span>
+                  <Sliders className={`w-4 h-4 shrink-0 ${isConfigActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                  <span>Configurar</span>
                 </button>
               </div>
 
@@ -335,12 +213,88 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-amber-400 hover:text-amber-300 hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isAmortizationActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-amber-300 font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-amber-400 hover:text-amber-300 hover:translate-x-0.5'
+                  }`}
                 >
-                  <Zap className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span>Amortização Acelerada</span>
+                  <Zap className={`w-4 h-4 shrink-0 ${isAmortizationActive ? 'text-amber-300' : 'text-amber-400'}`} />
+                  <span>Amortização</span>
                 </button>
 
+                <div className="relative">
+                  <button
+                    type="button"
+                    data-scenarios-button="true"
+                    onClick={() => {
+                      vibrateShort();
+                      onClose();
+                      if (onOpenSavedScenarios) onOpenSavedScenarios();
+                    }}
+                    onMouseEnter={() => setCursorVariant('button')}
+                    onMouseLeave={() => setCursorVariant('default')}
+                    className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                      isSavedScenariosActive
+                        ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                        : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3 min-w-0">
+                      <Bookmark className={`w-4 h-4 shrink-0 ${isSavedScenariosActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                      <span className="truncate">Cenários</span>
+                    </div>
+
+                    {showSaveNotice ? (
+                      <span className="flex items-center gap-1.5 px-2 py-0.5 bg-gradient-to-r from-[#c2a25b]/25 to-[#c2a25b]/10 border border-[#c2a25b]/70 text-gold-300 text-[9px] font-extrabold tracking-wider uppercase rounded-none shrink-0 shadow-gold-glow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
+                        Salvar
+                      </span>
+                    ) : (
+                      savedScenariosCount > 0 && (
+                        <span className="px-1.5 py-0.2 bg-gold-400 text-black text-[10px] font-bold rounded-none">
+                          {savedScenariosCount}
+                        </span>
+                      )
+                    )}
+                  </button>
+
+                  {/* Cartão de Chamada com Design Premium */}
+                  {showSaveNotice && (
+                    <motion.div
+                      data-save-notice="true"
+                      initial={{ opacity: 0, y: -4, height: 0 }}
+                      animate={{ opacity: 1, y: 0, height: 'auto' }}
+                      exit={{ opacity: 0, y: -4, height: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      onClick={() => {
+                        vibrateShort();
+                        onClose();
+                        if (onOpenSavedScenarios) onOpenSavedScenarios();
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className="mt-1.5 p-2.5 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(194,162,91,0.2)] cursor-pointer group/card hover:border-[#c2a25b] transition-all select-none"
+                    >
+                      <div className="flex items-start gap-2">
+                        <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
+                          <Sparkles className="w-3 h-3 animate-pulse text-gold-300" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
+                              Salve o Cenário aqui
+                            </span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
+                          </div>
+                          <p className="text-[9px] text-neutral-300 group-hover/card:text-white transition-colors mt-0.5 leading-snug">
+                            Sua simulação está pronta. Toque para salvar e comparar no histórico.
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
 
               {/* Seção: Suporte */}
@@ -360,10 +314,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isHelpActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                  }`}
                 >
-                  <HelpCircle className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-                  <span>Central de Ajuda &amp; Manual</span>
+                  <HelpCircle className={`w-4 h-4 shrink-0 ${isHelpActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                  <span>Suporte</span>
                 </button>
 
                 <button
@@ -376,10 +334,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isFaqActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                  }`}
                 >
-                  <BookOpen className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
-                  <span>Perguntas Frequentes (FAQ)</span>
+                  <BookOpen className={`w-4 h-4 shrink-0 ${isFaqActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`} />
+                  <span>FAQ</span>
                 </button>
 
                 <button
@@ -391,36 +353,20 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center space-x-3 px-2 py-2 text-xs font-medium text-neutral-300 hover:text-white hover:translate-x-0.5 transition-all text-left group cursor-pointer"
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isTermsActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                  }`}
                 >
-                  <ShieldCheck className="w-4 h-4 text-neutral-400 group-hover:text-white shrink-0" />
-                  <span>Termos &amp; Privacidade</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
-                    window.dispatchEvent(new CustomEvent('open-pwa-install'));
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center justify-between px-2.5 py-2 text-xs font-medium text-[#f3e3ba] hover:text-white transition-all text-left group cursor-pointer bg-gradient-to-r from-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/50 hover:border-[#c2a25b] mt-2 shadow-[0_0_12px_rgba(194,162,91,0.15)]"
-                >
-                  <div className="flex items-center space-x-2.5">
-                    <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-                    <span className="font-semibold">Instalar App no Celular</span>
-                  </div>
-                  <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-black/60 px-1.5 py-0.5 border border-[#c2a25b]/50">
-                    PWA
-                  </span>
+                  <ShieldCheck className={`w-4 h-4 shrink-0 ${isTermsActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`} />
+                  <span>Termos</span>
                 </button>
               </div>
             </div>
 
-            {/* PARTE DE BAIXO: AJUSTES SENSORIAIS (Sem o texto menor 'Configure o áudio...') */}
-            <div className="p-4 border-t border-white/10 bg-neutral-900/95 relative z-10 space-y-3">
+            {/* Rodapé: Ajustes Sensoriais (Idêntico ao DesktopSidebar) */}
+            <div className="p-4 border-t border-white/10 bg-neutral-900/95 relative z-10 space-y-3 shrink-0">
               <div>
                 <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#c2a25b]">
                   Ajustes Sensoriais
@@ -428,7 +374,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
               </div>
 
               <div className="space-y-2.5 pt-2 border-t border-white/5">
-                
                 {/* Toggle Efeitos Sonoros */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2.5 text-xs text-neutral-200">
@@ -454,11 +399,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   </label>
                 </div>
 
-                {/* Toggle Vibração Tátil (Haptics) */}
+                {/* Toggle Vibração Tátil */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2.5 text-xs text-neutral-200">
                     <Smartphone className={`w-4 h-4 ${haptics ? 'text-[#c2a25b]' : 'text-neutral-500'}`} />
-                    <span className="font-medium">Vibração Tátil (Haptics)</span>
+                    <span className="font-medium">Vibração Tátil</span>
                   </div>
                   <label
                     onMouseEnter={() => setCursorVariant('button')}
@@ -474,7 +419,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     <div className="w-9 h-5 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-gold-700 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-500 after:border-neutral-500 after:border after:h-4 after:w-4 after:rounded-full after:transition-all after:duration-300 peer-checked:bg-gradient-to-r peer-checked:from-[#a47e35] peer-checked:to-[#c2a25b] peer-checked:after:bg-white peer-checked:after:border-white" />
                   </label>
                 </div>
-
               </div>
             </div>
 
