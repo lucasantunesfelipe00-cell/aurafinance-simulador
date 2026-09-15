@@ -53,6 +53,19 @@ export function buildWhatsAppMessage(
   return text;
 }
 
+export const DEFAULT_WHATSAPP_PHONE = '5519997550603';
+
+export function normalizeWhatsAppPhone(rawPhone?: string): string {
+  if (!rawPhone) return DEFAULT_WHATSAPP_PHONE;
+  const digits = rawPhone.replace(/\D/g, '');
+  if (!digits) return DEFAULT_WHATSAPP_PHONE;
+  // Se tiver 10 ou 11 dígitos (ex: 19997550603), adiciona o DDI 55 do Brasil
+  if (digits.length === 10 || digits.length === 11) {
+    return `55${digits}`;
+  }
+  return digits;
+}
+
 /**
  * Gera a URL wa.me pronta para abrir o WhatsApp no celular ou web com a mensagem pré-carregada.
  */
@@ -64,21 +77,13 @@ export function generateWhatsAppUrl(
   const message = buildWhatsAppMessage(inputs, result, options);
   const encodedMessage = encodeURIComponent(message);
 
-  // Lê número do ambiente caso configurado (ex: NEXT_PUBLIC_WHATSAPP_NUMBER), ou o option phoneNumber
   let phone = options?.phoneNumber;
   if (!phone && typeof process !== 'undefined' && process.env) {
     phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || process.env.NEXT_PUBLIC_WHATSAPP_PHONE;
   }
 
-  if (phone) {
-    // Remove caracteres não-numéricos
-    const cleanPhone = phone.replace(/\D/g, '');
-    if (cleanPhone.length > 0) {
-      return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
-    }
-  }
-
-  return `https://wa.me/?text=${encodedMessage}`;
+  const cleanPhone = normalizeWhatsAppPhone(phone);
+  return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 }
 
 /**

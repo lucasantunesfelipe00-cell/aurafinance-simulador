@@ -59,11 +59,20 @@ describe('whatsapp: Message and URL Generator', () => {
     expect(url).toContain(encodeURIComponent('Brasil Finance'));
   });
 
-  it('generates wa.me URL without phone if not configured', () => {
+  it('generates wa.me URL with default phone 5519997550603 when not provided', () => {
     const url = generateWhatsAppUrl(sampleInputs, sampleResult, {
       baseUrl: 'https://brasilfinance.app',
     });
 
-    expect(url.startsWith('https://wa.me/?text=')).toBe(true);
+    expect(url.startsWith('https://wa.me/5519997550603?text=')).toBe(true);
+  });
+
+  it('normalizes Brazilian numbers without country code (e.g. 19 997550603)', () => {
+    const url = generateWhatsAppUrl(sampleInputs, sampleResult, {
+      phoneNumber: '19 997550603',
+      baseUrl: 'https://brasilfinance.app',
+    });
+
+    expect(url.startsWith('https://wa.me/5519997550603?text=')).toBe(true);
   });
 });
