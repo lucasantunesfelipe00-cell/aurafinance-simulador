@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { vibrateShort } from '@/lib/haptics';
+import { MagneticButton } from '@/components/MagneticButton';
 
 interface HelpModalProps {
   isOpen: boolean;
@@ -146,7 +147,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
   });
 
   return (
-    <section className="w-full max-w-3xl mx-auto editorial-card bg-neutral-950/95 border border-amber-400/40 p-4 sm:p-6 rounded-none shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-3xl mx-auto editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       
       {/* Glow de fundo */}
       <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c2a25b]/10 rounded-full blur-3xl pointer-events-none" />
@@ -155,7 +156,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shadow-inner">
+          <div className="p-2.5 rounded-none bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shadow-inner">
             <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
@@ -173,11 +174,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({
           }}
           onMouseEnter={() => setCursorVariant('button')}
           onMouseLeave={() => setCursorVariant('default')}
-          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/50 transition-all cursor-pointer"
-          title="Fechar e voltar ao simulador"
+          className="p-2 rounded-none text-[#c2a25b] hover:text-white bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#c2a25b]/60 transition-all cursor-pointer"
+          title="Fechar"
+          aria-label="Fechar"
         >
-          <X className="w-4 h-4 text-amber-400" />
-          <span className="hidden sm:inline">Fechar</span>
+          <X className="w-5 h-5 text-[#c2a25b]" />
         </button>
       </div>
 
@@ -298,7 +299,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
 
               {/* Destaque da Amortização Acelerada */}
               <div className="p-4 rounded-xl bg-neutral-950 border border-white/10 space-y-2">
-                <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs sm:text-sm">
+                <div className="flex items-center space-x-2 text-gold-400 font-bold text-xs sm:text-sm">
                   <TrendingDown className="w-4 h-4 text-[#c2a25b]" />
                   <span>Por que a Amortização Acelerada é tão poderosa?</span>
                 </div>
@@ -385,8 +386,8 @@ export const HelpModal: React.FC<HelpModalProps> = ({
           {activeTab === 'tips' && (
             <div className="space-y-4">
               
-              <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-neutral-900 to-black border border-amber-500/30 flex items-start space-x-3">
-                <Award className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-none bg-gradient-to-r from-[#c2a25b]/10 via-neutral-900 to-black border border-[#c2a25b]/30 flex items-start space-x-3">
+                <Award className="w-6 h-6 text-[#c2a25b] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-white text-xs sm:text-sm">Estratégias de Quitação Pró-Ativa</h4>
                   <p className="text-xs text-neutral-300">
@@ -454,24 +455,19 @@ export const HelpModal: React.FC<HelpModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400 relative z-10">
-          <div className="flex items-center space-x-1.5 text-neutral-400">
-            <ShieldCheck className="w-4 h-4 text-[#c2a25b]" />
-            <span className="hidden sm:inline">Brasil Finance Intelligence — Ferramenta Educativa e Analítica</span>
-            <span className="sm:hidden">Brasil Finance Manual</span>
-          </div>
-
-          <button
+        <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-end relative z-10">
+          <MagneticButton
+            type="button"
             onClick={() => {
               vibrateShort();
               onClose();
             }}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="px-4 py-2 rounded-none bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-bold text-xs hover:brightness-110 transition-all cursor-pointer shadow-md shadow-amber-400/20"
+            className="btn-gold-fill btn-lift btn-shine btn-shine-gold flex items-center space-x-1.5 text-xs font-normal uppercase tracking-widest px-6 py-2.5 rounded-[75px] cursor-pointer"
           >
-            Voltar à Simulação
-          </button>
+            <span>Voltar à Simulação</span>
+          </MagneticButton>
         </div>
     </section>
   );
