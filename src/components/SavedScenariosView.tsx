@@ -40,10 +40,12 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
   const [newScenarioName, setNewScenarioName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const list = getSavedScenarios();
     setScenarios(list);
+    setErrorMessage(null);
     setNewScenarioName(generateDefaultName(currentInputs, list.length));
   }, [currentInputs]);
 
@@ -51,10 +53,15 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
     if (e) e.preventDefault();
     vibrateShort();
     playClickSound();
-    const updated = saveScenario(newScenarioName, currentInputs);
-    setScenarios(updated);
-    setNewScenarioName(generateDefaultName(currentInputs, updated.length));
-    if (onScenarioSaved) onScenarioSaved();
+    const result = saveScenario(newScenarioName, currentInputs);
+    if (result.success) {
+      setScenarios(result.scenarios);
+      setErrorMessage(null);
+      setNewScenarioName(generateDefaultName(currentInputs, result.scenarios.length));
+      if (onScenarioSaved) onScenarioSaved();
+    } else {
+      setErrorMessage(result.error || 'Não foi possível salvar o cenário.');
+    }
   };
 
   const handleDelete = (id: string) => {
@@ -105,8 +112,11 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
               <Bookmark className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-2xl font-bold text-white uppercase tracking-wider">
-                Cenários Salvos
+              <h2 className="text-lg sm:text-2xl font-bold text-white uppercase tracking-wider flex items-center gap-3">
+                <span>Cenários Salvos</span>
+                <span className="text-xs font-mono px-2 py-0.5 border border-gold-500/40 text-gold-400 bg-gold-400/10">
+                  {scenarios.length}/10
+                </span>
               </h2>
               <p className="text-xs sm:text-sm text-neutral-400 mt-1 font-light">
                 Alterne entre diferentes propostas e imóveis salvos com apenas 1 clique.
@@ -148,7 +158,10 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
             <input
               type="text"
               value={newScenarioName}
-              onChange={(e) => setNewScenarioName(e.target.value)}
+              onChange={(e) => {
+                setNewScenarioName(e.target.value);
+                if (errorMessage) setErrorMessage(null);
+              }}
               placeholder="Nome do cenário (ex: Apto Jardins R$ 1.2M)..."
               className="flex-1 px-4 py-3 rounded-none bg-black border border-white/20 text-white text-xs sm:text-sm focus:outline-none focus:border-gold-400 transition-all font-sans"
             />
@@ -161,6 +174,20 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
               <Bookmark className="w-4 h-4 text-black" /> Salvar este Cenário
             </button>
           </form>
+
+          {/* Banner de Erro/Limite */}
+          {errorMessage && (
+            <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-none text-red-200 text-xs flex items-center justify-between animate-fadeIn">
+              <span>{errorMessage}</span>
+              <button
+                type="button"
+                onClick={() => setErrorMessage(null)}
+                className="text-red-400 hover:text-white text-xs underline ml-2 cursor-pointer"
+              >
+                Dispensar
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Lista de Cenários Salvos */}

@@ -49,6 +49,7 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
   const [newScenarioName, setNewScenarioName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -58,6 +59,7 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
     if (isOpen) {
       const list = getSavedScenarios();
       setScenarios(list);
+      setErrorMessage(null);
       setNewScenarioName(generateDefaultName(currentInputs, list.length));
       document.body.style.overflow = 'hidden';
     } else {
@@ -76,9 +78,14 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
     if (e) e.preventDefault();
     vibrateShort();
     playClickSound();
-    const updated = saveScenario(newScenarioName, currentInputs);
-    setScenarios(updated);
-    setNewScenarioName(generateDefaultName(currentInputs, updated.length));
+    const result = saveScenario(newScenarioName, currentInputs);
+    if (result.success) {
+      setScenarios(result.scenarios);
+      setErrorMessage(null);
+      setNewScenarioName(generateDefaultName(currentInputs, result.scenarios.length));
+    } else {
+      setErrorMessage(result.error || 'Não foi possível salvar o cenário.');
+    }
   };
 
   const handleDelete = (id: string) => {
@@ -206,7 +213,10 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
                   <input
                     type="text"
                     value={newScenarioName}
-                    onChange={(e) => setNewScenarioName(e.target.value)}
+                    onChange={(e) => {
+                      setNewScenarioName(e.target.value);
+                      if (errorMessage) setErrorMessage(null);
+                    }}
                     placeholder="Nome do cenário (ex: Apto Jardins R$ 1.2M)..."
                     className="flex-1 px-3.5 py-2.5 rounded-lg bg-black border border-white/20 text-white text-xs sm:text-sm focus:outline-none focus:border-gold-400 transition-all font-sans"
                   />
@@ -219,12 +229,26 @@ export const SavedScenariosModal: React.FC<SavedScenariosModalProps> = ({
                     <Bookmark className="w-4 h-4" /> Salvar este Cenário
                   </button>
                 </form>
+
+                {/* Banner de Erro/Limite */}
+                {errorMessage && (
+                  <div className="p-3 bg-red-950/50 border border-red-500/40 rounded-lg text-red-300 text-xs flex items-center justify-between animate-fadeIn">
+                    <span>{errorMessage}</span>
+                    <button
+                      type="button"
+                      onClick={() => setErrorMessage(null)}
+                      className="text-red-400 hover:text-white text-xs underline ml-2"
+                    >
+                      Dispensar
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Lista de Cenários Salvos */}
               <div className="space-y-3">
                 <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center justify-between">
-                  <span>Cenários Salvos ({scenarios.length})</span>
+                  <span>Cenários Salvos ({scenarios.length}/10)</span>
                   {scenarios.length > 0 && (
                     <span className="text-[10px] text-neutral-500 lowercase font-normal">
                       clique em "carregar" para alternar
