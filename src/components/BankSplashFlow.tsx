@@ -283,7 +283,7 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
                     />
                   </button>
 
-                  {/* Opção de Instalar PWA para Android e iOS na tela de entrada */}
+                  {/* Opção de Instalar no Celular para Android e iOS na tela de entrada */}
                   {!isStandalone && isMobileDevice && (
                     <button
                       type="button"
@@ -298,9 +298,6 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
                     >
                       <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 transition-transform group-hover:scale-110 shrink-0" />
                       <span className="font-semibold text-neutral-200 group-hover:text-white">Instalar App no Celular</span>
-                      <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-[#c2a25b]/20 px-1.5 py-0.5 border border-[#c2a25b]/50">
-                        PWA
-                      </span>
                     </button>
                   )}
                 </div>
