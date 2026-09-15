@@ -13,25 +13,19 @@ interface ComparatorModalProps {
   isOpen: boolean;
   onClose: () => void;
   comparison: ComparisonResult;
-  isSidebarCollapsed?: boolean;
 }
 
 export const ComparatorModal: React.FC<ComparatorModalProps> = ({
   isOpen,
   onClose,
   comparison,
-  isSidebarCollapsed = false,
 }) => {
   if (!isOpen) return null;
 
   const { sac, price, interestSavingsSAC, percentageSavings } = comparison;
 
   return (
-    <div
-      className={`fixed inset-0 z-[110] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-fadeIn transition-all duration-300 ${
-        isSidebarCollapsed ? 'lg:pl-[78px]' : 'lg:pl-[260px]'
-      }`}
-    >
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
       
       {/* Modal Container (Editorial Gold Border, Sharp 0px Corners) */}
       <div className="editorial-card editorial-card-gold-border animate-scaleIn w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-none bg-black p-6 sm:p-8 relative shadow-[0_0_35px_rgba(194,162,91,0.22)]">
