@@ -21,6 +21,7 @@ interface HeaderProps {
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
   showSaveNotice?: boolean;
+  saveNoticeLabel?: string;
   isHelpActive?: boolean;
   isFaqActive?: boolean;
   isTermsActive?: boolean;
@@ -42,6 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
   isAmortizationActive = false,
   isSavedScenariosActive = false,
   showSaveNotice = false,
+  saveNoticeLabel = 'Salvar',
   isHelpActive = false,
   isFaqActive = false,
   isTermsActive = false,
@@ -158,6 +160,7 @@ export const Header: React.FC<HeaderProps> = ({
         isAmortizationActive={isAmortizationActive}
         isSavedScenariosActive={isSavedScenariosActive}
         showSaveNotice={showSaveNotice}
+        saveNoticeLabel={saveNoticeLabel}
         isHelpActive={isHelpActive}
         isFaqActive={isFaqActive}
         isTermsActive={isTermsActive}
