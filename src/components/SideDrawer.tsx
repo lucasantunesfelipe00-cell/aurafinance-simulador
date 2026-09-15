@@ -130,23 +130,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none" />
 
-            {/* Topo: Logo 'bf' + escrita 'brasilfinance' + Botão de Fechar */}
-            <div className="px-4 h-[66px] border-b border-white/10 flex items-center justify-between relative z-10 bg-black shrink-0">
-              <div className="flex items-center space-x-2.5">
-                <img
-                  src="/brand/logo-source.png"
-                  alt="Logo Icon"
-                  className="w-8 h-8 shrink-0 object-contain drop-shadow-md"
-                />
-                <div className="flex items-baseline">
-                  <span className="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
-                    brasil
-                  </span>
-                  <span className="font-light text-xl text-neutral-300 tracking-normal">
-                    finance
-                  </span>
-                </div>
-              </div>
+            {/* Topo: Título do Menu + Botão de Fechar (Sem logo duplicada, pois já está no cabeçalho fixo) */}
+            <div className="px-4 py-3.5 border-b border-white/10 flex items-center justify-between relative z-10 bg-black shrink-0">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-gold-400">
+                Menu de Navegação
+              </span>
 
               <button
                 type="button"
@@ -157,11 +145,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+                className="p-1.5 px-2 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer flex items-center gap-1.5 focus:outline-none focus-visible:outline-none outline-none"
                 title="Fechar menu"
                 aria-label="Fechar menu"
               >
-                <X className="w-4 h-4 text-neutral-300 hover:text-white" />
+                <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-300">Fechar</span>
+                <X className="w-3.5 h-3.5 text-neutral-300 hover:text-white" />
               </button>
             </div>
 
