@@ -363,7 +363,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <span>Termos</span>
                 </button>
 
-                {/* Botão Especial PWA (Instalar no Celular) */}
+                {/* Botão Especial (Instalar no Celular) */}
                 <button
                   type="button"
                   onClick={() => {
@@ -373,15 +373,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-[#f3e3ba] hover:text-white transition-all text-left group cursor-pointer bg-gradient-to-r from-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/50 hover:border-[#c2a25b] mt-2 shadow-[0_0_12px_rgba(194,162,91,0.15)] rounded-none"
+                  className="w-full flex items-center space-x-2.5 px-3 py-2 text-xs font-medium text-[#f3e3ba] hover:text-white transition-all text-left group cursor-pointer bg-gradient-to-r from-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/50 hover:border-[#c2a25b] mt-2 shadow-[0_0_12px_rgba(194,162,91,0.15)] rounded-none"
                 >
-                  <div className="flex items-center space-x-2.5">
-                    <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
-                    <span className="font-semibold">Instalar App no Celular</span>
-                  </div>
-                  <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-black/60 px-1.5 py-0.5 border border-[#c2a25b]/50">
-                    PWA
-                  </span>
+                  <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+                  <span className="font-semibold">Instalar App no Celular</span>
                 </button>
               </div>
             </div>
