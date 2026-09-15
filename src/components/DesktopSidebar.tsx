@@ -462,47 +462,6 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 )
               )}
             </button>
-
-            {/* Cartão de Chamada com Design Premium na Barra Aberta */}
-            {showSaveNotice && (
-              <motion.div
-                data-save-notice="true"
-                initial={{ opacity: 0, y: -4, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -4, height: 0 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-                onClick={() => {
-                  vibrateShort();
-                  if (onOpenSavedScenarios) onOpenSavedScenarios();
-                }}
-                onMouseEnter={() => setCursorVariant('button')}
-                onMouseLeave={() => setCursorVariant('default')}
-                className="mt-1.5 p-2.5 bg-gradient-to-br from-[#1c180e] via-[#12100a] to-black border border-[#c2a25b]/70 rounded-none shadow-[0_4px_20px_rgba(0,0,0,0.85),0_0_15px_rgba(194,162,91,0.2)] cursor-pointer group/card hover:border-[#c2a25b] transition-all select-none"
-              >
-                <div className="flex items-start gap-2">
-                  <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
-                    {saveNoticeLabel === 'Cenário Salvo' ? (
-                      <Check className="w-3 h-3 text-emerald-400" />
-                    ) : (
-                      <Sparkles className="w-3 h-3 animate-pulse text-gold-300" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
-                        {saveNoticeLabel === 'Cenário Salvo' ? 'Cenário Salvo com Sucesso!' : (saveNoticeLabel || 'Salve o Cenário aqui')}
-                      </span>
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${saveNoticeLabel === 'Cenário Salvo' ? 'bg-emerald-400' : 'bg-[#c2a25b] animate-ping'}`} />
-                    </div>
-                    <p className="text-[9px] text-neutral-300 group-hover/card:text-white transition-colors mt-0.5 leading-snug">
-                      {saveNoticeLabel === 'Cenário Salvo'
-                        ? 'Sua proposta foi registrada no histórico. Clique para visualizar ou comparar.'
-                        : 'Sua simulação está pronta. Clique para salvar e comparar no histórico.'}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
           </div>
         </div>
 
