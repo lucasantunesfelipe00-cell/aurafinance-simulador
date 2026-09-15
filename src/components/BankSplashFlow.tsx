@@ -57,7 +57,8 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
               filter: 'blur(24px)',
               transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
             }}
-            className="flex-1 flex flex-col items-center justify-center p-6 bg-black"
+            onClick={() => setStage('welcome')}
+            className="flex-1 flex flex-col items-center justify-center p-6 bg-black cursor-pointer"
           >
             <div className="flex items-center justify-center w-full">
               <HeroTitle showShine onShineEnd={() => setStage('welcome')} />
@@ -250,7 +251,7 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
                     onClick={handleAccess}
                     onMouseEnter={() => setCursorVariant('button')}
                     onMouseLeave={() => setCursorVariant('default')}
-                    className="btn-lift relative w-full sm:w-[370px] max-w-full py-3.5 sm:py-3 bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] text-black font-bold text-xs uppercase tracking-widest rounded-2xl shadow-gold-glow hover:brightness-110 transition-all duration-300 active:scale-95 overflow-hidden"
+                    className="btn-lift relative w-full sm:w-[370px] max-w-full py-3.5 sm:py-3 bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] text-black font-bold text-xs uppercase tracking-widest rounded-2xl shadow-gold-glow hover:brightness-110 transition-all duration-300 active:scale-95 overflow-hidden cursor-pointer"
                   >
                     <span className="relative z-10">Acessar</span>
                     <motion.div
