@@ -1,9 +1,9 @@
-export type CategoryType = 'property' | 'vehicle' | 'personal';
+export type CategoryType = 'property';
 export type AmortizationMethod = 'SAC' | 'PRICE';
 
 export interface FinancingInputs {
   category: CategoryType;
-  propertyValue: number;         // Valor total do bem (R$)
+  propertyValue: number;         // Valor do Imóvel (R$)
   downPayment: number;            // Valor da entrada (R$)
   downPaymentPercent: number;     // % de entrada
   interestRateYearly: number;     // Taxa de juros anual (% a.a.)

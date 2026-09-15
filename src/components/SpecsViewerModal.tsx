@@ -81,9 +81,9 @@ export const SpecsViewerModal: React.FC<SpecsViewerModalProps> = ({ isOpen, onCl
               <h3 className="text-sm font-bold text-gold-400 mb-2">PRD — Product Requirement Document</h3>
               <p className="text-gray-400 mb-2">Arquivo original: <code className="text-amber-200">prd.md</code></p>
               <ul className="list-disc pl-5 space-y-1">
-                <li><strong>Visão Geral:</strong> Plataforma de inteligência financeira com simulação imobiliária, veicular e pessoal.</li>
+                <li><strong>Visão Geral:</strong> Plataforma de inteligência financeira especializada exclusivamente em Financiamento Imobiliário de alta precisão.</li>
                 <li><strong>Modalidades:</strong> Suporte completo ao Sistema de Amortização Constante (SAC) e Tabela Price.</li>
-                <li><strong>Funcionalidades P0:</strong> Form com sliders metálicos, máscaras monetárias, seguros adicionais (MIP/DFI) e matriz comparativa.</li>
+                <li><strong>Funcionalidades P0:</strong> Form com sliders metálicos, máscaras monetárias, seguros habitacionais (MIP/DFI) e matriz comparativa.</li>
               </ul>
             </div>
           )}

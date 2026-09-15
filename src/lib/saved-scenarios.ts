@@ -8,7 +8,8 @@ export interface SavedScenario {
   inputs: FinancingInputs;
 }
 
-const LOCAL_STORAGE_KEY = 'aurafinance_saved_scenarios';
+const LOCAL_STORAGE_KEY = 'brasilfinance_saved_scenarios';
+const LEGACY_STORAGE_KEY = 'aurafinance_saved_scenarios';
 
 /**
  * Recupera a lista de cenários salvos no localStorage.
@@ -16,7 +17,16 @@ const LOCAL_STORAGE_KEY = 'aurafinance_saved_scenarios';
 export function getSavedScenarios(): SavedScenario[] {
   if (typeof window === 'undefined') return [];
   try {
-    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!data) {
+      // Migração automática de chave legada se existir
+      const legacyData = localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (legacyData) {
+        data = legacyData;
+        localStorage.setItem(LOCAL_STORAGE_KEY, legacyData);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      }
+    }
     if (!data) return [];
     const parsed = JSON.parse(data);
     return Array.isArray(parsed) ? parsed : [];

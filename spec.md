@@ -70,12 +70,12 @@ Para cada mês \( k \):
 ### `src/types/financing.ts`
 
 ```typescript
-export type CategoryType = 'property' | 'vehicle' | 'personal';
+export type CategoryType = 'property'; // Especializado exclusivamente em Financiamento Imobiliário
 export type AmortizationMethod = 'SAC' | 'PRICE';
 
 export interface FinancingInputs {
   category: CategoryType;
-  propertyValue: number;       // Valor total do bem
+  propertyValue: number;       // Valor total do imóvel
   downPayment: number;          // Valor da entrada
   downPaymentPercent: number;   // % de entrada em relação ao valor total
   interestRateYearly: number;   // Taxa de juros anual (% a.a.)
@@ -113,11 +113,11 @@ export interface FinancingResult {
 ## 4. Componentes da Interface de Usuário
 
 1. **`Header`**: Logo com gradiente Ouro Metálico (`bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500`), badge de status live e controle de visualização.
-2. **`FinancingForm`**: Painel de inputs com máscaras monetárias, seletores de modalidade (Imóvel/Veículo/Pessoal, SAC/PRICE) e range sliders estilizados com luz de néon dourada (`shadow-[0_0_15px_rgba(212,175,55,0.4)]`).
-3. **`ResultsSummary`**: Grade 4-column de KPIs em cartões com glassmorphism (`backdrop-blur-md bg-black/40 border border-amber-500/20`), destacando a economia entre sistemas de amortização.
+2. **`FinancingForm`**: Painel de inputs com máscaras monetárias, seletor de amortização (SAC/PRICE), seguros regulatórios (MIP/DFI/ADM) e range sliders estilizados com luz de néon dourada (`shadow-[0_0_15px_rgba(212,175,55,0.4)]`).
+3. **`ResultsSummary`**: Grade de KPIs em cartões com glassmorphism (`backdrop-blur-md bg-black/40 border border-amber-500/20`), destacando Primeira Parcela, Última Parcela, Juros e Total Financiado.
 4. **`AmortizationChart`**: Gráfico vetorial SVG interativo construído com áreas sombreadas douradas, exibindo o declínio do saldo devedor e o crescimento acumulado de juros pago.
 5. **`AmortizationTable`**: Tabela com scroll virtual ou paginação de 12 meses por página, filtros de busca por número do mês/ano e exportação em formato `.csv` / impressão.
-6. **`ComparatorModal`**: Comparador lado a lado gerando recálculo instantâneo para SAC e PRICE com métricas de economia.
+6. **`ComparatorModal`**: Comparador lado a lado integrado à página gerando recálculo instantâneo para SAC e PRICE com métricas de economia em reais.
 
 ---
 
