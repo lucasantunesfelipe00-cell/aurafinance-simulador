@@ -295,9 +295,6 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-gold-400 flex items-center gap-1.5">
                 <Bookmark className="w-4 h-4" /> Nomear e Confirmar Cenário
               </span>
-              <span className="text-[10px] font-mono text-neutral-400">
-                Memória Local
-              </span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2">
