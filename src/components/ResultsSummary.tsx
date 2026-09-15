@@ -145,14 +145,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Botão Comparar SAC X PRICE (Fundo Preto, Pill Border, Magnético & Tátil) */}
-      <div className="flex justify-center pt-3">
+      {/* Botão Comparar SAC X PRICE (Fundo Preto, Pill Border Dourada, Magnético & Tátil) */}
+      <div className="w-full flex items-center justify-center pt-4 text-center">
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
-          className="btn-lift flex items-center space-x-3 uppercase tracking-widest text-xs sm:text-sm font-medium text-white bg-black border border-white/30 hover:border-white hover:bg-neutral-950 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer shadow-xl"
+          className="btn-lift flex items-center justify-center space-x-3 uppercase tracking-widest text-xs sm:text-sm font-medium text-white bg-black border border-gold-400/60 hover:border-gold-400 hover:bg-neutral-950 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)] mx-auto"
         >
-          <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400" />
+          <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0" />
           <span>COMPARAR SAC X PRICE</span>
         </MagneticButton>
       </div>
