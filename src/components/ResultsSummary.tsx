@@ -243,14 +243,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       </div>
 
       {/* Ações Finais: 1. Comparar SAC x PRICE | 2. Salvar Cenário | 3. Compartilhar Simulação | 4. Falar com Especialista */}
-      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 text-center flex-wrap">
+      <div className="w-full flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 pt-4 text-center">
         {/* 1. Botão de Comparar */}
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
-          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium text-white bg-black border border-gold-400/60 hover:border-gold-400 hover:bg-neutral-950 px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)] w-full sm:w-auto"
+          className="btn-lift flex items-center justify-center space-x-1.5 uppercase tracking-wider text-[10px] sm:text-xs font-medium text-white bg-black border border-gold-400/60 hover:border-gold-400 hover:bg-neutral-950 px-3 sm:px-3.5 py-2.5 rounded-full transition-all cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.15)] hover:shadow-[0_0_20px_rgba(194,162,91,0.3)] whitespace-nowrap"
         >
-          <ArrowRightLeft className="w-4 h-4 text-gold-400 shrink-0" />
+          <ArrowRightLeft className="w-3.5 h-3.5 text-gold-400 shrink-0" />
           <span>COMPARAR SAC X PRICE</span>
         </MagneticButton>
 
@@ -259,9 +259,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <MagneticButton
             type="button"
             onClick={handleStartSave}
-            className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.25)] hover:shadow-[0_0_25px_rgba(194,162,91,0.4)] w-full sm:w-auto"
+            className="btn-lift flex items-center justify-center space-x-1.5 uppercase tracking-wider text-[10px] sm:text-xs font-medium text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:from-[#b88f3c] hover:to-[#b88f3c] px-3 sm:px-3.5 py-2.5 rounded-full transition-all cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.2)] hover:shadow-[0_0_20px_rgba(194,162,91,0.35)] whitespace-nowrap"
           >
-            <Bookmark className="w-4 h-4 text-black shrink-0" />
+            <Bookmark className="w-3.5 h-3.5 text-black shrink-0" />
             <span>SALVAR CENÁRIO</span>
           </MagneticButton>
         )}
@@ -270,20 +270,20 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         <MagneticButton
           type="button"
           onClick={handleShare}
-          className={`btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer w-full sm:w-auto ${
+          className={`btn-lift flex items-center justify-center space-x-1.5 uppercase tracking-wider text-[10px] sm:text-xs font-medium px-3 sm:px-3.5 py-2.5 rounded-full transition-all cursor-pointer whitespace-nowrap ${
             isCopied
-              ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-              : 'bg-black text-white border border-white/20 hover:border-gold-400 hover:bg-neutral-950 shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:shadow-[0_0_20px_rgba(194,162,91,0.2)]'
+              ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+              : 'bg-black text-white border border-white/20 hover:border-gold-400 hover:bg-neutral-950 shadow-[0_0_12px_rgba(0,0,0,0.8)] hover:shadow-[0_0_15px_rgba(194,162,91,0.2)]'
           }`}
         >
           {isCopied ? (
             <>
-              <Check className="w-4 h-4 text-black shrink-0" />
+              <Check className="w-3.5 h-3.5 text-black shrink-0" />
               <span>LINK COPIADO!</span>
             </>
           ) : (
             <>
-              <Share2 className="w-4 h-4 text-white shrink-0" />
+              <Share2 className="w-3.5 h-3.5 text-white shrink-0" />
               <span>COMPARTILHAR SIMULAÇÃO</span>
             </>
           )}
@@ -293,9 +293,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         <MagneticButton
           type="button"
           onClick={handleWhatsAppConcierge}
-          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium text-white bg-black border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-950/30 px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.35)] w-full sm:w-auto group"
+          className="btn-lift flex items-center justify-center space-x-1.5 uppercase tracking-wider text-[10px] sm:text-xs font-medium text-white bg-black border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-950/30 px-3 sm:px-3.5 py-2.5 rounded-full transition-all cursor-pointer shadow-[0_0_12px_rgba(16,185,129,0.15)] hover:shadow-[0_0_20px_rgba(16,185,129,0.35)] group whitespace-nowrap"
         >
-          <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+          <MessageCircle className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
           <span className="text-white group-hover:text-emerald-300 transition-colors">FALAR COM ESPECIALISTA</span>
         </MagneticButton>
       </div>
