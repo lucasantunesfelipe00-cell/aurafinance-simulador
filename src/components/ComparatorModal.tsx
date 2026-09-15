@@ -6,34 +6,49 @@ import { formatPercent } from '@/lib/financing-calculator';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { X, CheckCircle2 } from 'lucide-react';
+import { setCursorVariant } from '@/lib/cursor-store';
+import { vibrateShort } from '@/lib/haptics';
 
 interface ComparatorModalProps {
   isOpen: boolean;
   onClose: () => void;
   comparison: ComparisonResult;
+  isSidebarCollapsed?: boolean;
 }
 
 export const ComparatorModal: React.FC<ComparatorModalProps> = ({
   isOpen,
   onClose,
   comparison,
+  isSidebarCollapsed = false,
 }) => {
   if (!isOpen) return null;
 
   const { sac, price, interestSavingsSAC, percentageSavings } = comparison;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
+    <div
+      className={`fixed inset-0 z-[110] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md animate-fadeIn transition-all duration-300 ${
+        isSidebarCollapsed ? 'lg:pl-[78px]' : 'lg:pl-[260px]'
+      }`}
+    >
       
-      {/* Modal Container (Editorial Sharp 0px Corners) */}
-      <div className="editorial-card animate-scaleIn w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-none border border-white/20 bg-black p-6 sm:p-8 relative">
+      {/* Modal Container (Editorial Gold Border, Sharp 0px Corners) */}
+      <div className="editorial-card editorial-card-gold-border animate-scaleIn w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-none bg-black p-6 sm:p-8 relative shadow-[0_0_35px_rgba(194,162,91,0.22)]">
 
-        {/* Botão Fechar (Full Pill 75px) */}
+        {/* Botão Fechar */}
         <button
-          onClick={onClose}
-          className="btn-lift absolute top-5 right-5 p-2 rounded-[75px] text-neutral-400 hover:text-white border border-white/20 hover:border-white transition-all z-10"
+          onClick={() => {
+            vibrateShort();
+            onClose();
+          }}
+          onMouseEnter={() => setCursorVariant('button')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="btn-lift absolute top-5 right-5 p-2 rounded-none text-[#c2a25b] hover:text-white border border-white/15 hover:border-[#c2a25b]/60 transition-all z-10 cursor-pointer"
+          title="Fechar"
+          aria-label="Fechar"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4 text-[#c2a25b]" />
         </button>
 
         {/* Título do Modal */}
