@@ -133,28 +133,28 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
     <div className="space-y-6">
 
       {/* Grade 4 KPI Cards (Editorial Sharp 0px Corners) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
         {/* Card 1: Primeira Parcela */}
         <button
           type="button"
           onPointerDown={() => handleCardActivate(1)}
           onClick={() => handleCardActivate(1)}
-          className={`text-left p-5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
             activeCard === 1
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
         >
-          <div className="flex justify-between items-start mb-3 gap-2 w-full">
-            <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-gold-400 truncate">1ª Parcela</span>
-            <DollarSign className="w-4 h-4 text-white shrink-0" />
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">1ª Parcela</span>
+            <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
           </div>
 
-          <div className="my-1 min-w-0 overflow-hidden w-full">
+          <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.firstInstallment}
-              className="text-base sm:text-xl font-normal text-white tracking-tight break-all sm:break-normal"
+              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
@@ -165,26 +165,26 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           type="button"
           onPointerDown={() => handleCardActivate(2)}
           onClick={() => handleCardActivate(2)}
-          className={`text-left p-5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
             activeCard === 2
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
         >
-          <div className="flex justify-between items-start mb-3 gap-2 w-full">
-            <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-gold-400 truncate">Última Parcela</span>
-            <TrendingDown className="w-4 h-4 text-white shrink-0" />
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Última Parcela</span>
+            <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
           </div>
 
-          <div className="my-1 min-w-0 overflow-hidden w-full">
+          <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.lastInstallment}
-              className="text-base sm:text-xl font-normal text-white tracking-tight break-all sm:break-normal"
+              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
           {result.installments.length > 0 && result.installments.length < result.termMonths && (
-            <span className="text-[9px] text-emerald-400 mt-1 block font-mono">
+            <span className="text-[9px] text-emerald-400 mt-1 block font-mono whitespace-nowrap">
               - {result.termMonths - result.installments.length} meses economizados
             </span>
           )}
@@ -195,21 +195,21 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           type="button"
           onPointerDown={() => handleCardActivate(3)}
           onClick={() => handleCardActivate(3)}
-          className={`text-left p-5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
             activeCard === 3
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
         >
-          <div className="flex justify-between items-start mb-3 gap-2 w-full">
-            <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-gold-400 truncate">Total de Juros</span>
-            <Percent className="w-4 h-4 text-white shrink-0" />
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Total de Juros</span>
+            <Percent className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
           </div>
 
-          <div className="my-1 min-w-0 overflow-hidden w-full">
+          <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.totalInterest}
-              className="text-base sm:text-xl font-normal text-white tracking-tight break-all sm:break-normal"
+              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
@@ -220,21 +220,21 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           type="button"
           onPointerDown={() => handleCardActivate(4)}
           onClick={() => handleCardActivate(4)}
-          className={`text-left p-5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
             activeCard === 4
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-gold-500/40 sm:hover:border-gold-400'
           }`}
         >
-          <div className="flex justify-between items-start mb-3 gap-2 w-full">
-            <span className="text-xs sm:text-sm font-normal uppercase tracking-wider text-gold-400 truncate">Total Geral Pago</span>
-            <Layers className="w-4 h-4 text-gold-500 shrink-0" />
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Total Geral Pago</span>
+            <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold-500 shrink-0" />
           </div>
 
-          <div className="my-1 min-w-0 overflow-hidden w-full">
+          <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.totalPaid}
-              className="text-base sm:text-xl font-normal text-white tracking-tight break-all sm:break-normal"
+              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>

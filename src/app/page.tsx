@@ -765,7 +765,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* Seletor de Abas da Análise (Ordem: Tabela, Gráfico, Resumo) */}
+            {/* Seletor de Abas da Análise (Ordem: Tabela mês a mês, Resumo e KPIs, Gráfico) */}
             <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
               {/* Aba 1: Tabela */}
               <button
@@ -789,26 +789,7 @@ export default function Home() {
                 </span>
               </button>
 
-              {/* Aba 2: Gráfico */}
-              <button
-                type="button"
-                onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
-                  activeTab === 'chart' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {activeTab === 'chart' && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
-                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                  />
-                )}
-                <LineChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span>Gráfico</span>
-              </button>
-
-              {/* Aba 3: Resumo */}
+              {/* Aba 2: Resumo e KPIs */}
               <button
                 type="button"
                 onClick={() => setActiveTab('summary')}
@@ -828,6 +809,25 @@ export default function Home() {
                   <span className="sm:hidden">Resumo</span>
                   <span className="hidden sm:inline">Resumo &amp; KPIs</span>
                 </span>
+              </button>
+
+              {/* Aba 3: Gráfico */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('chart')}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'chart' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                {activeTab === 'chart' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <LineChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span>Gráfico</span>
               </button>
             </div>
 
