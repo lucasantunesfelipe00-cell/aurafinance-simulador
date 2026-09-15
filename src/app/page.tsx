@@ -186,7 +186,7 @@ export default function Home() {
   const isTermsActive = isTermsOpen;
   const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
   const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
-  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
+  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isComparatorOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
@@ -506,7 +506,18 @@ export default function Home() {
           />
         )}
 
-        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && (
+        {isComparatorOpen && (
+          <ComparatorModal
+            isOpen={isComparatorOpen}
+            onClose={() => {
+              setIsComparatorOpen(false);
+              setIsConfigVisible(true);
+            }}
+            comparison={comparison}
+          />
+        )}
+
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isComparatorOpen && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
             <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
@@ -858,12 +869,6 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Modais Integrados */}
-      <ComparatorModal
-        isOpen={isComparatorOpen}
-        onClose={() => setIsComparatorOpen(false)}
-        comparison={comparison}
-      />
-
       <SpecsViewerModal
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
