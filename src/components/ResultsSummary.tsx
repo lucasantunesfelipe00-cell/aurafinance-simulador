@@ -129,6 +129,11 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
     openWhatsAppChat(currentInputs, result);
   };
 
+  const lastInstallmentNumber =
+    result.installments && result.installments.length > 0
+      ? result.installments[result.installments.length - 1].number
+      : result.termMonths;
+
   return (
     <div className="space-y-6">
 
@@ -147,20 +152,20 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           }`}
         >
           <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
-            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">1ª Parcela</span>
-            <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">1ª Parcela</span>
+            <DollarSign className="w-4 h-4 text-white shrink-0" />
           </div>
 
           <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.firstInstallment}
-              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
         </button>
 
-        {/* Card 2: Última Parcela */}
+        {/* Card 2: Xª Parcela (Mês final) */}
         <button
           type="button"
           onPointerDown={() => handleCardActivate(2)}
@@ -172,19 +177,21 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           }`}
         >
           <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
-            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Última Parcela</span>
-            <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">
+              {lastInstallmentNumber}ª Parcela
+            </span>
+            <TrendingDown className="w-4 h-4 text-white shrink-0" />
           </div>
 
           <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.lastInstallment}
-              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
           {result.installments.length > 0 && result.installments.length < result.termMonths && (
-            <span className="text-[9px] text-emerald-400 mt-1 block font-mono whitespace-nowrap">
+            <span className="text-[10px] text-emerald-400 mt-1 block font-mono whitespace-nowrap">
               - {result.termMonths - result.installments.length} meses economizados
             </span>
           )}
@@ -202,14 +209,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           }`}
         >
           <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
-            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Total de Juros</span>
-            <Percent className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Total de Juros</span>
+            <Percent className="w-4 h-4 text-white shrink-0" />
           </div>
 
           <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.totalInterest}
-              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
@@ -227,14 +234,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           }`}
         >
           <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
-            <span className="text-[10px] sm:text-xs font-normal uppercase tracking-wider text-gold-400 whitespace-nowrap">Total Geral Pago</span>
-            <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold-500 shrink-0" />
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Total Geral Pago</span>
+            <Layers className="w-4 h-4 text-gold-500 shrink-0" />
           </div>
 
           <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.totalPaid}
-              className="text-sm sm:text-base lg:text-lg font-normal text-white tracking-tight whitespace-nowrap"
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
           </div>
