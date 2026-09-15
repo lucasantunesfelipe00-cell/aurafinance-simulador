@@ -220,7 +220,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
         <div className="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400 relative z-10">
           <div className="flex items-center space-x-1.5 text-neutral-400">
             <CheckCircle className="w-4 h-4 text-[#c2a25b]" />
-            <span>Versão 2.4 — Atualizado e auditado em 2026</span>
+            <span>Versão 2.4 — Atualizado e revisado conforme diretrizes do Banco Central (2026)</span>
           </div>
 
           <button

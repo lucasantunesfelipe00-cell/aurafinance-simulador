@@ -269,7 +269,7 @@ export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, onClose }) => {
         <div className="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400 relative z-10">
           <div className="flex items-center space-x-1.5 text-neutral-400">
             <ShieldCheck className="w-4 h-4 text-[#c2a25b]" />
-            <span className="hidden sm:inline">Respostas auditadas segundo as diretrizes do Banco Central do Brasil</span>
+            <span className="hidden sm:inline">Respostas elaboradas segundo as diretrizes do Banco Central do Brasil</span>
             <span className="sm:hidden">FAQ Brasil Finance</span>
           </div>
 
