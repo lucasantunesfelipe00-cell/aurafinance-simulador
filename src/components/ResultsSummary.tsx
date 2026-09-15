@@ -233,8 +233,9 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Ações Finais: Comparar SAC x PRICE + Compartilhar Simulação + Salvar Cenário */}
+      {/* Ações Finais: 1. Comparar SAC x PRICE | 2. Salvar Cenário | 3. Compartilhar Simulação */}
       <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 text-center">
+        {/* 1. Botão de Comparar */}
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
@@ -244,28 +245,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <span>COMPARAR SAC X PRICE</span>
         </MagneticButton>
 
-        <MagneticButton
-          type="button"
-          onClick={handleShare}
-          className={`btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer w-full sm:w-auto ${
-            isCopied
-              ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-              : 'text-gold-400 bg-gold-400/10 border border-gold-400/60 hover:border-gold-400 hover:bg-gold-400/20 shadow-[0_0_15px_rgba(194,162,91,0.2)] hover:shadow-[0_0_25px_rgba(194,162,91,0.35)]'
-          }`}
-        >
-          {isCopied ? (
-            <>
-              <Check className="w-4 h-4 text-black shrink-0" />
-              <span>LINK COPIADO!</span>
-            </>
-          ) : (
-            <>
-              <Share2 className="w-4 h-4 text-gold-400 shrink-0" />
-              <span>COMPARTILHAR SIMULAÇÃO</span>
-            </>
-          )}
-        </MagneticButton>
-
+        {/* 2. Botão de Salvar Cenário */}
         {!isConfirmingSave && (
           <MagneticButton
             type="button"
@@ -276,6 +256,29 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             <span>SALVAR CENÁRIO</span>
           </MagneticButton>
         )}
+
+        {/* 3. Botão de Compartilhar (Fundo Preto + Texto Branco) */}
+        <MagneticButton
+          type="button"
+          onClick={handleShare}
+          className={`btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer w-full sm:w-auto ${
+            isCopied
+              ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+              : 'bg-black text-white border border-white/20 hover:border-gold-400 hover:bg-neutral-950 shadow-[0_0_15px_rgba(0,0,0,0.8)] hover:shadow-[0_0_20px_rgba(194,162,91,0.2)]'
+          }`}
+        >
+          {isCopied ? (
+            <>
+              <Check className="w-4 h-4 text-black shrink-0" />
+              <span>LINK COPIADO!</span>
+            </>
+          ) : (
+            <>
+              <Share2 className="w-4 h-4 text-white shrink-0" />
+              <span>COMPARTILHAR SIMULAÇÃO</span>
+            </>
+          )}
+        </MagneticButton>
       </div>
 
       {/* Caixa de Confirmação do Salvamento do Cenário */}
