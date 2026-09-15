@@ -195,3 +195,37 @@ describe('financing-calculator: Formatadores BRL e Percent', () => {
     expect(formatPercent(NaN)).toBe('0,00%');
   });
 });
+
+describe('financing-calculator: Custo Efetivo Total (CET / TIR por Fluxo de Caixa)', () => {
+  it('quando não há seguros ou taxas adicionais, o CET anual deve coincidir com a taxa nominal', () => {
+    const inputs: FinancingInputs = {
+      ...DEFAULT_FINANCING_INPUTS,
+      propertyValue: 500000,
+      downPayment: 100000,
+      interestRateYearly: 10.0,
+      termMonths: 120,
+      includeInsurances: false,
+    };
+
+    const result = calculateFinancing(inputs);
+    expect(result.effectiveYearlyRate).toBeCloseTo(10.0, 1);
+  });
+
+  it('quando há seguros (MIP/DFI) e taxas mensais, o CET anual deve ser superior à taxa nominal', () => {
+    const inputsWithInsurance: FinancingInputs = {
+      ...DEFAULT_FINANCING_INPUTS,
+      propertyValue: 500000,
+      downPayment: 100000,
+      interestRateYearly: 10.0,
+      termMonths: 360,
+      includeInsurances: true,
+      monthlyAdminFee: 25,
+      mipRateYearly: 0.28,
+      dfiRateYearly: 0.08,
+    };
+
+    const result = calculateFinancing(inputsWithInsurance);
+    expect(result.effectiveYearlyRate).toBeGreaterThan(10.0);
+    expect(result.effectiveYearlyRate).toBeLessThan(12.5);
+  });
+});

@@ -100,6 +100,77 @@ export function formatPercent(value: number, decimals: number = 2): string {
 }
 
 /**
+ * Calcula a Taxa Interna de Retorno (TIR / IRR) mensal de um fluxo de caixa
+ * através do método numérico de Newton-Raphson com fallback seguro de bisseção.
+ * 
+ * cashFlow[0]: -ValorFinanciado (fluxo de saída inicial no momento 0)
+ * cashFlow[1..N]: Parcelas mensais totais (fluxos de pagamento periódicos)
+ */
+export function calculateIRR(cashFlow: number[], guess: number = 0.01): number {
+  if (!cashFlow || cashFlow.length < 2) return 0;
+  const initialOutflow = cashFlow[0];
+  if (initialOutflow >= 0) return 0;
+
+  let rate = guess > -0.999 ? guess : 0.01;
+  const maxIterations = 80;
+  const tolerance = 1e-6;
+
+  for (let i = 0; i < maxIterations; i++) {
+    if (rate <= -0.999) {
+      rate = -0.999;
+    }
+
+    let npv = 0;
+    let dNpv = 0;
+
+    for (let t = 0; t < cashFlow.length; t++) {
+      const cf = cashFlow[t];
+      const discountFactor = Math.pow(1 + rate, t);
+      if (!Number.isFinite(discountFactor) || discountFactor === 0) continue;
+
+      npv += cf / discountFactor;
+      if (t > 0) {
+        dNpv -= (t * cf) / (discountFactor * (1 + rate));
+      }
+    }
+
+    if (Math.abs(npv) < tolerance) {
+      return rate;
+    }
+
+    if (Math.abs(dNpv) < 1e-12) {
+      break;
+    }
+
+    const nextRate = rate - npv / dNpv;
+    if (Math.abs(nextRate - rate) < tolerance) {
+      return nextRate;
+    }
+
+    rate = nextRate;
+  }
+
+  // Fallback para Bisseção caso Newton-Raphson não convirja
+  let low = -0.5;
+  let high = 2.0;
+  for (let j = 0; j < 50; j++) {
+    const mid = (low + high) / 2;
+    let npvMid = 0;
+    for (let t = 0; t < cashFlow.length; t++) {
+      npvMid += cashFlow[t] / Math.pow(1 + mid, t);
+    }
+    if (Math.abs(npvMid) < tolerance) return mid;
+    if (npvMid > 0) {
+      low = mid;
+    } else {
+      high = mid;
+    }
+  }
+
+  return rate > -0.999 ? rate : guess;
+}
+
+/**
  * Calcula o financiamento pelo Sistema de Amortização Constante (SAC) ou Tabela PRICE.
  */
 export function calculateFinancing(rawInputs: FinancingInputs): FinancingResult {
@@ -251,11 +322,20 @@ export function calculateFinancing(rawInputs: FinancingInputs): FinancingResult 
   const totalPaid = accumulatedPaid;
   const totalInterest = accumulatedInterest;
 
-  // Cálculo de estimativa simplificada do Custo Efetivo Total (CET) anualizado
-  const totalFinancialCost = totalInterest + totalInsurancesAndFees;
+  // Cálculo de Custo Efetivo Total (CET) anualizado pelo fluxo de caixa real (TIR / IRR - Resolução CMN 3.517)
   const actualMonths = Math.max(1, installments.length);
-  const yearlyCostFactor = Math.pow((loanAmount + totalFinancialCost) / loanAmount, 12 / actualMonths) - 1;
-  const effectiveYearlyRate = Math.max(interestRateYearly, (Number.isFinite(yearlyCostFactor) ? yearlyCostFactor * 100 : interestRateYearly));
+  let effectiveYearlyRate = interestRateYearly;
+
+  if (loanAmount > 0 && installments.length > 0) {
+    const cashFlow = [-loanAmount, ...installments.map((inst) => inst.installmentTotal)];
+    const initialGuess = monthlyRate;
+    const monthlyIrr = calculateIRR(cashFlow, initialGuess);
+
+    if (Number.isFinite(monthlyIrr) && monthlyIrr > -0.5) {
+      const annualizedCet = (Math.pow(1 + monthlyIrr, 12) - 1) * 100;
+      effectiveYearlyRate = Math.max(interestRateYearly, Math.round(annualizedCet * 100) / 100);
+    }
+  }
 
   return {
     method: amortizationMethod,
