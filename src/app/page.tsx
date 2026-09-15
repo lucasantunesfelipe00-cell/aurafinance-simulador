@@ -72,6 +72,7 @@ export default function Home() {
   const [helpInitialCategory, setHelpInitialCategory] = useState<string>('Todos');
   const [helpInitialSearch, setHelpInitialSearch] = useState<string>('');
   const [sharedBannerInfo, setSharedBannerInfo] = useState<{ name?: string } | null>(null);
+  const [saveNoticeLabel, setSaveNoticeLabel] = useState<string>('Salvar');
 
   React.useEffect(() => {
     setSavedScenariosList(getSavedScenarios());
@@ -93,6 +94,16 @@ export default function Home() {
       }
     }
   }, []);
+
+  const handleScenarioSaved = () => {
+    const list = getSavedScenarios();
+    setSavedScenariosList(list);
+    setSaveNoticeLabel('Cenário Salvo');
+    setShowSaveNotice(true);
+    setTimeout(() => {
+      setShowSaveNotice(false);
+    }, 8000);
+  };
 
   // Se o usuário clica em qualquer lugar da tela sem ser no botão ou aviso, o aviso desaparece até a próxima simulação
   React.useEffect(() => {
@@ -285,6 +296,7 @@ export default function Home() {
               isAmortizationActive={isAmortizationActive}
               isSavedScenariosActive={isSavedScenariosViewActive}
               showSaveNotice={showSaveNotice}
+              saveNoticeLabel={saveNoticeLabel}
               isHelpActive={isHelpActive}
               isFaqActive={isFaqActive}
               isTermsActive={isTermsActive}
@@ -414,6 +426,7 @@ export default function Home() {
                 isAmortizationActive={isAmortizationActive}
                 isSavedScenariosActive={isSavedScenariosViewActive}
                 showSaveNotice={showSaveNotice}
+                saveNoticeLabel={saveNoticeLabel}
                 isHelpActive={isHelpActive}
                 isFaqActive={isFaqActive}
                 isTermsActive={isTermsActive}
@@ -825,6 +838,7 @@ export default function Home() {
                     comparison={comparison}
                     onOpenComparison={() => setIsComparatorOpen(true)}
                     inputs={calculatedInputs}
+                    onScenarioSaved={handleScenarioSaved}
                   />
                 </motion.div>
               )}

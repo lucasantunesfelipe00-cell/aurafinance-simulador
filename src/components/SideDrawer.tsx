@@ -14,6 +14,8 @@ import {
   Zap,
   Bookmark,
   Sparkles,
+  ChevronRight,
+  Check,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -34,6 +36,7 @@ export interface SideDrawerProps {
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
   showSaveNotice?: boolean;
+  saveNoticeLabel?: string;
   isHelpActive?: boolean;
   isFaqActive?: boolean;
   isTermsActive?: boolean;
@@ -53,6 +56,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   isAmortizationActive = false,
   isSavedScenariosActive = false,
   showSaveNotice = false,
+  saveNoticeLabel = 'Salvar',
   isHelpActive = false,
   isFaqActive = false,
   isTermsActive = false,
@@ -246,9 +250,17 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     </div>
 
                     {showSaveNotice ? (
-                      <span className="flex items-center gap-1.5 px-2 py-0.5 bg-gradient-to-r from-[#c2a25b]/25 to-[#c2a25b]/10 border border-[#c2a25b]/70 text-gold-300 text-[9px] font-extrabold tracking-wider uppercase rounded-none shrink-0 shadow-gold-glow-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
-                        Salvar
+                      <span className={`flex items-center gap-1.5 px-2 py-0.5 border text-[9px] font-extrabold tracking-wider uppercase rounded-none shrink-0 ${
+                        saveNoticeLabel === 'Cenário Salvo'
+                          ? 'bg-emerald-500/20 border-emerald-500/70 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                          : 'bg-gradient-to-r from-[#c2a25b]/25 to-[#c2a25b]/10 border-[#c2a25b]/70 text-gold-300 shadow-gold-glow-sm'
+                      }`}>
+                        {saveNoticeLabel === 'Cenário Salvo' ? (
+                          <Check className="w-3 h-3 text-emerald-400" />
+                        ) : (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping" />
+                        )}
+                        {saveNoticeLabel || 'Salvar'}
                       </span>
                     ) : (
                       savedScenariosCount > 0 && (
@@ -278,17 +290,23 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     >
                       <div className="flex items-start gap-2">
                         <div className="p-1 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-gold-300 shrink-0 mt-0.5">
-                          <Sparkles className="w-3 h-3 animate-pulse text-gold-300" />
+                          {saveNoticeLabel === 'Cenário Salvo' ? (
+                            <Check className="w-3 h-3 text-emerald-400" />
+                          ) : (
+                            <Sparkles className="w-3 h-3 animate-pulse text-gold-300" />
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3e3ba] via-[#c2a25b] to-[#dfc07b]">
-                              Salve o Cenário aqui
+                              {saveNoticeLabel === 'Cenário Salvo' ? 'Cenário Salvo com Sucesso!' : (saveNoticeLabel || 'Salve o Cenário aqui')}
                             </span>
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#c2a25b] animate-ping shrink-0" />
+                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${saveNoticeLabel === 'Cenário Salvo' ? 'bg-emerald-400' : 'bg-[#c2a25b] animate-ping'}`} />
                           </div>
                           <p className="text-[9px] text-neutral-300 group-hover/card:text-white transition-colors mt-0.5 leading-snug">
-                            Sua simulação está pronta. Toque para salvar e comparar no histórico.
+                            {saveNoticeLabel === 'Cenário Salvo'
+                              ? 'Sua proposta foi registrada no histórico. Toque para visualizar ou comparar.'
+                              : 'Sua simulação está pronta. Toque para salvar e comparar no histórico.'}
                           </p>
                         </div>
                       </div>
