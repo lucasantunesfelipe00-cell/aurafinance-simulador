@@ -84,6 +84,10 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
                   <span className="text-neutral-300 text-xs sm:text-sm lg:text-base uppercase tracking-wider">Total de Juros:</span>
                   <FormattedBRL value={sac.totalInterest} className="font-medium text-white text-sm sm:text-base lg:text-lg" />
                 </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-neutral-300 text-xs sm:text-sm lg:text-base uppercase tracking-wider">CET Estimado (a.a.):</span>
+                  <span className="font-medium text-gold-400 font-mono text-sm sm:text-base lg:text-lg">{formatPercent(sac.effectiveYearlyRate, 2)}</span>
+                </div>
                 <div className="flex justify-between items-center border-t border-white/15 pt-3 font-normal">
                   <span className="text-white text-xs sm:text-sm lg:text-base font-medium uppercase tracking-wider">Total Geral Pago:</span>
                   <FormattedBRL value={sac.totalPaid} className="text-white text-base sm:text-lg lg:text-xl font-medium" animate />
@@ -118,6 +122,10 @@ export const ComparatorModal: React.FC<ComparatorModalProps> = ({
                 <div className="flex justify-between items-center">
                   <span className="text-neutral-300 text-xs sm:text-sm lg:text-base uppercase tracking-wider">Total de Juros:</span>
                   <FormattedBRL value={price.totalInterest} className="font-medium text-neutral-300 text-sm sm:text-base lg:text-lg" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-neutral-300 text-xs sm:text-sm lg:text-base uppercase tracking-wider">CET Estimado (a.a.):</span>
+                  <span className="font-medium text-gold-400 font-mono text-sm sm:text-base lg:text-lg">{formatPercent(price.effectiveYearlyRate, 2)}</span>
                 </div>
                 <div className="flex justify-between items-center border-t border-white/15 pt-3 font-normal">
                   <span className="text-white text-xs sm:text-sm lg:text-base font-medium uppercase tracking-wider">Total Geral Pago:</span>
