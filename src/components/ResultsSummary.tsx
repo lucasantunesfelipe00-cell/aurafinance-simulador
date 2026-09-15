@@ -254,67 +254,82 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MagneticButton>
       </div>
 
-      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) com Expansão no Hover */}
-      <div className="w-full pt-4 border-t border-white/10 mt-6">
-        <div className="w-full flex flex-row items-center justify-center gap-3 sm:gap-4 text-center">
+      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) */}
+      <div className="w-full pt-5 border-t border-white/10 mt-6">
+        <div className="w-full flex flex-row items-start justify-center gap-6 sm:gap-4 text-center">
           {/* Botão 1: Salvar Cenário */}
           {!isConfirmingSave && (
-            <MagneticButton
-              type="button"
-              onClick={handleStartSave}
-              aria-label="Salvar Cenário"
-              title="Salvar Cenário"
-              className="btn-lift group flex items-center justify-center text-xs font-medium text-gold-300 bg-neutral-950 border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 hover:text-gold-200 h-11 min-w-[44px] px-3.5 hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.15)] hover:shadow-[0_0_20px_rgba(194,162,91,0.35)]"
-            >
-              <Bookmark className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0 group-hover:scale-110 transition-transform duration-200" />
-              <span className="max-w-0 opacity-0 group-hover:max-w-[160px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
+            <div className="flex flex-col items-center">
+              <MagneticButton
+                type="button"
+                onClick={handleStartSave}
+                aria-label="Salvar Cenário"
+                title="Salvar Cenário"
+                className="btn-lift group flex items-center justify-center text-xs font-medium text-gold-300 bg-neutral-950 border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 hover:text-gold-200 w-12 h-12 sm:w-auto sm:h-11 sm:min-w-[44px] sm:px-3.5 sm:hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.15)] hover:shadow-[0_0_20px_rgba(194,162,91,0.35)] active:scale-95"
+              >
+                <Bookmark className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                <span className="hidden sm:inline-block max-w-0 opacity-0 group-hover:max-w-[160px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
+                  Salvar Cenário
+                </span>
+              </MagneticButton>
+              <span className="block sm:hidden text-[10px] font-mono tracking-wider uppercase text-gold-300/90 mt-2 max-w-[75px] leading-tight">
                 Salvar Cenário
               </span>
-            </MagneticButton>
+            </div>
           )}
 
           {/* Botão 2: Compartilhar Simulação */}
-          <MagneticButton
-            type="button"
-            onClick={handleShare}
-            aria-label="Compartilhar Simulação"
-            title="Compartilhar Simulação"
-            className={`btn-lift group flex items-center justify-center text-xs font-medium h-11 min-w-[44px] rounded-full transition-all duration-300 cursor-pointer ${
-              isCopied
-                ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.4)] px-5'
-                : 'bg-black text-neutral-200 border border-white/20 hover:border-white/50 hover:text-white hover:bg-neutral-900 shadow-[0_0_12px_rgba(0,0,0,0.8)] hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] px-3.5 hover:px-5'
-            }`}
-          >
-            {isCopied ? (
-              <>
-                <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-black shrink-0" />
-                <span className="ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium animate-fadeIn">
-                  Link Copiado!
-                </span>
-              </>
-            ) : (
-              <>
-                <Share2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-neutral-300 shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                <span className="max-w-0 opacity-0 group-hover:max-w-[180px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
-                  Compartilhar
-                </span>
-              </>
-            )}
-          </MagneticButton>
+          <div className="flex flex-col items-center">
+            <MagneticButton
+              type="button"
+              onClick={handleShare}
+              aria-label="Compartilhar Simulação"
+              title="Compartilhar Simulação"
+              className={`btn-lift group flex items-center justify-center text-xs font-medium w-12 h-12 sm:w-auto sm:h-11 sm:min-w-[44px] rounded-full transition-all duration-300 cursor-pointer active:scale-95 ${
+                isCopied
+                  ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.4)] sm:px-5'
+                  : 'bg-black text-neutral-200 border border-white/20 hover:border-white/50 hover:text-white hover:bg-neutral-900 shadow-[0_0_12px_rgba(0,0,0,0.8)] hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] sm:px-3.5 sm:hover:px-5'
+              }`}
+            >
+              {isCopied ? (
+                <>
+                  <Check className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-black shrink-0" />
+                  <span className="hidden sm:inline-block sm:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium animate-fadeIn">
+                    Link Copiado!
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-neutral-300 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  <span className="hidden sm:inline-block max-w-0 opacity-0 group-hover:max-w-[180px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
+                    Compartilhar
+                  </span>
+                </>
+              )}
+            </MagneticButton>
+            <span className={`block sm:hidden text-[10px] font-mono tracking-wider uppercase mt-2 max-w-[80px] leading-tight ${isCopied ? 'text-emerald-400' : 'text-neutral-300'}`}>
+              {isCopied ? 'Copiado!' : 'Compartilhar'}
+            </span>
+          </div>
 
           {/* Botão 3: Falar com Especialista (Concierge WhatsApp) */}
-          <MagneticButton
-            type="button"
-            onClick={handleWhatsAppConcierge}
-            aria-label="Falar com Especialista"
-            title="Falar com Especialista"
-            className="btn-lift group flex items-center justify-center text-xs font-medium text-white bg-gradient-to-r from-emerald-950/70 via-black to-emerald-950/70 border border-emerald-500/60 hover:border-emerald-400 hover:from-emerald-900/50 hover:to-emerald-900/50 h-11 min-w-[44px] px-3.5 hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.45)]"
-          >
-            <MessageCircle className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
-            <span className="max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium text-emerald-300 transition-all duration-300 ease-out">
+          <div className="flex flex-col items-center">
+            <MagneticButton
+              type="button"
+              onClick={handleWhatsAppConcierge}
+              aria-label="Falar com Especialista"
+              title="Falar com Especialista"
+              className="btn-lift group flex items-center justify-center text-xs font-medium text-white bg-gradient-to-r from-emerald-950/70 via-black to-emerald-950/70 border border-emerald-500/60 hover:border-emerald-400 hover:from-emerald-900/50 hover:to-emerald-900/50 w-12 h-12 sm:w-auto sm:h-11 sm:min-w-[44px] sm:px-3.5 sm:hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.45)] active:scale-95"
+            >
+              <MessageCircle className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-emerald-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              <span className="hidden sm:inline-block max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium text-emerald-300 transition-all duration-300 ease-out">
+                Falar com Especialista
+              </span>
+            </MagneticButton>
+            <span className="block sm:hidden text-[10px] font-mono tracking-wider uppercase text-emerald-400 mt-2 max-w-[85px] leading-tight">
               Falar com Especialista
             </span>
-          </MagneticButton>
+          </div>
         </div>
       </div>
 
