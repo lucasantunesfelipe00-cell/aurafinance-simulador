@@ -22,6 +22,8 @@ import { HelpModal } from '@/components/HelpModal';
 import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
 import { SavedScenariosView } from '@/components/SavedScenariosView';
+import { ScenarioComparatorModal } from '@/components/ScenarioComparatorModal';
+import { ScenarioItem } from '@/lib/scenario-comparator';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
 import { parseShareUrl } from '@/lib/share-url';
 import { SimulationLoader } from '@/components/SimulationLoader';
@@ -59,6 +61,9 @@ export default function Home() {
   const [isConfigVisible, setIsConfigVisible] = useState(true);
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('table');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
+  const [isScenarioComparatorOpen, setIsScenarioComparatorOpen] = useState(false);
+  const [comparatorScenarioA, setComparatorScenarioA] = useState<ScenarioItem | null>(null);
+  const [comparatorScenarioB, setComparatorScenarioB] = useState<ScenarioItem | null>(null);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -152,8 +157,21 @@ export default function Home() {
     setIsFaqOpen(false);
     setIsTermsOpen(false);
     setIsExtraAmortizationOpen(false);
+    setIsScenarioComparatorOpen(false);
     setIsSavedScenariosActive(true);
     setShowSaveNotice(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenScenarioComparator = (scA: ScenarioItem, scB: ScenarioItem) => {
+    setComparatorScenarioA(scA);
+    setComparatorScenarioB(scB);
+    setIsScenarioComparatorOpen(true);
+    setIsSavedScenariosActive(false);
+    setIsHelpOpen(false);
+    setIsFaqOpen(false);
+    setIsTermsOpen(false);
+    setIsExtraAmortizationOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -213,6 +231,9 @@ export default function Home() {
     setActiveTab('table');
     setIsSimulating(false);
     setIsSavedScenariosActive(false);
+    setIsScenarioComparatorOpen(false);
+    setComparatorScenarioA(null);
+    setComparatorScenarioB(null);
     setShowSaveNotice(false);
     setIsConfigVisible(true);
   };
@@ -220,9 +241,9 @@ export default function Home() {
   const isHelpActive = isHelpOpen;
   const isFaqActive = isFaqOpen;
   const isTermsActive = isTermsOpen;
-  const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
-  const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen;
-  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isComparatorOpen;
+  const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen;
+  const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen;
+  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isComparatorOpen && !isScenarioComparatorOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
@@ -517,6 +538,24 @@ export default function Home() {
             onScenarioSaved={() => {
               setSavedScenariosList(getSavedScenarios());
             }}
+            onOpenScenarioComparator={handleOpenScenarioComparator}
+          />
+        )}
+
+        {isScenarioComparatorOpen && comparatorScenarioA && comparatorScenarioB && (
+          <ScenarioComparatorModal
+            isOpen={isScenarioComparatorOpen}
+            onClose={() => {
+              setIsScenarioComparatorOpen(false);
+              setIsSavedScenariosActive(true);
+            }}
+            scenarioA={comparatorScenarioA}
+            scenarioB={comparatorScenarioB}
+            availableScenarios={savedScenariosList}
+            currentInputs={inputs}
+            onSelectScenarioA={setComparatorScenarioA}
+            onSelectScenarioB={setComparatorScenarioB}
+            onApplyScenario={handleSelectScenario}
           />
         )}
 
@@ -531,7 +570,7 @@ export default function Home() {
           />
         )}
 
-        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isComparatorOpen && (
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
             <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
