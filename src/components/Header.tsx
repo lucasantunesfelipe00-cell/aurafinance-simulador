@@ -16,10 +16,12 @@ interface HeaderProps {
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
   onOpenSavedScenarios?: () => void;
+  onOpenRentVsBuy?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
+  isRentVsBuyActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -38,10 +40,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenFaq,
   onOpenTerms,
   onOpenSavedScenarios,
+  onOpenRentVsBuy,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isSavedScenariosActive = false,
+  isRentVsBuyActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -155,10 +159,15 @@ export const Header: React.FC<HeaderProps> = ({
           setIsDrawerOpen(false);
           if (onOpenSavedScenarios) onOpenSavedScenarios();
         }}
+        onOpenRentVsBuy={() => {
+          setIsDrawerOpen(false);
+          if (onOpenRentVsBuy) onOpenRentVsBuy();
+        }}
         savedScenariosCount={savedScenariosCount}
         isConfigActive={isConfigActive}
         isAmortizationActive={isAmortizationActive}
         isSavedScenariosActive={isSavedScenariosActive}
+        isRentVsBuyActive={isRentVsBuyActive}
         showSaveNotice={showSaveNotice}
         saveNoticeLabel={saveNoticeLabel}
         isHelpActive={isHelpActive}

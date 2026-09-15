@@ -23,6 +23,7 @@ import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
 import { SavedScenariosView } from '@/components/SavedScenariosView';
 import { ScenarioComparatorModal } from '@/components/ScenarioComparatorModal';
+import { RentVsBuyModal } from '@/components/RentVsBuyModal';
 import { ScenarioItem } from '@/lib/scenario-comparator';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
 import { parseShareUrl } from '@/lib/share-url';
@@ -62,6 +63,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('table');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isScenarioComparatorOpen, setIsScenarioComparatorOpen] = useState(false);
+  const [isRentVsBuyOpen, setIsRentVsBuyOpen] = useState(false);
   const [comparatorScenarioA, setComparatorScenarioA] = useState<ScenarioItem | null>(null);
   const [comparatorScenarioB, setComparatorScenarioB] = useState<ScenarioItem | null>(null);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
@@ -317,10 +319,14 @@ export default function Home() {
                 }, 100);
               }}
               onOpenSavedScenarios={handleOpenSavedScenarios}
+              onOpenRentVsBuy={() => {
+                setIsRentVsBuyOpen(true);
+              }}
               savedScenariosCount={savedScenariosList.length}
               isConfigActive={isConfigActive}
               isAmortizationActive={isAmortizationActive}
               isSavedScenariosActive={isSavedScenariosViewActive}
+              isRentVsBuyActive={isRentVsBuyOpen}
               showSaveNotice={showSaveNotice}
               saveNoticeLabel={saveNoticeLabel}
               isHelpActive={isHelpActive}
@@ -447,10 +453,14 @@ export default function Home() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenSavedScenarios={handleOpenSavedScenarios}
+                onOpenRentVsBuy={() => {
+                  setIsRentVsBuyOpen(true);
+                }}
                 savedScenariosCount={savedScenariosList.length}
                 isConfigActive={isConfigActive}
                 isAmortizationActive={isAmortizationActive}
                 isSavedScenariosActive={isSavedScenariosViewActive}
+                isRentVsBuyActive={isRentVsBuyOpen}
                 showSaveNotice={showSaveNotice}
                 saveNoticeLabel={saveNoticeLabel}
                 isHelpActive={isHelpActive}
@@ -884,6 +894,7 @@ export default function Home() {
                     result={result}
                     comparison={comparison}
                     onOpenComparison={() => setIsComparatorOpen(true)}
+                    onOpenRentVsBuy={() => setIsRentVsBuyOpen(true)}
                     inputs={calculatedInputs}
                     onScenarioSaved={handleScenarioSaved}
                   />
@@ -930,6 +941,12 @@ export default function Home() {
       <SpecsViewerModal
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
+      />
+
+      <RentVsBuyModal
+        isOpen={isRentVsBuyOpen}
+        onClose={() => setIsRentVsBuyOpen(false)}
+        currentInputs={calculatedInputs}
       />
 
     </div>

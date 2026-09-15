@@ -25,6 +25,7 @@ import {
   MessageCircle,
   Building,
   Wallet,
+  Scale,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -32,6 +33,7 @@ interface ResultsSummaryProps {
   result: FinancingResult;
   comparison: ComparisonResult;
   onOpenComparison: () => void;
+  onOpenRentVsBuy?: () => void;
   inputs?: FinancingInputs;
   onScenarioSaved?: () => void;
 }
@@ -40,6 +42,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   result,
   comparison,
   onOpenComparison,
+  onOpenRentVsBuy,
   inputs,
   onScenarioSaved,
 }) => {
@@ -302,15 +305,26 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       </div>
 
       {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}
-      <div className="w-full flex items-center justify-center pt-2.5 sm:pt-3.5">
+      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-2.5 sm:pt-3.5">
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
-          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-medium sm:font-semibold text-white bg-black border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 py-3 px-5 sm:px-7 rounded-full transition-all cursor-pointer shadow-[0_0_16px_rgba(194,162,91,0.18)] hover:shadow-[0_0_26px_rgba(194,162,91,0.35)] whitespace-nowrap w-full sm:w-auto"
+          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-medium sm:font-semibold text-white bg-black border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 py-3 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_16px_rgba(194,162,91,0.18)] hover:shadow-[0_0_26px_rgba(194,162,91,0.35)] whitespace-nowrap w-full sm:w-auto"
         >
           <ArrowRightLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0" />
           <span>COMPARAR TABELAS: SAC X PRICE</span>
         </MagneticButton>
+
+        {onOpenRentVsBuy && (
+          <MagneticButton
+            type="button"
+            onClick={onOpenRentVsBuy}
+            className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-medium sm:font-semibold text-white bg-gradient-to-r from-[#1a160d] via-black to-[#1a160d] border border-gold-400 hover:border-gold-300 hover:bg-gold-500/15 py-3 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_20px_rgba(194,162,91,0.22)] hover:shadow-[0_0_30px_rgba(194,162,91,0.4)] whitespace-nowrap w-full sm:w-auto"
+          >
+            <Scale className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0" />
+            <span>COMPRAR VS. ALUGAR &amp; INVESTIR</span>
+          </MagneticButton>
+        )}
       </div>
 
       {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) */}
