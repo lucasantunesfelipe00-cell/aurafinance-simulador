@@ -15,6 +15,7 @@ import {
   Bookmark,
   Sparkles,
   Check,
+  Scale,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -30,10 +31,12 @@ export interface DesktopSidebarProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenSavedScenarios?: () => void;
+  onOpenRentVsBuy?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
+  isRentVsBuyActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -51,10 +54,12 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenSavedScenarios,
+  onOpenRentVsBuy,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isSavedScenariosActive = false,
+  isRentVsBuyActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -110,6 +115,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       icon: Bookmark,
       action: () => onOpenSavedScenarios && onOpenSavedScenarios(),
       isActive: Boolean(isSavedScenariosActive),
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'rentVsBuy',
+      label: 'Comprar vs Alugar',
+      icon: Scale,
+      action: () => onOpenRentVsBuy && onOpenRentVsBuy(),
+      isActive: Boolean(isRentVsBuyActive),
       iconColor: 'text-gold-400',
     },
     {

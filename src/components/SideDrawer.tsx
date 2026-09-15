@@ -16,6 +16,7 @@ import {
   Sparkles,
   ChevronRight,
   Check,
+  Scale,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -31,10 +32,12 @@ export interface SideDrawerProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenSavedScenarios?: () => void;
+  onOpenRentVsBuy?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
+  isRentVsBuyActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -51,10 +54,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenSavedScenarios,
+  onOpenRentVsBuy,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isSavedScenariosActive = false,
+  isRentVsBuyActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -271,6 +276,25 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     )}
                   </button>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    vibrateShort();
+                    onClose();
+                    if (onOpenRentVsBuy) onOpenRentVsBuy();
+                  }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isRentVsBuyActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                  }`}
+                >
+                  <Scale className={`w-4 h-4 shrink-0 ${isRentVsBuyActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                  <span>Comprar vs Alugar</span>
+                </button>
               </div>
 
               {/* Seção: Suporte */}
