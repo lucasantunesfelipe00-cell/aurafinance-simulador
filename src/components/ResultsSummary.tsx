@@ -8,6 +8,7 @@ import { MouseGlow } from '@/components/MouseGlow';
 import { MagneticButton } from '@/components/MagneticButton';
 import { copyShareUrlToClipboard } from '@/lib/share-url';
 import { saveScenario, generateDefaultName, getSavedScenarios } from '@/lib/saved-scenarios';
+import { openWhatsAppChat } from '@/lib/whatsapp';
 import { vibrateShort } from '@/lib/haptics';
 import { playClickSound } from '@/lib/sound';
 import {
@@ -21,6 +22,7 @@ import {
   Bookmark,
   X,
   Plus,
+  MessageCircle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -118,6 +120,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
     if (onScenarioSaved) {
       onScenarioSaved();
     }
+  };
+
+  const handleWhatsAppConcierge = () => {
+    vibrateShort();
+    playClickSound();
+    const currentInputs = getCurrentInputs();
+    openWhatsAppChat(currentInputs, result);
   };
 
   return (
@@ -233,8 +242,8 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
-      {/* Ações Finais: 1. Comparar SAC x PRICE | 2. Salvar Cenário | 3. Compartilhar Simulação */}
-      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 text-center">
+      {/* Ações Finais: 1. Comparar SAC x PRICE | 2. Salvar Cenário | 3. Compartilhar Simulação | 4. Falar com Especialista */}
+      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 text-center flex-wrap">
         {/* 1. Botão de Comparar */}
         <MagneticButton
           type="button"
@@ -278,6 +287,16 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
               <span>COMPARTILHAR SIMULAÇÃO</span>
             </>
           )}
+        </MagneticButton>
+
+        {/* 4. Botão Falar com Especialista / Assessor de Crédito (Concierge WhatsApp Inteligente) */}
+        <MagneticButton
+          type="button"
+          onClick={handleWhatsAppConcierge}
+          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-widest text-xs font-medium text-white bg-black border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-950/30 px-5 sm:px-6 py-3.5 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.35)] w-full sm:w-auto group"
+        >
+          <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+          <span className="text-white group-hover:text-emerald-300 transition-colors">FALAR COM ESPECIALISTA</span>
         </MagneticButton>
       </div>
 
