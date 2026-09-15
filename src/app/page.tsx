@@ -862,6 +862,7 @@ export default function Home() {
         isOpen={isComparatorOpen}
         onClose={() => setIsComparatorOpen(false)}
         comparison={comparison}
+        isSidebarCollapsed={isSidebarCollapsed}
       />
 
       <SpecsViewerModal
