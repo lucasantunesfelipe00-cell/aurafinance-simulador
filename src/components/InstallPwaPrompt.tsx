@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Smartphone, Share, PlusSquare, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Smartphone, Share, PlusSquare, Sparkles, MoreVertical, ArrowRight, Check } from 'lucide-react';
 import { vibrateShort } from '@/lib/haptics';
 import { setCursorVariant } from '@/lib/cursor-store';
 
@@ -16,7 +16,7 @@ export function InstallPwaPrompt() {
   const [isVisible, setIsVisible] = useState(false);
   const [isIos, setIsIos] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
-  const [showIosGuide, setShowIosGuide] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -41,9 +41,12 @@ export function InstallPwaPrompt() {
     };
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
-    // Escuta evento customizado disparado manualmente pelo menu lateral
+    // Escuta evento customizado disparado manualmente (pela tela de entrada ou pelo menu)
     const handleManualOpen = () => {
       setIsVisible(true);
+      if (isIosDevice) {
+        setShowGuide(true);
+      }
     };
     window.addEventListener('open-pwa-install', handleManualOpen);
 
@@ -74,7 +77,7 @@ export function InstallPwaPrompt() {
   const handleInstallClick = async () => {
     vibrateShort();
     if (isIos) {
-      setShowIosGuide(true);
+      setShowGuide(true);
       return;
     }
 
@@ -86,19 +89,18 @@ export function InstallPwaPrompt() {
       }
       setDeferredPrompt(null);
     } else {
-      // Caso o navegador não tenha deferredPrompt disponível no momento (ex: Safari ou Chrome já instalado)
-      setShowIosGuide(true);
+      setShowGuide(true);
     }
   };
 
   const handleDismiss = () => {
     vibrateShort();
     setIsVisible(false);
-    setShowIosGuide(false);
+    setShowGuide(false);
     try {
       localStorage.setItem('pwa_install_dismissed_at', Date.now().toString());
     } catch {
-      // Ignora erro de localStorage caso bloqueado
+      // Ignora erro de localStorage
     }
   };
 
@@ -106,13 +108,13 @@ export function InstallPwaPrompt() {
 
   return (
     <AnimatePresence>
-      <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-[99999] max-w-md pointer-events-auto select-none font-sans">
+      <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-[999999] max-w-md pointer-events-auto select-none font-sans">
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.94 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.94 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-neutral-950/95 border border-[#c2a25b]/80 rounded-none shadow-[0_16px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(194,162,91,0.3)] backdrop-blur-xl p-4 overflow-hidden"
+          className="relative bg-neutral-950/98 border border-[#c2a25b]/80 rounded-none shadow-[0_16px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(194,162,91,0.3)] backdrop-blur-2xl p-4 overflow-hidden"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#c2a25b]/15 to-transparent pointer-events-none" />
@@ -140,11 +142,11 @@ export function InstallPwaPrompt() {
                     Aplicativo Nativo
                   </span>
                   <span className="px-1.5 py-0.2 bg-[#c2a25b]/20 border border-[#c2a25b]/50 text-[#f3e3ba] text-[8px] font-extrabold uppercase">
-                    PWA
+                    {isIos ? 'iOS / iPhone' : 'Android / Web'}
                   </span>
                 </div>
                 <h4 className="text-xs sm:text-sm font-extrabold text-white leading-tight mt-0.5">
-                  Instalar o simulador como app no seu celular
+                  Instalar Simulador no Celular
                 </h4>
               </div>
             </div>
@@ -165,13 +167,13 @@ export function InstallPwaPrompt() {
 
           {/* Subtítulo / Descrição de benefícios */}
           <p className="text-[11px] text-neutral-300 mt-2.5 leading-relaxed relative z-10 text-left">
-            Ganhe o ícone dourado na sua tela inicial e abra o simulador instantaneamente em{' '}
-            <strong className="text-[#f3e3ba] font-semibold">tela cheia</strong>, sem a barra de endereços do navegador.
+            Tenha o simulador como app independente na sua tela inicial: abre instantaneamente em{' '}
+            <strong className="text-[#f3e3ba] font-semibold">tela cheia</strong>, com cálculo offline e máxima performance.
           </p>
 
-          {/* Guia Visual Passo a Passo para iOS (quando expandido ou no iPhone) */}
+          {/* Guia Passo a Passo (iOS e Android) */}
           <AnimatePresence>
-            {showIosGuide && (
+            {showGuide && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -181,45 +183,80 @@ export function InstallPwaPrompt() {
               >
                 <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#c2a25b]">
                   <Sparkles className="w-3 h-3 text-gold-300" />
-                  <span>Como instalar no iPhone / iPad:</span>
+                  <span>
+                    {isIos ? 'Como instalar no iPhone / iPad (Safari):' : 'Como instalar no Android (Chrome):'}
+                  </span>
                 </div>
 
-                <div className="space-y-1.5 text-[10px] text-neutral-300 bg-black/60 p-2.5 border border-white/10">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
-                      1
+                {isIos ? (
+                  /* Passo a passo iPhone / iPad */
+                  <div className="space-y-1.5 text-[10px] text-neutral-300 bg-black/60 p-2.5 border border-white/10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        1
+                      </div>
+                      <span>
+                        No Safari, toque no botão de{' '}
+                        <strong className="text-white inline-flex items-center gap-1">
+                          Compartilhar <Share className="w-3 h-3 text-sky-400 inline" />
+                        </strong>{' '}
+                        na barra inferior.
+                      </span>
                     </div>
-                    <span>
-                      No Safari, toque no botão de{' '}
-                      <strong className="text-white inline-flex items-center gap-1">
-                        Compartilhar <Share className="w-3 h-3 text-sky-400 inline" />
-                      </strong>{' '}
-                      (barra inferior).
-                    </span>
-                  </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
-                      2
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        2
+                      </div>
+                      <span>
+                        Role a lista e toque em{' '}
+                        <strong className="text-white inline-flex items-center gap-1">
+                          Adicionar à Tela de Início <PlusSquare className="w-3 h-3 text-[#c2a25b] inline" />
+                        </strong>
+                        .
+                      </span>
                     </div>
-                    <span>
-                      Role a lista e toque em{' '}
-                      <strong className="text-white inline-flex items-center gap-1">
-                        Adicionar à Tela de Início <PlusSquare className="w-3 h-3 text-[#c2a25b] inline" />
-                      </strong>
-                      .
-                    </span>
-                  </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
-                      3
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        3
+                      </div>
+                      <span>
+                        Toque em <strong className="text-white">Adicionar</strong> no canto superior direito.
+                      </span>
                     </div>
-                    <span>
-                      Toque em <strong className="text-white">Adicionar</strong> no canto superior direito.
-                    </span>
                   </div>
-                </div>
+                ) : (
+                  /* Passo a passo Android / Chrome */
+                  <div className="space-y-1.5 text-[10px] text-neutral-300 bg-black/60 p-2.5 border border-white/10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        1
+                      </div>
+                      <span>
+                        Toque nos <strong className="text-white">três pontinhos <MoreVertical className="w-3 h-3 inline" /></strong> no canto superior do navegador.
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        2
+                      </div>
+                      <span>
+                        Selecione <strong className="text-white">Instalar aplicativo</strong> ou <strong className="text-white">Adicionar à tela inicial</strong>.
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-[#c2a25b]/20 border border-[#c2a25b]/60 flex items-center justify-center shrink-0 text-gold-300 text-[9px] font-black">
+                        3
+                      </div>
+                      <span>
+                        Confirme clicando em <strong className="text-white">Instalar</strong>.
+                      </span>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -244,7 +281,15 @@ export function InstallPwaPrompt() {
               className="px-3.5 py-1.5 bg-gradient-to-r from-[#c2a25b] to-[#a47e35] text-black text-[11px] font-black tracking-wider uppercase flex items-center gap-1.5 shadow-[0_0_15px_rgba(194,162,91,0.4)] hover:brightness-110 active:scale-95 transition-all cursor-pointer"
             >
               <Smartphone className="w-3.5 h-3.5 text-black" />
-              <span>{isIos && !showIosGuide ? 'Ver Como Instalar' : deferredPrompt ? 'Instalar Agora' : 'Instalar no Celular'}</span>
+              <span>
+                {showGuide
+                  ? 'Entendido'
+                  : isIos
+                  ? 'Como Instalar (iOS)'
+                  : deferredPrompt
+                  ? 'Instalar Agora'
+                  : 'Instalar no Celular'}
+              </span>
               <ArrowRight className="w-3 h-3 text-black" />
             </button>
           </div>
