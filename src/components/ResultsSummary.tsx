@@ -243,13 +243,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       </div>
 
       {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}
-      <div className="w-full flex items-center justify-center pt-2">
+      <div className="w-full flex items-center justify-center pt-3 sm:pt-4">
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
-          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs font-medium text-white bg-black border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 py-3 sm:py-2.5 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.15)] hover:shadow-[0_0_25px_rgba(194,162,91,0.3)] whitespace-nowrap w-full sm:w-auto"
+          className="btn-lift flex items-center justify-center space-x-2 sm:space-x-2.5 uppercase tracking-wider sm:tracking-widest text-xs sm:text-sm font-medium sm:font-semibold text-white bg-black border border-gold-400/60 hover:border-gold-300 hover:bg-gold-500/10 py-3 sm:py-3.5 px-5 sm:px-8 rounded-full transition-all cursor-pointer shadow-[0_0_18px_rgba(194,162,91,0.2)] hover:shadow-[0_0_30px_rgba(194,162,91,0.4)] whitespace-nowrap w-full sm:w-auto"
         >
-          <ArrowRightLeft className="w-4 h-4 text-gold-400 shrink-0" />
+          <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0" />
           <span>COMPARAR TABELAS: SAC X PRICE</span>
         </MagneticButton>
       </div>
