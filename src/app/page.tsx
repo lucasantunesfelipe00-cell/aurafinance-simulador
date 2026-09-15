@@ -390,73 +390,13 @@ export default function Home() {
                 }}
                 onOpenSavedScenarios={handleOpenSavedScenarios}
                 savedScenariosCount={savedScenariosList.length}
-                showSaveNotice={showSaveNotice}
-                activeTab={activeTab}
-              />
-
-              {/* SideDrawer para Telas Menores */}
-              <SideDrawer
-                isOpen={false}
-                onClose={() => {}}
-                onOpenHelp={() => {
-                  setHelpInitialTab('manual');
-                  setHelpInitialCategory('Todos');
-                  setHelpInitialSearch('');
-                  setIsHelpOpen(true);
-                  setIsFaqOpen(false);
-                  setIsTermsOpen(false);
-                  setIsExtraAmortizationOpen(false);
-                  setIsSavedScenariosActive(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onOpenFaq={() => {
-                  setIsFaqOpen(true);
-                  setIsHelpOpen(false);
-                  setIsTermsOpen(false);
-                  setIsExtraAmortizationOpen(false);
-                  setIsSavedScenariosActive(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onOpenTerms={() => {
-                  setIsTermsOpen(true);
-                  setIsHelpOpen(false);
-                  setIsFaqOpen(false);
-                  setIsExtraAmortizationOpen(false);
-                  setIsSavedScenariosActive(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onSelectTab={(tab) => {
-                  setActiveTab(tab);
-                  setHasCalculated(true);
-                  setTimeout(() => {
-                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 100);
-                }}
-                onOpenSimulator={() => {
-                  setIsHelpOpen(false);
-                  setIsFaqOpen(false);
-                  setIsTermsOpen(false);
-                  setIsExtraAmortizationOpen(false);
-                  setIsSavedScenariosActive(false);
-                  setIsConfigVisible(true);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onOpenAmortization={() => {
-                  setIsHelpOpen(false);
-                  setIsFaqOpen(false);
-                  setIsTermsOpen(false);
-                  setIsSavedScenariosActive(false);
-                  setIsExtraAmortizationOpen(true);
-                  setHasCalculated(true);
-                  setTimeout(() => {
-                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 100);
-                }}
-                onOpenComparator={() => setIsComparatorOpen(true)}
-                onOpenSavedScenarios={handleOpenSavedScenarios}
-                savedScenariosCount={savedScenariosList.length}
+                isConfigActive={isConfigActive}
+                isAmortizationActive={isAmortizationActive}
                 isSavedScenariosActive={isSavedScenariosViewActive}
                 showSaveNotice={showSaveNotice}
+                isHelpActive={isHelpActive}
+                isFaqActive={isFaqActive}
+                isTermsActive={isTermsActive}
                 activeTab={activeTab}
               />
 

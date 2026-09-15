@@ -17,7 +17,13 @@ interface HeaderProps {
   onOpenTerms?: () => void;
   onOpenSavedScenarios?: () => void;
   savedScenariosCount?: number;
+  isConfigActive?: boolean;
+  isAmortizationActive?: boolean;
+  isSavedScenariosActive?: boolean;
   showSaveNotice?: boolean;
+  isHelpActive?: boolean;
+  isFaqActive?: boolean;
+  isTermsActive?: boolean;
   activeTab?: 'summary' | 'chart' | 'table';
 }
 
@@ -32,7 +38,13 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTerms,
   onOpenSavedScenarios,
   savedScenariosCount = 0,
+  isConfigActive = false,
+  isAmortizationActive = false,
+  isSavedScenariosActive = false,
   showSaveNotice = false,
+  isHelpActive = false,
+  isFaqActive = false,
+  isTermsActive = false,
   activeTab = 'summary',
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -129,17 +141,26 @@ export const Header: React.FC<HeaderProps> = ({
           setIsDrawerOpen(false);
           if (onOpenTerms) onOpenTerms();
         }}
-        onSelectTab={onSelectTab}
-        onOpenSimulator={onOpenSimulator}
-        onOpenAmortization={onOpenAmortization}
-        onOpenComparator={onOpenComparator}
+        onOpenSimulator={() => {
+          setIsDrawerOpen(false);
+          if (onOpenSimulator) onOpenSimulator();
+        }}
+        onOpenAmortization={() => {
+          setIsDrawerOpen(false);
+          if (onOpenAmortization) onOpenAmortization();
+        }}
         onOpenSavedScenarios={() => {
           setIsDrawerOpen(false);
           if (onOpenSavedScenarios) onOpenSavedScenarios();
         }}
         savedScenariosCount={savedScenariosCount}
+        isConfigActive={isConfigActive}
+        isAmortizationActive={isAmortizationActive}
+        isSavedScenariosActive={isSavedScenariosActive}
         showSaveNotice={showSaveNotice}
-        activeTab={activeTab}
+        isHelpActive={isHelpActive}
+        isFaqActive={isFaqActive}
+        isTermsActive={isTermsActive}
       />
 
       {/* Linha de brilho sutil com gradiente da paleta dourada */}
