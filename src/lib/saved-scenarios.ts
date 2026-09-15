@@ -231,6 +231,35 @@ export function getSavedScenarios(): SavedScenario[] {
 }
 
 /**
+ * Compara se dois conjuntos de parâmetros de financiamento são idênticos.
+ */
+export function areInputsIdentical(a: FinancingInputs, b: FinancingInputs): boolean {
+  if (!a || !b) return false;
+
+  const samePropertyValue = Math.abs(a.propertyValue - b.propertyValue) < 0.01;
+  const sameDownPayment = Math.abs(a.downPayment - b.downPayment) < 0.01;
+  const sameRate = Math.abs(a.interestRateYearly - b.interestRateYearly) < 0.001;
+  const sameTerm = a.termMonths === b.termMonths;
+  const sameMethod = a.amortizationMethod === b.amortizationMethod;
+  const sameInsurances = Boolean(a.includeInsurances) === Boolean(b.includeInsurances);
+  const sameAdminFee = Math.abs((a.monthlyAdminFee ?? 25) - (b.monthlyAdminFee ?? 25)) < 0.01;
+  const sameExtraMonthly = Math.abs((a.extraMonthlyAmortization ?? 0) - (b.extraMonthlyAmortization ?? 0)) < 0.01;
+  const sameExtraAnnual = Math.abs((a.extraAnnualAmortization ?? 0) - (b.extraAnnualAmortization ?? 0)) < 0.01;
+
+  return (
+    samePropertyValue &&
+    sameDownPayment &&
+    sameRate &&
+    sameTerm &&
+    sameMethod &&
+    sameInsurances &&
+    sameAdminFee &&
+    sameExtraMonthly &&
+    sameExtraAnnual
+  );
+}
+
+/**
  * Salva um novo cenário no localStorage e retorna o resultado estruturado.
  */
 export function saveScenario(name: string, inputs: FinancingInputs): SaveScenarioResult {
@@ -253,6 +282,16 @@ export function saveScenario(name: string, inputs: FinancingInputs): SaveScenari
     return {
       success: false,
       error: 'Parâmetros de simulação inválidos.',
+      scenarios: current,
+    };
+  }
+
+  // Bloqueio de duplicatas: Verifica se já existe um cenário idêntico salvo
+  const duplicate = current.find((existing) => areInputsIdentical(existing.inputs, sanitizedInputs));
+  if (duplicate) {
+    return {
+      success: false,
+      error: `Este cenário já está salvo no seu histórico com o nome "${duplicate.name}". Altere algum parâmetro para salvar uma nova simulação.`,
       scenarios: current,
     };
   }

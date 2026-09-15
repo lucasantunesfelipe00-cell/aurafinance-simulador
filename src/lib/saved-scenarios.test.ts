@@ -174,8 +174,8 @@ describe('saved-scenarios: Storage, Limit of 10 and Migrations', () => {
   });
 
   it('deletes and renames scenarios properly', () => {
-    saveScenario('Cenário Alfa', validInputs);
-    saveScenario('Cenário Beta', validInputs);
+    saveScenario('Cenário Alfa', { ...validInputs, propertyValue: 400000 });
+    saveScenario('Cenário Beta', { ...validInputs, propertyValue: 500000 });
 
     let list = getSavedScenarios();
     expect(list.length).toBe(2);
@@ -191,7 +191,7 @@ describe('saved-scenarios: Storage, Limit of 10 and Migrations', () => {
     expect(list[0].name).toBe('Cenário Alfa');
   });
 
-  it('handles QuotaExceededError gracefully', () => {
+  it('handles localStorage quota exceeded gracefully', () => {
     vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
       const err = new Error('Quota exceeded');
       err.name = 'QuotaExceededError';
@@ -201,5 +201,28 @@ describe('saved-scenarios: Storage, Limit of 10 and Migrations', () => {
     const res = saveScenario('Teste Quota', validInputs);
     expect(res.success).toBe(false);
     expect(res.error).toContain('armazenamento do navegador');
+  });
+
+  it('blocks saving duplicate / identical scenarios and shows friendly error', () => {
+    // 1. Salva o primeiro cenário
+    const res1 = saveScenario('Primeira Proposta', validInputs);
+    expect(res1.success).toBe(true);
+    expect(res1.scenarios.length).toBe(1);
+
+    // 2. Tenta salvar exatamente os mesmos parâmetros (mesmo com outro nome)
+    const duplicateRes = saveScenario('Segunda Proposta com Mesmos Valores', validInputs);
+    expect(duplicateRes.success).toBe(false);
+    expect(duplicateRes.error).toContain('já está salvo no seu histórico');
+    expect(duplicateRes.error).toContain('Primeira Proposta');
+    expect(duplicateRes.scenarios.length).toBe(1);
+
+    // 3. Salva um cenário com parâmetros ligeiramente diferentes (ex: entrada diferente) -> deve permitir
+    const diffRes = saveScenario('Proposta com Entrada Maior', {
+      ...validInputs,
+      downPayment: 150000,
+      downPaymentPercent: 30,
+    });
+    expect(diffRes.success).toBe(true);
+    expect(diffRes.scenarios.length).toBe(2);
   });
 });
