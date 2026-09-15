@@ -104,8 +104,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   const drawerContent = (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed top-[66px] left-0 w-full h-[calc(100vh-66px)] z-[99999] flex font-sans select-none pointer-events-none">
-          {/* Overlay de Fundo com Blur que começa abaixo do cabeçalho */}
+        <div className="fixed inset-0 z-[99999] flex font-sans select-none pointer-events-none">
+          {/* Overlay de Fundo com Blur ocupando a tela inteira */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,22 +116,38 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
               vibrateShort();
               onClose();
             }}
-            className="fixed top-[66px] left-0 w-full h-[calc(100vh-66px)] bg-black/80 backdrop-blur-sm cursor-pointer pointer-events-auto"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm cursor-pointer pointer-events-auto"
           />
 
-          {/* Drawer Lateral Deslizando da Esquerda abaixo do cabeçalho */}
+          {/* Drawer Lateral Deslizando da Esquerda desde o topo (top-0) */}
           <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-            className="relative w-[260px] sm:w-[280px] max-w-[85vw] h-full bg-neutral-950 border-r border-white/10 shadow-2xl flex flex-col z-[100000] overflow-hidden pointer-events-auto"
+            className="relative w-[260px] sm:w-[280px] max-w-[85vw] h-full bg-black border-r border-white/10 shadow-2xl flex flex-col z-[100000] overflow-hidden pointer-events-auto"
           >
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none" />
 
-            {/* Topo: Apenas Botão 'X' para fechar */}
-            <div className="px-4 py-3 border-b border-white/10 flex items-center justify-end relative z-10 bg-black shrink-0">
+            {/* Topo Idêntico ao Desktop: Logo 'bf' + escrita 'brasilfinance' + Botão 'X' */}
+            <div className="flex items-center justify-between px-4 h-[66px] border-b border-white/10 relative z-10 bg-black shrink-0">
+              <div className="flex items-center space-x-2.5">
+                <img
+                  src="/brand/logo-source.png"
+                  alt="Logo Icon"
+                  className="w-8 h-8 shrink-0 object-contain drop-shadow-md"
+                />
+                <div className="flex items-baseline">
+                  <span className="font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
+                    brasil
+                  </span>
+                  <span className="font-light text-xl text-neutral-300 tracking-normal">
+                    finance
+                  </span>
+                </div>
+              </div>
+
               <button
                 type="button"
                 onClick={(e) => {
@@ -141,7 +157,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer focus:outline-none focus-visible:outline-none outline-none"
+                className="p-1.5 rounded-none text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#c2a25b]/40 transition-all cursor-pointer shrink-0 focus:outline-none focus-visible:outline-none outline-none"
                 title="Fechar menu"
                 aria-label="Fechar menu"
               >
@@ -149,7 +165,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
               </button>
             </div>
 
-            {/* Conteúdo Principal de Opções (Idêntico ao DesktopSidebar) */}
+            {/* Conteúdo Principal de Opções (100% Idêntico ao DesktopSidebar + Botão PWA) */}
             <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6 relative z-10 custom-scrollbar">
               
               {/* Seção: Simulação */}
@@ -346,10 +362,31 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   <ShieldCheck className={`w-4 h-4 shrink-0 ${isTermsActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`} />
                   <span>Termos</span>
                 </button>
+
+                {/* Botão Especial PWA (Instalar no Celular) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    vibrateShort();
+                    onClose();
+                    window.dispatchEvent(new CustomEvent('open-pwa-install'));
+                  }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-[#f3e3ba] hover:text-white transition-all text-left group cursor-pointer bg-gradient-to-r from-[#c2a25b]/15 to-[#c2a25b]/5 border border-[#c2a25b]/50 hover:border-[#c2a25b] mt-2 shadow-[0_0_12px_rgba(194,162,91,0.15)] rounded-none"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 shrink-0" />
+                    <span className="font-semibold">Instalar App no Celular</span>
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-black/60 px-1.5 py-0.5 border border-[#c2a25b]/50">
+                    PWA
+                  </span>
+                </button>
               </div>
             </div>
 
-            {/* Rodapé: Ajustes Sensoriais (Idêntico ao DesktopSidebar) */}
+            {/* Rodapé: Ajustes Sensoriais (100% Idêntico ao DesktopSidebar) */}
             <div className="p-4 border-t border-white/10 bg-neutral-900/95 relative z-10 space-y-3 shrink-0">
               <div>
                 <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#c2a25b]">
