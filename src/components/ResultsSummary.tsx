@@ -254,19 +254,22 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </MagneticButton>
       </div>
 
-      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) */}
+      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) com Expansão no Hover */}
       <div className="w-full pt-4 border-t border-white/10 mt-6">
-        {/* Trio de Ações: Mobile (1 por linha) | Desktop (3 na mesma linha) */}
-        <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 text-center">
+        <div className="w-full flex flex-row items-center justify-center gap-3 sm:gap-4 text-center">
           {/* Botão 1: Salvar Cenário */}
           {!isConfirmingSave && (
             <MagneticButton
               type="button"
               onClick={handleStartSave}
-              className="btn-lift flex items-center justify-center space-x-2 sm:space-x-1.5 uppercase tracking-wider text-xs font-medium text-gold-300 bg-neutral-950 border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 hover:text-gold-200 py-3 sm:py-2.5 px-4 sm:px-4.5 rounded-full transition-all cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.15)] hover:shadow-[0_0_20px_rgba(194,162,91,0.3)] whitespace-nowrap w-full sm:w-auto"
+              aria-label="Salvar Cenário"
+              title="Salvar Cenário"
+              className="btn-lift group flex items-center justify-center text-xs font-medium text-gold-300 bg-neutral-950 border border-gold-400/50 hover:border-gold-300 hover:bg-gold-500/10 hover:text-gold-200 h-11 min-w-[44px] px-3.5 hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_12px_rgba(194,162,91,0.15)] hover:shadow-[0_0_20px_rgba(194,162,91,0.35)]"
             >
-              <Bookmark className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-gold-400 shrink-0" />
-              <span>SALVAR CENÁRIO</span>
+              <Bookmark className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+              <span className="max-w-0 opacity-0 group-hover:max-w-[160px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
+                Salvar Cenário
+              </span>
             </MagneticButton>
           )}
 
@@ -274,21 +277,27 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <MagneticButton
             type="button"
             onClick={handleShare}
-            className={`btn-lift flex items-center justify-center space-x-2 sm:space-x-1.5 uppercase tracking-wider text-xs font-medium py-3 sm:py-2.5 px-4 sm:px-4.5 rounded-full transition-all cursor-pointer whitespace-nowrap w-full sm:w-auto ${
+            aria-label="Compartilhar Simulação"
+            title="Compartilhar Simulação"
+            className={`btn-lift group flex items-center justify-center text-xs font-medium h-11 min-w-[44px] rounded-full transition-all duration-300 cursor-pointer ${
               isCopied
-                ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.4)]'
-                : 'bg-black text-neutral-200 border border-white/20 hover:border-white/50 hover:text-white hover:bg-neutral-900 shadow-[0_0_12px_rgba(0,0,0,0.8)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+                ? 'bg-emerald-500 text-black border border-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.4)] px-5'
+                : 'bg-black text-neutral-200 border border-white/20 hover:border-white/50 hover:text-white hover:bg-neutral-900 shadow-[0_0_12px_rgba(0,0,0,0.8)] hover:shadow-[0_0_15px_rgba(255,255,255,0.15)] px-3.5 hover:px-5'
             }`}
           >
             {isCopied ? (
               <>
-                <Check className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-black shrink-0" />
-                <span>LINK COPIADO!</span>
+                <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-black shrink-0" />
+                <span className="ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium animate-fadeIn">
+                  Link Copiado!
+                </span>
               </>
             ) : (
               <>
-                <Share2 className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-neutral-300 shrink-0" />
-                <span>COMPARTILHAR SIMULAÇÃO</span>
+                <Share2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-neutral-300 shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                <span className="max-w-0 opacity-0 group-hover:max-w-[180px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium transition-all duration-300 ease-out">
+                  Compartilhar
+                </span>
               </>
             )}
           </MagneticButton>
@@ -297,10 +306,14 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <MagneticButton
             type="button"
             onClick={handleWhatsAppConcierge}
-            className="btn-lift flex items-center justify-center space-x-2 sm:space-x-1.5 uppercase tracking-wider text-xs font-medium text-white bg-gradient-to-r from-emerald-950/70 via-black to-emerald-950/70 border border-emerald-500/60 hover:border-emerald-400 hover:from-emerald-900/50 hover:to-emerald-900/50 py-3 sm:py-2.5 px-4 sm:px-5 rounded-full transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] group whitespace-nowrap w-full sm:w-auto"
+            aria-label="Falar com Especialista"
+            title="Falar com Especialista"
+            className="btn-lift group flex items-center justify-center text-xs font-medium text-white bg-gradient-to-r from-emerald-950/70 via-black to-emerald-950/70 border border-emerald-500/60 hover:border-emerald-400 hover:from-emerald-900/50 hover:to-emerald-900/50 h-11 min-w-[44px] px-3.5 hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.45)]"
           >
-            <MessageCircle className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
-            <span className="text-white group-hover:text-emerald-300 transition-colors">FALAR COM ESPECIALISTA</span>
+            <MessageCircle className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+            <span className="max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium text-emerald-300 transition-all duration-300 ease-out">
+              Falar com Especialista
+            </span>
           </MagneticButton>
         </div>
       </div>
