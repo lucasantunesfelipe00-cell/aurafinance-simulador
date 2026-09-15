@@ -8,6 +8,7 @@ import { BackgroundLightTrail } from '@/components/BackgroundLightTrail';
 import { playTypeSound, playGoldBeamSweepSound } from '@/lib/sound';
 import { vibrateShort } from '@/lib/haptics';
 import { setCursorVariant } from '@/lib/cursor-store';
+import { Smartphone, Sparkles } from 'lucide-react';
 
 interface BankSplashFlowProps {
   onStartSimulator: () => void;
@@ -18,6 +19,21 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
   // 'welcome' -> Tela 2 (Estilo banco com cabeçalho idêntico à tela 3, frase toda branca e botão 'Acessar')
   const [stage, setStage] = useState<'splash' | 'welcome'>('splash');
   const [isBeamLooping, setIsBeamLooping] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isStandaloneMode =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+      setIsStandalone(Boolean(isStandaloneMode));
+
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      const isMobile = /iphone|ipad|ipod|android|mobile/.test(userAgent) || window.innerWidth < 1024;
+      setIsMobileDevice(isMobile);
+    }
+  }, []);
 
   useEffect(() => {
     // Fallback de segurança para avançar para a Tela 2 se a animação não disparar
@@ -245,7 +261,7 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
                 </div>
 
                 {/* Botão "Acessar" */}
-                <div className="w-full flex justify-center pt-2">
+                <div className="w-full flex flex-col items-center justify-center pt-2 space-y-2.5">
                   <button
                     type="button"
                     onClick={handleAccess}
@@ -266,6 +282,27 @@ export const BankSplashFlow: React.FC<BankSplashFlowProps> = ({ onStartSimulator
                       className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/35 via-50% to-transparent -skew-x-12"
                     />
                   </button>
+
+                  {/* Opção de Instalar PWA para Android e iOS na tela de entrada */}
+                  {!isStandalone && isMobileDevice && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        vibrateShort();
+                        window.dispatchEvent(new CustomEvent('open-pwa-install'));
+                      }}
+                      onMouseEnter={() => setCursorVariant('button')}
+                      onMouseLeave={() => setCursorVariant('default')}
+                      className="w-full sm:w-[370px] max-w-full py-2.5 px-4 rounded-xl border border-[#c2a25b]/40 bg-black/60 hover:bg-[#c2a25b]/10 text-neutral-300 hover:text-white text-xs font-medium flex items-center justify-center gap-2 transition-all cursor-pointer group shadow-sm active:scale-95"
+                    >
+                      <Smartphone className="w-4 h-4 text-gold-400 group-hover:text-gold-300 transition-transform group-hover:scale-110 shrink-0" />
+                      <span className="font-semibold text-neutral-200 group-hover:text-white">Instalar App no Celular</span>
+                      <span className="text-[9px] font-black uppercase tracking-wider text-gold-300 bg-[#c2a25b]/20 px-1.5 py-0.5 border border-[#c2a25b]/50">
+                        PWA
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
 
