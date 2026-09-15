@@ -23,6 +23,8 @@ import {
   X,
   Plus,
   MessageCircle,
+  Building,
+  Wallet,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -137,16 +139,71 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   return (
     <div className="space-y-6">
 
-      {/* Grade 4 KPI Cards (Editorial Sharp 0px Corners) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* Grade 6 KPI Cards (Editorial Sharp 0px Corners) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 
-        {/* Card 1: Primeira Parcela */}
+        {/* Card 1: Valor do Imóvel */}
         <button
           type="button"
           onPointerDown={() => handleCardActivate(1)}
           onClick={() => handleCardActivate(1)}
           className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
             activeCard === 1
+              ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
+              : 'border border-white/20 sm:hover:border-gold-400/60'
+          }`}
+        >
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Valor do Imóvel</span>
+            <Building className="w-4 h-4 text-white shrink-0" />
+          </div>
+
+          <div className="my-1 min-w-0 w-full">
+            <FormattedBRL
+              value={result.propertyValue}
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
+              animate
+            />
+          </div>
+        </button>
+
+        {/* Card 2: Valor de Entrada */}
+        <button
+          type="button"
+          onPointerDown={() => handleCardActivate(2)}
+          onClick={() => handleCardActivate(2)}
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+            activeCard === 2
+              ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
+              : 'border border-white/20 sm:hover:border-gold-400/60'
+          }`}
+        >
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Valor de Entrada</span>
+            <Wallet className="w-4 h-4 text-white shrink-0" />
+          </div>
+
+          <div className="my-1 min-w-0 w-full">
+            <FormattedBRL
+              value={result.downPayment}
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
+              animate
+            />
+          </div>
+          {result.propertyValue > 0 && (
+            <span className="text-[10px] text-gold-400/80 mt-1 block font-mono whitespace-nowrap">
+              {((result.downPayment / result.propertyValue) * 100).toFixed(1)}% do valor do imóvel
+            </span>
+          )}
+        </button>
+
+        {/* Card 3: Primeira Parcela */}
+        <button
+          type="button"
+          onPointerDown={() => handleCardActivate(3)}
+          onClick={() => handleCardActivate(3)}
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+            activeCard === 3
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
@@ -165,13 +222,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           </div>
         </button>
 
-        {/* Card 2: Xª Parcela (Mês final) */}
+        {/* Card 4: Xª Parcela (Mês final) */}
         <button
           type="button"
-          onPointerDown={() => handleCardActivate(2)}
-          onClick={() => handleCardActivate(2)}
+          onPointerDown={() => handleCardActivate(4)}
+          onClick={() => handleCardActivate(4)}
           className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
-            activeCard === 2
+            activeCard === 4
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
@@ -197,13 +254,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           )}
         </button>
 
-        {/* Card 3: Total de Juros */}
+        {/* Card 5: Total de Juros */}
         <button
           type="button"
-          onPointerDown={() => handleCardActivate(3)}
-          onClick={() => handleCardActivate(3)}
+          onPointerDown={() => handleCardActivate(5)}
+          onClick={() => handleCardActivate(5)}
           className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
-            activeCard === 3
+            activeCard === 5
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-white/20 sm:hover:border-gold-400/60'
           }`}
@@ -222,13 +279,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           </div>
         </button>
 
-        {/* Card 4: Total Geral Pago */}
+        {/* Card 6: Total Geral Pago */}
         <button
           type="button"
-          onPointerDown={() => handleCardActivate(4)}
-          onClick={() => handleCardActivate(4)}
+          onPointerDown={() => handleCardActivate(6)}
+          onClick={() => handleCardActivate(6)}
           className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
-            activeCard === 4
+            activeCard === 6
               ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
               : 'border border-gold-500/40 sm:hover:border-gold-400'
           }`}
