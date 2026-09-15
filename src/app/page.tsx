@@ -170,10 +170,24 @@ export default function Home() {
     setComparatorScenarioB(scB);
     setIsScenarioComparatorOpen(true);
     setIsSavedScenariosActive(false);
+    setIsRentVsBuyOpen(false);
+    setIsComparatorOpen(false);
     setIsHelpOpen(false);
     setIsFaqOpen(false);
     setIsTermsOpen(false);
     setIsExtraAmortizationOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenRentVsBuy = () => {
+    setIsHelpOpen(false);
+    setIsFaqOpen(false);
+    setIsTermsOpen(false);
+    setIsExtraAmortizationOpen(false);
+    setIsSavedScenariosActive(false);
+    setIsScenarioComparatorOpen(false);
+    setIsComparatorOpen(false);
+    setIsRentVsBuyOpen(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -319,9 +333,7 @@ export default function Home() {
                 }, 100);
               }}
               onOpenSavedScenarios={handleOpenSavedScenarios}
-              onOpenRentVsBuy={() => {
-                setIsRentVsBuyOpen(true);
-              }}
+              onOpenRentVsBuy={handleOpenRentVsBuy}
               savedScenariosCount={savedScenariosList.length}
               isConfigActive={isConfigActive}
               isAmortizationActive={isAmortizationActive}
@@ -453,9 +465,7 @@ export default function Home() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenSavedScenarios={handleOpenSavedScenarios}
-                onOpenRentVsBuy={() => {
-                  setIsRentVsBuyOpen(true);
-                }}
+                onOpenRentVsBuy={handleOpenRentVsBuy}
                 savedScenariosCount={savedScenariosList.length}
                 isConfigActive={isConfigActive}
                 isAmortizationActive={isAmortizationActive}
@@ -580,7 +590,18 @@ export default function Home() {
           />
         )}
 
-        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && (
+        {isRentVsBuyOpen && (
+          <RentVsBuyModal
+            isOpen={isRentVsBuyOpen}
+            onClose={() => {
+              setIsRentVsBuyOpen(false);
+              setIsConfigVisible(true);
+            }}
+            currentInputs={calculatedInputs}
+          />
+        )}
+
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && !isRentVsBuyOpen && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
             <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
@@ -894,7 +915,7 @@ export default function Home() {
                     result={result}
                     comparison={comparison}
                     onOpenComparison={() => setIsComparatorOpen(true)}
-                    onOpenRentVsBuy={() => setIsRentVsBuyOpen(true)}
+                    onOpenRentVsBuy={handleOpenRentVsBuy}
                     inputs={calculatedInputs}
                     onScenarioSaved={handleScenarioSaved}
                   />
@@ -941,12 +962,6 @@ export default function Home() {
       <SpecsViewerModal
         isOpen={isSpecsOpen}
         onClose={() => setIsSpecsOpen(false)}
-      />
-
-      <RentVsBuyModal
-        isOpen={isRentVsBuyOpen}
-        onClose={() => setIsRentVsBuyOpen(false)}
-        currentInputs={calculatedInputs}
       />
 
     </div>

@@ -83,52 +83,50 @@ export const RentVsBuyModal: React.FC<RentVsBuyModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto animate-fadeIn">
-      <div className="w-full max-w-4xl editorial-card border border-[#c2a25b]/50 bg-black rounded-none flex flex-col relative overflow-hidden font-sans my-auto shadow-[0_0_50px_rgba(194,162,91,0.2)]">
-        
-        {/* Linha Decorativa Dourada Superior */}
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35]" />
+    <section className="w-full max-w-4xl mx-auto editorial-card editorial-card-gold-border p-5 sm:p-8 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+      {/* Linha Decorativa Dourada Superior */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] -mt-5 sm:-mt-8 -mx-5 sm:-mx-8 mb-6" />
 
-        {/* Header */}
-        <div className="flex items-center justify-between p-5 sm:p-7 border-b border-white/10 relative z-10">
-          <div className="flex items-center space-x-3.5">
-            <div className="p-3 bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shrink-0">
-              <Scale className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg sm:text-2xl font-bold text-white uppercase tracking-wider">
-                  Comprar vs. Alugar &amp; Investir
-                </h2>
-                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 border border-gold-500/40 text-gold-400 bg-gold-400/10 uppercase">
-                  Estudo Patrimonial
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-neutral-400 font-light mt-0.5">
-                O grande dilema imobiliário: Imóvel quitado vs. Carteira de investimentos CDI no tempo
-              </p>
-            </div>
+      {/* Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10 mb-6">
+        <div className="flex items-center space-x-3.5">
+          <div className="p-2.5 rounded-none bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-[#c2a25b] shadow-inner">
+            <Scale className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-
-          <button
-            onClick={() => {
-              vibrateShort();
-              onClose();
-            }}
-            onMouseEnter={() => setCursorVariant('button')}
-            onMouseLeave={() => setCursorVariant('default')}
-            className="p-2.5 text-[#c2a25b] hover:text-white bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#c2a25b]/60 transition-all cursor-pointer shrink-0"
-            title="Fechar Estudo"
-            aria-label="Fechar"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wider">
+                Comprar vs. Alugar &amp; Investir
+              </h2>
+              <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 border border-gold-500/40 text-gold-400 bg-gold-400/10 uppercase">
+                Estudo Patrimonial
+              </span>
+            </div>
+            <p className="text-xs text-neutral-400 font-light mt-0.5">
+              O grande dilema imobiliário: Imóvel quitado vs. Carteira de investimentos CDI no tempo
+            </p>
+          </div>
         </div>
 
-        {/* Conteúdo Rolável */}
-        <div className="p-5 sm:p-8 space-y-6 overflow-y-auto max-h-[80vh]">
+        <button
+          onClick={() => {
+            vibrateShort();
+            onClose();
+          }}
+          onMouseEnter={() => setCursorVariant('button')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="p-2.5 text-[#c2a25b] hover:text-white bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#c2a25b]/60 transition-all cursor-pointer shrink-0"
+          title="Fechar Estudo"
+          aria-label="Fechar"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
 
-          {/* Veredito Executivo em Destaque */}
+      {/* Conteúdo Principal */}
+      <div className="space-y-6">
+
+        {/* Veredito Executivo em Destaque */}
           <div
             className={`p-5 sm:p-6 border rounded-none relative overflow-hidden transition-all ${
               finalWinner === 'BUY'
@@ -517,8 +515,6 @@ export const RentVsBuyModal: React.FC<RentVsBuyModalProps> = ({
             </span>
           </MagneticButton>
         </div>
-
-      </div>
-    </div>
+    </section>
   );
 };
