@@ -23,6 +23,7 @@ import { FaqModal } from '@/components/FaqModal';
 import { TermsModal } from '@/components/TermsModal';
 import { SavedScenariosView } from '@/components/SavedScenariosView';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
+import { parseShareUrl } from '@/lib/share-url';
 import { SimulationLoader } from '@/components/SimulationLoader';
 import { HeroTitle } from '@/components/HeroTitle';
 import { BankSplashFlow } from '@/components/BankSplashFlow';
@@ -38,6 +39,7 @@ import {
   ChevronUp,
   Zap,
   Bookmark,
+  Share2,
 } from 'lucide-react';
 
 function formatCurrencyMask(val: number): string {
@@ -69,9 +71,27 @@ export default function Home() {
   const [helpInitialTab, setHelpInitialTab] = useState<'manual' | 'glossary' | 'tips'>('manual');
   const [helpInitialCategory, setHelpInitialCategory] = useState<string>('Todos');
   const [helpInitialSearch, setHelpInitialSearch] = useState<string>('');
+  const [sharedBannerInfo, setSharedBannerInfo] = useState<{ name?: string } | null>(null);
 
   React.useEffect(() => {
     setSavedScenariosList(getSavedScenarios());
+
+    // Detecta se a página foi aberta com parâmetros de simulação compartilhada na URL
+    if (typeof window !== 'undefined' && window.location.search) {
+      const parsed = parseShareUrl(window.location.search);
+      if (parsed) {
+        setInputs(parsed.inputs);
+        setCalculatedInputs(parsed.inputs);
+        setHasCalculated(true);
+        setViewMode('simulator');
+        setSharedBannerInfo({ name: parsed.scenarioName });
+        setTimeout(() => {
+          if (resultsRef.current) {
+            resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 350);
+      }
+    }
   }, []);
 
   // Se o usuário clica em qualquer lugar da tela sem ser no botão ou aviso, o aviso desaparece até a próxima simulação
@@ -402,6 +422,42 @@ export default function Home() {
 
       {/* Conteúdo Principal (Max-width 1078px contained per design.md) */}
       <main className="flex-1 max-w-[1078px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
+
+        {/* Banner Notificador de Simulação Aberta por Link Compartilhado */}
+        <AnimatePresence>
+          {sharedBannerInfo && (
+            <motion.div
+              initial={{ opacity: 0, y: -16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.98 }}
+              className="p-3.5 sm:p-4 bg-gradient-to-r from-[#a47e35]/20 via-black to-[#a47e35]/20 border border-gold-400/60 rounded-none text-white text-xs sm:text-sm flex items-center justify-between shadow-[0_0_20px_rgba(194,162,91,0.25)] font-sans"
+            >
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                <div className="p-1.5 bg-gold-400/20 border border-gold-400/40 text-gold-400 shrink-0">
+                  <Share2 className="w-4 h-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-gold-400 truncate">
+                    Simulação carregada via link compartilhado!
+                  </p>
+                  <p className="text-[11px] sm:text-xs text-neutral-300 truncate">
+                    {sharedBannerInfo.name
+                      ? `Cenário: "${sharedBannerInfo.name}" • Parâmetros e cálculos prontos.`
+                      : 'Todos os valores e taxas foram preenchidos e calculados automaticamente.'}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSharedBannerInfo(null)}
+                className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-xs font-mono uppercase tracking-wider transition-colors ml-3 shrink-0 cursor-pointer"
+              >
+                OK
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {isHelpOpen && (
           <HelpModal
@@ -768,6 +824,7 @@ export default function Home() {
                     result={result}
                     comparison={comparison}
                     onOpenComparison={() => setIsComparatorOpen(true)}
+                    inputs={calculatedInputs}
                   />
                 </motion.div>
               )}
