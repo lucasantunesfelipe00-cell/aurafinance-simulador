@@ -26,14 +26,17 @@ import {
   Building,
   Wallet,
   Scale,
+  ShieldCheck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IncomeThermometerCard } from '@/components/IncomeThermometerCard';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
   comparison: ComparisonResult;
   onOpenComparison: () => void;
   onOpenRentVsBuy?: () => void;
+  onOpenIncomeAssessment?: () => void;
   inputs?: FinancingInputs;
   onScenarioSaved?: () => void;
 }
@@ -43,6 +46,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   comparison,
   onOpenComparison,
   onOpenRentVsBuy,
+  onOpenIncomeAssessment,
   inputs,
   onScenarioSaved,
 }) => {
@@ -303,6 +307,13 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </button>
 
       </div>
+
+      {/* Termômetro de Renda Mínima Exigida (Regra dos 30%) */}
+      <IncomeThermometerCard
+        firstInstallment={result.firstInstallment}
+        propertyValue={result.propertyValue}
+        onOpenDetailedAssessment={onOpenIncomeAssessment}
+      />
 
       {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}
       <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-2.5 sm:pt-3.5">

@@ -17,11 +17,13 @@ interface HeaderProps {
   onOpenTerms?: () => void;
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
+  onOpenIncomeAssessment?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
+  isIncomeAssessmentActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -41,11 +43,13 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTerms,
   onOpenSavedScenarios,
   onOpenRentVsBuy,
+  onOpenIncomeAssessment,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
+  isIncomeAssessmentActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -163,11 +167,16 @@ export const Header: React.FC<HeaderProps> = ({
           setIsDrawerOpen(false);
           if (onOpenRentVsBuy) onOpenRentVsBuy();
         }}
+        onOpenIncomeAssessment={() => {
+          setIsDrawerOpen(false);
+          if (onOpenIncomeAssessment) onOpenIncomeAssessment();
+        }}
         savedScenariosCount={savedScenariosCount}
         isConfigActive={isConfigActive}
         isAmortizationActive={isAmortizationActive}
         isSavedScenariosActive={isSavedScenariosActive}
         isRentVsBuyActive={isRentVsBuyActive}
+        isIncomeAssessmentActive={isIncomeAssessmentActive}
         showSaveNotice={showSaveNotice}
         saveNoticeLabel={saveNoticeLabel}
         isHelpActive={isHelpActive}
