@@ -63,7 +63,7 @@ export default function Home() {
   const [hasCalculated, setHasCalculated] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
   const [isConfigVisible, setIsConfigVisible] = useState(true);
-  const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('table');
+  const [activeTab, setActiveTab] = useState<'summary' | 'chart' | 'table'>('summary');
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
   const [isScenarioComparatorOpen, setIsScenarioComparatorOpen] = useState(false);
   const [isRentVsBuyOpen, setIsRentVsBuyOpen] = useState(false);
@@ -96,7 +96,7 @@ export default function Home() {
         setInputs(parsed.inputs);
         setCalculatedInputs(parsed.inputs);
         setHasCalculated(true);
-        setActiveTab('table');
+        setActiveTab('summary');
         setViewMode('simulator');
         setSharedBannerInfo({ name: parsed.scenarioName });
         setTimeout(() => {
@@ -152,7 +152,7 @@ export default function Home() {
     setInputs(newInputs);
     setCalculatedInputs(newInputs);
     setHasCalculated(true);
-    setActiveTab('table');
+    setActiveTab('summary');
     setIsSimulating(false);
     setIsSavedScenariosActive(false);
     setIsConfigVisible(true);
@@ -279,13 +279,13 @@ export default function Home() {
     setIsSimulating(true);
     setHasCalculated(false);
     setIsConfigVisible(false);
-    setActiveTab('table');
+    setActiveTab('summary');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     setTimeout(() => {
       setCalculatedInputs(inputs);
       setHasCalculated(true);
-      setActiveTab('table');
+      setActiveTab('summary');
       setIsSimulating(false);
       setShowSaveNotice(true);
       setTimeout(() => {
@@ -299,7 +299,7 @@ export default function Home() {
     setCalculatedInputs(DEFAULT_FINANCING_INPUTS);
     setCurrentStep(1);
     setHasCalculated(false);
-    setActiveTab('table');
+    setActiveTab('summary');
     setIsSimulating(false);
     setIsSavedScenariosActive(false);
     setIsScenarioComparatorOpen(false);
@@ -801,31 +801,9 @@ export default function Home() {
         {hasCalculated && !isSimulating && (
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
-            {/* Seletor de Abas da Análise (Ordem: Tabela mês a mês, Resumo e KPIs, Gráfico) */}
+            {/* Seletor de Abas da Análise (Ordem: Resumo e KPIs, Tabela mês a mês, Gráfico) */}
             <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
-              {/* Aba 1: Tabela */}
-              <button
-                type="button"
-                onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
-                  activeTab === 'table' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {activeTab === 'table' && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
-                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                  />
-                )}
-                <Table className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span className="truncate">
-                  <span className="sm:hidden">Tabela</span>
-                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
-                </span>
-              </button>
-
-              {/* Aba 2: Resumo e KPIs */}
+              {/* Aba 1: Resumo e KPIs */}
               <button
                 type="button"
                 onClick={() => setActiveTab('summary')}
@@ -844,6 +822,28 @@ export default function Home() {
                 <span className="truncate">
                   <span className="sm:hidden">Resumo</span>
                   <span className="hidden sm:inline">Resumo &amp; KPIs</span>
+                </span>
+              </button>
+
+              {/* Aba 2: Tabela */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('table')}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'table' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                {activeTab === 'table' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <Table className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Tabela</span>
+                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
                 </span>
               </button>
 
