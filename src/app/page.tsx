@@ -408,10 +408,16 @@ export default function Home() {
                 setIsComparatorOpen(false);
                 setIsRentVsBuyOpen(false);
                 setIsIncomeAssessmentOpen(false);
+                setIsAcquisitionCostsOpen(false);
                 setIsExtraAmortizationOpen(true);
                 setHasCalculated(true);
                 setTimeout(() => {
-                  resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  const el = document.getElementById('amortizacao-acelerada-section');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  } else {
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
                 }, 100);
               }}
               onOpenComparator={handleOpenComparator}
@@ -531,7 +537,12 @@ export default function Home() {
                   setIsExtraAmortizationOpen(true);
                   setHasCalculated(true);
                   setTimeout(() => {
-                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const el = document.getElementById('amortizacao-acelerada-section');
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }, 100);
                 }}
                 onOpenComparator={handleOpenComparator}
@@ -790,8 +801,123 @@ export default function Home() {
         {hasCalculated && !isSimulating && (
           <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-3xl mx-auto scroll-mt-24">
 
-            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Colapsável no topo das configs de resultados */}
+            {/* Seletor de Abas da Análise (Ordem: Tabela mês a mês, Resumo e KPIs, Gráfico) */}
+            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
+              {/* Aba 1: Tabela */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('table')}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'table' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                {activeTab === 'table' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <Table className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Tabela</span>
+                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
+                </span>
+              </button>
+
+              {/* Aba 2: Resumo e KPIs */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('summary')}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'summary' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                {activeTab === 'summary' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">
+                  <span className="sm:hidden">Resumo</span>
+                  <span className="hidden sm:inline">Resumo &amp; KPIs</span>
+                </span>
+              </button>
+
+              {/* Aba 3: Gráfico */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('chart')}
+                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
+                  activeTab === 'chart' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                {activeTab === 'chart' && (
+                  <motion.div
+                    layoutId="activeTabPill"
+                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <LineChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span>Gráfico</span>
+              </button>
+            </div>
+
+            {/* Conteúdo Exclusivo da Aba Selecionada (Fade & Micro-Elevação) */}
+            <AnimatePresence mode="wait">
+              {activeTab === 'summary' && (
+                <motion.div
+                  key="tab-summary"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <ResultsSummary
+                    result={result}
+                    comparison={comparison}
+                    onOpenComparison={handleOpenComparator}
+                    onOpenRentVsBuy={handleOpenRentVsBuy}
+                    onOpenIncomeAssessment={handleOpenIncomeAssessment}
+                    onOpenAcquisitionCosts={handleOpenAcquisitionCosts}
+                    inputs={calculatedInputs}
+                    onScenarioSaved={handleScenarioSaved}
+                  />
+                </motion.div>
+              )}
+
+              {activeTab === 'chart' && (
+                <motion.div
+                  key="tab-chart"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <AmortizationChart result={result} />
+                </motion.div>
+              )}
+
+              {activeTab === 'table' && (
+                <motion.div
+                  key="tab-table"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <AmortizationTable result={result} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Simulação de Aportes Extraordinários (Amortização Acelerada) - Embaixo dos Resultados */}
             <div
+              id="amortizacao-acelerada-section"
               className={`group editorial-card border bg-black rounded-none overflow-hidden transition-all duration-300 ${
                 isAmortizationActive
                   ? '!border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.25)]'
@@ -975,120 +1101,6 @@ export default function Home() {
                 </div>
               )}
             </div>
-
-            {/* Seletor de Abas da Análise (Ordem: Tabela mês a mês, Resumo e KPIs, Gráfico) */}
-            <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
-              {/* Aba 1: Tabela */}
-              <button
-                type="button"
-                onClick={() => setActiveTab('table')}
-                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
-                  activeTab === 'table' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {activeTab === 'table' && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
-                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                  />
-                )}
-                <Table className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span className="truncate">
-                  <span className="sm:hidden">Tabela</span>
-                  <span className="hidden sm:inline">Tabela Mês a Mês</span>
-                </span>
-              </button>
-
-              {/* Aba 2: Resumo e KPIs */}
-              <button
-                type="button"
-                onClick={() => setActiveTab('summary')}
-                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
-                  activeTab === 'summary' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {activeTab === 'summary' && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
-                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                  />
-                )}
-                <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span className="truncate">
-                  <span className="sm:hidden">Resumo</span>
-                  <span className="hidden sm:inline">Resumo &amp; KPIs</span>
-                </span>
-              </button>
-
-              {/* Aba 3: Gráfico */}
-              <button
-                type="button"
-                onClick={() => setActiveTab('chart')}
-                className={`relative z-10 flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-[75px] text-xs sm:text-sm lg:text-base font-normal uppercase tracking-wider flex items-center justify-center space-x-1.5 sm:space-x-2 transition-colors duration-300 select-none ${
-                  activeTab === 'chart' ? 'text-black font-medium' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {activeTab === 'chart' && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-gold-gradient-btn shadow-gold-glow-sm rounded-[75px] -z-10"
-                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                  />
-                )}
-                <LineChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span>Gráfico</span>
-              </button>
-            </div>
-
-            {/* Conteúdo Exclusivo da Aba Selecionada (Fade & Micro-Elevação) */}
-            <AnimatePresence mode="wait">
-              {activeTab === 'summary' && (
-                <motion.div
-                  key="tab-summary"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <ResultsSummary
-                    result={result}
-                    comparison={comparison}
-                    onOpenComparison={handleOpenComparator}
-                    onOpenRentVsBuy={handleOpenRentVsBuy}
-                    onOpenIncomeAssessment={handleOpenIncomeAssessment}
-                    onOpenAcquisitionCosts={handleOpenAcquisitionCosts}
-                    inputs={calculatedInputs}
-                    onScenarioSaved={handleScenarioSaved}
-                  />
-                </motion.div>
-              )}
-
-              {activeTab === 'chart' && (
-                <motion.div
-                  key="tab-chart"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <AmortizationChart result={result} />
-                </motion.div>
-              )}
-
-              {activeTab === 'table' && (
-                <motion.div
-                  key="tab-table"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <AmortizationTable result={result} />
-                </motion.div>
-              )}
-            </AnimatePresence>
 
           </div>
         )}
