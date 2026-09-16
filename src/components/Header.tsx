@@ -12,6 +12,7 @@ interface HeaderProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenComparator?: () => void;
+  onOpenAcquisitionCosts?: () => void;
   onOpenHelp?: () => void;
   onOpenFaq?: () => void;
   onOpenTerms?: () => void;
@@ -22,6 +23,7 @@ interface HeaderProps {
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isComparatorActive?: boolean;
+  isAcquisitionCostsActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
@@ -39,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenComparator,
+  onOpenAcquisitionCosts,
   onOpenHelp,
   onOpenFaq,
   onOpenTerms,
@@ -49,6 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
   isConfigActive = false,
   isAmortizationActive = false,
   isComparatorActive = false,
+  isAcquisitionCostsActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
@@ -165,6 +169,10 @@ export const Header: React.FC<HeaderProps> = ({
           setIsDrawerOpen(false);
           if (onOpenComparator) onOpenComparator();
         }}
+        onOpenAcquisitionCosts={() => {
+          setIsDrawerOpen(false);
+          if (onOpenAcquisitionCosts) onOpenAcquisitionCosts();
+        }}
         onOpenSavedScenarios={() => {
           setIsDrawerOpen(false);
           if (onOpenSavedScenarios) onOpenSavedScenarios();
@@ -181,6 +189,7 @@ export const Header: React.FC<HeaderProps> = ({
         isConfigActive={isConfigActive}
         isAmortizationActive={isAmortizationActive}
         isComparatorActive={isComparatorActive}
+        isAcquisitionCostsActive={isAcquisitionCostsActive}
         isSavedScenariosActive={isSavedScenariosActive}
         isRentVsBuyActive={isRentVsBuyActive}
         isIncomeAssessmentActive={isIncomeAssessmentActive}
