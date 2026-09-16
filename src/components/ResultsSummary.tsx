@@ -31,6 +31,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { IncomeThermometerCard } from '@/components/IncomeThermometerCard';
 import { AcquisitionCostsCard } from '@/components/AcquisitionCostsCard';
+import { AcceleratedAmortizationCard } from '@/components/AcceleratedAmortizationCard';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
@@ -40,6 +41,10 @@ interface ResultsSummaryProps {
   onOpenIncomeAssessment?: () => void;
   onOpenAcquisitionCosts?: () => void;
   inputs?: FinancingInputs;
+  baselineResult?: FinancingResult;
+  onInputsChange?: (inputs: FinancingInputs) => void;
+  isExtraAmortizationOpen?: boolean;
+  onToggleExtraAmortization?: () => void;
   onScenarioSaved?: () => void;
 }
 
@@ -51,6 +56,10 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   onOpenIncomeAssessment,
   onOpenAcquisitionCosts,
   inputs,
+  baselineResult,
+  onInputsChange,
+  isExtraAmortizationOpen,
+  onToggleExtraAmortization,
   onScenarioSaved,
 }) => {
   const [activeCard, setActiveCard] = React.useState<number | null>(null);
@@ -310,6 +319,16 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         </button>
 
       </div>
+
+      {/* Simulador de Amortização Acelerada (Abaixo dos resultados da simulação e acima de Custos de transferência e cartório) */}
+      <AcceleratedAmortizationCard
+        inputs={getCurrentInputs()}
+        result={result}
+        baselineResult={baselineResult}
+        onChange={onInputsChange}
+        isOpen={isExtraAmortizationOpen}
+        onToggle={onToggleExtraAmortization}
+      />
 
       {/* Estimador de Custos de Cartório, ITBI e Escritura */}
       <AcquisitionCostsCard
