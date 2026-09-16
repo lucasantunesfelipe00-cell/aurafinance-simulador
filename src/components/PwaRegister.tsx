@@ -9,6 +9,7 @@ export function PwaRegister() {
         navigator.serviceWorker
           .register('/sw.js')
           .then((reg) => {
+            reg.update();
             console.log('BrasilFinance Service Worker registrado com sucesso:', reg.scope);
           })
           .catch((err) => {
