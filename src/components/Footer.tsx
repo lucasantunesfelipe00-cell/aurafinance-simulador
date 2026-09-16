@@ -36,42 +36,42 @@ const BANK_PARTNERS: BankPartner[] = [
     name: 'CAIXA',
     segment: 'Habitação & SFH / SFI',
     badge: 'Líder Habitacional',
-    logoUrl: '/images/banks/caixa.svg',
+    logoUrl: '/images/banks/caixa.png',
   },
   {
     id: 'itau',
     name: 'ITAÚ',
     segment: 'Personnalité & Private',
     badge: 'Taxas Competitivas',
-    logoUrl: '/images/banks/itau.svg',
+    logoUrl: '/images/banks/itau.png',
   },
   {
     id: 'santander',
     name: 'SANTANDER',
     segment: 'Select & Private Banking',
     badge: 'Agilidade Digital',
-    logoUrl: '/images/banks/santander.svg',
+    logoUrl: '/images/banks/santander.png',
   },
   {
     id: 'bradesco',
     name: 'BRADESCO',
     segment: 'Prime & Private',
     badge: 'Relacionamento',
-    logoUrl: '/images/banks/bradesco.svg',
+    logoUrl: '/images/banks/bradesco.png',
   },
   {
     id: 'bb',
     name: 'BANCO DO BRASIL',
     segment: 'Estilo & Private',
     badge: 'Solidez Pública',
-    logoUrl: '/images/banks/bb.svg',
+    logoUrl: '/images/banks/bb.png',
   },
   {
     id: 'btg',
     name: 'BTG PACTUAL',
     segment: 'Wealth & Real Estate',
     badge: 'Investidores',
-    logoUrl: '/images/banks/btg.svg',
+    logoUrl: '/images/banks/btg.png',
   },
 ];
 
@@ -124,12 +124,12 @@ export const Footer: React.FC<FooterProps> = ({
                 {/* Linha superior dourada no hover */}
                 <div className="absolute top-0 inset-x-0 h-[1px] bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-gold-400 group-hover:to-transparent transition-all duration-300" />
 
-                {/* Logo Original do Banco em Container Branco de Alto Contraste & Fidelidade de Marca */}
-                <div className="w-full h-11 sm:h-12 bg-white rounded-none flex items-center justify-center p-2 shadow-sm border border-white/20 transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-[0_0_15px_rgba(255,255,255,0.35)]">
+                {/* Logo Original do Banco em PNG Transparente sem Fundo Branco */}
+                <div className="w-full h-12 sm:h-14 flex items-center justify-center p-1.5 transition-all duration-300 group-hover:scale-105">
                   <img
                     src={bank.logoUrl}
                     alt={`Logo oficial ${bank.name}`}
-                    className="h-full max-h-7 sm:max-h-8 w-auto max-w-[92%] object-contain"
+                    className="h-full max-h-8 sm:max-h-9 w-auto max-w-[90%] object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
                   />
                 </div>
 
