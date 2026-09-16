@@ -16,6 +16,7 @@ import {
   Sparkles,
   Check,
   Scale,
+  Users,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -32,11 +33,13 @@ export interface DesktopSidebarProps {
   onOpenAmortization?: () => void;
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
+  onOpenIncomeAssessment?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
+  isIncomeAssessmentActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -55,11 +58,13 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenAmortization,
   onOpenSavedScenarios,
   onOpenRentVsBuy,
+  onOpenIncomeAssessment,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
+  isIncomeAssessmentActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -108,6 +113,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       action: () => onOpenAmortization && onOpenAmortization(),
       isActive: Boolean(isAmortizationActive),
       iconColor: 'text-[#c2a25b]',
+    },
+    {
+      id: 'incomeAssessment',
+      label: 'Renda Mínima',
+      icon: Users,
+      action: () => onOpenIncomeAssessment && onOpenIncomeAssessment(),
+      isActive: Boolean(isIncomeAssessmentActive),
+      iconColor: 'text-gold-400',
     },
     {
       id: 'savedScenarios',
