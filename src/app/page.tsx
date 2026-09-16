@@ -25,6 +25,7 @@ import { SavedScenariosView } from '@/components/SavedScenariosView';
 import { ScenarioComparatorModal } from '@/components/ScenarioComparatorModal';
 import { RentVsBuyModal } from '@/components/RentVsBuyModal';
 import { IncomeAssessmentModal } from '@/components/IncomeAssessmentModal';
+import { Footer } from '@/components/Footer';
 import { ScenarioItem } from '@/lib/scenario-comparator';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
 import { parseShareUrl } from '@/lib/share-url';
@@ -990,7 +991,47 @@ export default function Home() {
         )}
 
       </main>
-            </div>
+
+      {/* Rodapé Institucional com Grid de Bancos Parceiros e Selo Bacen */}
+      <Footer
+        onOpenTerms={() => {
+          setIsTermsOpen(true);
+          setIsHelpOpen(false);
+          setIsFaqOpen(false);
+          setIsExtraAmortizationOpen(false);
+          setIsSavedScenariosActive(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onOpenFaq={() => {
+          setIsFaqOpen(true);
+          setIsHelpOpen(false);
+          setIsTermsOpen(false);
+          setIsExtraAmortizationOpen(false);
+          setIsSavedScenariosActive(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onOpenHelp={() => {
+          setHelpInitialTab('manual');
+          setHelpInitialCategory('Todos');
+          setHelpInitialSearch('');
+          setIsHelpOpen(true);
+          setIsFaqOpen(false);
+          setIsTermsOpen(false);
+          setIsExtraAmortizationOpen(false);
+          setIsSavedScenariosActive(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onOpenSimulator={() => {
+          setIsHelpOpen(false);
+          setIsFaqOpen(false);
+          setIsTermsOpen(false);
+          setIsExtraAmortizationOpen(false);
+          setIsSavedScenariosActive(false);
+          setIsConfigVisible(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+    </div>
           </motion.div>
         )}
       </AnimatePresence>
