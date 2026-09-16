@@ -119,26 +119,23 @@ export const Footer: React.FC<FooterProps> = ({
                 transition={{ duration: 0.2 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="group relative p-3 sm:p-3.5 rounded-none border border-white/10 bg-white/[0.02] hover:bg-gradient-to-b hover:from-[#c2a25b]/15 hover:via-[#c2a25b]/5 hover:to-transparent hover:border-[#c2a25b]/60 transition-all duration-300 flex flex-col items-center text-center justify-between min-h-[145px] sm:min-h-[155px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_0_25px_rgba(194,162,91,0.2)] cursor-default"
+                className="group relative p-3 sm:p-3.5 rounded-none border border-white/10 bg-white/[0.02] hover:bg-gradient-to-b hover:from-[#c2a25b]/15 hover:via-[#c2a25b]/5 hover:to-transparent hover:border-[#c2a25b]/60 transition-all duration-300 flex flex-col items-center text-center justify-between min-h-[140px] sm:min-h-[150px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_0_25px_rgba(194,162,91,0.2)] cursor-default"
               >
                 {/* Linha superior dourada no hover */}
                 <div className="absolute top-0 inset-x-0 h-[1px] bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-gold-400 group-hover:to-transparent transition-all duration-300" />
 
-                {/* Logo Original do Banco em PNG Transparente sem Fundo Branco */}
-                <div className="w-full h-12 sm:h-14 flex items-center justify-center p-1.5 transition-all duration-300 group-hover:scale-105">
+                {/* Logo Original do Banco em PNG Transparente */}
+                <div className="w-full h-14 sm:h-16 flex items-center justify-center p-1 transition-all duration-300 group-hover:scale-105">
                   <img
                     src={bank.logoUrl}
                     alt={`Logo oficial ${bank.name}`}
-                    className="h-full max-h-8 sm:max-h-9 w-auto max-w-[90%] object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
+                    className="h-full max-h-9 sm:max-h-11 w-auto max-w-[92%] object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
                   />
                 </div>
 
-                {/* Nome e Segmento */}
-                <div className="space-y-0.5 my-1.5 w-full">
-                  <h4 className="text-xs sm:text-[13px] font-bold tracking-wider text-white group-hover:text-gold-200 transition-colors truncate">
-                    {bank.name}
-                  </h4>
-                  <p className="text-[10px] text-neutral-400 group-hover:text-neutral-300 transition-colors truncate">
+                {/* Segmento */}
+                <div className="my-1 w-full">
+                  <p className="text-[11px] sm:text-xs text-neutral-300 font-medium group-hover:text-gold-200 transition-colors truncate">
                     {bank.segment}
                   </p>
                 </div>
