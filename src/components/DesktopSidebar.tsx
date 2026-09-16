@@ -133,19 +133,19 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       iconColor: 'text-gold-400',
     },
     {
-      id: 'incomeAssessment',
-      label: 'Renda Mínima',
-      icon: Users,
-      action: () => onOpenIncomeAssessment && onOpenIncomeAssessment(),
-      isActive: Boolean(isIncomeAssessmentActive),
-      iconColor: 'text-gold-400',
-    },
-    {
       id: 'acquisitionCosts',
       label: 'Custos de Cartório',
       icon: Landmark,
       action: () => onOpenAcquisitionCosts && onOpenAcquisitionCosts(),
       isActive: Boolean(isAcquisitionCostsActive),
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'incomeAssessment',
+      label: 'Renda Mínima',
+      icon: Users,
+      action: () => onOpenIncomeAssessment && onOpenIncomeAssessment(),
+      isActive: Boolean(isIncomeAssessmentActive),
       iconColor: 'text-gold-400',
     },
     {
