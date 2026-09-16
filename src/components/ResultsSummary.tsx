@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IncomeThermometerCard } from '@/components/IncomeThermometerCard';
+import { AcquisitionCostsCard } from '@/components/AcquisitionCostsCard';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
@@ -37,6 +38,7 @@ interface ResultsSummaryProps {
   onOpenComparison: () => void;
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
+  onOpenAcquisitionCosts?: () => void;
   inputs?: FinancingInputs;
   onScenarioSaved?: () => void;
 }
@@ -47,6 +49,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   onOpenComparison,
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
+  onOpenAcquisitionCosts,
   inputs,
   onScenarioSaved,
 }) => {
@@ -313,6 +316,12 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         firstInstallment={result.firstInstallment}
         propertyValue={result.propertyValue}
         onOpenDetailedAssessment={onOpenIncomeAssessment}
+      />
+
+      {/* Estimador de Custos de Cartório, ITBI e Escritura */}
+      <AcquisitionCostsCard
+        propertyValue={result.propertyValue}
+        onOpenDetailedModal={onOpenAcquisitionCosts}
       />
 
       {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}

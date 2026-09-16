@@ -25,6 +25,7 @@ import { SavedScenariosView } from '@/components/SavedScenariosView';
 import { ScenarioComparatorModal } from '@/components/ScenarioComparatorModal';
 import { RentVsBuyModal } from '@/components/RentVsBuyModal';
 import { IncomeAssessmentModal } from '@/components/IncomeAssessmentModal';
+import { AcquisitionCostsModal } from '@/components/AcquisitionCostsModal';
 import { Footer } from '@/components/Footer';
 import { ScenarioItem } from '@/lib/scenario-comparator';
 import { SavedScenario, getSavedScenarios } from '@/lib/saved-scenarios';
@@ -67,6 +68,7 @@ export default function Home() {
   const [isScenarioComparatorOpen, setIsScenarioComparatorOpen] = useState(false);
   const [isRentVsBuyOpen, setIsRentVsBuyOpen] = useState(false);
   const [isIncomeAssessmentOpen, setIsIncomeAssessmentOpen] = useState(false);
+  const [isAcquisitionCostsOpen, setIsAcquisitionCostsOpen] = useState(false);
   const [comparatorScenarioA, setComparatorScenarioA] = useState<ScenarioItem | null>(null);
   const [comparatorScenarioB, setComparatorScenarioB] = useState<ScenarioItem | null>(null);
   const [isSpecsOpen, setIsSpecsOpen] = useState(false);
@@ -166,6 +168,7 @@ export default function Home() {
     setIsComparatorOpen(false);
     setIsRentVsBuyOpen(false);
     setIsIncomeAssessmentOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setIsSavedScenariosActive(true);
     setShowSaveNotice(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -178,6 +181,7 @@ export default function Home() {
     setIsSavedScenariosActive(false);
     setIsRentVsBuyOpen(false);
     setIsIncomeAssessmentOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setIsComparatorOpen(false);
     setIsHelpOpen(false);
     setIsFaqOpen(false);
@@ -195,6 +199,7 @@ export default function Home() {
     setIsScenarioComparatorOpen(false);
     setIsRentVsBuyOpen(false);
     setIsIncomeAssessmentOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setIsComparatorOpen(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -208,6 +213,7 @@ export default function Home() {
     setIsScenarioComparatorOpen(false);
     setIsComparatorOpen(false);
     setIsIncomeAssessmentOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setIsRentVsBuyOpen(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -221,7 +227,22 @@ export default function Home() {
     setIsScenarioComparatorOpen(false);
     setIsComparatorOpen(false);
     setIsRentVsBuyOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setIsIncomeAssessmentOpen(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenAcquisitionCosts = () => {
+    setIsHelpOpen(false);
+    setIsFaqOpen(false);
+    setIsTermsOpen(false);
+    setIsExtraAmortizationOpen(false);
+    setIsSavedScenariosActive(false);
+    setIsScenarioComparatorOpen(false);
+    setIsComparatorOpen(false);
+    setIsRentVsBuyOpen(false);
+    setIsIncomeAssessmentOpen(false);
+    setIsAcquisitionCostsOpen(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -285,6 +306,7 @@ export default function Home() {
     setIsComparatorOpen(false);
     setIsIncomeAssessmentOpen(false);
     setIsRentVsBuyOpen(false);
+    setIsAcquisitionCostsOpen(false);
     setComparatorScenarioA(null);
     setComparatorScenarioB(null);
     setShowSaveNotice(false);
@@ -294,9 +316,9 @@ export default function Home() {
   const isHelpActive = isHelpOpen;
   const isFaqActive = isFaqOpen;
   const isTermsActive = isTermsOpen;
-  const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen && !isIncomeAssessmentOpen;
-  const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen && !isIncomeAssessmentOpen;
-  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isComparatorOpen && !isScenarioComparatorOpen && !isRentVsBuyOpen && !isIncomeAssessmentOpen;
+  const isSavedScenariosViewActive = isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen && !isIncomeAssessmentOpen && !isAcquisitionCostsOpen;
+  const isAmortizationActive = isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isScenarioComparatorOpen && !isIncomeAssessmentOpen && !isAcquisitionCostsOpen;
+  const isConfigActive = (isConfigVisible || !hasCalculated) && !isExtraAmortizationOpen && !isSavedScenariosActive && !isHelpOpen && !isFaqOpen && !isTermsOpen && !isComparatorOpen && !isScenarioComparatorOpen && !isRentVsBuyOpen && !isIncomeAssessmentOpen && !isAcquisitionCostsOpen;
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col relative overflow-hidden">
@@ -393,6 +415,7 @@ export default function Home() {
                 }, 100);
               }}
               onOpenComparator={handleOpenComparator}
+              onOpenAcquisitionCosts={handleOpenAcquisitionCosts}
               onOpenSavedScenarios={handleOpenSavedScenarios}
               onOpenRentVsBuy={handleOpenRentVsBuy}
               onOpenIncomeAssessment={handleOpenIncomeAssessment}
@@ -400,6 +423,7 @@ export default function Home() {
               isConfigActive={isConfigActive}
               isAmortizationActive={isAmortizationActive}
               isComparatorActive={isComparatorOpen}
+              isAcquisitionCostsActive={isAcquisitionCostsOpen}
               isSavedScenariosActive={isSavedScenariosViewActive}
               isRentVsBuyActive={isRentVsBuyOpen}
               isIncomeAssessmentActive={isIncomeAssessmentOpen}
@@ -490,6 +514,7 @@ export default function Home() {
                   setIsComparatorOpen(false);
                   setIsRentVsBuyOpen(false);
                   setIsIncomeAssessmentOpen(false);
+                  setIsAcquisitionCostsOpen(false);
                   setIsConfigVisible(true);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
@@ -502,6 +527,7 @@ export default function Home() {
                   setIsComparatorOpen(false);
                   setIsRentVsBuyOpen(false);
                   setIsIncomeAssessmentOpen(false);
+                  setIsAcquisitionCostsOpen(false);
                   setIsExtraAmortizationOpen(true);
                   setHasCalculated(true);
                   setTimeout(() => {
@@ -509,6 +535,7 @@ export default function Home() {
                   }, 100);
                 }}
                 onOpenComparator={handleOpenComparator}
+                onOpenAcquisitionCosts={handleOpenAcquisitionCosts}
                 onOpenHelp={() => {
                   setHelpInitialTab('manual');
                   setHelpInitialCategory('Todos');
@@ -522,6 +549,7 @@ export default function Home() {
                   setIsComparatorOpen(false);
                   setIsRentVsBuyOpen(false);
                   setIsIncomeAssessmentOpen(false);
+                  setIsAcquisitionCostsOpen(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenFaq={() => {
@@ -534,6 +562,7 @@ export default function Home() {
                   setIsComparatorOpen(false);
                   setIsRentVsBuyOpen(false);
                   setIsIncomeAssessmentOpen(false);
+                  setIsAcquisitionCostsOpen(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenTerms={() => {
@@ -546,6 +575,7 @@ export default function Home() {
                   setIsComparatorOpen(false);
                   setIsRentVsBuyOpen(false);
                   setIsIncomeAssessmentOpen(false);
+                  setIsAcquisitionCostsOpen(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenSavedScenarios={handleOpenSavedScenarios}
@@ -555,6 +585,7 @@ export default function Home() {
                 isConfigActive={isConfigActive}
                 isAmortizationActive={isAmortizationActive}
                 isComparatorActive={isComparatorOpen}
+                isAcquisitionCostsActive={isAcquisitionCostsOpen}
                 isSavedScenariosActive={isSavedScenariosViewActive}
                 isRentVsBuyActive={isRentVsBuyOpen}
                 isIncomeAssessmentActive={isIncomeAssessmentOpen}
@@ -700,7 +731,18 @@ export default function Home() {
           />
         )}
 
-        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && !isRentVsBuyOpen && !isIncomeAssessmentOpen && (
+        {isAcquisitionCostsOpen && (
+          <AcquisitionCostsModal
+            isOpen={isAcquisitionCostsOpen}
+            onClose={() => {
+              setIsAcquisitionCostsOpen(false);
+              setIsConfigVisible(true);
+            }}
+            propertyValue={calculatedInputs.propertyValue}
+          />
+        )}
+
+        {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && !isRentVsBuyOpen && !isIncomeAssessmentOpen && !isAcquisitionCostsOpen && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
             <div className="text-center max-w-3xl mx-auto flex flex-col items-center w-full">
@@ -1016,6 +1058,7 @@ export default function Home() {
                     onOpenComparison={handleOpenComparator}
                     onOpenRentVsBuy={handleOpenRentVsBuy}
                     onOpenIncomeAssessment={handleOpenIncomeAssessment}
+                    onOpenAcquisitionCosts={handleOpenAcquisitionCosts}
                     inputs={calculatedInputs}
                     onScenarioSaved={handleScenarioSaved}
                   />

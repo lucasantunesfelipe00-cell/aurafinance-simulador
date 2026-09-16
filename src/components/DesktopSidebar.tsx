@@ -18,6 +18,7 @@ import {
   Scale,
   Users,
   ArrowRightLeft,
+  Landmark,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -33,6 +34,7 @@ export interface DesktopSidebarProps {
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
   onOpenComparator?: () => void;
+  onOpenAcquisitionCosts?: () => void;
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
@@ -40,6 +42,7 @@ export interface DesktopSidebarProps {
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
   isComparatorActive?: boolean;
+  isAcquisitionCostsActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
@@ -60,6 +63,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenSimulator,
   onOpenAmortization,
   onOpenComparator,
+  onOpenAcquisitionCosts,
   onOpenSavedScenarios,
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
@@ -67,6 +71,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   isConfigActive = false,
   isAmortizationActive = false,
   isComparatorActive = false,
+  isAcquisitionCostsActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
@@ -133,6 +138,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       icon: Users,
       action: () => onOpenIncomeAssessment && onOpenIncomeAssessment(),
       isActive: Boolean(isIncomeAssessmentActive),
+      iconColor: 'text-gold-400',
+    },
+    {
+      id: 'acquisitionCosts',
+      label: 'Custos de Cartório',
+      icon: Landmark,
+      action: () => onOpenAcquisitionCosts && onOpenAcquisitionCosts(),
+      isActive: Boolean(isAcquisitionCostsActive),
       iconColor: 'text-gold-400',
     },
     {
