@@ -311,17 +311,17 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 
       </div>
 
+      {/* Estimador de Custos de Cartório, ITBI e Escritura */}
+      <AcquisitionCostsCard
+        propertyValue={result.propertyValue}
+        onOpenDetailedModal={onOpenAcquisitionCosts}
+      />
+
       {/* Termômetro de Renda Mínima Exigida (Regra dos 30%) */}
       <IncomeThermometerCard
         firstInstallment={result.firstInstallment}
         propertyValue={result.propertyValue}
         onOpenDetailedAssessment={onOpenIncomeAssessment}
-      />
-
-      {/* Estimador de Custos de Cartório, ITBI e Escritura */}
-      <AcquisitionCostsCard
-        propertyValue={result.propertyValue}
-        onOpenDetailedModal={onOpenAcquisitionCosts}
       />
 
       {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}

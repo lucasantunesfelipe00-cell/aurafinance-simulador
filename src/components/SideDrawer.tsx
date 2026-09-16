@@ -271,25 +271,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                   onClick={() => {
                     vibrateShort();
                     onClose();
-                    if (onOpenIncomeAssessment) onOpenIncomeAssessment();
-                  }}
-                  onMouseEnter={() => setCursorVariant('button')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
-                    isIncomeAssessmentActive
-                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
-                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
-                  }`}
-                >
-                  <Users className={`w-4 h-4 shrink-0 ${isIncomeAssessmentActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
-                  <span>Renda Mínima</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    vibrateShort();
-                    onClose();
                     if (onOpenAcquisitionCosts) onOpenAcquisitionCosts();
                   }}
                   onMouseEnter={() => setCursorVariant('button')}
@@ -302,6 +283,25 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                 >
                   <Landmark className={`w-4 h-4 shrink-0 ${isAcquisitionCostsActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
                   <span>Custos de Cartório (ITBI)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    vibrateShort();
+                    onClose();
+                    if (onOpenIncomeAssessment) onOpenIncomeAssessment();
+                  }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isIncomeAssessmentActive
+                      ? 'bg-[#c2a25b]/20 border-[#c2a25b]/70 text-white font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-neutral-300 hover:text-white hover:translate-x-0.5'
+                  }`}
+                >
+                  <Users className={`w-4 h-4 shrink-0 ${isIncomeAssessmentActive ? 'text-gold-300' : 'text-gold-400 group-hover:text-gold-300'}`} />
+                  <span>Renda Mínima</span>
                 </button>
 
                 <div className="relative">
