@@ -17,6 +17,7 @@ import {
   Check,
   Scale,
   Users,
+  ArrowRightLeft,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '@/lib/sound';
@@ -31,12 +32,14 @@ export interface DesktopSidebarProps {
   onOpenTerms?: () => void;
   onOpenSimulator?: () => void;
   onOpenAmortization?: () => void;
+  onOpenComparator?: () => void;
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
+  isComparatorActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
@@ -56,12 +59,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenTerms,
   onOpenSimulator,
   onOpenAmortization,
+  onOpenComparator,
   onOpenSavedScenarios,
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
+  isComparatorActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
@@ -113,6 +118,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       action: () => onOpenAmortization && onOpenAmortization(),
       isActive: Boolean(isAmortizationActive),
       iconColor: 'text-[#c2a25b]',
+    },
+    {
+      id: 'comparator',
+      label: 'Comparar SAC x PRICE',
+      icon: ArrowRightLeft,
+      action: () => onOpenComparator && onOpenComparator(),
+      isActive: Boolean(isComparatorActive),
+      iconColor: 'text-gold-400',
     },
     {
       id: 'incomeAssessment',

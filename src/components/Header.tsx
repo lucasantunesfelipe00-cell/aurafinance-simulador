@@ -21,6 +21,7 @@ interface HeaderProps {
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
+  isComparatorActive?: boolean;
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
@@ -47,6 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
+  isComparatorActive = false,
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
@@ -159,6 +161,10 @@ export const Header: React.FC<HeaderProps> = ({
           setIsDrawerOpen(false);
           if (onOpenAmortization) onOpenAmortization();
         }}
+        onOpenComparator={() => {
+          setIsDrawerOpen(false);
+          if (onOpenComparator) onOpenComparator();
+        }}
         onOpenSavedScenarios={() => {
           setIsDrawerOpen(false);
           if (onOpenSavedScenarios) onOpenSavedScenarios();
@@ -174,6 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
         savedScenariosCount={savedScenariosCount}
         isConfigActive={isConfigActive}
         isAmortizationActive={isAmortizationActive}
+        isComparatorActive={isComparatorActive}
         isSavedScenariosActive={isSavedScenariosActive}
         isRentVsBuyActive={isRentVsBuyActive}
         isIncomeAssessmentActive={isIncomeAssessmentActive}
