@@ -27,7 +27,7 @@ interface BankPartner {
   name: string;
   segment: string;
   badge: string;
-  iconSvg: React.ReactNode;
+  logoUrl: string;
 }
 
 const BANK_PARTNERS: BankPartner[] = [
@@ -36,105 +36,42 @@ const BANK_PARTNERS: BankPartner[] = [
     name: 'CAIXA',
     segment: 'Habitação & SFH / SFI',
     badge: 'Líder Habitacional',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <path
-          d="M12 14L18.5 20.5L12 27H16.5L20.5 23L24.5 27H29L22.5 20.5L29 14H24.5L20.5 18L16.5 14H12Z"
-          fill="currentColor"
-        />
-        <path d="M26 14L28.5 16.5L26 19H23L25.5 16.5L23 14H26Z" fill="currentColor" fillOpacity="0.8" />
-      </svg>
-    ),
+    logoUrl: '/images/banks/caixa.svg',
   },
   {
     id: 'itau',
     name: 'ITAÚ',
     segment: 'Personnalité & Private',
     badge: 'Taxas Competitivas',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <rect x="10" y="10" width="20" height="20" rx="4" stroke="currentColor" strokeWidth="2" />
-        <path
-          d="M16 16V24M16 16H20M16 20H19M23 16V24M23 20H26"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
+    logoUrl: '/images/banks/itau.svg',
   },
   {
     id: 'santander',
     name: 'SANTANDER',
     segment: 'Select & Private Banking',
     badge: 'Agilidade Digital',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <path
-          d="M15 26C15 26 17 21 20 21C23 21 25 26 25 26M17.5 21C17.5 21 18.5 16 20 14C21.5 16 22.5 21 22.5 21M13 25C13 25 15.5 18 18 17M27 25C27 25 24.5 18 22 17"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    logoUrl: '/images/banks/santander.svg',
   },
   {
     id: 'bradesco',
     name: 'BRADESCO',
     segment: 'Prime & Private',
     badge: 'Relacionamento',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <path
-          d="M20 12C15.58 12 12 15.58 12 20C12 24.42 15.58 28 20 28M20 12C24.42 12 28 15.58 28 20C28 24.42 24.42 28 20 28M20 12V28M15 16C17 18 17 22 15 24M25 16C23 18 23 22 25 24"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
+    logoUrl: '/images/banks/bradesco.svg',
   },
   {
     id: 'bb',
     name: 'BANCO DO BRASIL',
     segment: 'Estilo & Private',
     badge: 'Solidez Pública',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <path
-          d="M13 15L20 22L27 15M13 25L20 18L27 25M20 12V28"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
+    logoUrl: '/images/banks/bb.svg',
   },
   {
     id: 'btg',
     name: 'BTG PACTUAL',
     segment: 'Wealth & Real Estate',
     badge: 'Investidores',
-    iconSvg: (
-      <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.08" />
-        <path
-          d="M20 11L28 19L20 27L12 19L20 11Z"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        <path d="M20 16L24 20L20 24L16 20L20 16Z" fill="currentColor" fillOpacity="0.4" />
-      </svg>
-    ),
+    logoUrl: '/images/banks/btg.svg',
   },
 ];
 
@@ -182,28 +119,32 @@ export const Footer: React.FC<FooterProps> = ({
                 transition={{ duration: 0.2 }}
                 onMouseEnter={() => setCursorVariant('button')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="group relative p-3.5 sm:p-4 rounded-none border border-white/10 bg-white/[0.02] hover:bg-gradient-to-b hover:from-[#c2a25b]/15 hover:via-[#c2a25b]/5 hover:to-transparent hover:border-[#c2a25b]/60 transition-all duration-300 flex flex-col items-center text-center justify-between min-h-[135px] sm:min-h-[145px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_0_25px_rgba(194,162,91,0.2)] cursor-default"
+                className="group relative p-3 sm:p-3.5 rounded-none border border-white/10 bg-white/[0.02] hover:bg-gradient-to-b hover:from-[#c2a25b]/15 hover:via-[#c2a25b]/5 hover:to-transparent hover:border-[#c2a25b]/60 transition-all duration-300 flex flex-col items-center text-center justify-between min-h-[145px] sm:min-h-[155px] shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_0_25px_rgba(194,162,91,0.2)] cursor-default"
               >
                 {/* Linha superior dourada no hover */}
                 <div className="absolute top-0 inset-x-0 h-[1px] bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-gold-400 group-hover:to-transparent transition-all duration-300" />
 
-                {/* Ícone do Banco em Dourado / Platina */}
-                <div className="text-neutral-400 group-hover:text-gold-300 transition-colors duration-300 my-1">
-                  {bank.iconSvg}
+                {/* Logo Original do Banco em Container Branco de Alto Contraste & Fidelidade de Marca */}
+                <div className="w-full h-11 sm:h-12 bg-white rounded-none flex items-center justify-center p-2 shadow-sm border border-white/20 transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-[0_0_15px_rgba(255,255,255,0.35)]">
+                  <img
+                    src={bank.logoUrl}
+                    alt={`Logo oficial ${bank.name}`}
+                    className="h-full max-h-7 sm:max-h-8 w-auto max-w-[92%] object-contain"
+                  />
                 </div>
 
                 {/* Nome e Segmento */}
-                <div className="space-y-0.5 my-1">
-                  <h4 className="text-xs sm:text-sm font-bold tracking-wider text-white group-hover:text-gold-200 transition-colors">
+                <div className="space-y-0.5 my-1.5 w-full">
+                  <h4 className="text-xs sm:text-[13px] font-bold tracking-wider text-white group-hover:text-gold-200 transition-colors truncate">
                     {bank.name}
                   </h4>
-                  <p className="text-[10px] text-neutral-400 group-hover:text-neutral-300 transition-colors line-clamp-1">
+                  <p className="text-[10px] text-neutral-400 group-hover:text-neutral-300 transition-colors truncate">
                     {bank.segment}
                   </p>
                 </div>
 
                 {/* Tag / Badge de Confiança */}
-                <span className="mt-1.5 px-2 py-0.5 bg-black/60 border border-white/10 group-hover:border-gold-400/40 text-[9px] font-mono uppercase tracking-wider text-neutral-400 group-hover:text-gold-300 rounded-none transition-colors">
+                <span className="px-2 py-0.5 bg-black/70 border border-white/10 group-hover:border-gold-400/50 text-[9px] font-mono uppercase tracking-wider text-neutral-400 group-hover:text-gold-300 rounded-none transition-colors">
                   {bank.badge}
                 </span>
               </motion.div>
