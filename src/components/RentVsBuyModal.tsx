@@ -83,7 +83,7 @@ export const RentVsBuyModal: React.FC<RentVsBuyModalProps> = ({
   );
 
   return (
-    <section className="w-full max-w-4xl mx-auto editorial-card editorial-card-gold-border p-5 sm:p-8 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-[1075px] mx-auto editorial-card editorial-card-gold-border p-5 sm:p-8 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       {/* Linha Decorativa Dourada Superior */}
       <div className="h-1.5 w-full bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] -mt-5 sm:-mt-8 -mx-5 sm:-mx-8 mb-6" />
 

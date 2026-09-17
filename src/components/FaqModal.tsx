@@ -120,7 +120,7 @@ export const FaqModal: React.FC<FaqModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <section className="w-full max-w-3xl mx-auto editorial-card bg-neutral-950/95 border border-amber-400/40 p-4 sm:p-6 rounded-none shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-[922px] mx-auto editorial-card bg-neutral-950/95 border border-amber-400/40 p-4 sm:p-6 rounded-none shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       
       {/* Ambient Glow */}
       <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c2a25b]/10 rounded-full blur-3xl pointer-events-none" />

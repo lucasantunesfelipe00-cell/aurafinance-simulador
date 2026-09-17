@@ -147,7 +147,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
   });
 
   return (
-    <section className="w-full max-w-3xl mx-auto editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-[922px] mx-auto editorial-card editorial-card-gold-border p-6 sm:p-10 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       
       {/* Glow de fundo */}
       <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c2a25b]/10 rounded-full blur-3xl pointer-events-none" />

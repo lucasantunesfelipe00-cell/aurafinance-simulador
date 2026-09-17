@@ -90,7 +90,7 @@ export const ScenarioComparatorModal: React.FC<ScenarioComparatorModalProps> = (
   ];
 
   return (
-    <section className="w-full max-w-4xl mx-auto editorial-card editorial-card-gold-border p-5 sm:p-8 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-[1075px] mx-auto editorial-card editorial-card-gold-border p-5 sm:p-8 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-white/10 relative z-10 mb-6">
         <div className="flex items-center space-x-3">
