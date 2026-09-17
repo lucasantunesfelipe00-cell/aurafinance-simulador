@@ -119,31 +119,13 @@ export const AcquisitionCostsCard: React.FC<AcquisitionCostsCardProps> = ({
           </div>
 
           <div className="min-w-0">
-            <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span
-                className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 ${
-                  isExpanded ? 'text-amber-300' : 'text-gold-400 group-hover:text-amber-300'
-                }`}
-              >
-                Custos de Transferência &amp; Cartório
-              </span>
-              <span
-                className={`px-2 py-0.5 border text-[9px] sm:text-[10px] font-mono rounded-[75px] transition-colors duration-200 ${
-                  isExpanded
-                    ? 'bg-amber-400/10 border-amber-400/50 text-amber-300'
-                    : 'bg-white/5 border-white/10 text-neutral-300 group-hover:border-amber-400/40 group-hover:text-amber-300'
-                }`}
-              >
-                ITBI + Escritura + Laudo
-              </span>
-            </div>
-            <p
-              className={`text-xs sm:text-sm font-light mt-0.5 transition-colors duration-200 ${
-                isExpanded ? 'text-neutral-200' : 'text-neutral-300 group-hover:text-neutral-200'
+            <span
+              className={`text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200 block truncate ${
+                isExpanded ? 'text-amber-300' : 'text-gold-400 group-hover:text-amber-300'
               }`}
             >
-              Estimativa de despesas necessárias para registro definitivo do imóvel
-            </p>
+              Custos de Transferência &amp; Cartório
+            </span>
           </div>
         </div>
 
