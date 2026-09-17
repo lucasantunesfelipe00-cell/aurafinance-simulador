@@ -345,7 +345,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           </div>
         </button>
 
-        {/* Card 7: Economia Estimada (Amortização Acelerada) */}
+        {/* Card 7: Economia com Amortização */}
         <button
           type="button"
           onPointerDown={() => {
@@ -363,7 +363,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           }`}
         >
           <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
-            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Economia Estimada</span>
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 truncate">Economia com Amortização</span>
             <Sparkles className="w-4 h-4 text-white shrink-0" />
           </div>
 

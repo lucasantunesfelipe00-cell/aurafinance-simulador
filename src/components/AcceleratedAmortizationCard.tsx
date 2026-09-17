@@ -245,7 +245,7 @@ export const AcceleratedAmortizationCard: React.FC<AcceleratedAmortizationCardPr
                 isOpen ? 'text-amber-400' : 'text-neutral-400 group-hover:text-amber-400'
               }`}
             >
-              {isAmortizationActive && totalInterestSaved > 0 ? 'Economia em Juros' : 'Economia Estimada'}
+              {isAmortizationActive && totalInterestSaved > 0 ? 'Economia em Juros' : 'Economia com Amortização'}
             </span>
             <FormattedBRL
               value={totalInterestSaved}
