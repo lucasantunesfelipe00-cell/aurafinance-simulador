@@ -84,8 +84,13 @@ export const IncomeThermometerCard: React.FC<IncomeThermometerCardProps> = ({
   };
 
   return (
-    <section className="w-full bg-black border border-white/10 relative overflow-hidden transition-all duration-300 font-sans shadow-lg">
-      
+    <section
+      className={`group editorial-card border bg-black rounded-none relative overflow-hidden transition-all duration-300 font-sans shadow-lg ${
+        isExpanded
+          ? '!border-amber-400 shadow-[0_0_22px_rgba(245,158,11,0.25)]'
+          : 'border-white/20 hover:!border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] focus-within:!border-amber-400'
+      }`}
+    >
       {/* Glow de ambientação dourado sutil */}
       <div className="absolute top-0 right-0 w-64 h-32 bg-gradient-to-bl from-[#c2a25b]/10 via-[#a47e35]/5 to-transparent pointer-events-none" />
 
@@ -101,20 +106,44 @@ export const IncomeThermometerCard: React.FC<IncomeThermometerCardProps> = ({
         className="w-full p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 cursor-pointer select-none hover:bg-white/[0.02] transition-colors"
       >
         <div className="flex items-start sm:items-center space-x-3 min-w-0">
-          <div className="p-2 sm:p-2.5 bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border border-[#c2a25b]/40 text-gold-400 shrink-0">
-            <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400" />
+          <div
+            className={`p-2 sm:p-2.5 border shrink-0 transition-all duration-300 ${
+              isExpanded
+                ? 'bg-amber-400/20 border-amber-400 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+                : 'bg-gradient-to-br from-[#c2a25b]/20 to-[#a47e35]/10 border-[#c2a25b]/40 text-gold-400 group-hover:border-amber-400 group-hover:bg-amber-400/20 group-hover:text-amber-300'
+            }`}
+          >
+            <ShieldCheck
+              className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-200 ${
+                isExpanded ? 'text-amber-300' : 'text-gold-400 group-hover:text-amber-300'
+              }`}
+            />
           </div>
 
           <div className="min-w-0">
             <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gold-400">
+              <span
+                className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors duration-200 ${
+                  isExpanded ? 'text-amber-300' : 'text-gold-400 group-hover:text-amber-300'
+                }`}
+              >
                 Termômetro de Renda Mínima Exigida
               </span>
-              <span className="px-2 py-0.5 bg-white/5 border border-white/10 text-neutral-300 text-[9px] sm:text-[10px] font-mono rounded-[75px]">
+              <span
+                className={`px-2 py-0.5 border text-[9px] sm:text-[10px] font-mono rounded-[75px] transition-colors duration-200 ${
+                  isExpanded
+                    ? 'bg-amber-400/10 border-amber-400/50 text-amber-300'
+                    : 'bg-white/5 border-white/10 text-neutral-300 group-hover:border-amber-400/40 group-hover:text-amber-300'
+                }`}
+              >
                 Regra dos 30% Bacen
               </span>
             </div>
-            <p className="text-xs sm:text-sm text-neutral-300 font-light mt-0.5">
+            <p
+              className={`text-xs sm:text-sm font-light mt-0.5 transition-colors duration-200 ${
+                isExpanded ? 'text-neutral-200' : 'text-neutral-300 group-hover:text-neutral-200'
+              }`}
+            >
               Renda familiar mínima recomendada para aprovação da 1ª parcela
             </p>
           </div>
@@ -123,12 +152,18 @@ export const IncomeThermometerCard: React.FC<IncomeThermometerCardProps> = ({
         {/* Resumo do Valor Total + Botão de Expansão */}
         <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
           <div className="text-left sm:text-right">
-            <span className="text-[10px] sm:text-xs text-neutral-400 uppercase tracking-wider block">
+            <span
+              className={`text-[10px] sm:text-xs uppercase tracking-wider block transition-colors duration-200 ${
+                isExpanded ? 'text-amber-400' : 'text-neutral-400 group-hover:text-amber-400'
+              }`}
+            >
               Renda Familiar Sugerida
             </span>
             <FormattedBRL
               value={assessment.minimumRequiredIncome}
-              className="text-sm sm:text-base lg:text-lg font-semibold text-white tracking-tight"
+              className={`text-sm sm:text-base lg:text-lg font-semibold tracking-tight transition-colors duration-200 ${
+                isExpanded ? 'text-amber-300' : 'text-white group-hover:text-amber-300'
+              }`}
               animate
             />
           </div>
@@ -136,11 +171,15 @@ export const IncomeThermometerCard: React.FC<IncomeThermometerCardProps> = ({
           <button
             type="button"
             aria-label={isExpanded ? 'Recolher detalhes de renda' : 'Expandir detalhes de renda'}
-            className="p-1.5 rounded-none bg-white/5 border border-white/15 text-neutral-300 hover:text-gold-400 transition-transform duration-200"
+            className={`p-1.5 rounded-none border transition-all duration-200 ${
+              isExpanded
+                ? 'bg-amber-400/20 border-amber-400 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
+                : 'bg-white/5 border-white/15 text-neutral-300 group-hover:border-amber-400/50 group-hover:text-amber-300'
+            }`}
           >
             <ChevronDown
               className={`w-4 h-4 transition-transform duration-300 ${
-                isExpanded ? 'rotate-180 text-gold-400' : ''
+                isExpanded ? 'rotate-180 text-amber-300' : 'group-hover:text-amber-300'
               }`}
             />
           </button>
