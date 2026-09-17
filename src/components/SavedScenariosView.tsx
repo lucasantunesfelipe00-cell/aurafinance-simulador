@@ -166,7 +166,7 @@ export const SavedScenariosView: React.FC<SavedScenariosViewProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="w-full max-w-[922px] mx-auto space-y-6 font-sans select-none"
+      className="w-full max-w-[1060px] mx-auto space-y-6 font-sans select-none"
     >
       {/* Card Principal de Cenários Salvos (Sharp 0px Editorial Corners) */}
       <div className="editorial-card border border-white/20 bg-black rounded-none overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8 relative">

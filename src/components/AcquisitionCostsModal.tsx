@@ -116,7 +116,7 @@ export const AcquisitionCostsModal: React.FC<AcquisitionCostsModalProps> = ({
   };
 
   return (
-    <section className="w-full max-w-[1075px] mx-auto editorial-card editorial-card-gold-border p-4 sm:p-8 md:p-10 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
+    <section className="w-full max-w-[1236px] mx-auto editorial-card editorial-card-gold-border p-4 sm:p-8 md:p-10 bg-black rounded-none flex flex-col relative overflow-hidden font-sans animate-fadeIn">
       
       {/* Luz ambiente dourada de fundo */}
       <div className="absolute top-0 right-0 w-96 h-48 bg-gradient-to-bl from-[#c2a25b]/15 via-[#a47e35]/5 to-transparent pointer-events-none" />

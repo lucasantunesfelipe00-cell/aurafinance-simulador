@@ -31,11 +31,14 @@ import {
   ShieldCheck,
   Landmark,
   Sparkles,
+  FileDown,
+  Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IncomeThermometerCard } from '@/components/IncomeThermometerCard';
 import { AcquisitionCostsCard } from '@/components/AcquisitionCostsCard';
 import { AcceleratedAmortizationCard } from '@/components/AcceleratedAmortizationCard';
+import { downloadExecutiveDossierPdf } from '@/lib/dossier-pdf';
 
 interface ResultsSummaryProps {
   result: FinancingResult;
@@ -68,6 +71,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
 }) => {
   const [activeCard, setActiveCard] = React.useState<number | null>(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [isConfirmingSave, setIsConfirmingSave] = useState(false);
   const [scenarioNameInput, setScenarioNameInput] = useState('');
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -152,6 +156,25 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
     playClickSound();
     const currentInputs = getCurrentInputs();
     openWhatsAppChat(currentInputs, result);
+  };
+
+  const handleDownloadDossier = async () => {
+    vibrateShort();
+    playClickSound();
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      const currentInputs = getCurrentInputs();
+      await downloadExecutiveDossierPdf({
+        inputs: currentInputs,
+        result,
+        comparison,
+      });
+    } catch (err) {
+      console.error('Erro ao gerar Dossiê PDF:', err);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const lastInstallmentNumber =
@@ -463,8 +486,27 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         onOpenDetailedAssessment={onOpenIncomeAssessment}
       />
 
-      {/* 1. Análise Comparativa do Motor Financeiro (Diretamente ligado aos 4 KPIs) */}
-      <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 pt-2.5 sm:pt-3.5">
+      {/* 1. Análise Comparativa e Exportação Oficial do Dossiê */}
+      <div className="w-full flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 pt-2.5 sm:pt-3.5">
+        <MagneticButton
+          type="button"
+          onClick={handleDownloadDossier}
+          disabled={isGeneratingPdf}
+          className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-bold text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] hover:brightness-110 py-3 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_20px_rgba(194,162,91,0.35)] hover:shadow-[0_0_30px_rgba(194,162,91,0.55)] whitespace-nowrap w-full sm:w-auto"
+        >
+          {isGeneratingPdf ? (
+            <>
+              <Loader2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 animate-spin shrink-0 text-black" />
+              <span>GERANDO DOSSIÊ...</span>
+            </>
+          ) : (
+            <>
+              <FileDown className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0 text-black" />
+              <span>BAIXAR DOSSIÊ DA SIMULAÇÃO (PDF)</span>
+            </>
+          )}
+        </MagneticButton>
+
         <MagneticButton
           type="button"
           onClick={onOpenComparison}
@@ -481,15 +523,39 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-medium sm:font-semibold text-white bg-gradient-to-r from-[#1a160d] via-black to-[#1a160d] border border-gold-400 hover:border-gold-300 hover:bg-gold-500/15 py-3 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_20px_rgba(194,162,91,0.22)] hover:shadow-[0_0_30px_rgba(194,162,91,0.4)] whitespace-nowrap w-full sm:w-auto"
           >
             <Scale className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0" />
-            <span>COMPRAR VS. ALUGAR &amp; INVESTIR</span>
+            <span>COMPRAR VS. ALUGAR</span>
           </MagneticButton>
         )}
       </div>
 
-      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento e Concierge) */}
+      {/* 2. Hub Separado: Ações do Cenário (Gestão, Compartilhamento, Dossiê e Concierge) */}
       <div className="w-full pt-5 border-t border-white/10 mt-6">
-        <div className="w-full flex flex-row items-start justify-center gap-6 sm:gap-4 text-center">
-          {/* Botão 1: Salvar Cenário */}
+        <div className="w-full flex flex-row items-start justify-center gap-5 sm:gap-4 text-center">
+          {/* Botão 1: Baixar Dossiê PDF */}
+          <div className="flex flex-col items-center">
+            <MagneticButton
+              type="button"
+              onClick={handleDownloadDossier}
+              disabled={isGeneratingPdf}
+              aria-label="Baixar Dossiê da Simulação (PDF)"
+              title="Baixar Dossiê da Simulação (PDF)"
+              className="btn-lift group flex items-center justify-center text-xs font-medium text-gold-200 bg-gradient-to-r from-[#201a10] via-black to-[#201a10] border border-gold-400/70 hover:border-gold-300 hover:bg-gold-500/15 w-12 h-12 sm:w-auto sm:h-11 sm:min-w-[44px] sm:px-3.5 sm:hover:px-5 rounded-full transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(194,162,91,0.25)] hover:shadow-[0_0_25px_rgba(194,162,91,0.45)] active:scale-95"
+            >
+              {isGeneratingPdf ? (
+                <Loader2 className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-gold-400 animate-spin shrink-0" />
+              ) : (
+                <FileDown className="w-5 h-5 sm:w-4.5 sm:h-4.5 text-gold-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              )}
+              <span className="hidden sm:inline-block max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:ml-2 overflow-hidden whitespace-nowrap uppercase tracking-wider text-[11px] font-medium text-gold-300 transition-all duration-300 ease-out">
+                {isGeneratingPdf ? 'Gerando...' : 'Dossiê PDF'}
+              </span>
+            </MagneticButton>
+            <span className="block sm:hidden text-[10px] font-mono tracking-wider uppercase text-gold-300 mt-2 max-w-[85px] leading-tight">
+              {isGeneratingPdf ? 'Gerando...' : 'Dossiê PDF'}
+            </span>
+          </div>
+
+          {/* Botão 2: Salvar Cenário */}
           {!isConfirmingSave && (
             <div className="flex flex-col items-center">
               <MagneticButton
@@ -510,7 +576,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             </div>
           )}
 
-          {/* Botão 2: Compartilhar Simulação */}
+          {/* Botão 3: Compartilhar Simulação */}
           <div className="flex flex-col items-center">
             <MagneticButton
               type="button"
@@ -544,7 +610,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
             </span>
           </div>
 
-          {/* Botão 3: Falar com Especialista (Concierge WhatsApp) */}
+          {/* Botão 4: Falar com Especialista (Concierge WhatsApp) */}
           <div className="flex flex-col items-center">
             <MagneticButton
               type="button"

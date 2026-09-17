@@ -308,7 +308,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   );
 
   return (
-    <div className="max-w-[922px] mx-auto">
+    <div className="max-w-[1060px] mx-auto">
 
       {/* Cabeçalho do topo da caixa de configuração */}
       <div className="relative flex flex-col items-center justify-center pt-1 mb-8 px-4 sm:px-8 text-center w-full min-h-[96px]">
@@ -323,7 +323,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
               transition={{ duration: 0.25, ease: 'easeOut' }}
               className="flex flex-col items-center justify-center pt-12 sm:pt-16 pb-4"
             >
-              <h2 className="text-xl min-[360px]:text-2xl min-[390px]:text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-center leading-tight max-w-[92vw] sm:max-w-[806px] mx-auto line-clamp-3 overflow-hidden">
+              <h2 className="text-xl min-[360px]:text-2xl min-[390px]:text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-center leading-tight max-w-[92vw] sm:max-w-[927px] mx-auto line-clamp-3 overflow-hidden">
                 <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] tracking-tight">
                   Dê início à configuração
                 </span>{' '}

@@ -5,18 +5,50 @@ import { FinancingResult } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { playTypeSound } from '@/lib/sound';
-import { Table, Download, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Table, Download, Search, ChevronLeft, ChevronRight, FileDown, Loader2 } from 'lucide-react';
+import { FinancingInputs } from '@/types/financing';
+import { downloadExecutiveDossierPdf } from '@/lib/dossier-pdf';
 
 interface AmortizationTableProps {
   result: FinancingResult;
+  inputs?: FinancingInputs;
 }
 
-export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) => {
+export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result, inputs }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
   const pageSize = 12; // 12 meses por página
 
   const installments = result.installments || [];
+
+  const handleExportPdf = async () => {
+    if (isExportingPdf) return;
+    setIsExportingPdf(true);
+    try {
+      const activeInputs: FinancingInputs = inputs || {
+        category: 'property',
+        propertyValue: result.propertyValue,
+        downPayment: result.downPayment,
+        downPaymentPercent: (result.downPayment / result.propertyValue) * 100,
+        interestRateYearly: 10.5,
+        termMonths: result.termMonths,
+        amortizationMethod: result.method,
+        includeInsurances: true,
+        monthlyAdminFee: 25,
+        mipRateYearly: 0.021,
+        dfiRateYearly: 0.008,
+      };
+      await downloadExecutiveDossierPdf({
+        inputs: activeInputs,
+        result,
+      });
+    } catch (err) {
+      console.error('Erro ao exportar PDF:', err);
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
 
   const filtered = installments.filter((inst) => {
     if (!searchTerm) return true;
@@ -83,13 +115,32 @@ export const AmortizationTable: React.FC<AmortizationTableProps> = ({ result }) 
             />
           </div>
 
+          {/* Exportar Dossiê PDF (Full Pill 75px Button) */}
+          <button
+            onClick={handleExportPdf}
+            disabled={isExportingPdf}
+            className="btn-lift flex items-center space-x-1.5 text-xs font-semibold text-black bg-gradient-to-r from-[#a47e35] via-[#c2a25b] to-[#a47e35] px-3.5 sm:px-4 py-1.5 rounded-[75px] hover:brightness-110 transition-all uppercase tracking-wider shrink-0 cursor-pointer shadow-gold-glow-sm"
+          >
+            {isExportingPdf ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span className="hidden sm:inline">Gerando...</span>
+              </>
+            ) : (
+              <>
+                <FileDown className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Dossiê PDF</span>
+              </>
+            )}
+          </button>
+
           {/* Exportar CSV (Full Pill 75px Button) */}
           <button
             onClick={handleExportCSV}
-            className="btn-lift flex items-center space-x-1.5 text-xs font-normal text-white hover:text-black px-4 py-1.5 rounded-[75px] border border-white/30 hover:bg-white transition-all uppercase tracking-wider shrink-0"
+            className="btn-lift flex items-center space-x-1.5 text-xs font-normal text-white hover:text-black px-3.5 sm:px-4 py-1.5 rounded-[75px] border border-white/30 hover:bg-white transition-all uppercase tracking-wider shrink-0 cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Exportar CSV</span>
+            <span className="hidden sm:inline">CSV</span>
           </button>
         </div>
       </div>

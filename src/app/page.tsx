@@ -586,8 +586,8 @@ export default function Home() {
                 activeTab={activeTab}
               />
 
-      {/* Conteúdo Principal (Max-width 1294px - ampliado em 20%) */}
-      <main className="flex-1 max-w-[1294px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
+      {/* Conteúdo Principal (Max-width 1488px - ampliado em +15%) */}
+      <main className="flex-1 max-w-[1488px] w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
 
         {/* Banner Notificador de Simulação Aberta por Link Compartilhado */}
         <AnimatePresence>
@@ -734,7 +734,7 @@ export default function Home() {
         {!isHelpOpen && !isFaqOpen && !isTermsOpen && !isSavedScenariosViewActive && !isScenarioComparatorOpen && !isComparatorOpen && !isRentVsBuyOpen && !isIncomeAssessmentOpen && !isAcquisitionCostsOpen && (
           <>
             {/* HERO SECTION — Carrossel de Configuração da Simulação */}
-            <div className="text-center max-w-[922px] mx-auto flex flex-col items-center w-full">
+            <div className="text-center max-w-[1060px] mx-auto flex flex-col items-center w-full">
           <AnimatePresence initial={false}>
             {isConfigVisible && (
               <motion.div
@@ -770,14 +770,14 @@ export default function Home() {
 
         {/* Animação de Carregamento de 3 Segundos ao Clicar em SIMULAR */}
         {isSimulating && (
-          <div className="max-w-[922px] mx-auto">
+          <div className="max-w-[1060px] mx-auto">
             <SimulationLoader durationSeconds={3} />
           </div>
         )}
 
         {/* Painel de Resultados Exibido Abaixo ao Clicar em SIMULAR */}
         {hasCalculated && !isSimulating && (
-          <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-[922px] mx-auto scroll-mt-24">
+          <div ref={resultsRef} className="space-y-8 animate-fadeIn max-w-[1060px] mx-auto scroll-mt-24">
 
             {/* Seletor de Abas da Análise (Ordem: Resumo e KPIs, Tabela mês a mês, Gráfico) */}
             <div className="relative flex items-center justify-between p-1 bg-black border border-white/20 rounded-[75px]">
@@ -898,7 +898,7 @@ export default function Home() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <AmortizationTable result={result} />
+                  <AmortizationTable result={result} inputs={calculatedInputs} />
                 </motion.div>
               )}
             </AnimatePresence>

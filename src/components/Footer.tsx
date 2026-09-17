@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-[#c2a25b]/50 to-transparent pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[50%] h-8 bg-gradient-to-b from-[#c2a25b]/10 to-transparent pointer-events-none blur-sm" />
 
-      <div className="max-w-[1294px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+      <div className="max-w-[1488px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
         
         {/* ========================================================================= */}
         {/* BLOCO PRINCIPAL UNIFICADO: CONFORMIDADE BACEN (ESQ) X BANCOS (DIR)        */}
