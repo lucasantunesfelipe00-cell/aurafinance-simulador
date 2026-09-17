@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { FinancingResult, ComparisonResult, FinancingInputs } from '@/types/financing';
-import { formatPercent } from '@/lib/financing-calculator';
+import { formatPercent, calculateFinancing } from '@/lib/financing-calculator';
+import { calculateAcquisitionCosts } from '@/lib/acquisition-costs';
+import { assessIncomeCommitment } from '@/lib/income-assessment';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { MagneticButton } from '@/components/MagneticButton';
@@ -27,6 +29,8 @@ import {
   Wallet,
   Scale,
   ShieldCheck,
+  Landmark,
+  Sparkles,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IncomeThermometerCard } from '@/components/IncomeThermometerCard';
@@ -155,10 +159,33 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
       ? result.installments[result.installments.length - 1].number
       : result.termMonths;
 
+  const baseline =
+    baselineResult ||
+    calculateFinancing({
+      ...getCurrentInputs(),
+      extraMonthlyAmortization: 0,
+      extraAnnualAmortization: 0,
+    });
+  const totalInterestSaved = Math.max(0, baseline.totalInterest - result.totalInterest);
+
+  const estimatedAcquisitionCosts = calculateAcquisitionCosts({
+    propertyValue: result.propertyValue,
+    itbiRate: 3.0,
+    registrationRate: 1.2,
+    bankAppraisalFee: 3400,
+    certificatesFee: 900,
+    isFirstPropertySFH: false,
+  }).totalCosts;
+
+  const suggestedFamilyIncome = assessIncomeCommitment(
+    result.firstInstallment,
+    0
+  ).minimumRequiredIncome;
+
   return (
     <div className="space-y-6">
 
-      {/* Grade 6 KPI Cards (Editorial Sharp 0px Corners) */}
+      {/* Grade 9 KPI Cards (Editorial Sharp 0px Corners) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 
         {/* Card 1: Valor do Imóvel */}
@@ -312,6 +339,99 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           <div className="my-1 min-w-0 w-full">
             <FormattedBRL
               value={result.totalPaid}
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
+              animate
+            />
+          </div>
+        </button>
+
+        {/* Card 7: Economia Estimada (Amortização Acelerada) */}
+        <button
+          type="button"
+          onPointerDown={() => {
+            handleCardActivate(7);
+            if (onToggleExtraAmortization) onToggleExtraAmortization();
+          }}
+          onClick={() => {
+            handleCardActivate(7);
+            if (onToggleExtraAmortization) onToggleExtraAmortization();
+          }}
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+            activeCard === 7
+              ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
+              : 'border border-white/20 sm:hover:border-gold-400/60'
+          }`}
+        >
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Economia Estimada</span>
+            <Sparkles className="w-4 h-4 text-white shrink-0" />
+          </div>
+
+          <div className="my-1 min-w-0 w-full">
+            <FormattedBRL
+              value={totalInterestSaved}
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
+              animate
+            />
+          </div>
+        </button>
+
+        {/* Card 8: Custos de Cartório */}
+        <button
+          type="button"
+          onPointerDown={() => {
+            handleCardActivate(8);
+            if (onOpenAcquisitionCosts) onOpenAcquisitionCosts();
+          }}
+          onClick={() => {
+            handleCardActivate(8);
+            if (onOpenAcquisitionCosts) onOpenAcquisitionCosts();
+          }}
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+            activeCard === 8
+              ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
+              : 'border border-white/20 sm:hover:border-gold-400/60'
+          }`}
+        >
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Custos de Cartório</span>
+            <Landmark className="w-4 h-4 text-white shrink-0" />
+          </div>
+
+          <div className="my-1 min-w-0 w-full">
+            <FormattedBRL
+              value={estimatedAcquisitionCosts}
+              className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
+              animate
+            />
+          </div>
+        </button>
+
+        {/* Card 9: Renda Familiar Sugerida */}
+        <button
+          type="button"
+          onPointerDown={() => {
+            handleCardActivate(9);
+            if (onOpenIncomeAssessment) onOpenIncomeAssessment();
+          }}
+          onClick={() => {
+            handleCardActivate(9);
+            if (onOpenIncomeAssessment) onOpenIncomeAssessment();
+          }}
+          className={`text-left p-4 sm:p-4.5 rounded-none flex flex-col justify-between min-w-0 transition-all duration-200 cursor-pointer select-none w-full focus:outline-none bg-black ${
+            activeCard === 9
+              ? 'border-2 border-gold-400 shadow-[0_0_8px_rgba(194,162,91,0.25)]'
+              : 'border border-white/20 sm:hover:border-gold-400/60'
+          }`}
+        >
+          <div className="flex justify-between items-start mb-2.5 gap-2 w-full">
+            <span className="text-xs sm:text-xs md:text-sm font-medium uppercase tracking-wider text-gold-400 whitespace-nowrap">Renda Familiar Sugerida</span>
+            <ShieldCheck className="w-4 h-4 text-white shrink-0" />
+          </div>
+
+          <div className="my-1 min-w-0 w-full">
+            <FormattedBRL
+              value={suggestedFamilyIncome}
               className="text-base sm:text-lg lg:text-xl font-normal text-white tracking-tight whitespace-nowrap"
               animate
             />
