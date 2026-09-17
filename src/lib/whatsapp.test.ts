@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { buildWhatsAppMessage, generateWhatsAppUrl, buildWhatsAppAmortizationMessage } from './whatsapp';
+import {
+  buildWhatsAppMessage,
+  generateWhatsAppUrl,
+  buildWhatsAppAmortizationMessage,
+  buildWhatsAppPortabilityMessage,
+} from './whatsapp';
 import { FinancingInputs, FinancingResult } from '../types/financing';
 
 const sampleInputs: FinancingInputs = {
@@ -101,6 +106,23 @@ describe('whatsapp: Message and URL Generator', () => {
     expect(message).toContain('500');
     expect(message).toContain('5.000');
     expect(message).toContain('Economia Estimada em Juros');
+  });
+
+  it('builds portability specific WhatsApp message with balance, rates and savings', () => {
+    const msg = buildWhatsAppPortabilityMessage(
+      450000,
+      12.5,
+      9.8,
+      300,
+      185000,
+      780
+    );
+
+    expect(msg).toContain('Portabilidade');
+    expect(msg).toContain('450.000');
+    expect(msg).toContain('12,50%');
+    expect(msg).toContain('9,80%');
+    expect(msg).toContain('185.000');
   });
 });
 

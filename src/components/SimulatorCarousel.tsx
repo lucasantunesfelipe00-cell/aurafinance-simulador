@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   HelpCircle,
+  ArrowRightLeft,
 } from 'lucide-react';
 
 interface SimulatorCarouselProps {
@@ -26,6 +27,7 @@ interface SimulatorCarouselProps {
   onSimulate: () => void;
   onStepChange?: (step: number) => void;
   onOpenHelp?: () => void;
+  onOpenPortability?: () => void;
   currentStep?: number;
 }
 
@@ -309,6 +311,26 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
 
   return (
     <div className="max-w-[1060px] mx-auto">
+
+      {/* Toggle / Aba: "Já tem financiamento ativo?" */}
+      {onOpenPortability && (
+        <div className="flex items-center justify-center mb-3">
+          <button
+            type="button"
+            onClick={() => {
+              vibrateShort();
+              playClickSound();
+              onOpenPortability();
+            }}
+            className="group inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#1c180e] via-black to-[#1c180e] border border-gold-400/40 hover:border-gold-300 text-xs text-neutral-300 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(194,162,91,0.15)] hover:shadow-[0_0_22px_rgba(194,162,91,0.35)] cursor-pointer active:scale-95"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="text-gold-300 font-semibold tracking-wide">Já tem financiamento ativo?</span>
+            <span className="hidden sm:inline text-neutral-400 group-hover:text-neutral-200">Simular Portabilidade &amp; Reduzir Juros</span>
+            <ArrowRightLeft className="w-3.5 h-3.5 text-gold-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+          </button>
+        </div>
+      )}
 
       {/* Cabeçalho do topo da caixa de configuração */}
       <div className="relative flex flex-col items-center justify-center pt-1 mb-8 px-4 sm:px-8 text-center w-full min-h-[96px]">

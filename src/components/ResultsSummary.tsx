@@ -47,6 +47,7 @@ interface ResultsSummaryProps {
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
   onOpenAcquisitionCosts?: () => void;
+  onOpenPortability?: () => void;
   inputs?: FinancingInputs;
   baselineResult?: FinancingResult;
   onInputsChange?: (inputs: FinancingInputs) => void;
@@ -62,6 +63,7 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
   onOpenAcquisitionCosts,
+  onOpenPortability,
   inputs,
   baselineResult,
   onInputsChange,
@@ -524,6 +526,17 @@ export const ResultsSummary: React.FC<ResultsSummaryProps> = ({
           >
             <Scale className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gold-400 shrink-0" />
             <span>COMPRAR VS. ALUGAR</span>
+          </MagneticButton>
+        )}
+
+        {onOpenPortability && (
+          <MagneticButton
+            type="button"
+            onClick={onOpenPortability}
+            className="btn-lift flex items-center justify-center space-x-2 uppercase tracking-wider text-xs sm:text-[13px] font-medium sm:font-semibold text-emerald-300 bg-gradient-to-r from-emerald-950/60 via-black to-emerald-950/60 border border-emerald-500/50 hover:border-emerald-400 hover:bg-emerald-500/10 py-3 px-5 sm:px-6 rounded-full transition-all cursor-pointer shadow-[0_0_16px_rgba(16,185,129,0.18)] hover:shadow-[0_0_26px_rgba(16,185,129,0.35)] whitespace-nowrap w-full sm:w-auto"
+          >
+            <ArrowRightLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-400 shrink-0" />
+            <span>PORTABILIDADE</span>
           </MagneticButton>
         )}
       </div>

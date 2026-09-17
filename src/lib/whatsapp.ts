@@ -88,6 +88,67 @@ export function buildWhatsAppAmortizationMessage(
   return text;
 }
 
+/**
+ * Monta o texto para WhatsApp focado na Portabilidade de Financiamento.
+ */
+export function buildWhatsAppPortabilityMessage(
+  currentBalance: number,
+  currentRate: number,
+  newRate: number,
+  remainingMonths: number,
+  totalSavings: number,
+  monthlySavings: number
+): string {
+  const balanceStr = formatBRL(currentBalance);
+  const curRateStr = formatPercent(currentRate, 2);
+  const newRateStr = formatPercent(newRate, 2);
+  const totalSavingsStr = formatBRL(totalSavings);
+  const monthlySavingsStr = formatBRL(monthlySavings);
+  const remainingYears = (remainingMonths / 12).toFixed(1);
+
+  let text = `*Olá! Acabei de simular a Portabilidade do meu Financiamento Imobiliário no Aura Finance e gostaria de conversar com um especialista.*`;
+  text += `\n\n📊 *Dados do meu Financiamento Atual:*`;
+  text += `\n• *Saldo Devedor Atual:* ${balanceStr}`;
+  text += `\n• *Taxa Atual do meu Banco:* ${curRateStr} a.a.`;
+  text += `\n• *Prazo Restante:* ${remainingMonths} meses (~${remainingYears} anos)`;
+  text += `\n\n⚡ *Condições Simuladas de Portabilidade:*`;
+  text += `\n• *Nova Taxa Proposta:* ${newRateStr} a.a.`;
+  text += `\n• *Economia Estimada na Parcela:* ~${monthlySavingsStr}/mês`;
+  text += `\n• *Economia Total Projetada em Juros:* ${totalSavingsStr}`;
+  text += `\n\n_Gostaria de avaliar a viabilidade de transferir minha dívida para um banco parceiro e garantir essa economia._`;
+
+  return text;
+}
+
+export function openWhatsAppPortabilityChat(
+  currentBalance: number,
+  currentRate: number,
+  newRate: number,
+  remainingMonths: number,
+  totalSavings: number,
+  monthlySavings: number,
+  options?: WhatsAppMessageOptions
+): void {
+  const message = buildWhatsAppPortabilityMessage(
+    currentBalance,
+    currentRate,
+    newRate,
+    remainingMonths,
+    totalSavings,
+    monthlySavings
+  );
+  const encoded = encodeURIComponent(message);
+  let phone = options?.phoneNumber;
+  if (!phone && typeof process !== 'undefined' && process.env) {
+    phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || process.env.NEXT_PUBLIC_WHATSAPP_PHONE;
+  }
+  const cleanPhone = normalizeWhatsAppPhone(phone);
+  const url = `https://wa.me/${cleanPhone}?text=${encoded}`;
+  if (typeof window !== 'undefined') {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+}
+
 export const DEFAULT_WHATSAPP_PHONE = '5519997550603';
 
 export function normalizeWhatsAppPhone(rawPhone?: string): string {

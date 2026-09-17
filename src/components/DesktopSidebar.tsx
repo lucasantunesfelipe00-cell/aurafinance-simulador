@@ -38,6 +38,7 @@ export interface DesktopSidebarProps {
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
+  onOpenPortability?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
@@ -46,6 +47,7 @@ export interface DesktopSidebarProps {
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
+  isPortabilityActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -67,6 +69,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   onOpenSavedScenarios,
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
+  onOpenPortability,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
@@ -75,6 +78,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
+  isPortabilityActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -115,6 +119,14 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       action: () => onOpenSimulator && onOpenSimulator(),
       isActive: Boolean(isConfigActive),
       iconColor: 'text-gold-400',
+    },
+    {
+      id: 'portability',
+      label: 'Portabilidade',
+      icon: ArrowRightLeft,
+      action: () => onOpenPortability && onOpenPortability(),
+      isActive: Boolean(isPortabilityActive),
+      iconColor: 'text-emerald-400',
     },
     {
       id: 'amortization',

@@ -39,6 +39,7 @@ export interface SideDrawerProps {
   onOpenSavedScenarios?: () => void;
   onOpenRentVsBuy?: () => void;
   onOpenIncomeAssessment?: () => void;
+  onOpenPortability?: () => void;
   savedScenariosCount?: number;
   isConfigActive?: boolean;
   isAmortizationActive?: boolean;
@@ -47,6 +48,7 @@ export interface SideDrawerProps {
   isSavedScenariosActive?: boolean;
   isRentVsBuyActive?: boolean;
   isIncomeAssessmentActive?: boolean;
+  isPortabilityActive?: boolean;
   showSaveNotice?: boolean;
   saveNoticeLabel?: string;
   isHelpActive?: boolean;
@@ -67,6 +69,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   onOpenSavedScenarios,
   onOpenRentVsBuy,
   onOpenIncomeAssessment,
+  onOpenPortability,
   savedScenariosCount = 0,
   isConfigActive = false,
   isAmortizationActive = false,
@@ -75,6 +78,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   isSavedScenariosActive = false,
   isRentVsBuyActive = false,
   isIncomeAssessmentActive = false,
+  isPortabilityActive = false,
   showSaveNotice = false,
   saveNoticeLabel = 'Salvar',
   isHelpActive = false,
@@ -227,6 +231,25 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
                     Ferramentas
                   </span>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    vibrateShort();
+                    onClose();
+                    if (onOpenPortability) onOpenPortability();
+                  }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className={`w-full flex items-center space-x-3 px-3 py-2 text-xs transition-all text-left group cursor-pointer rounded-none border focus:outline-none focus-visible:outline-none outline-none ${
+                    isPortabilityActive
+                      ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 font-bold shadow-gold-glow-sm'
+                      : 'border-transparent text-emerald-400 hover:text-emerald-300 hover:translate-x-0.5'
+                  }`}
+                >
+                  <ArrowRightLeft className={`w-4 h-4 shrink-0 ${isPortabilityActive ? 'text-emerald-300' : 'text-emerald-400'}`} />
+                  <span>Portabilidade</span>
+                </button>
 
                 <button
                   type="button"
