@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildWhatsAppMessage, generateWhatsAppUrl } from './whatsapp';
+import { buildWhatsAppMessage, generateWhatsAppUrl, buildWhatsAppAmortizationMessage } from './whatsapp';
 import { FinancingInputs, FinancingResult } from '../types/financing';
 
 const sampleInputs: FinancingInputs = {
@@ -75,4 +75,32 @@ describe('whatsapp: Message and URL Generator', () => {
 
     expect(url.startsWith('https://wa.me/5519997550603?text=')).toBe(true);
   });
+
+  it('builds amortization specific WhatsApp message with savings and timeframe', () => {
+    const acceleratedResult: FinancingResult = {
+      ...sampleResult,
+      termMonths: 180,
+      totalInterest: 500000,
+      installments: new Array(180).fill({}),
+    };
+    const baselineResult: FinancingResult = {
+      ...sampleResult,
+      termMonths: 360,
+      totalInterest: 1100000,
+      installments: new Array(360).fill({}),
+    };
+
+    const inputsWithAmort: FinancingInputs = {
+      ...sampleInputs,
+      extraMonthlyAmortization: 500,
+      extraAnnualAmortization: 5000,
+    };
+
+    const message = buildWhatsAppAmortizationMessage(inputsWithAmort, baselineResult, acceleratedResult);
+    expect(message).toContain('Amortização Acelerada');
+    expect(message).toContain('500');
+    expect(message).toContain('5.000');
+    expect(message).toContain('Economia Estimada em Juros');
+  });
 });
+

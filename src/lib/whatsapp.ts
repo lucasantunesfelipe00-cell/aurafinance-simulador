@@ -53,6 +53,41 @@ export function buildWhatsAppMessage(
   return text;
 }
 
+/**
+ * Monta o texto para WhatsApp focado na estratégia de Amortização Acelerada.
+ */
+export function buildWhatsAppAmortizationMessage(
+  inputs: FinancingInputs,
+  baselineResult: FinancingResult,
+  acceleratedResult: FinancingResult
+): string {
+  const propertyVal = formatBRL(inputs.propertyValue);
+  const baselineYears = Math.ceil(baselineResult.installments.length / 12);
+  const acceleratedYears = Math.ceil(acceleratedResult.installments.length / 12);
+  const monthsSaved = Math.max(0, baselineResult.installments.length - acceleratedResult.installments.length);
+  const interestSaved = Math.max(0, baselineResult.totalInterest - acceleratedResult.totalInterest);
+
+  let text = `*Olá! Acabei de simular uma estratégia de Amortização Acelerada no Brasil Finance e gostaria de conversar com um especialista.*`;
+  text += `\n\n📊 *Resumo da Estratégia de Quitação:*`;
+  text += `\n• *Valor do Imóvel:* ${propertyVal}`;
+  text += `\n• *Sistema de Amortização:* Tabela ${inputs.amortizationMethod}`;
+  text += `\n• *Prazo Original:* ${baselineResult.installments.length} meses (~${baselineYears} anos)`;
+  text += `\n• *Novo Prazo Estimado:* ${acceleratedResult.installments.length} meses (~${acceleratedYears} anos)`;
+  text += `\n• *Tempo Economizado:* ${monthsSaved} meses (~${(monthsSaved / 12).toFixed(1)} anos a menos)`;
+
+  if (inputs.extraMonthlyAmortization && inputs.extraMonthlyAmortization > 0) {
+    text += `\n• *Aporte Mensal Extra:* ${formatBRL(inputs.extraMonthlyAmortization)}/mês`;
+  }
+  if (inputs.extraAnnualAmortization && inputs.extraAnnualAmortization > 0) {
+    text += `\n• *Aporte Anual Extra (FGTS/13º):* ${formatBRL(inputs.extraAnnualAmortization)}/ano`;
+  }
+
+  text += `\n\n💰 *Economia Estimada em Juros:* ${formatBRL(interestSaved)}`;
+  text += `\n\n_Gostaria de estruturar essa estratégia e entender como abater o saldo devedor com máxima eficiência._`;
+
+  return text;
+}
+
 export const DEFAULT_WHATSAPP_PHONE = '5519997550603';
 
 export function normalizeWhatsAppPhone(rawPhone?: string): string {
