@@ -1,11 +1,11 @@
-import { FinancingMethod } from '@/types/financing';
+import { AmortizationMethod } from '@/types/financing';
 
 export interface PortabilityInputs {
   currentBalance: number; // Saldo devedor atual (R$)
   currentRateYearly: number; // Taxa de juros anual atual (ex: 12.5% a.a.)
   newRateYearly: number; // Nova taxa anual proposta (ex: 9.8% a.a.)
   remainingMonths: number; // Prazo remanescente em meses (ex: 300)
-  amortizationMethod: FinancingMethod; // 'SAC' | 'PRICE'
+  amortizationMethod: AmortizationMethod; // 'SAC' | 'PRICE'
   currentMonthlyInstallment?: number; // Parcela atual opcional informada pelo usuário
 }
 
@@ -75,7 +75,7 @@ function computeContractMetrics(
   balance: number,
   n: number,
   monthlyRate: number,
-  method: FinancingMethod
+  method: AmortizationMethod
 ): PortabilityContractMetrics {
   if (balance <= 0 || n <= 0) {
     return {
@@ -147,7 +147,7 @@ function computeAcceleratedMonths(
   balance: number,
   originalN: number,
   newMonthlyRate: number,
-  method: FinancingMethod,
+  method: AmortizationMethod,
   targetPayment: number
 ): number {
   if (targetPayment <= 0 || balance <= 0) return 0;

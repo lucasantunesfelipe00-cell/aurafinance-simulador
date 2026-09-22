@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { FinancingMethod } from '@/types/financing';
+import { AmortizationMethod } from '@/types/financing';
 import { FormattedBRL } from '@/components/FormattedBRL';
 import { MagneticButton } from '@/components/MagneticButton';
 import {
@@ -23,6 +23,7 @@ import {
   calculatePortability,
   PortabilityInputs,
 } from '@/lib/portability-calculator';
+import { calculateFinancing } from '@/lib/financing-calculator';
 import { setCursorVariant } from '@/lib/cursor-store';
 import { vibrateShort } from '@/lib/haptics';
 import { playClickSound, playTypeSound } from '@/lib/sound';
@@ -33,7 +34,7 @@ interface PortabilityModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultBalance?: number;
-  defaultMethod?: FinancingMethod;
+  defaultMethod?: AmortizationMethod;
 }
 
 const BANK_RATE_PRESETS = [
@@ -54,7 +55,7 @@ export const PortabilityModal: React.FC<PortabilityModalProps> = ({
   const [currentRate, setCurrentRate] = useState<number>(12.5);
   const [newRate, setNewRate] = useState<number>(9.8);
   const [remainingMonths, setRemainingMonths] = useState<number>(300);
-  const [method, setMethod] = useState<FinancingMethod>(defaultMethod);
+  const [method, setMethod] = useState<AmortizationMethod>(defaultMethod);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   // Masked string inputs for manual typing
@@ -106,33 +107,24 @@ export const PortabilityModal: React.FC<PortabilityModalProps> = ({
     if (isGeneratingPdf) return;
     setIsGeneratingPdf(true);
     try {
+      const pdfInputs = {
+        category: 'property' as const,
+        propertyValue: balance * 1.25,
+        downPayment: balance * 0.25,
+        downPaymentPercent: 20,
+        interestRateYearly: newRate,
+        termMonths: remainingMonths,
+        amortizationMethod: method,
+        includeInsurances: true,
+        monthlyAdminFee: 25,
+        mipRateYearly: 0.021,
+        dfiRateYearly: 0.008,
+      };
+      const financingRes = calculateFinancing(pdfInputs);
+
       await downloadExecutiveDossierPdf({
-        inputs: {
-          category: 'property',
-          propertyValue: balance * 1.25,
-          downPayment: balance * 0.25,
-          downPaymentPercent: 20,
-          interestRateYearly: newRate,
-          termMonths: remainingMonths,
-          amortizationMethod: method,
-          includeInsurances: true,
-          monthlyAdminFee: 25,
-          mipRateYearly: 0.021,
-          dfiRateYearly: 0.008,
-        },
-        result: {
-          method,
-          propertyValue: balance * 1.25,
-          downPayment: balance * 0.25,
-          loanAmount: balance,
-          termMonths: remainingMonths,
-          firstInstallment: result.newContract.firstInstallment,
-          lastInstallment: result.newContract.lastInstallment,
-          totalPaid: result.newContract.totalPaid,
-          totalInterest: result.newContract.totalInterest,
-          totalInsurancesAndFees: 0,
-          installments: [],
-        },
+        inputs: pdfInputs,
+        result: financingRes,
         scenarioName: `Portabilidade_${currentRate}%_para_${newRate}%`,
         bankName: 'Portabilidade Aura Finance',
       });

@@ -338,7 +338,7 @@ export async function generateExecutiveDossierPdf({
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(TEXT_DARK[0], TEXT_DARK[1], TEXT_DARK[2]);
-  doc.text(formatBRL(acquisition.registrationAmount), margin + costColW + 3, costY + 4.5);
+  doc.text(formatBRL(acquisition.registrationFinalAmount), margin + costColW + 3, costY + 4.5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
@@ -517,10 +517,10 @@ export async function generateExecutiveDossierPdf({
 
     if (slice.length === 0) return;
 
-    const avgInstallment = slice.reduce((acc, curr) => acc + curr.totalPayment, 0) / slice.length;
-    const yearAmortization = slice.reduce((acc, curr) => acc + curr.amortization, 0);
-    const yearInterest = slice.reduce((acc, curr) => acc + curr.interest, 0);
-    const endBalance = slice[slice.length - 1].balanceAfterPayment;
+    const avgInstallment = slice.reduce((acc, curr) => acc + curr.installmentTotal, 0) / slice.length;
+    const yearAmortization = slice.reduce((acc, curr) => acc + curr.principalAmortization, 0);
+    const yearInterest = slice.reduce((acc, curr) => acc + curr.interestPaid, 0);
+    const endBalance = slice[slice.length - 1].outstandingBalance;
 
     const rowBg = rIdx % 2 === 0 ? [255, 255, 255] : [246, 246, 248];
     doc.setFillColor(rowBg[0], rowBg[1], rowBg[2]);

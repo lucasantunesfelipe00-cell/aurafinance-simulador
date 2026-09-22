@@ -8,7 +8,7 @@ import { FormattedBRL } from '@/components/FormattedBRL';
 import { MouseGlow } from '@/components/MouseGlow';
 import { MagneticButton } from '@/components/MagneticButton';
 import { setCursorVariant } from '@/lib/cursor-store';
-import { playTypeSound } from '@/lib/sound';
+import { playTypeSound, playClickSound } from '@/lib/sound';
 import { vibrateShort } from '@/lib/haptics';
 import {
   Calculator,
@@ -103,6 +103,7 @@ export const SimulatorCarousel: React.FC<SimulatorCarouselProps> = ({
   onSimulate,
   onStepChange,
   onOpenHelp,
+  onOpenPortability,
   currentStep = 1,
 }) => {
   const [step, setStepState] = useState(currentStep || 1);
